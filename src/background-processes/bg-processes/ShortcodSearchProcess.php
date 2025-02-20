@@ -2,21 +2,17 @@
 /**
  * Shortcode search background process.
  *
- * @package BoomiCMS\BackgroundProcesses
- * @since   4.3.8
+ * @package erikdmitchell\bcmigration\BackgroundProcesses
+ * @since 0.1.0
  * @version 0.1.0
  */
 
-namespace BoomiCMS\BackgroundProcesses;
-
-use BoomiCMS\Traits\Write_To_File;
+namespace erikdmitchell\bcmigration;
 
 /**
- * BC_Shortcode_Search_Process class
+ * ShortcodSearchProcess class
  */
-class BC_Shortcode_Search_Process extends \WP_Background_Process {
-
-    use Write_To_File;
+class ShortcodSearchProcess extends WP_Background_Process {
 
     /**
      * Action.
@@ -43,7 +39,7 @@ class BC_Shortcode_Search_Process extends \WP_Background_Process {
         $posts_have_shortcode = $this->check_for_shortcode( $posts, $data['shortcode'] );
 
         if ( ! empty( $posts_have_shortcode ) ) {
-            $this->write_to_file( $posts_have_shortcode, $data['post_type'] );
+            $this->write_to_file( $posts_have_shortcode, $data['post_type'] ); // needs to return the posts with the shortcode
         }
 
         return false;
@@ -69,7 +65,7 @@ class BC_Shortcode_Search_Process extends \WP_Background_Process {
                     continue;
                 } else {
                     $fields        = get_fields( $post->ID, false );
-                    $has_shortcode = boomi_array_has_shortcode( $shortcode, $fields );
+                    $has_shortcode = $this->array_has_shortcode( $shortcode, $fields );
 
                     if ( true === $has_shortcode ) {
                         $have_shortcode[] = $post->ID;
@@ -83,23 +79,26 @@ class BC_Shortcode_Search_Process extends \WP_Background_Process {
         return $have_shortcode;
     }
 
-    /**
-     * Writes the given posts and post type to a file.
-     *
-     * @param array  $posts The array of posts to write.
-     * @param string $post_type The post type to write.
-     * @return void
-     */
-    protected function write_to_file( $posts = array(), $post_type = '' ) {
-        $data = array(
-            'posts'     => $posts,
-            'post_type' => $post_type,
-        );
-
-        $upload_dir      = wp_upload_dir();
-        $upload_dir_path = $upload_dir['path'] . '/_bc_tmp/';
-
-        $this->write_json_to_file( $data, 'bc_shortcode_search', $upload_dir_path );
+    private function array_has_shortcode( $shortcode = '', $arr = null ) {
+        if ( ! is_array( $arr ) ) {
+            return false;
+        }
+    
+        foreach ( $arr as $key => $value ) {
+            if ( is_array( $value ) ) {
+                $return = $this->array_has_shortcode( $shortcode, $value );
+    
+                if ( $return ) {
+                    return true;
+                }
+            } elseif ( null === $value ) {
+                return false;
+            } elseif ( has_shortcode( $value, $shortcode ) ) {
+                    return true;
+            }
+        }
+    
+        return false;
     }
 
     /**
