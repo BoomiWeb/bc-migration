@@ -2,12 +2,12 @@
 /**
  * Enables CLI commands
  *
- * @package erikdmitchell\bcmigration\WP_CLI
+ * @package erikdmitchell\bcmigration\cli
  * @since 0.1.0
  * @version 0.1.0
  */
 
-namespace erikdmitchell\bcmigration;
+namespace erikdmitchell\bcmigration\cli;
 
 use WP_CLI;
 
@@ -19,17 +19,7 @@ class CLI {
      * Load required files and hooks to make the CLI work.
      */
     public function __construct() {
-        $this->includes();
         $this->hooks();
-    }
-
-    /**
-     * Load command files.
-     *
-     * @return void
-     */
-    private function includes() {
-        // require_once __DIR__ . '/Subprocessors.php';
     }
 
     /**
@@ -38,6 +28,6 @@ class CLI {
      * @return void
      */
     private function hooks() {
-        WP_CLI::add_hook( 'after_wp_load', 'Subprocessors::register_commands' );
+        WP_CLI::add_hook( 'after_wp_load', __NAMESPACE__ . '\Subprocessors::register_commands' );
     }
 }

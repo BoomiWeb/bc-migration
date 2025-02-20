@@ -5,7 +5,7 @@
  * @package WP-Background-Processing
  */
 
-namespace erikdmitchell\bcmigration;
+namespace erikdmitchell\bcmigration\abstracts;
 
 /**
  * Abstract WP_Async_Request class.

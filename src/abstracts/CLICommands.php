@@ -7,7 +7,7 @@
  * @version 0.1.0
  */
 
-namespace erikdmitchell\bcmigration;
+namespace erikdmitchell\bcmigration\abstracts;
 
 use WP_CLI;
 
