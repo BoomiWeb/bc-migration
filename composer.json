@@ -1,0 +1,18 @@
+{
+    "name": "erikmitchell/bc-migration",
+    "description": "Tools for helping with various Boomi CMS migrations",
+    "type": "boomi-cms-plugin",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "erikdmitchell\\bcmigration\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Erik Mitchell",
+            "email": "erikdmitchell@gmail.com"
+        }
+    ],
+    "require": {}
+}
