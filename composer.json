@@ -14,5 +14,16 @@
             "email": "erikdmitchell@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+		"squizlabs/php_codesniffer": "3.*",
+		"wp-coding-standards/wpcs": "^3.0",
+		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+		"phpcompatibility/php-compatibility": "*",
+		"phpstan/phpstan": "^1.8",
+		"szepeviktor/phpstan-wordpress": "^1.0",
+		"phpstan/extension-installer": "^1.1",
+		"php-stubs/acf-pro-stubs": "^5.10",
+		"php-stubs/wp-cli-stubs": "^2.5",
+		"phpmd/phpmd": "@stable"        
+    }
 }
