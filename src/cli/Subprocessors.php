@@ -23,6 +23,23 @@ class Subprocessors extends CLICommands {
      */
     public function __construct() {}
 
+    /**
+     * Migrates data from a post
+     *
+     * ## OPTIONS
+     *
+     * <action>
+     * : The action to perform. Currently only `subscribe-data` is supported.
+     *
+     * <post_id>
+     * : The post ID to migrate data from.
+     *
+     * ## EXAMPLES
+     *
+     *     wp migrate subscribe-data 123
+     *
+     * @subcommand migrate
+     */
     public function migrate( $args, $assoc_args ) {
         list ( $action, $post_id ) = $args;
 
@@ -40,6 +57,11 @@ class Subprocessors extends CLICommands {
         }
     }
 
+    /**
+     * Migrates subscribe data for a given post ID, and removes the legacy email DB table.
+     *
+     * @param int $post_id The ID of the post whose subscribe data should be migrated.
+     */
     private function migrate_subscribe_data(int $post_id) {
         WP_CLI::log( 'Migrating subscribe data...' );
         

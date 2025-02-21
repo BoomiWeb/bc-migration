@@ -1,15 +1,45 @@
 <?php
+/**
+ * Migrate Subscribe Data class
+ *
+ * @package erikdmitchell\bcmigration\subprocessor
+ * @since   0.1.0
+ * @version 0.1.0
+ */
 
 namespace erikdmitchell\bcmigration\subprocessor;
 
+/**
+ * MigrateSubscribeData class.
+ */
 class MigrateSubscribeData {
 
+    /**
+     * The name of the email database table.
+     *
+     * @var string
+     */
     private $db_table;
 
+    /**
+     * The database object for the `subscribe_to_page` table.
+     *
+     * @var object
+     */
     private $stp_db;
 
+    /**
+     * The single instance of the class.
+     *
+     * @var bool
+     */
     private static $instance = false;
 
+    /**
+     * Initializes the class and sets the database properties.
+     *
+     * @internal
+     */
     private function __construct() {
         global $wpdb;
 
@@ -17,6 +47,11 @@ class MigrateSubscribeData {
         $this->stp_db = \BoomiCMS\BC_DB::getInstance()->subscribe_to_page();
     }
 
+    /**
+     * Gets the single instance of the class.
+     *
+     * @return MigrateSubscribeData Single instance of the class.
+     */
     public static function init() {
 		if ( ! self::$instance ) {
 			self::$instance = new self();
@@ -25,6 +60,14 @@ class MigrateSubscribeData {
 		return self::$instance;
     }
 
+    /**
+     * Migrates subscribe data for a given post ID, and removes the legacy email DB table.
+     *
+     * @param int $post_id The ID of the post whose subscribe data should be migrated.
+     * @return array An associative array containing two values:
+     *               - 'migrated_row_ids' - an array of IDs of migrated rows (may be empty)
+     *               - 'db_removed' - boolean indicating whether the email DB table was removed
+     */
     public function migrate_subscribe_data(int $post_id = 0) {
         if ( !$post_id ) {
             return;  
@@ -40,6 +83,13 @@ class MigrateSubscribeData {
         );       
     }
 
+    /**
+     * Migrates the `bcm_subprocessors_email` table to the `subscribe_to_page` table.
+     *
+     * @param array $posts Array of post IDs to migrate.
+     *
+     * @return array Array of migrated row IDs.
+     */
     private function migrate_email_db( array $posts ) {
         global $wpdb;
 
@@ -71,6 +121,13 @@ class MigrateSubscribeData {
         return $migrated_rows;
     } 
     
+    /**
+     * Removes the email database.
+     *
+     * Drops the table if it exists, then deletes the database version option.
+     *
+     * @return int The number of rows deleted.
+     */
     private function remove_email_db() {
         global $wpdb;
     
@@ -81,11 +138,21 @@ class MigrateSubscribeData {
         return $deleted;
     }  
     
+    /**
+     * Deletes the options set by the subscribe form.
+     *
+     * This deletes the options for the subscribe emails and settings.
+     */
     private function remove_email_options() {
         \delete_option( '_bc_subprocessors_subscribe_emails' );
         \delete_option( '_bc_subprocessors_subscribe_settings' );
     }
 
+    /**
+     * Check if the email table exists in the database.
+     *
+     * @return bool Whether the table exists.
+     */
     private function db_table_exists() {
         global $wpdb;
 
