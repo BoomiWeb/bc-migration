@@ -23,7 +23,6 @@ class AITool extends CLICommands {
      */
     public function __construct() {
 
-        // $this->reports_db      = BC_DB::getInstance()->report_data();
         // $this->likes_db        = BC_DB::getInstance()->likes_data();
         
 
@@ -51,9 +50,15 @@ class AITool extends CLICommands {
     }
 
     private function migrate_reports() {
-WP_CLI::log( 'Migrating reports...' );
+        WP_CLI::log( 'Migrating AI Tool reports...' );
 
-        MigrateReports::init()->migrate_data();
+        $migrated_data = MigrateReports::init()->migrate_data();
+
+        if ( empty( $migrated_data ) ) {
+            WP_CLI::log( 'No data to migrate.' );
+        }
+
+        WP_CLI::success( count( $migrated_data ) . ' AI Tool reports migrated successfully.' );
     }
 
 
