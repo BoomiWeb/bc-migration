@@ -28,13 +28,13 @@ class Subprocessors extends CLICommands {
      * @return void
      */
     public static function register_commands() {
-        $parent             = 'boomi migrate';
-        $supported_commands = array( 'subprocessors-subscribe-data' );
+        $parent             = 'boomi migrate subprocessors';
+        $supported_commands = array( 'subscribe-data' );
 
         foreach ( $supported_commands as $command ) {
             $synopsis = array();
 
-            if ( 'subprocessors-subscribe-data' === $command ) {
+            if ( 'subscribe-data' === $command ) {
                 $shortdesc = 'Migrate subprocessors subscribe data';
                 $longdesc  = 'Migrate subprocessors subscribe data';
                 $method    = 'migrate';
@@ -61,5 +61,21 @@ class Subprocessors extends CLICommands {
         $message = '';
 
         WP_CLI::log( 'Migration complete.' );
+    }
+
+    private function handle_shortcode_search() {
+        $shortcode = 'subprocessors-subscribe';
+        $post_types = get_post_types( array( 'public' => true ), 'names' );
+        unset( $post_types['attachment'] ); // we don't want to search for attachments.
+        
+
+        foreach ( $post_types as $post_type ) {
+                array(
+                    'post_type' => $post_type,
+                    'shortcode' => $shortcode,
+                );
+        }
+
+        // $this->process_all->save()->dispatch();
     }
 }
