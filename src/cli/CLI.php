@@ -28,6 +28,6 @@ class CLI {
      * @return void
      */
     private function hooks() {
-        WP_CLI::add_hook( 'after_wp_load', __NAMESPACE__ . '\Subprocessors::register_commands' );
+        WP_CLI::add_hook( 'after_wp_load', __NAMESPACE__ . '\Migrate::register_commands' );
     }
 }
