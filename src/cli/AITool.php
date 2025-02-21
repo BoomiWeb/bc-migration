@@ -10,6 +10,7 @@
 namespace erikdmitchell\bcmigration\cli;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
+use erikdmitchell\bcmigration\aitool\MigrateLikes;
 use erikdmitchell\bcmigration\aitool\MigrateReports;
 use WP_CLI;
 
@@ -23,13 +24,10 @@ class AITool extends CLICommands {
      */
     public function __construct() {
 
-        // $this->likes_db        = BC_DB::getInstance()->likes_data();
-        
 
-        // add_action( 'bc_legacy_tool_reports_process_complete_aitool', array( $this, 'migrate_aitool_likes_data' ), 1 );
         // add_action( 'bc_legacy_tool_likes_process_complete_aitool', array( $this, 'remove_ai_tool_uploads_folder' ) );
 
-        // add_filter( 'bc_legacy_tool_reports_prepare_data_for_db_' . 'aitool', array( $this, 'bg_process_prepare_aitool_data_for_db' ), 10, 3 );        
+        
     }
 
     public function migrate( $args, $assoc_args ) {
@@ -43,12 +41,21 @@ class AITool extends CLICommands {
             case 'reports':
                 $this->migrate_reports();
                 break;
+            case 'likes':
+                $this->migrate_likes();
+                break;
             default:
                 WP_CLI::error( 'Invalid action.' );
                 break;
         }
     }
 
+    /**
+     * Migrates AI Tool reports to the database.
+     *
+     * This method will log messages to the user about the migration process and
+     * report the number of migrated records.
+     */
     private function migrate_reports() {
         WP_CLI::log( 'Migrating AI Tool reports...' );
 
@@ -56,12 +63,26 @@ class AITool extends CLICommands {
 
         if ( empty( $migrated_data ) ) {
             WP_CLI::log( 'No data to migrate.' );
+
+            return;
         }
 
         WP_CLI::success( count( $migrated_data ) . ' AI Tool reports migrated successfully.' );
     }
 
+    private function migrate_likes() {
+        WP_CLI::log( 'Migrating AI Tool likes...' );
 
+        $migrated_data = MigrateLikes::init()->migrate_data();
+
+        if ( empty( $migrated_data ) ) {
+            WP_CLI::log( 'No data to migrate.' );
+
+            return;
+        }
+
+        WP_CLI::success( count( $migrated_data ) . ' AI Tool likes migrated successfully.' );        
+    }
 
  
     
