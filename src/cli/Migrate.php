@@ -44,6 +44,12 @@ class Migrate extends CLICommands {
                 'longdesc'  => 'Migrate AI Tool data',
                 'method'    => 'migrate',
             ),
+            'apiida' => array(
+                'class'     => __NAMESPACE__ . '\APIIDA',
+                'shortdesc' => 'Migrate APIIDA Tool data',
+                'longdesc'  => 'Migrate APIIDA Tool data',
+                'method'    => 'migrate',
+            ),            
         );
     
         foreach ( $commands as $command => $config ) {
