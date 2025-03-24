@@ -11,8 +11,6 @@ namespace erikdmitchell\bcmigration;
 
 use erikdmitchell\bcmigration\cli\CLI;
 
-echo "BCMigration";
-
 /**
  * BC Migration class.
  */
@@ -31,8 +29,7 @@ class BCMigration {
      * @return void
      */
     private function __construct() {
-        add_action( 'init', array( $this, 'includes' ) );
-echo "foo";        
+        add_action( 'init', array( $this, 'includes' ) );       
     }
 
     /**
@@ -53,7 +50,9 @@ echo "foo";
     }
 
     public function includes() {
-        if (is_admin()) {
+        include_once __DIR__ . '/admin/Admin.php'; // TODO: autoload.
+
+        if (is_admin()) {            
             new Admin();
         }
     }
