@@ -28,6 +28,12 @@ class AITool extends CLICommands {
      * : The action to perform. Currently only `reports` and `likes` are supported.
      *
      * ## EXAMPLES
+     * 
+     *     # Migrate all AI Tool data.
+     *     $ wp boomi migrate aitool all
+     *     Success: Migrated 13 reports.
+     *     Success: Migrated 13 likes.
+     *     Success: Removed the AI Tool uploads folder.
      *
      *     # Migrate AI Tool reports.
      *     $ wp boomi migrate aitool reports
@@ -49,6 +55,11 @@ class AITool extends CLICommands {
         }
 
         switch ( $action ) {
+            case 'all':
+                $this->migrate_reports();
+                $this->migrate_likes();
+                $this->remove_folder();
+                break;
             case 'reports':
                 $this->migrate_reports();
                 break;
