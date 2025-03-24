@@ -19,7 +19,6 @@ class CLI {
      * Load required files and hooks to make the CLI work.
      */
     public function __construct() {
-        echo "foo";
         $this->hooks();
     }
 
