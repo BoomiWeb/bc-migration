@@ -28,9 +28,7 @@ class BCMigration {
      * 
      * @return void
      */
-    private function __construct() {
-        add_action( 'init', array( $this, 'includes' ) );       
-    }
+    private function __construct() {}
 
     /**
      * Gets the single instance of the class.
@@ -47,21 +45,6 @@ class BCMigration {
 		}
 
 		return self::$instance;
-    }
-
-    /**
-     * Include files.
-     *
-     * Includes the files needed for the admin interface.
-     *
-     * @return void
-     */
-    public function includes() {
-        include_once __DIR__ . '/admin/Admin.php'; // TODO: autoload.
-
-        if (is_admin()) {            
-            new Admin();
-        }
     }
 
 }
