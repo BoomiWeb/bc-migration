@@ -11,6 +11,8 @@ namespace erikdmitchell\bcmigration;
 
 use erikdmitchell\bcmigration\cli\CLI;
 
+echo "BCMigration";
+
 /**
  * BC Migration class.
  */
@@ -28,7 +30,10 @@ class BCMigration {
      * 
      * @return void
      */
-    private function __construct() {}
+    private function __construct() {
+        add_action( 'init', array( $this, 'includes' ) );
+echo "foo";        
+    }
 
     /**
      * Gets the single instance of the class.
@@ -45,6 +50,12 @@ class BCMigration {
 		}
 
 		return self::$instance;
+    }
+
+    public function includes() {
+        if (is_admin()) {
+            new Admin();
+        }
     }
 
 }
