@@ -36,7 +36,7 @@ class Subprocessors extends CLICommands {
      *
      * ## EXAMPLES
      *
-     *     wp boomi migrate subscribe-data 123
+     *     wp boomi migrate subprocessors subscribe-data 123
      *
      * @subcommand migrate
      */

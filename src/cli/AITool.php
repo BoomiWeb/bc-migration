@@ -30,15 +30,15 @@ class AITool extends CLICommands {
      * ## EXAMPLES
      *
      *     # Migrate AI Tool reports.
-     *     $ wp boomi migrate reports
+     *     $ wp boomi migrate aitool reports
      *     Success: Migrated 13 reports.
      *
      *     # Migrate AI Tool likes.
-     *     $ wp boomi migrate likes
+     *     $ wp boomi migrate aitool likes
      *     Success: Migrated 13 likes.
      *
      *     # Remove the AI Tool uploads folder.
-     *     $ wp boomi migrate remove-folder
+     *     $ wp boomi migrate aitool remove-folder
      *     Success: Removed the AI Tool uploads folder.
      */
     public function migrate( $args, $assoc_args ) {
