@@ -1,0 +1,63 @@
+includes:
+    - phpstan-baseline.neon
+parameters:
+    level: 6
+    paths:
+        - external-apis/
+        - includes/
+        - boomi-cms.php
+    excludePaths:
+        - vendor/
+        - external-apis/aws/sdk/*
+        - includes/admin/pages/*
+        - includes/cli/*
+        - includes/connectors/cli/*
+        - external-apis/aws/*
+        - external-apis/google/*
+    bootstrapFiles:
+        - external-apis/aws/aws-autoloader.php  
+        - external-apis/atomsphere/autoload.php
+        - external-apis/google/vendor/autoload.php
+        - external-apis/marketo/autoload.php
+        - includes/db/autoload.php          
+    scanDirectories:
+        - ../advanced-custom-fields-pro
+        - ../weglot
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        - '#Function rgar not found#'
+        - '#Function wpseo_register_var_replacement not found#'
+        - '#Action callback returns bool but should not return anything#'
+        - '#Constant BOOMI_\S+ not found#'
+        - '#Variable(.*?)nullable#'
+        - '#Action callback returns mixed but should not return anything#'
+        - '#Property [a-zA-Z0-9\\_]+::\$\w+ is never read, only written#'
+        - '#(Static property|Property) [a-zA-Z0-9\\_]+::\$\w+ \([a-zA-Z0-9\\_]+\) in isset\(\) is not nullable#'
+        - '#Static method BoomiCMS\\BC_Frontend_Scripts::localize_script\(\) is unused#'
+        - '#Constant WP_MEMORY_LIMIT not found#'
+        - '#Constant WP_MAX_MEMORY_LIMIT not found#'
+        - 
+            identifier: missingType.iterableValue
+        -   
+            identifier: missingType.generics
+        -
+            message: '#Variable \$\w+ might not be defined#'
+            paths: 
+                - includes/admin/views/*
+        -
+            message: '#Result of function selected \(void\) is used#'
+            paths: 
+                - includes/admin/views/tax-select-mb.php 
+        -
+            message: '#Call to static method add_hook\(\) on an unknown class WP_CLI#'
+            path: includes/class-bc-cli.php 
+        -
+            message: '#Parameter \#1 \(void\) of echo cannot be converted to string#'
+            paths:
+                - includes/admin/views/tax-select-mb.php
+        -
+            message: '#Method WP_Background_Process::.+ has no return type specified#'
+            path: includes/libraries/*.php
+        -
+            message: '#Method WP_Async_Request::.+ has no return type specified#'
+            path: includes/libraries/*.php
