@@ -49,6 +49,13 @@ class BCMigration {
 		return self::$instance;
     }
 
+    /**
+     * Include files.
+     *
+     * Includes the files needed for the admin interface.
+     *
+     * @return void
+     */
     public function includes() {
         include_once __DIR__ . '/admin/Admin.php'; // TODO: autoload.
 
