@@ -99,7 +99,6 @@ class MigrateAPIIDAReports extends MigrateReports {
         return $migrated_reports;
     }
 
-
     private function prepare_report_for_db( string $file, string $app ) {
         $data        = (array) json_decode( file_get_contents( $file ) );
         $data        = $this->maybe_format_keys( $data );
@@ -114,7 +113,6 @@ class MigrateAPIIDAReports extends MigrateReports {
 
         return $data;
     }
-
 
     private function prepare_item_for_db( array $item ) {
         if ( ! isset( $item['created'] ) || empty( $item['created'] ) ) {
@@ -132,17 +130,6 @@ class MigrateAPIIDAReports extends MigrateReports {
         return $item;
     }  
     
-    /*
-    private function prepare_data_for_db(string $file, string $app) {        
-        $data = (array) json_decode(file_get_contents($file));
-        $data = $this->maybe_format_keys($data);
-        $data = $this->prepare_item_for_db($data);
-        $data['app'] = $app;
-
-        return $data;
-    }
-    */
-
     protected function clean_files( array $files ) {          
         foreach ( $files as $key => $file ) {           
             // Decode the JSON file.

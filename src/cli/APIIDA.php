@@ -59,16 +59,14 @@ class APIIDA extends CLICommands {
     }
 
     private function remove_folder() {
-        // $upload_dir = wp_upload_dir( null, false );
-        // $deleted = $this->remove_directory( $upload_dir['basedir'] . '/bc-ai-tool-data' );
+        $upload_dir = wp_upload_dir( null, false );
+        $deleted = $this->remove_directory( $upload_dir['basedir'] . '/bc-apiida' );
 
-        // if ( $deleted ) {
-        //     WP_CLI::success( 'AI Tool uploads folder deleted.' );
-
-        //     delete_option( '_bc_ai_tool_page_id' );
-        // } else {
-        //     WP_CLI::error( 'AI Tool uploads folder deletion failed.' );
-        // }
+        if ( $deleted ) {
+            WP_CLI::success( 'APIIDA uploads folder deleted.' );
+        } else {
+            WP_CLI::error( 'APIIDA uploads folder deletion failed.' );
+        }
     }
 
     /**
