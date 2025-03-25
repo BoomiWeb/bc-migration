@@ -1,6 +1,6 @@
 <?php
 /**
- * AI Tool CLI class
+ * APIIDA CLI class
  *
  * @package erikdmitchell\bcmigration\cli
  * @since   0.1.0
@@ -11,13 +11,13 @@ namespace erikdmitchell\bcmigration\cli;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
 use erikdmitchell\bcmigration\aitool\MigrateReports;
+use erikdmitchell\bcmigration\apiida\MigrateAPIIDAReports;
 use WP_CLI;
 
 /**
- * AITool CLI class.
+ * APIIDA CLI class.
  */
-class AITool extends CLICommands {
-
+class APIIDA extends CLICommands {
 
     public function migrate( $args, $assoc_args ) {
         list ( $action ) = $args;
@@ -45,26 +45,9 @@ class AITool extends CLICommands {
 
 
     private function migrate_reports() {
-        WP_CLI::log( 'Migrating AI Tool reports...' );
+        WP_CLI::log( 'Migrating APIIDA reports...' );
 
-        $migrated_data = MigrateReports::init()->migrate_data();
-
-        // $files = array();
-        // $path  = $this->upload_dir_path . '/bc-apiida/results';
-    
-        // if ( ! is_dir( $path ) ) {
-        //     return;
-        // }
-    
-        // foreach ( glob( $path . '*.json' ) as $file ) {
-        //     $files[] = $file;
-        // }
-    
-        // if ( empty( $files ) ) {
-        //     return;
-        // }
-    
-        // $this->bg_process->process( $files, $this->reports_db, 'apiida' );        
+        $migrated_data = MigrateAPIIDAReports::init()->migrate_data();
 
         if ( empty( $migrated_data ) ) {
             WP_CLI::log( 'No data to migrate.' );
@@ -72,20 +55,20 @@ class AITool extends CLICommands {
             return;
         }
 
-        WP_CLI::success( count( $migrated_data ) . ' AI Tool reports migrated successfully.' );
+        WP_CLI::success( count( $migrated_data ) . ' APIIDA reports migrated successfully.' );
     }
 
     private function remove_folder() {
-        $upload_dir = wp_upload_dir( null, false );
-        $deleted = $this->remove_directory( $upload_dir['basedir'] . '/bc-ai-tool-data' );
+        // $upload_dir = wp_upload_dir( null, false );
+        // $deleted = $this->remove_directory( $upload_dir['basedir'] . '/bc-ai-tool-data' );
 
-        if ( $deleted ) {
-            WP_CLI::success( 'AI Tool uploads folder deleted.' );
+        // if ( $deleted ) {
+        //     WP_CLI::success( 'AI Tool uploads folder deleted.' );
 
-            delete_option( '_bc_ai_tool_page_id' );
-        } else {
-            WP_CLI::error( 'AI Tool uploads folder deletion failed.' );
-        }
+        //     delete_option( '_bc_ai_tool_page_id' );
+        // } else {
+        //     WP_CLI::error( 'AI Tool uploads folder deletion failed.' );
+        // }
     }
 
     /**
