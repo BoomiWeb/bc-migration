@@ -2,19 +2,20 @@ parameters:
     level: 6
     paths:
         - src/
+    scanDirectories:
+        - src/        
     excludePaths:
-        - vendor/
+        - 'vendor/*'       
     treatPhpDocTypesAsCertain: false
     ignoreErrors:
-        - '#Function rgar not found#'
-        - '#Function wpseo_register_var_replacement not found#'
-        - '#Action callback returns bool but should not return anything#'
-        - '#Constant BOOMI_\S+ not found#'
-        - '#Constant WP_MAX_MEMORY_LIMIT not found#'
         - 
-            identifier: missingType.iterableValue
-        -   
-            identifier: missingType.generics
+            message: '#Call to static method getInstance\(\) on an unknown class BoomiCMS\\BC_DB#'
+            paths:
+                - src/Database/*.php
+        - 
+            message: '#Action callback returns mixed but should not return anything#'
+            paths:
+                - includes/hooks.php
         -
             message: '#Variable \$\w+ might not be defined#'
             paths: 

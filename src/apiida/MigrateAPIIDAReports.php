@@ -16,7 +16,7 @@ use WP_Error;
  * MigrateAPIIDAReports class.
  */
 class MigrateAPIIDAReports extends MigrateReports {
-    
+
     /**
      * The single instance of the class.
      *

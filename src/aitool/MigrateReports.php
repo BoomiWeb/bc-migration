@@ -189,7 +189,7 @@ class MigrateReports {
      */
     private function maybe_format_keys( array $data ) {
         return array_combine(
-            array_map( 'bc_camel_to_snake', array_keys( $data ) ),
+            array_map( 'erikdmitchell\\bcmigration\\camel_to_snake', array_keys( $data ) ),
             array_values( $data )
         );
     }

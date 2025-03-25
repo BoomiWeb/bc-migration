@@ -108,7 +108,7 @@ class MigrateReports {
     /**
      * Converts the keys of the given associative array from camel case to snake case.
      *
-     * Utilizes the `bc_camel_to_snake` function to transform each key in the array.
+     * Utilizes the `camel_to_snake` function to transform each key in the array.
      *
      * @param array $data The associative array with camel case keys to be transformed.
      * @return array The array with keys converted to snake case.
