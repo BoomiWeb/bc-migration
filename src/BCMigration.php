@@ -17,6 +17,13 @@ use erikdmitchell\bcmigration\cli\CLI;
 class BCMigration {
 
     /**
+     * The version number.
+     *
+     * @var string
+     */
+    public $version = '0.1.0';
+
+    /**
      * The single instance of the class.
      *
      * @var BCMigration|null
