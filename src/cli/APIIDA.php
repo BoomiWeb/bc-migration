@@ -1,6 +1,6 @@
 <?php
 /**
- * AI Tool CLI class
+ * APIIDA CLI class
  *
  * @package erikdmitchell\bcmigration\cli
  * @since   0.1.0
@@ -10,42 +10,40 @@
 namespace erikdmitchell\bcmigration\cli;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
-use erikdmitchell\bcmigration\aitool\MigrateLikes;
-use erikdmitchell\bcmigration\aitool\MigrateReports;
+use erikdmitchell\bcmigration\apiida\MigrateAPIIDAReports;
 use WP_CLI;
 
 /**
- * AITool CLI class.
+ * APIIDA CLI class.
  */
-class AITool extends CLICommands {
+class APIIDA extends CLICommands {
 
     /**
-     * Migrates AI Tool data.
+     * Migrates APIIDA data.
      *
      * ## OPTIONS
      *
      * <action>
-     * : The action to perform. Currently only `reports` and `likes` are supported.
+     * : The action to perform. Currently only `reports` and `remove-folder` are supported.
      *
      * ## EXAMPLES
      *
-     *     # Migrate all AI Tool data.
-     *     $ wp boomi migrate aitool all
+     *     # Migrate all APIIDA data.
+     *     $ wp boomi migrate apiida all
      *     Success: Migrated 13 reports.
-     *     Success: Migrated 13 likes.
-     *     Success: Removed the AI Tool uploads folder.
+     *     Success: Removed the APIIDA uploads folder.
      *
-     *     # Migrate AI Tool reports.
-     *     $ wp boomi migrate aitool reports
+     *     # Migrate APIIDA reports.
+     *     $ wp boomi migrate apiida reports
      *     Success: Migrated 13 reports.
      *
-     *     # Migrate AI Tool likes.
-     *     $ wp boomi migrate aitool likes
-     *     Success: Migrated 13 likes.
+     *     # Remove the APIIDA uploads folder.
+     *     $ wp boomi migrate apiida remove-folder
+     *     Success: Removed the APIIDA uploads folder.
      *
-     *     # Remove the AI Tool uploads folder.
-     *     $ wp boomi migrate aitool remove-folder
-     *     Success: Removed the AI Tool uploads folder.
+     * @subcommand migrate
+     * @param array $args The action to perform.
+     * @param array $assoc_args The arguments array.
      */
     public function migrate( $args, $assoc_args ) {
         list ( $action ) = $args;
@@ -57,14 +55,10 @@ class AITool extends CLICommands {
         switch ( $action ) {
             case 'all':
                 $this->migrate_reports();
-                $this->migrate_likes();
                 $this->remove_folder();
                 break;
             case 'reports':
                 $this->migrate_reports();
-                break;
-            case 'likes':
-                $this->migrate_likes();
                 break;
             case 'remove-folder':
                 $this->remove_folder();
@@ -76,35 +70,15 @@ class AITool extends CLICommands {
     }
 
     /**
-     * Migrates AI Tool reports to the database.
+     * Migrates APIIDA reports to the database.
      *
      * This method will log messages to the user about the migration process and
      * report the number of migrated records.
      */
     private function migrate_reports() {
-        WP_CLI::log( 'Migrating AI Tool reports...' );
+        WP_CLI::log( 'Migrating APIIDA reports...' );
 
-        $migrated_data = MigrateReports::init()->migrate_data();
-
-        if ( empty( $migrated_data ) ) {
-            WP_CLI::log( 'No data to migrate.' );
-
-            return;
-        }
-
-        WP_CLI::success( count( $migrated_data ) . ' AI Tool reports migrated successfully.' );
-    }
-
-    /**
-     * Migrates AI Tool likes to the database.
-     *
-     * This method will log messages to the user about the migration process and
-     * report the number of migrated records.
-     */
-    private function migrate_likes() {
-        WP_CLI::log( 'Migrating AI Tool likes...' );
-
-        $migrated_data = MigrateLikes::init()->migrate_data();
+        $migrated_data = MigrateAPIIDAReports::init()->migrate_data();
 
         if ( empty( $migrated_data ) ) {
             WP_CLI::log( 'No data to migrate.' );
@@ -112,26 +86,22 @@ class AITool extends CLICommands {
             return;
         }
 
-        WP_CLI::success( count( $migrated_data ) . ' AI Tool likes migrated successfully.' );
+        WP_CLI::success( count( $migrated_data ) . ' APIIDA reports migrated successfully.' );
     }
 
     /**
-     * Removes the AI Tool uploads folder.
+     * Removes the APIIDA uploads folder.
      *
      * This method will log messages to the user about the deletion process.
-     *
-     * @since 0.1.0
      */
     private function remove_folder() {
         $upload_dir = wp_upload_dir( null, false );
-        $deleted    = $this->remove_directory( $upload_dir['basedir'] . '/bc-ai-tool-data' );
+        $deleted    = $this->remove_directory( $upload_dir['basedir'] . '/bc-apiida' );
 
         if ( $deleted ) {
-            WP_CLI::success( 'AI Tool uploads folder deleted.' );
-
-            delete_option( '_bc_ai_tool_page_id' );
+            WP_CLI::success( 'APIIDA uploads folder deleted.' );
         } else {
-            WP_CLI::error( 'AI Tool uploads folder deletion failed.' );
+            WP_CLI::error( 'APIIDA uploads folder deletion failed.' );
         }
     }
 

@@ -29,7 +29,7 @@ class Migrate extends CLICommands {
      */
     public static function register_commands() {
         $parent = 'boomi migrate';
-    
+
         // Define mapping of commands to their respective classes
         $commands = array(
             'subprocessors' => array(
@@ -38,14 +38,20 @@ class Migrate extends CLICommands {
                 'longdesc'  => 'Migrate subprocessors data',
                 'method'    => 'migrate',
             ),
-            'aitool' => array(
+            'aitool'        => array(
                 'class'     => __NAMESPACE__ . '\AITool',
                 'shortdesc' => 'Migrate AI Tool data',
                 'longdesc'  => 'Migrate AI Tool data',
                 'method'    => 'migrate',
             ),
+            'apiida'        => array(
+                'class'     => __NAMESPACE__ . '\APIIDA',
+                'shortdesc' => 'Migrate APIIDA Tool data',
+                'longdesc'  => 'Migrate APIIDA Tool data',
+                'method'    => 'migrate',
+            ),
         );
-    
+
         foreach ( $commands as $command => $config ) {
             WP_CLI::add_command(
                 "{$parent} {$command}",
@@ -58,5 +64,4 @@ class Migrate extends CLICommands {
             );
         }
     }
-
 }

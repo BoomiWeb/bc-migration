@@ -43,13 +43,13 @@ class Subprocessors extends CLICommands {
     public function migrate( $args, $assoc_args ) {
         list ( $action, $post_id ) = $args;
 
-        if (empty( $action ) || empty( $post_id ) ) {
+        if ( empty( $action ) || empty( $post_id ) ) {
             WP_CLI::error( 'Invalid arguments. Requires action and post_id' );
         }
 
         switch ( $action ) {
             case 'subscribe-data':
-                $this->migrate_subscribe_data((int) $post_id);
+                $this->migrate_subscribe_data( (int) $post_id );
                 break;
             default:
                 WP_CLI::error( 'Invalid action.' );
@@ -62,16 +62,15 @@ class Subprocessors extends CLICommands {
      *
      * @param int $post_id The ID of the post whose subscribe data should be migrated.
      */
-    private function migrate_subscribe_data(int $post_id) {
+    private function migrate_subscribe_data( int $post_id ) {
         WP_CLI::log( 'Migrating subscribe data...' );
-        
-        $migrated_data = MigrateSubscribeData::init()->migrate_subscribe_data($post_id);
 
-        if ( !$migrated_data['db_removed'] ) {
+        $migrated_data = MigrateSubscribeData::init()->migrate_subscribe_data( $post_id );
+
+        if ( ! $migrated_data['db_removed'] ) {
             WP_CLI::warning( 'Database not removed' );
         }
 
         WP_CLI::success( 'Data migrated. Migrated ' . count( $migrated_data['migrated_row_ids'] ) . ' rows.' );
     }
-
 }

@@ -31,5 +31,11 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "phpstan/extension-installer": true
         }
-    }
+    },
+    "scripts": {
+		"phpcs": "phpcs -s -p --standard=./phpcs.ruleset.xml",
+		"phpcbf": "phpcbf -p --standard=./phpcs.ruleset.xml",
+		"phpstan": "vendor/bin/phpstan analyse --memory-limit 2G",
+		"snyk": "snyk code test"
+	}
 }
