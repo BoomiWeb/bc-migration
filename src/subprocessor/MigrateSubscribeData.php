@@ -31,9 +31,9 @@ class MigrateSubscribeData {
     /**
      * The single instance of the class.
      *
-     * @var bool
+     * @var MigrateSubscribeData|null
      */
-    private static $instance = false;
+    protected static ?MigrateSubscribeData $instance = null;
 
     /**
      * Initializes the class and sets the database properties.
@@ -64,16 +64,16 @@ class MigrateSubscribeData {
      * Migrates subscribe data for a given post ID, and removes the legacy email DB table.
      *
      * @param int $post_id The ID of the post whose subscribe data should be migrated.
-     * @return array An associative array containing two values:
+     * @return array{migrated_row_ids: array<int>, db_removed: int}|void An associative array containing two values:
      *               - 'migrated_row_ids' - an array of IDs of migrated rows (may be empty)
-     *               - 'db_removed' - boolean indicating whether the email DB table was removed
+     *               - 'db_removed' - int indicating whether the email DB table was removed
      */
     public function migrate_subscribe_data( int $post_id = 0 ) {
         if ( ! $post_id ) {
             return;
         }
 
-        $migrated_row_ids = $this->migrate_email_db( array( $post_id ) ); // array - may be empty
+        $migrated_row_ids = $this->migrate_email_db( array( $post_id ) ); // array - may be empty.
         $remove_db        = $this->remove_email_db(); // 1|0
         $this->remove_email_options();
 

@@ -118,11 +118,11 @@ class APIIDA extends CLICommands {
         }
 
         if ( ! is_dir( $dir ) ) {
-            return unlink( $dir );
+            return wp_delete_file( $dir );
         }
 
         foreach ( scandir( $dir ) as $item ) {
-            if ( $item == '.' || $item == '..' ) {
+            if ( '.' === $item || '..' === $item ) {
                 continue;
             }
 

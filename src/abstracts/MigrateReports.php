@@ -33,10 +33,9 @@ class MigrateReports {
     /**
      * The single instance of the class.
      *
-     * @var bool
+     * @var MigrateReports|null
      */
-    protected static $instance = false;
-
+    protected static ?MigrateReports $instance = null;
 
     /**
      * Constructor.
@@ -103,20 +102,20 @@ class MigrateReports {
      * @return array Array of IDs of migrated reports.
      */
     protected function migrate_reports( array $files ) {
-        return array();
+        return $files;
     }
 
     /**
      * Converts the keys of the given associative array from camel case to snake case.
      *
-     * Utilizes the `bc_camel_to_snake` function to transform each key in the array.
+     * Utilizes the `camel_to_snake` function to transform each key in the array.
      *
      * @param array $data The associative array with camel case keys to be transformed.
      * @return array The array with keys converted to snake case.
      */
     protected function maybe_format_keys( array $data ) {
         return array_combine(
-            array_map( 'bc_camel_to_snake', array_keys( $data ) ),
+            array_map( 'erikdmitchell\\bcmigration\\camel_to_snake', array_keys( $data ) ),
             array_values( $data )
         );
     }
@@ -172,8 +171,8 @@ class MigrateReports {
 
         if ( ! $db_id ) {
             return new WP_Error(
-                'aitool_reports_insert_into_db',
-                'Failed to insert data',
+                'apiida_reports_insert_into_db',
+                'Failed to insert data'
             );
         }
 

@@ -1,27 +1,12 @@
 <?xml version="1.0"?>
-<ruleset name="WordPress Coding Standards">
-	<!-- See https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml -->
-	<!-- See https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/blob/develop/WordPress-Core/ruleset.xml -->
-
-	<description>Boomi CMS PHP_CodeSniffer ruleset.</description>
+<ruleset name="BC Migration Coding Standards">
+	<description>BC Migration PHP_CodeSniffer ruleset.</description>
 	
 	<!-- Include file/paths -->
 	<file>./</file>
 	
 	<!-- Exclude paths --> 
-	<exclude-pattern>*/node_modules/*</exclude-pattern>
 	<exclude-pattern>*/vendor/*</exclude-pattern>
-    <exclude-pattern>*/includes/libraries/*</exclude-pattern>
-	<exclude-pattern>*/*.js</exclude-pattern>
-	<exclude-pattern>*/*.css</exclude-pattern>
-    <exclude-pattern>*/includes/class-boomi-cms-post-type-marketo.php</exclude-pattern>	
-    <exclude-pattern>*/includes/ajax-run.php</exclude-pattern>
-    <exclude-pattern>*/external-apis/*/autoload.php</exclude-pattern>  
-    <exclude-pattern>*/external-apis/aws/*/*</exclude-pattern>  
-    <exclude-pattern>*/external-apis/aws/*</exclude-pattern> 
-    <exclude-pattern>*/external-apis/google/*</exclude-pattern>  
-    <exclude-pattern>*/includes/rest-api/marketo-form.php</exclude-pattern>
-    <exclude-pattern>*/includes/**/autoload.php</exclude-pattern> 
 	
 	<!-- Show progress, show the error codes for each message (source). -->
 	<arg value="ps" />
@@ -59,22 +44,12 @@
     <rule ref="Generic.WhiteSpace.DisallowTabIndent" />
 
     <rule ref="Generic.Commenting.DocComment.MissingShort">
-        <exclude-pattern>includes/weglot/*.php</exclude-pattern>
+        <!-- <exclude-pattern>includes/weglot/*.php</exclude-pattern> -->
     </rule>
     
     <rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
         <exclude-pattern>cli/*.php</exclude-pattern>
     </rule> 
-    
-    <rule ref="Squiz.Commenting.FileComment.MissingPackageTag">
-        <exclude-pattern>includes/admin/pages*.php</exclude-pattern>
-        <exclude-pattern>includes/admin/views*.php</exclude-pattern>        
-    </rule>  
-
-    <rule ref="Universal.Files.SeparateFunctionsFromOO.Mixed">
-        <exclude-pattern>includes/class-boomi-cms.php</exclude-pattern>
-        <exclude-pattern>includes/admin/class-bc-admin.php</exclude-pattern>
-    </rule>     
 
     <rule ref="Universal.WhiteSpace.PrecisionAlignment">
     	<properties>
@@ -83,175 +58,54 @@
     			<element value="T_INLINE_HTML"/>
     		</property>
     	</properties>
-    </rule>        
+    </rule> 
+
+    <rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames.returnFound">
+        <exclude-pattern>src/abstracts/wp-async-request.php</exclude-pattern>
+    </rule>           
 
     <rule ref="WordPress.DB.DirectDatabaseQuery.DirectQuery">
-        <exclude-pattern>includes/db/*.php</exclude-pattern>
-        <exclude-pattern>includes/connectors/db/*.php</exclude-pattern>
+        <exclude-pattern>src/*.php</exclude-pattern>
     </rule>
 
     <rule ref="WordPress.DB.DirectDatabaseQuery.NoCaching">
-        <exclude-pattern>includes/db/*.php</exclude-pattern>
-        <exclude-pattern>includes/connectors/db/*.php</exclude-pattern>       
+        <exclude-pattern>src/*.php</exclude-pattern>      
     </rule>
 
     <rule ref="WordPress.DB.PreparedSQL.InterpolatedNotPrepared">
-        <exclude-pattern>includes/db/*.php</exclude-pattern> 
-        <exclude-pattern>includes/connectors/db/*.php</exclude-pattern>      
+        <exclude-pattern>src/*.php</exclude-pattern>     
     </rule>
 
     <rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
-        <exclude-pattern>external-apis/*.php</exclude-pattern> 
-        <exclude-pattern>includes/db/*.php</exclude-pattern>
-        <exclude-pattern>includes/connectors/import/*.php</exclude-pattern>
-        <exclude-pattern>includes/google/api/*.php</exclude-pattern>    
-        <exclude-pattern>includes/apiida-app/api/*.php</exclude-pattern>  
-        <exclude-pattern>includes/rest-api/*.php</exclude-pattern>  
-        <exclude-pattern>assets/app/*.php</exclude-pattern>    
-        <exclude-pattern>includes/marketo/*.php</exclude-pattern>  
-        <exclude-pattern>includes/nda/*.php</exclude-pattern>  
-        <exclude-pattern>includes/aws/*.php</exclude-pattern>  
-        <exclude-pattern>includes/blog/*.php</exclude-pattern>  
-        <exclude-pattern>includes/featured-resources/*.php</exclude-pattern>  
-        <exclude-pattern>includes/acf/*.php</exclude-pattern>  
-        <exclude-pattern>includes/shortcodes/*.php</exclude-pattern>
-        <exclude-pattern>includes/ai-tool/*.php</exclude-pattern> 
-        <exclude-pattern>includes/weglot/*.php</exclude-pattern>  
-        <exclude-pattern>templates/*.php</exclude-pattern>  
-        <exclude-pattern>includes/google/*.php</exclude-pattern>
-        <exclude-pattern>includes/icoe/*.php</exclude-pattern>
-        <exclude-pattern>includes/sap-assessment-tool/*.php</exclude-pattern>
-        <exclude-pattern>includes/admin/*.php</exclude-pattern>
+        <exclude-pattern>src/*.php</exclude-pattern>
     </rule>
 
     <rule ref="WordPress.Files.FileName.InvalidClassFileName">
-        <exclude-pattern>external-apis/*.php</exclude-pattern>
-        <exclude-pattern>includes/**/abstract-*.php</exclude-pattern>
-        <exclude-pattern>includes/connectors/import/*.php</exclude-pattern>
-        <exclude-pattern>includes/db/*.php</exclude-pattern> 
-        <exclude-pattern>includes/google/api/*.php</exclude-pattern>
-        <exclude-pattern>includes/apiida-app/api/*.php</exclude-pattern>   
-        <exclude-pattern>includes/rest-api/*.php</exclude-pattern>  
-        <exclude-pattern>includes/marketo/*.php</exclude-pattern>
-        <exclude-pattern>includes/nda/*.php</exclude-pattern>   
-        <exclude-pattern>includes/aws/*.php</exclude-pattern>  
-        <exclude-pattern>includes/blog/*.php</exclude-pattern>
-        <exclude-pattern>includes/featured-resources/*.php</exclude-pattern> 
-        <exclude-pattern>includes/acf/*.php</exclude-pattern>     
-        <exclude-pattern>includes/shortcodes/*.php</exclude-pattern>  
-        <exclude-pattern>includes/ai-tool/*.php</exclude-pattern>  
-        <exclude-pattern>includes/weglot/*.php</exclude-pattern>  
-        <exclude-pattern>includes/google/*.php</exclude-pattern>
-        <exclude-pattern>includes/icoe/*.php</exclude-pattern>
-        <exclude-pattern>includes/sap-assessment-tool/*.php</exclude-pattern>
-        <exclude-pattern>includes/admin/*.php</exclude-pattern>
-    </rule>        
-    
-    <rule ref="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase">
-        <exclude-pattern>external-apis/*.php</exclude-pattern> 
-        <exclude-pattern>includes/connectors/import/autoload.php</exclude-pattern>
-        <exclude-pattern>includes/db/*.php</exclude-pattern>  
-        <exclude-pattern>includes/google/api/autoload.php</exclude-pattern>    
-    </rule>
-
-    <rule ref="WordPress.NamingConventions.ValidVariableName.InterpolatedVariableNotSnakeCase">
-        <exclude-pattern>external-apis/*.php</exclude-pattern>
-        <exclude-pattern>includes/db/*.php</exclude-pattern>       
-    </rule>
-
-    <rule ref="WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode">
-        <exclude-pattern>external-apis/*.php</exclude-pattern>      
-        <exclude-pattern>includes/ai-tool/Shortcode.php</exclude-pattern>      
-        <exclude-pattern>includes/pay-as-you-go/class-bc-payg.php</exclude-pattern>      
-    </rule>     
-
-    <rule ref="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid">
-        <exclude-pattern>external-apis/*.php</exclude-pattern>    
-        <exclude-pattern>includes/traits/*.php</exclude-pattern>   
-        <exclude-pattern>includes/google/api/*.php</exclude-pattern>      
+        <exclude-pattern>src/*.php</exclude-pattern>
     </rule> 
 
-    <rule ref="WordPress.PHP.YodaConditions.NotYoda">
-        <exclude-pattern>external-apis/*.php</exclude-pattern>      
-    </rule>
-
-    <rule ref="WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase">
-        <exclude-pattern>external-apis/*.php</exclude-pattern>      
-    </rule> 
-
-    <rule ref="WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase">
-        <exclude-pattern>external-apis/*.php</exclude-pattern>    
-        <exclude-pattern>includes/google/api/*.php</exclude-pattern>  
-    </rule> 
-
-    <rule ref="WordPress.WP.AlternativeFunctions.json_encode_json_encode">
-        <exclude-pattern>external-apis/*.php</exclude-pattern>      
+    <rule ref="WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents">
+        <exclude-pattern>src/*.php</exclude-pattern>
     </rule>   
 
-    <rule ref="WordPress.WP.AlternativeFunctions.curl_curl_init">
-        <exclude-pattern>external-apis/*.php</exclude-pattern>      
-    </rule>  
-
-    <rule ref="WordPress.WP.AlternativeFunctions.curl_curl_setopt_array">
-        <exclude-pattern>external-apis/*.php</exclude-pattern>      
-    </rule>  
-
-    <rule ref="WordPress.WP.AlternativeFunctions.curl_curl_exec">
-        <exclude-pattern>external-apis/*.php</exclude-pattern>      
-    </rule>  
-
-    <rule ref="WordPress.WP.AlternativeFunctions.curl_curl_getinfo">
-        <exclude-pattern>external-apis/*.php</exclude-pattern>      
-    </rule>   
-
-    <rule ref="WordPress.WP.AlternativeFunctions.curl_curl_close">
-        <exclude-pattern>external-apis/*.php</exclude-pattern>      
-    </rule>             
+    <rule ref="WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents">
+        <exclude-pattern>src/*.php</exclude-pattern>
+    </rule>                
     
-	<rule ref="WordPress.WP.I18n">
-		<properties>
-			<property name="text_domain" type="array" value="boomi-cms" />
-		</properties>
-	</rule>
+    <rule ref="WordPress.WP.AlternativeFunctions.file_system_operations_mkdir">
+        <exclude-pattern>src/*.php</exclude-pattern>
+    </rule> 
 
-    <rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet">
-        <exclude-pattern>templates/ai-tool.php</exclude-pattern>
-        <exclude-pattern>templates/sap-infographic.php</exclude-pattern>
-        <exclude-pattern>templates/sap-assessment-tool.php</exclude-pattern>
-    </rule>	    
-
-    <rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedScript">
-        <exclude-pattern>templates/ai-tool.php</exclude-pattern>
-        <exclude-pattern>templates/bsphere-header-scripts.php</exclude-pattern>
-        <exclude-pattern>templates/sap-infographic.php</exclude-pattern>
-        <exclude-pattern>templates/sap-assessment-tool.php</exclude-pattern>
-        <exclude-pattern>templates/icoe-single.php</exclude-pattern>
+    <rule ref="WordPress.WP.AlternativeFunctions.file_system_operations_rmdir">
+        <exclude-pattern>src/*.php</exclude-pattern>
     </rule>  
 
-    <rule ref="WordPress.DB.SlowDBQuery.slow_db_query_meta_key">
-        <exclude-pattern>includes/shortcodes/class-bc-shortcode-events.php</exclude-pattern>
-    </rule>
+    <rule ref="WordPress.WP.CronInterval.ChangeDetected">
+        <exclude-pattern>src/abstracts/wp-background-process.php</exclude-pattern>
+    </rule> 
 
-    <rule ref="WordPress.DB.SlowDBQuery.slow_db_query_meta_query">
-        <exclude-pattern>includes/shortcodes/class-bc-shortcode-events.php</exclude-pattern>
-    </rule>    
-
-	<rule ref="WordPress.WP.Capabilities">
-		<properties>
-			<property name="custom_capabilities" type="array">
-				<element value="view_nda" />
-			</property>
-		</properties>
-	</rule>      
-
-    <!-- Custom sanitizing functions. -->	
-    <rule ref="WordPress.Security.ValidatedSanitizedInput">
-        <properties>
-            <property name="customSanitizingFunctions" type="array">
-                <element value="boomi_cms_sanitize_array"/>
-                <element value="boomi_cms_recursive_sanitize_text_field"/>
-            </property>
-        </properties>
-    </rule>	
+    <rule ref="WordPress.WP.I18n.MissingTranslatorsComment">
+        <exclude-pattern>src/abstracts/wp-background-process.php</exclude-pattern>
+    </rule>                 
     
 </ruleset>

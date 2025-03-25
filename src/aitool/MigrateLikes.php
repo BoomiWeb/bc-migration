@@ -33,10 +33,9 @@ class MigrateLikes {
     /**
      * The single instance of the class.
      *
-     * @var bool
+     * @var MigrateLikes|null
      */
-    private static $instance = false;
-
+    protected static ?MigrateLikes $instance = null;
 
     /**
      * Constructor.
@@ -174,14 +173,14 @@ class MigrateLikes {
     /**
      * Converts the keys of the given associative array from camel case to snake case.
      *
-     * Utilizes the `bc_camel_to_snake` function to transform each key in the array.
+     * Utilizes the `camel_to_snake` function to transform each key in the array.
      *
      * @param array $data The associative array with camel case keys to be transformed.
      * @return array The array with keys converted to snake case.
      */
     private function maybe_format_keys( array $data ) {
         return array_combine(
-            array_map( 'bc_camel_to_snake', array_keys( $data ) ),
+            array_map( 'erikdmitchell\\bcmigration\\camel_to_snake', array_keys( $data ) ),
             array_values( $data )
         );
     }
@@ -322,8 +321,8 @@ class MigrateLikes {
                 $data['answer'] = (int) $data['answer'];
             }
 
-            // Encode the modified data back to JSON and save it to the file
-            file_put_contents( $file, json_encode( $data, JSON_PRETTY_PRINT ) );
+            // Encode the modified data back to JSON and save it to the file.
+            file_put_contents( $file, wp_json_encode( $data, JSON_PRETTY_PRINT ) );
         }
 
         $files = array_values( $files );

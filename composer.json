@@ -35,7 +35,7 @@
     "scripts": {
 		"phpcs": "phpcs -s -p --standard=./phpcs.ruleset.xml",
 		"phpcbf": "phpcbf -p --standard=./phpcs.ruleset.xml",
-		"phpstan": "vendor/bin/phpstan analyse --memory-limit 2G",
+		"phpstan": "vendor/bin/phpstan analyse",
 		"snyk": "snyk code test"
 	}
 }

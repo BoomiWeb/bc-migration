@@ -2,7 +2,7 @@
 /**
  * BC Migration class
  *
- * @package erikdmitchell\bcmigration\cli
+ * @package erikdmitchell\bcmigration
  * @since   0.1.0
  * @version 0.1.0
  */
@@ -17,18 +17,27 @@ use erikdmitchell\bcmigration\cli\CLI;
 class BCMigration {
 
     /**
+     * The version number.
+     *
+     * @var string
+     */
+    public $version = '0.1.0';
+
+    /**
      * The single instance of the class.
      *
-     * @var boolean
+     * @var BCMigration|null
      */
-    private static $instance = false;
+    protected static ?BCMigration $instance = null;
 
     /**
      * Constructor.
      *
      * @return void
      */
-    private function __construct() {}
+    private function __construct() {
+        $this->includes();
+    }
 
     /**
      * Gets the single instance of the class.
@@ -45,5 +54,9 @@ class BCMigration {
         }
 
         return self::$instance;
+    }
+
+    private function includes() {
+        include_once __DIR__ . '/functions.php';
     }
 }
