@@ -322,8 +322,8 @@ class MigrateLikes {
                 $data['answer'] = (int) $data['answer'];
             }
 
-            // Encode the modified data back to JSON and save it to the file
-            file_put_contents( $file, json_encode( $data, JSON_PRETTY_PRINT ) );
+            // Encode the modified data back to JSON and save it to the file.
+            file_put_contents( $file, wp_json_encode( $data, JSON_PRETTY_PRINT ) );
         }
 
         $files = array_values( $files );

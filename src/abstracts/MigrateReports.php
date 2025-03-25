@@ -103,7 +103,7 @@ class MigrateReports {
      * @return array Array of IDs of migrated reports.
      */
     protected function migrate_reports( array $files ) {
-        return array();
+        return $files;
     }
 
     /**
@@ -172,8 +172,8 @@ class MigrateReports {
 
         if ( ! $db_id ) {
             return new WP_Error(
-                'aitool_reports_insert_into_db',
-                'Failed to insert data',
+                'apiida_reports_insert_into_db',
+                'Failed to insert data'
             );
         }
 

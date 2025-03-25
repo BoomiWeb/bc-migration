@@ -73,7 +73,7 @@ class MigrateSubscribeData {
             return;
         }
 
-        $migrated_row_ids = $this->migrate_email_db( array( $post_id ) ); // array - may be empty
+        $migrated_row_ids = $this->migrate_email_db( array( $post_id ) ); // array - may be empty.
         $remove_db        = $this->remove_email_db(); // 1|0
         $this->remove_email_options();
 

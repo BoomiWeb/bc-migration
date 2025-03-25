@@ -30,7 +30,7 @@ class Migrate extends CLICommands {
     public static function register_commands() {
         $parent = 'boomi migrate';
 
-        // Define mapping of commands to their respective classes
+        // Define mapping of commands to their respective classes.
         $commands = array(
             'subprocessors' => array(
                 'class'     => __NAMESPACE__ . '\Subprocessors',

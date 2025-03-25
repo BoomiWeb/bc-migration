@@ -274,7 +274,7 @@ class MigrateReports {
         if ( ! $db_id ) {
             return new WP_Error(
                 'aitool_reports_insert_into_db',
-                'Failed to insert data',
+                'Failed to insert data'
             );
         }
 
@@ -302,8 +302,8 @@ class MigrateReports {
                 $data['BoomiLink'] = 'https://boomi.com/platform/ai/aira/#/report';
             }
 
-            // Encode the modified data back to JSON and save it to the file
-            file_put_contents( $file, json_encode( $data, JSON_PRETTY_PRINT ) );
+            // Encode the modified data back to JSON and save it to the file.
+            file_put_contents( $file, wp_json_encode( $data, JSON_PRETTY_PRINT ) );
         }
 
         $files = array_values( $files );

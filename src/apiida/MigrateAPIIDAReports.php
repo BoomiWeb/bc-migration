@@ -24,18 +24,6 @@ class MigrateAPIIDAReports extends MigrateReports {
     protected static $instance = false;
 
     /**
-     * Constructor.
-     *
-     * Initializes the MigrateReports class by setting up the upload directory path
-     * and database instance for report data.
-     *
-     * @access protected
-     */
-    protected function __construct() {
-        parent::__construct();
-    }
-
-    /**
      * Gets the single instance of the class.
      *
      * @return MigrateAPIIDAReports Single instance of the class.
@@ -96,7 +84,7 @@ class MigrateAPIIDAReports extends MigrateReports {
         }
 
         foreach ( $files as $file ) {
-            $prepared_data = $this->prepare_report_for_db( $file, 'apiida' ); // TODO: same as MigrateReports - this is the only diff
+            $prepared_data = $this->prepare_report_for_db( $file, 'apiida' ); // TODO: same as MigrateReports - this is the only diff.
 
             if ( empty( $prepared_data ) ) {
                 continue;
@@ -206,7 +194,7 @@ class MigrateAPIIDAReports extends MigrateReports {
             $data['report_url'] = $report_url;
 
             // Encode the modified data back to JSON and save it to the file.
-            file_put_contents( $file, json_encode( $data, JSON_PRETTY_PRINT ) );
+            file_put_contents( $file, wp_json_encode( $data, JSON_PRETTY_PRINT ) );
         }
 
         $files = array_values( $files );
