@@ -31,9 +31,9 @@ class MigrateSubscribeData {
     /**
      * The single instance of the class.
      *
-     * @var bool
+     * @var MigrateSubscribeData|null
      */
-    private static $instance = false;
+    protected static ?MigrateSubscribeData $instance = null;
 
     /**
      * Initializes the class and sets the database properties.

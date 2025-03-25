@@ -19,9 +19,9 @@ class BCMigration {
     /**
      * The single instance of the class.
      *
-     * @var boolean
+     * @var BCMigration|null
      */
-    private static $instance = false;
+    protected static ?BCMigration $instance = null;
 
     /**
      * Constructor.

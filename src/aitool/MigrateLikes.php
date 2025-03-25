@@ -33,10 +33,9 @@ class MigrateLikes {
     /**
      * The single instance of the class.
      *
-     * @var bool
+     * @var MigrateLikes|null
      */
-    private static $instance = false;
-
+    protected static ?MigrateLikes $instance = null;
 
     /**
      * Constructor.

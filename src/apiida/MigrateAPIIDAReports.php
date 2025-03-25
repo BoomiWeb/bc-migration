@@ -16,12 +16,13 @@ use WP_Error;
  * MigrateAPIIDAReports class.
  */
 class MigrateAPIIDAReports extends MigrateReports {
+    
     /**
      * The single instance of the class.
      *
-     * @var bool
+     * @var MigrateAPIIDAReports|null
      */
-    protected static $instance = false;
+    protected static ?MigrateAPIIDAReports $instance = null;
 
     /**
      * Gets the single instance of the class.
