@@ -28,7 +28,7 @@ class AITool extends CLICommands {
      * : The action to perform. Currently only `reports` and `likes` are supported.
      *
      * ## EXAMPLES
-     * 
+     *
      *     # Migrate all AI Tool data.
      *     $ wp boomi migrate aitool all
      *     Success: Migrated 13 reports.
@@ -50,7 +50,7 @@ class AITool extends CLICommands {
     public function migrate( $args, $assoc_args ) {
         list ( $action ) = $args;
 
-        if (empty( $action ) ) {
+        if ( empty( $action ) ) {
             WP_CLI::error( 'Invalid arguments. Requires action and post_id' );
         }
 
@@ -112,7 +112,7 @@ class AITool extends CLICommands {
             return;
         }
 
-        WP_CLI::success( count( $migrated_data ) . ' AI Tool likes migrated successfully.' );        
+        WP_CLI::success( count( $migrated_data ) . ' AI Tool likes migrated successfully.' );
     }
 
     /**
@@ -124,7 +124,7 @@ class AITool extends CLICommands {
      */
     private function remove_folder() {
         $upload_dir = wp_upload_dir( null, false );
-        $deleted = $this->remove_directory( $upload_dir['basedir'] . '/bc-ai-tool-data' );
+        $deleted    = $this->remove_directory( $upload_dir['basedir'] . '/bc-ai-tool-data' );
 
         if ( $deleted ) {
             WP_CLI::success( 'AI Tool uploads folder deleted.' );
@@ -142,27 +142,25 @@ class AITool extends CLICommands {
      *
      * @return bool True if the directory was deleted successfully, false otherwise.
      */
-    private function remove_directory(string $dir) {
-        if (!file_exists($dir)) {
+    private function remove_directory( string $dir ) {
+        if ( ! file_exists( $dir ) ) {
             return true;
         }
-    
-        if (!is_dir($dir)) {
-            return unlink($dir);
+
+        if ( ! is_dir( $dir ) ) {
+            return unlink( $dir );
         }
-    
-        foreach (scandir($dir) as $item) {
-            if ($item == '.' || $item == '..') {
+
+        foreach ( scandir( $dir ) as $item ) {
+            if ( $item == '.' || $item == '..' ) {
                 continue;
             }
-    
-            if (!$this->remove_directory($dir . DIRECTORY_SEPARATOR . $item)) {
+
+            if ( ! $this->remove_directory( $dir . DIRECTORY_SEPARATOR . $item ) ) {
                 return false;
             }
-    
         }
-        
-        return rmdir($dir);        
-    }
 
+        return rmdir( $dir );
+    }
 }

@@ -50,7 +50,7 @@ class MigrateLikes {
         $upload_dir = wp_upload_dir();
 
         $this->upload_dir_path = $upload_dir['basedir'];
-        $this->db      = \BoomiCMS\BC_DB::getInstance()->likes_data();
+        $this->db              = \BoomiCMS\BC_DB::getInstance()->likes_data();
     }
 
     /**
@@ -59,11 +59,11 @@ class MigrateLikes {
      * @return MigrateLikes Single instance of the class.
      */
     public static function init() {
-		if ( ! self::$instance ) {
-			self::$instance = new self();
-		}
+        if ( ! self::$instance ) {
+            self::$instance = new self();
+        }
 
-		return self::$instance;
+        return self::$instance;
     }
 
     /**
@@ -137,10 +137,10 @@ class MigrateLikes {
 
             if ( empty( $prepared_data ) ) {
                 continue;
-            }            
-    
+            }
+
             $db_id = $this->insert_or_update_db( $prepared_data );
-    
+
             if ( is_wp_error( $db_id ) ) {
                 continue;
             }
@@ -289,7 +289,7 @@ class MigrateLikes {
                 'not_like' => isset( $db_data->not_like ) ? $db_data->not_like : 0,
             )
         );
-    }    
+    }
 
     /**
      * Clean up the given files.
@@ -302,12 +302,12 @@ class MigrateLikes {
         foreach ( $files as $file ) {
             // Decode the JSON file.
             $data = json_decode( file_get_contents( $file ), true );
-    
+
             if ( ! isset( $data['category'] ) || ! isset( $data['answer'] ) ) {
                 unset( $files[ $file ] );
                 continue;
             }
-    
+
             if ( null === $data['like'] ) {
                 $data['not_like'] = 1;
                 $data['like']     = 0;
@@ -315,19 +315,19 @@ class MigrateLikes {
                 $data['like']     = 1;
                 $data['not_like'] = 0;
             }
-    
+
             if ( strpos( $data['answer'], '1' ) !== false ) {
                 $data['answer'] = 1;
             } else {
                 $data['answer'] = (int) $data['answer'];
             }
-    
+
             // Encode the modified data back to JSON and save it to the file
             file_put_contents( $file, json_encode( $data, JSON_PRETTY_PRINT ) );
         }
-    
+
         $files = array_values( $files );
-    
+
         return $files;
     }
 }

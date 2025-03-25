@@ -50,7 +50,7 @@ class MigrateReports {
         $upload_dir = wp_upload_dir();
 
         $this->upload_dir_path = $upload_dir['basedir'];
-        $this->db      = \BoomiCMS\BC_DB::getInstance()->report_data();
+        $this->db              = \BoomiCMS\BC_DB::getInstance()->report_data();
     }
 
     /**
@@ -59,11 +59,11 @@ class MigrateReports {
      * @return MigrateReports Single instance of the class.
      */
     public static function init() {
-		if ( ! self::$instance ) {
-			self::$instance = new self();
-		}
+        if ( ! self::$instance ) {
+            self::$instance = new self();
+        }
 
-		return self::$instance;
+        return self::$instance;
     }
 
     /**
@@ -83,10 +83,25 @@ class MigrateReports {
         return $this->migrate_reports( $files );
     }
 
-    protected function get_files() {    
+    /**
+     * Gets all the files in the bc-apiida directory.
+     *
+     * Finds all the files in the bc-apiida directory and returns them as an array.
+     * If the directory does not exist, or if there are no files with the name 'data-*', an empty array is returned.
+     *
+     * @return array
+     */
+    protected function get_files() {
         return array();
     }
 
+    /**
+     * Migrates the AI Tool reports from the JSON files to the database.
+     *
+     * @param array $files Array of JSON files to be migrated.
+     *
+     * @return array Array of IDs of migrated reports.
+     */
     protected function migrate_reports( array $files ) {
         return array();
     }
@@ -106,6 +121,16 @@ class MigrateReports {
         );
     }
 
+    /**
+     * Checks if a db entry exists, given the first name, last name, and email.
+     *
+     * If the data is not valid (e.g. empty or not set), this function will return true
+     * to indicate that the data should be skipped.
+     *
+     * @param array $data The data to check for.
+     *
+     * @return bool True if the database entry exists, false otherwise.
+     */
     protected function db_entry_exists( array $data ) {
         if ( ! isset( $data['first_name'] ) || ! isset( $data['last_name'] ) || ! isset( $data['email'] ) ) {
             return true; // the data is not valid, so we need to skip it anyway.
@@ -131,7 +156,18 @@ class MigrateReports {
         return false;
     }
 
-    protected function insert_into_db( array $data ) { 
+    /**
+     * Inserts the given data into the database.
+     *
+     * Attempts to insert the provided array of data into the database.
+     * If the insertion fails, a WP_Error object is returned indicating
+     * the failure. If successful, the ID of the inserted row is returned.
+     *
+     * @param array $data The data to insert.
+     *
+     * @return int|WP_Error The ID of the inserted row, or a WP_Error object on failure.
+     */
+    protected function insert_into_db( array $data ) {
         $db_id = $this->db->add( $data );
 
         if ( ! $db_id ) {
@@ -143,5 +179,4 @@ class MigrateReports {
 
         return $db_id;
     }
-
 }

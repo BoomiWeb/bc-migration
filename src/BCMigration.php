@@ -25,7 +25,7 @@ class BCMigration {
 
     /**
      * Constructor.
-     * 
+     *
      * @return void
      */
     private function __construct() {}
@@ -36,15 +36,14 @@ class BCMigration {
      * @return BCMigration Single instance of the class.
      */
     public static function init() {
-		if ( ! self::$instance ) {
-			self::$instance = new self();
+        if ( ! self::$instance ) {
+            self::$instance = new self();
 
-            if (defined('WP_CLI') && WP_CLI) {
+            if ( defined( 'WP_CLI' ) && WP_CLI ) {
                 new CLI();
             }
-		}
+        }
 
-		return self::$instance;
+        return self::$instance;
     }
-
 }

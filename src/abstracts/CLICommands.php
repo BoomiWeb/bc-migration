@@ -85,7 +85,7 @@ abstract class CLICommands {
      */
     private function create_dir( $path ) {
         if ( ! is_dir( $path ) ) {
-            mkdir($path);
+            mkdir( $path );
         }
     }
 

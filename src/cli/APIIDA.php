@@ -10,7 +10,6 @@
 namespace erikdmitchell\bcmigration\cli;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
-use erikdmitchell\bcmigration\aitool\MigrateReports;
 use erikdmitchell\bcmigration\apiida\MigrateAPIIDAReports;
 use WP_CLI;
 
@@ -19,10 +18,37 @@ use WP_CLI;
  */
 class APIIDA extends CLICommands {
 
+    /**
+     * Migrates APIIDA data.
+     *
+     * ## OPTIONS
+     *
+     * <action>
+     * : The action to perform. Currently only `reports` and `remove-folder` are supported.
+     *
+     * ## EXAMPLES
+     *
+     *     # Migrate all APIIDA data.
+     *     $ wp boomi migrate apiida all
+     *     Success: Migrated 13 reports.
+     *     Success: Removed the APIIDA uploads folder.
+     *
+     *     # Migrate APIIDA reports.
+     *     $ wp boomi migrate apiida reports
+     *     Success: Migrated 13 reports.
+     *
+     *     # Remove the APIIDA uploads folder.
+     *     $ wp boomi migrate apiida remove-folder
+     *     Success: Removed the APIIDA uploads folder.
+     *
+     * @subcommand migrate
+     * @param array $args The action to perform.
+     * @param array $assoc_args The arguments array.
+     */
     public function migrate( $args, $assoc_args ) {
         list ( $action ) = $args;
 
-        if (empty( $action ) ) {
+        if ( empty( $action ) ) {
             WP_CLI::error( 'Invalid arguments. Requires action and post_id' );
         }
 
@@ -43,7 +69,12 @@ class APIIDA extends CLICommands {
         }
     }
 
-
+    /**
+     * Migrates APIIDA reports to the database.
+     *
+     * This method will log messages to the user about the migration process and
+     * report the number of migrated records.
+     */
     private function migrate_reports() {
         WP_CLI::log( 'Migrating APIIDA reports...' );
 
@@ -58,9 +89,14 @@ class APIIDA extends CLICommands {
         WP_CLI::success( count( $migrated_data ) . ' APIIDA reports migrated successfully.' );
     }
 
+    /**
+     * Removes the APIIDA uploads folder.
+     *
+     * This method will log messages to the user about the deletion process.
+     */
     private function remove_folder() {
         $upload_dir = wp_upload_dir( null, false );
-        $deleted = $this->remove_directory( $upload_dir['basedir'] . '/bc-apiida' );
+        $deleted    = $this->remove_directory( $upload_dir['basedir'] . '/bc-apiida' );
 
         if ( $deleted ) {
             WP_CLI::success( 'APIIDA uploads folder deleted.' );
@@ -76,27 +112,25 @@ class APIIDA extends CLICommands {
      *
      * @return bool True if the directory was deleted successfully, false otherwise.
      */
-    private function remove_directory(string $dir) {
-        if (!file_exists($dir)) {
+    private function remove_directory( string $dir ) {
+        if ( ! file_exists( $dir ) ) {
             return true;
         }
-    
-        if (!is_dir($dir)) {
-            return unlink($dir);
+
+        if ( ! is_dir( $dir ) ) {
+            return unlink( $dir );
         }
-    
-        foreach (scandir($dir) as $item) {
-            if ($item == '.' || $item == '..') {
+
+        foreach ( scandir( $dir ) as $item ) {
+            if ( $item == '.' || $item == '..' ) {
                 continue;
             }
-    
-            if (!$this->remove_directory($dir . DIRECTORY_SEPARATOR . $item)) {
+
+            if ( ! $this->remove_directory( $dir . DIRECTORY_SEPARATOR . $item ) ) {
                 return false;
             }
-    
         }
-        
-        return rmdir($dir);        
-    }
 
+        return rmdir( $dir );
+    }
 }

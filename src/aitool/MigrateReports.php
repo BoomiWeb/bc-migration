@@ -50,7 +50,7 @@ class MigrateReports {
         $upload_dir = wp_upload_dir();
 
         $this->upload_dir_path = $upload_dir['basedir'];
-        $this->db      = \BoomiCMS\BC_DB::getInstance()->report_data();
+        $this->db              = \BoomiCMS\BC_DB::getInstance()->report_data();
     }
 
     /**
@@ -59,11 +59,11 @@ class MigrateReports {
      * @return MigrateReports Single instance of the class.
      */
     public static function init() {
-		if ( ! self::$instance ) {
-			self::$instance = new self();
-		}
+        if ( ! self::$instance ) {
+            self::$instance = new self();
+        }
 
-		return self::$instance;
+        return self::$instance;
     }
 
     /**
@@ -135,7 +135,7 @@ class MigrateReports {
                 continue;
             }
 
-            if ( $this->db_entry_exists( $prepared_data ) ) {              
+            if ( $this->db_entry_exists( $prepared_data ) ) {
                 continue;
             }
 
@@ -166,19 +166,19 @@ class MigrateReports {
      * @return array The prepared report item.
      */
     private function prepare_report_for_db( string $file, string $app ) {
-        $data        = (array) json_decode( file_get_contents( $file ) );
-        $data        = $this->maybe_format_keys( $data );
-        $data        = $this->prepare_item_for_db( $data );
+        $data               = (array) json_decode( file_get_contents( $file ) );
+        $data               = $this->maybe_format_keys( $data );
+        $data               = $this->prepare_item_for_db( $data );
         $data['title']      = isset( $data['job'] ) ? $data['job'] : null;
-        $data['report_url'] = $data['boomi_link'];        
-        $data['app'] = $app;
-    
+        $data['report_url'] = $data['boomi_link'];
+        $data['app']        = $app;
+
         if ( isset( $data['job'] ) ) {
             unset( $data['job'] );
         }
 
         unset( $data['boomi_link'] );
-    
+
         return $data;
     }
 
@@ -220,7 +220,7 @@ class MigrateReports {
         $item['data'] = maybe_serialize( $item['data'] );
 
         return $item;
-    }    
+    }
 
     /**
      * Checks if a db entry exists, given the first name, last name, and email.
