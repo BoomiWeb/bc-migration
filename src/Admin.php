@@ -25,27 +25,15 @@ function code_testing_tool_page_content() {
     ?>
     <div class="wrap">
         <h1>Code Tester</h1>
-        <p>This is a simple page to test code snippets.</p>
-
-        <form method="post">
-            <label for="code-input">Enter Code:</label><br>
-            <textarea id="code-input" name="code-input" rows="10" cols="50"></textarea><br>
-            <input type="submit" name="submit-code" value="Run Code">
-        </form>
 
         <?php
-        // Handle code submission
-        if (isset($_POST['submit-code'])) {
-            $code = isset($_POST['code-input']) ? $_POST['code-input'] : '';
-            if (!empty($code)) {
-                echo "<h2>Code Output:</h2>";
-                // Execute the code (be careful with this!)
-                ob_start(); // Start output buffering
-                eval($code); // Execute the code
-                $output = ob_get_clean(); // Get the output
-                echo "<pre>" . htmlspecialchars($output) . "</pre>"; // Display the output
-            }
-        }
+$tax_class = BlogTaxonomies::init();
+
+$blog_tax = $tax_class->taxonomies();
+
+foreach ($blog_tax as $tax) {
+    echo '<h2>' . $tax . '</h2>';
+}
         ?>
     </div>
     <?php
