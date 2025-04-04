@@ -10,10 +10,13 @@
 namespace erikdmitchell\bcmigration\cli\taxonomies;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
+use erikdmitchell\bcmigration\traits\Taxonomy;
 use WP_CLI;
 use WP_Error;
 
 class Merge extends CLICommands {
+
+    use Taxonomy;
 
     /**
      * Merge terms within a taxonomy.
@@ -62,8 +65,14 @@ class Merge extends CLICommands {
 
         $post_type = $assoc_args['post-type'] ?? 'post';
 
-        if ( ! post_type_exists( $post_type ) ) {
-            WP_CLI::error( "Post type '{$post_type}' does not exist. Please provide a valid post type." );
+        $post_type = $this->validate_post_type( $post_type );
+
+        if ( is_wp_error( $post_type ) ) {
+            WP_CLI::error( $post_type->get_error_message() );
+
+            if ( $log ) {
+                $log("[SKIPPED] {$post_type->get_error_message()}");
+            }
         }
 
         if ( isset( $assoc_args['file'] ) ) {
@@ -90,26 +99,6 @@ class Merge extends CLICommands {
                 $post_type = $data['post_type'] ?? 'post';
 
                 // count see Delete.php
-
-                if ( ! post_type_exists( $post_type ) ) {
-                    $message = isset( $row_num )
-                        ? "Row {$row_num}: Post type '{$post_type}' does not exist. Skipping."
-                        : "Post type '{$post_type}' does not exist.";
-
-                    WP_CLI::warning( $message );
-
-                    if ( $log ) {
-                        $log("[SKIPPED] $message");
-                    }
-
-                    if ( isset( $row_num ) ) { 
-                        return false;
-                    } else {
-                        WP_CLI::error( $message );
-                    }
-
-                    continue;
-                }
 
                 $taxonomy   = $data['taxonomy'];
                 $from_terms = explode( '|', $data['from_terms'] );
@@ -159,24 +148,6 @@ class Merge extends CLICommands {
 
         list( $taxonomy, $from_string, $to_term ) = $args;
         $from_terms = explode( '|', $from_string );
-
-        if ( ! post_type_exists( $post_type ) ) {
-            $message = isset( $row_num )
-                ? "Row {$row_num}: Post type '{$post_type}' does not exist. Skipping."
-                : "Post type '{$post_type}' does not exist.";
-            
-            WP_CLI::warning( $message );
-            
-            if ( $log ) {
-                $log("[SKIPPED] $message");
-            }
-
-            if ( isset( $row_num ) ){ 
-                return false;
-            } else { 
-                WP_CLI::error( $message );
-            }
-        }
 
         if ( ! taxonomy_exists( $taxonomy ) ) {
             $message = isset( $row_num )
