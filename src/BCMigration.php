@@ -69,11 +69,21 @@ class BCMigration {
         return self::$instance;
     }
 
+    /**
+     * Includes the necessary files for plugin functionality.
+     *
+     * @return void
+     */
     private function includes() {
         include_once __DIR__ . '/functions.php';
         include_once __DIR__ . '/Admin.php';
     }
 
+    /**
+     * Checks if the uploads folder exists and creates it if not.
+     *
+     * @return void
+     */
     public function maybe_create_uploads_folder() {
         if ( ! is_dir( BCM_PATH ) ) {
             mkdir( BCM_PATH );

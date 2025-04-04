@@ -175,17 +175,3 @@ class Rename extends CLICommands {
         return wp_update_term( $term->term_id, $taxonomy, $args );
     }
 }
-
-// WP_CLI::add_command('taxonomy rename_term', 'Rename_Taxonomy_Term_Command');
-
-/*
-# dry run
-wp boomi taxonomies rename --file=/Users/erikmitchell/bc-migration/src/examples/tax-rename.csv --dry-run
-
-#log output
-wp boomi taxonomies rename --file=/Users/erikmitchell/bc-migration/src/examples/tax-rename.csv --log=rename-terms.log
-
-#rename single
-wp boomi taxonomies rename industries "M&A" "Mergers & Acquisitions" --new-slug="mergers-acquisitions" --dry-run --log=rename.log
-wp boomi taxonomies rename industries "M&A" "Mergers & Acquisitions" --new-slug="mergers-acquisitions" --log=rename.log
-*/
