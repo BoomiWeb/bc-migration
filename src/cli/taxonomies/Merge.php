@@ -57,7 +57,6 @@ class Merge extends CLICommands {
             $this->set_log_name( $log_name );
         }
 
-        $post_type = $assoc_args['post-type'] ?? 'post';
         $post_type = $this->validate_post_type( $post_type );
 
         if ( is_wp_error( $post_type ) ) {
@@ -100,9 +99,11 @@ class Merge extends CLICommands {
         }       
 
         if ( $dry_run ) {
-            $this->log( "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
-            
-            WP_CLI::log( "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
+            $message = "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)";
+
+            $this->log($message);
+        
+            WP_CLI::log( $message );
 
             return;
         }
@@ -156,7 +157,11 @@ class Merge extends CLICommands {
             }               
 
             if ( $dry_run ) {
-                $this->log( "Row $row_num: [DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
+                $message = "Row $row_num: [DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)";
+
+                $this->log( $message );
+
+                WP_CLI::log( $message );
 
                 continue;
             }
@@ -164,7 +169,7 @@ class Merge extends CLICommands {
             $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, $row_num, $post_type );
 
             if ( is_wp_error( $result ) ) {
-                $this->log( "Row $row_num: Error – " . $result->get_error_message() );
+                $this->log( "Row $row_num: Error - " . $result->get_error_message() );
             }
         }
 
@@ -223,13 +228,18 @@ class Merge extends CLICommands {
             ] );
 
             if ( empty( $posts ) ) {
-                $this->log( ($row_num ? "Row $row_num: " : '') . "No posts found for '$from_name' in '$taxonomy'" );
+                $message = ($row_num ? "Row $row_num: " : '') . "No posts found for '$from_name' in '$taxonomy'";
+
+                $this->log( $message );
+
+                WP_CLI::warning( $message );
             } else {
                 foreach ( $posts as $post_id ) {
                     $terms = wp_get_post_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
             
                     if ( ! in_array( $to_term->term_id, $terms, true ) ) {
                         $terms[] = $to_term->term_id;
+
                         wp_set_post_terms( $post_id, [ $to_term->term_id ], $taxonomy, true );
                     }
                 }
@@ -237,12 +247,24 @@ class Merge extends CLICommands {
             
             if ( $delete_old ) {
                 if ( ! is_wp_error( wp_delete_term( $from_term->term_id, $taxonomy ) ) ) {
-                    $this->log( ($row_num ? "Row $row_num: " : '') . "Deleted term '$from_name'" );
+                    $message = ($row_num ? "Row $row_num: " : '') . "Deleted term '$from_name'";
+
+                    $this->log( $message );
+
+                    WP_CLI::success( $message );
                 } else {
-                    $this->log( ($row_num ? "Row $row_num: " : '') . "Failed to delete term '$from_name'" );
+                    $message = ($row_num ? "Row $row_num: " : '') . "Failed to delete term '$from_name'";
+
+                    $this->log( $message );
+
+                    WP_CLI::warning( $message );
                 }
             } else {
-                $this->log( ($row_num ? "Row $row_num: " : '') . "Merged term '$from_name'" );
+                $message = ($row_num ? "Row $row_num: " : '') . "Merged term '$from_name'";
+
+                $this->log( $message );
+
+                WP_CLI::success( $message );
             }
         }
 
