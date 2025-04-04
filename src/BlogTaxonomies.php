@@ -38,4 +38,8 @@ class BlogTaxonomies extends Taxonomies {
         return $this->taxonomies;
     }
 
+    // public function get_taxonomy_tags(string $tag = '') {
+    //     return $this->get($tag);
+    // }
+
 }

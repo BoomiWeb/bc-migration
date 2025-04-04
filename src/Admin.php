@@ -34,6 +34,9 @@ $blog_tax = $tax_class->taxonomies();
 foreach ($blog_tax as $tax) {
     echo '<h2>' . $tax . '</h2>';
 }
+echo '<pre>';
+print_r($tax_class->get_terms('industries'));
+echo '</pre>';
         ?>
     </div>
     <?php
