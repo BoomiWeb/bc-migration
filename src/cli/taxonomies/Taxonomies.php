@@ -3,7 +3,7 @@
  * Taxonomies CLI class
  *
  * @package erikdmitchell\bcmigration\cli\taxonomies
- * @since   0.1.0
+ * @since   0.2.0
  * @version 0.1.0
  */
 
@@ -37,7 +37,13 @@ class Taxonomies extends CLICommands {
                 'shortdesc' => 'Rename Taxonomies',
                 'longdesc'  => 'Rename Taxonomies',
                 'method'    => 'rename_term',
-            ),         
+            ), 
+            'merge' => array(
+                'class'     => __NAMESPACE__ . '\Merge',
+                'shortdesc' => 'Merge Taxonomies',
+                'longdesc'  => 'Merge Taxonomies',
+                'method'    => 'merge_terms',
+            ),                     
         );
 
         foreach ( $commands as $command => $config ) {

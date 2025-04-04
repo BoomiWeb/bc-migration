@@ -3,7 +3,7 @@
  * Merge Taxonomies CLI class
  *
  * @package erikdmitchell\bcmigration\cli\taxonomies
- * @since   0.1.0
+ * @since   0.2.0
  * @version 0.1.0
  */
 
@@ -56,6 +56,12 @@ class Merge extends CLICommands {
             }
         };
 
+        $post_type = $assoc_args['post-type'] ?? 'post';
+
+        if ( ! post_type_exists( $post_type ) ) {
+            WP_CLI::error( "Post type '{$post_type}' does not exist. Please provide a valid post type." );
+        }
+
         if ( isset( $assoc_args['file'] ) ) {
             $file = $assoc_args['file'];
 
@@ -78,6 +84,17 @@ class Merge extends CLICommands {
                 $data = array_combine( $header, $row );
                 $data = array_map( 'trim', $data );
                 $post_type = $data['post_type'] ?? 'post';
+
+                if ( ! post_type_exists( $post_type ) ) {
+                    $message = "Row {$row_num}: Post type '{$post_type}' does not exist. Skipping.";
+                    WP_CLI::warning( $message );
+
+                    if ( $log ) {
+                        fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                    }
+                    
+                    continue;
+                }
 
                 $taxonomy   = $data['taxonomy'];
                 $from_terms = explode( '|', $data['from_terms'] );
@@ -191,26 +208,3 @@ class Merge extends CLICommands {
         return true;
     }
 }
-
-
-
-/*
-#csv
-taxonomy,from_terms,to_term,post_type
-products,"B2B Integration|CRM Integration","Integration",custom_post_type
-industries,"Retail|E-Commerce","Retail & E-Commerce",post
-*/
-
-/*
-# single
-wp taxonomy merge_terms products "B2B Integration|CRM Integration" "Integration" --delete-old
-wp taxonomy merge_terms products "CRM|ERP" "Integration" --post-type=custom_post_type
-
-# batch
-wp taxonomy merge_terms --file=merge-terms.csv --log=merge.log
-wp taxonomy merge_terms --file=merge.csv
-
-# dry run
-wp taxonomy merge_terms --file=merge-terms.csv --log=merge.log --dry-run
-wp taxonomy merge_terms --file=merge.csv --dry-run --log=merge.log
-*/
