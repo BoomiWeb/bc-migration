@@ -180,18 +180,12 @@ class Rename extends CLICommands {
 
 /*
 # dry run
-wp taxonomy rename_term --file=terms.csv --dry-run
+wp boomi taxonomies rename --file=/Users/erikmitchell/bc-migration/src/examples/tax-rename.csv --dry-run
 
 #log output
-wp taxonomy rename_term --file=terms.csv --log=rename-terms.log
+wp boomi taxonomies rename --file=/Users/erikmitchell/bc-migration/src/examples/tax-rename.csv --log=rename-terms.log
 
 #rename single
 wp boomi taxonomies rename industries "M&A" "Mergers & Acquisitions" --new-slug="mergers-acquisitions" --dry-run --log=rename.log
 wp boomi taxonomies rename industries "M&A" "Mergers & Acquisitions" --new-slug="mergers-acquisitions" --log=rename.log
-*/
-
-/*
-taxonomy,old_term,new_name,new_slug
-industries,M&A,Mergers. & Acquisitions,mergers-acquisitions
-category,News,Latest News,latest-news
 */

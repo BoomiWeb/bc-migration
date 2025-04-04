@@ -55,15 +55,15 @@ $terms_to_rename = [
     ],
 ];
 
-foreach ( $terms_to_rename as $change ) {
-    $result = $tax_class->rename( $change['taxonomy'], $change['old'], $change['new'] );
+// foreach ( $terms_to_rename as $change ) {
+//     $result = $tax_class->rename( $change['taxonomy'], $change['old'], $change['new'] );
 
-    if ( is_wp_error( $result ) ) {
-        error_log( "Failed to rename '{$change['old']}' in '{$change['taxonomy']}': " . $result->get_error_message() );
-    } else {
-        error_log( "Renamed '{$change['old']}' to '{$change['new']}' in '{$change['taxonomy']}'" );
-    }
-}
+//     if ( is_wp_error( $result ) ) {
+//         error_log( "Failed to rename '{$change['old']}' in '{$change['taxonomy']}': " . $result->get_error_message() );
+//     } else {
+//         error_log( "Renamed '{$change['old']}' to '{$change['new']}' in '{$change['taxonomy']}'" );
+//     }
+// }
 
 }
 
