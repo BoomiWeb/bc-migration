@@ -197,7 +197,11 @@ class Merge extends CLICommands {
         }        
 
         if ( $dry_run ) {
-            $log( "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
+            if ( $log ) {
+                $log( "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
+            } else {
+                WP_CLI::log( "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
+            }
 
             return;
         }
