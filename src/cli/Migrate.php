@@ -49,7 +49,7 @@ class Migrate extends CLICommands {
                 'shortdesc' => 'Migrate APIIDA Tool data',
                 'longdesc'  => 'Migrate APIIDA Tool data',
                 'method'    => 'migrate',
-            ),
+            ),           
         );
 
         foreach ( $commands as $command => $config ) {
