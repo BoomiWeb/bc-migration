@@ -10,13 +10,13 @@
 namespace erikdmitchell\bcmigration\cli\taxonomies;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
-use erikdmitchell\bcmigration\traits\Taxonomy;
+use erikdmitchell\bcmigration\traits\TaxonomyTrait;
 use WP_CLI;
 use WP_Error;
 
 class Merge extends CLICommands {
 
-    use Taxonomy;
+    use TaxonomyTrait;
 
     /**
      * Merge terms within a taxonomy.

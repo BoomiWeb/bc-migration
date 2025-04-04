@@ -11,7 +11,7 @@ namespace erikdmitchell\bcmigration\traits;
 
 use WP_Error;
 
-trait Taxonomy {
+trait TaxonomyTrait {
 
     public function validate_post_type( string $post_type ) {
         if ( ! is_string( $post_type ) ) {            
