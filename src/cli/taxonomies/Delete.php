@@ -71,48 +71,59 @@ class Delete extends CLICommands {
     
             foreach ($rows as $i => $row) {
                 $row_num = $i + 2; // CSV line number
-    
+                $data = array_combine($header, $row);
+                $data = array_map('trim', $data);
+
+                // post type see Merge.php
+
                 if (count($row) === 1 && empty(trim($row[0]))) {
                     // skip empty lines
                     continue;
                 }
     
-                $data = array_combine($header, $row);
-    
-                // Trim all fields
-                $data = array_map('trim', $data);
-    
                 $taxonomy  = $data['taxonomy'] ?? '';
-                $term_name = explode( '|', $data['term'] );
+                $term_names = explode( '|', $data['term'] );
     
-                if (! $taxonomy || ! $term_name) {
-                    $log("Row $row_num: Skipped – one or more required fields missing.");
+                // if (! $taxonomy || ! $term_name) {
+                //     $log("Row $row_num: Skipped – one or more required fields missing.");
     
-                    continue;
-                }
+                //     continue;
+                // }
+
+                if ( ! taxonomy_exists( $taxonomy ) ) {
+                    $message = isset( $row_num )
+                        ? "Row {$row_num}: Taxonomy '{$taxonomy}' does not exist. Skipping."
+                        : "Taxonomy '{$taxonomy}' does not exist.";
+
+                    WP_CLI::warning( $message );
+
+                    if ( $log ) {
+                        $log("[SKIPPED] $message");
+                    }
+
+                    if ( isset( $row_num ) ) { 
+                        return false;
+                    } else { 
+                        WP_CLI::error( $message );
+                    }
+                }                  
     
-                if (! taxonomy_exists($taxonomy)) {
-                    $log("Row $row_num: Skipped – taxonomy '$taxonomy' does not exist.");
+                // $term = get_term_by('slug', sanitize_title($term_name), $taxonomy)
+                //     ?: get_term_by('name', $term_name, $taxonomy);
     
-                    continue;
-                }
+                // if (! $term) {
+                //     $log("Row $row_num: Skipped – term '$term_name' not found in taxonomy '$taxonomy'.");
     
-                $term = get_term_by('slug', sanitize_title($term_name), $taxonomy)
-                    ?: get_term_by('name', $term_name, $taxonomy);
-    
-                if (! $term) {
-                    $log("Row $row_num: Skipped – term '$term_name' not found in taxonomy '$taxonomy'.");
-    
-                    continue;
-                }
+                //     continue;
+                // }
     
                 if ($dry_run) {
-                    $log("Row $row_num: [DRY RUN] Would delete term '$term_name' in taxonomy '$taxonomy'.");
+                    $log("Row $row_num: [DRY RUN] Would delete term(s) ". implode( ', ', $term_names ) . " in $taxonomy" );
                     
                     continue;
                 }
     
-                $result = $this->delete_taxonomy_term($taxonomy, $term_name, $log, $row_num);
+                $result = $this->delete_taxonomy_term($taxonomy, $term_names, $log, $row_num);
     
                 if (is_wp_error($result)) {
                     $log("Row $row_num: Error – " . $result->get_error_message());

@@ -89,6 +89,8 @@ class Merge extends CLICommands {
                 $data = array_map( 'trim', $data );
                 $post_type = $data['post_type'] ?? 'post';
 
+                // count see Delete.php
+
                 if ( ! post_type_exists( $post_type ) ) {
                     $message = isset( $row_num )
                         ? "Row {$row_num}: Post type '{$post_type}' does not exist. Skipping."
@@ -112,6 +114,8 @@ class Merge extends CLICommands {
                 $taxonomy   = $data['taxonomy'];
                 $from_terms = explode( '|', $data['from_terms'] );
                 $to_term    = $data['to_term'];
+
+                // required fields see Delete.php
 
                 if ( ! taxonomy_exists( $taxonomy ) ) {
                     $message = isset( $row_num )
