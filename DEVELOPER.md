@@ -38,10 +38,10 @@ wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log [WORKS]
 
 # batch
 
-wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/tax-merge.csv --log=merge.log
+wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv --log=delete.log 
 wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/tax-merge.csv
 
 # dry run
 
 wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log --dry-run [WORKS]
-wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv --log=delete.log --dry-run
+wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv --log=delete.log --dry-run [WORKS]

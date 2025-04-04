@@ -106,6 +106,8 @@ class Delete extends CLICommands {
                     } else { 
                         WP_CLI::error( $message );
                     }
+
+                    continue;
                 }                  
     
                 // $term = get_term_by('slug', sanitize_title($term_name), $taxonomy)
@@ -127,9 +129,10 @@ class Delete extends CLICommands {
     
                 if (is_wp_error($result)) {
                     $log("Row $row_num: Error – " . $result->get_error_message());
-                } else {
-                    $log("Row $row_num: Deleted term '$term_name' in taxonomy '$taxonomy'.");
-                }            
+                }
+                // } else {
+                //     $log("Row $row_num: Deleted term '$term_name' in taxonomy '$taxonomy'.");
+                // }            
             }
 
             WP_CLI::success($dry_run ? "Dry run complete." : "Bulk delete complete.");
@@ -183,6 +186,8 @@ class Delete extends CLICommands {
 
                 if ( $log ) {
                     $log("[SKIPPED] $message");
+
+                    continue;
                 }                
             }
 
