@@ -75,68 +75,21 @@ class Merge extends CLICommands {
             }
         }
 
+        // Batch merge
         if ( isset( $assoc_args['file'] ) ) {
             $file = $assoc_args['file'];
 
             if ( ! file_exists( $file ) ) {
                 WP_CLI::error( "CSV file not found: $file" );
-            }
 
-            $rows = array_map( 'str_getcsv', file( $file ) );
-            $header = array_map( 'trim', array_shift( $rows ) );
-            $required = [ 'taxonomy', 'from_terms', 'to_term' ];
-
-            $missing = array_diff( $required, $header );
-
-            if ( ! empty( $missing ) ) {
-                WP_CLI::error( 'CSV is missing required columns: ' . implode( ', ', $missing ) );
-            }
-
-            foreach ( $rows as $i => $row ) {
-                $row_num = $i + 2;
-                $data = array_combine( $header, $row );
-                $data = array_map( 'trim', $data );
-                $post_type = $data['post_type'] ?? 'post';
-
-                // count see Delete.php
-
-                $taxonomy   = $data['taxonomy'];
-                $from_terms = explode( '|', $data['from_terms'] );
-                $to_term    = $data['to_term'];
-
-                // required fields see Delete.php
-
-                if ( ! taxonomy_exists( $taxonomy ) ) {
-                    $message = isset( $row_num )
-                        ? "Row {$row_num}: Taxonomy '{$taxonomy}' does not exist. Skipping."
-                        : "Taxonomy '{$taxonomy}' does not exist.";
-
-                    WP_CLI::warning( $message );
-
-                    if ( $log ) {
-                        $log("[SKIPPED] $message");
-                    }
-
-                    if ( isset( $row_num ) ){ 
-                        return false;
-                    } else { 
-                        WP_CLI::error( $message );
-                    }
-                }                
-
-                if ( $dry_run ) {
-                    $log( "Row $row_num: [DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
-                    continue;
+                if ( $log ) {
+                    $log("[SKIPPED] CSV file not found: $file");
                 }
 
-                $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, $row_num, $post_type );
+                return;
+            }             
 
-                if ( is_wp_error( $result ) ) {
-                    $log( "Row $row_num: Error – " . $result->get_error_message() );
-                }
-            }
-
-            WP_CLI::success( $dry_run ? 'Dry run complete.' : 'Batch merge complete.' );
+            $this->process_csv( $file );
 
             return;
         }
@@ -184,6 +137,67 @@ class Merge extends CLICommands {
         }
 
         WP_CLI::success( 'Merge complete.' );
+    }
+
+    private function process_csv( $file, $delete_old = false, $dry_run = false, $log = null ) {
+        $rows = array_map( 'str_getcsv', file( $file ) );
+        $header = array_map( 'trim', array_shift( $rows ) );
+        $required = [ 'taxonomy', 'from_terms', 'to_term' ];
+
+        $missing = array_diff( $required, $header );
+
+        if ( ! empty( $missing ) ) {
+            WP_CLI::error( 'CSV is missing required columns: ' . implode( ', ', $missing ) );
+        }
+
+        foreach ( $rows as $i => $row ) {
+            $row_num = $i + 2;
+            $data = array_combine( $header, $row );
+            $data = array_map( 'trim', $data );
+            $post_type = $data['post_type'] ?? 'post';
+
+            // count see Delete.php
+
+            $taxonomy   = $data['taxonomy'];
+            $from_terms = explode( '|', $data['from_terms'] );
+            $to_term    = $data['to_term'];
+
+            // required fields see Delete.php
+
+            if ( ! taxonomy_exists( $taxonomy ) ) {
+                $message = isset( $row_num )
+                    ? "Row {$row_num}: Taxonomy '{$taxonomy}' does not exist. Skipping."
+                    : "Taxonomy '{$taxonomy}' does not exist.";
+
+                WP_CLI::warning( $message );
+
+                if ( $log ) {
+                    $log("[SKIPPED] $message");
+                }
+
+                if ( isset( $row_num ) ){ 
+                    return false;
+                } else { 
+                    WP_CLI::error( $message );
+                }
+            }                
+
+            if ( $dry_run ) {
+                $log( "Row $row_num: [DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
+
+                continue;
+            }
+
+            $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, $row_num, $post_type );
+
+            if ( is_wp_error( $result ) ) {
+                $log( "Row $row_num: Error – " . $result->get_error_message() );
+            }
+        }
+
+        WP_CLI::success( $dry_run ? 'Dry run complete.' : 'Batch merge complete.' );
+
+        return;        
     }
 
     private function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $log, $row_num = null, $post_type = 'post' ) {
