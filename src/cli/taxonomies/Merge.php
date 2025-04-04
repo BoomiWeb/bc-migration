@@ -10,6 +10,7 @@
 namespace erikdmitchell\bcmigration\cli\taxonomies;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
+use erikdmitchell\bcmigration\traits\LoggerTrait;
 use erikdmitchell\bcmigration\traits\TaxonomyTrait;
 use WP_CLI;
 use WP_Error;
@@ -17,6 +18,7 @@ use WP_Error;
 class Merge extends CLICommands {
 
     use TaxonomyTrait;
+    use LoggerTrait;
 
     /**
      * Merge terms within a taxonomy.
@@ -48,19 +50,11 @@ class Merge extends CLICommands {
     public function merge_terms( $args, $assoc_args ) {
         $dry_run    = isset( $assoc_args['dry-run'] );
         $delete_old = isset( $assoc_args['delete-old'] );
-        $logfile    = $assoc_args['log'] ?? null;
-        $log        = null;
+        $log_name    = $assoc_args['log'] ?? null;
         $post_type = $assoc_args['post-type'] ?? 'post';
 
-        if ($logfile) {
-            // Logging helper
-            $log = function ($message) use ($logfile) {
-                WP_CLI::log($message);
-
-                if ($logfile) {       
-                    file_put_contents(BCM_PATH . '/' . $logfile, $message . PHP_EOL, FILE_APPEND);
-                }
-            };
+        if ( $log_name ) {
+            $this->set_log_name( $log_name );
         }
 
         $post_type = $assoc_args['post-type'] ?? 'post';
@@ -69,9 +63,7 @@ class Merge extends CLICommands {
         if ( is_wp_error( $post_type ) ) {
             WP_CLI::error( $post_type->get_error_message() );
 
-            if ( $log ) {
-                $log("[SKIPPED] {$post_type->get_error_message()}");
-            }
+            $this->log("[SKIPPED] {$post_type->get_error_message()}");
         }
 
         // Batch merge
@@ -81,9 +73,7 @@ class Merge extends CLICommands {
             if ( ! file_exists( $file ) ) {
                 WP_CLI::error( "CSV file not found: $file" );
 
-                if ( $log ) {
-                    $log("[SKIPPED] CSV file not found: $file");
-                }
+                $this->log("[SKIPPED] CSV file not found: $file");
 
                 return;
             }             
@@ -106,17 +96,13 @@ class Merge extends CLICommands {
         if ( is_wp_error( $taxonomy ) ) {
             WP_CLI::error( $taxonomy->get_error_message() );
 
-            if ( $log ) {
-                $log("[SKIPPED] {$taxonomy->get_error_message()}");
-            }
+            $this->log("[SKIPPED] {$taxonomy->get_error_message()}");
         }       
 
         if ( $dry_run ) {
-            if ( $log ) {
-                $log( "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
-            } else {
-                WP_CLI::log( "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
-            }
+            $this->log( "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
+            
+            WP_CLI::log( "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
 
             return;
         }
@@ -160,19 +146,17 @@ class Merge extends CLICommands {
             if ( is_wp_error( $taxonomy ) ) {
                 WP_CLI::warning( $taxonomy->get_error_message() );
     
-                if ( $log ) {
-                    $log("[SKIPPED] {$taxonomy->get_error_message()}");
-                }
+                $this->log("[SKIPPED] {$taxonomy->get_error_message()}");
 
-                if ( isset( $row_num ) ){ 
+                if ( isset( $row_num ) ) { 
                     return false;
                 } else { 
-                    WP_CLI::error( $message );
+                    WP_CLI::error( $taxonomy->get_error_message() );
                 }                
             }               
 
             if ( $dry_run ) {
-                $log( "Row $row_num: [DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
+                $this->log( "Row $row_num: [DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
 
                 continue;
             }
@@ -180,7 +164,7 @@ class Merge extends CLICommands {
             $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, $row_num, $post_type );
 
             if ( is_wp_error( $result ) ) {
-                $log( "Row $row_num: Error – " . $result->get_error_message() );
+                $this->log( "Row $row_num: Error – " . $result->get_error_message() );
             }
         }
 
@@ -197,12 +181,15 @@ class Merge extends CLICommands {
         $to_term = get_term_by( 'name', $to_term_name, $taxonomy );
 
         if ( ! $to_term || is_wp_error( $to_term ) ) {
-            $message = "Row {$row_num}: Target term '{$to_term_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";
+            if ( $row_num ) {
+                $message = "Row {$row_num}: Target term '{$to_term_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";    
+            } else {
+                $message = "Target term '{$to_term_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";
+            }
+            
             WP_CLI::warning( $message );
 
-            if ( $log ) {
-                $log("[SKIPPED] $message");
-            }
+            $this->log("[SKIPPED] $message");
             
             return false;
         }        
@@ -215,9 +202,7 @@ class Merge extends CLICommands {
 
                 WP_CLI::warning( $message );
 
-                if ( $log ) {
-                    $log("[SKIPPED] $message");
-                }
+                $this->log("[SKIPPED] $message");
 
                 continue;
             }            
@@ -238,9 +223,7 @@ class Merge extends CLICommands {
             ] );
 
             if ( empty( $posts ) ) {
-                if ($log) {
-                    $log( ($row_num ? "Row $row_num: " : '') . "No posts found for '$from_name' in '$taxonomy'" );
-                }
+                $this->log( ($row_num ? "Row $row_num: " : '') . "No posts found for '$from_name' in '$taxonomy'" );
             } else {
                 foreach ( $posts as $post_id ) {
                     $terms = wp_get_post_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
@@ -254,18 +237,12 @@ class Merge extends CLICommands {
             
             if ( $delete_old ) {
                 if ( ! is_wp_error( wp_delete_term( $from_term->term_id, $taxonomy ) ) ) {
-                    if ($log) {
-                        $log( ($row_num ? "Row $row_num: " : '') . "Deleted term '$from_name'" );
-                    }
+                    $this->log( ($row_num ? "Row $row_num: " : '') . "Deleted term '$from_name'" );
                 } else {
-                    if ($log) {
-                        $log( ($row_num ? "Row $row_num: " : '') . "Failed to delete term '$from_name'" );
-                    }
+                    $this->log( ($row_num ? "Row $row_num: " : '') . "Failed to delete term '$from_name'" );
                 }
             } else {
-                if ($log) {
-                    $log( ($row_num ? "Row $row_num: " : '') . "Merged term '$from_name'" );
-                }
+                $this->log( ($row_num ? "Row $row_num: " : '') . "Merged term '$from_name'" );
             }
         }
 
