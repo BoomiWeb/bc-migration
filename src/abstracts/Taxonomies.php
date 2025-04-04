@@ -30,36 +30,34 @@ abstract class Taxonomies {
         return $taxonomies;       
     }
 
-    // public function rename() {}
+    /**
+     * Rename a taxonomy term by slug or name.
+     *
+     * @param string $taxonomy The taxonomy slug (e.g., 'category', 'industries').
+     * @param string $old_term The current term name or slug to search for.
+     * @param string $new_name The new name you want to assign.
+     * @param string|null $new_slug (Optional) New slug for the term.
+     *
+     * @return array|WP_Error The updated term data or WP_Error on failure.
+     */
+    public function rename( string $taxonomy, string $old_term, string $new_name, $new_slug = null ) {
+        // Try to get the term by slug first, then name if that fails
+        $term = get_term_by( 'slug', sanitize_title( $old_term ), $taxonomy );
+        if ( ! $term ) {
+            $term = get_term_by( 'name', $old_term, $taxonomy );
+        }
 
-/**
- * Rename a taxonomy term by slug or name.
- *
- * @param string $taxonomy The taxonomy slug (e.g., 'category', 'industries').
- * @param string $old_term The current term name or slug to search for.
- * @param string $new_name The new name you want to assign.
- * @param string|null $new_slug (Optional) New slug for the term.
- *
- * @return array|WP_Error The updated term data or WP_Error on failure.
- */
-public function rename( string $taxonomy, string $old_term, string $new_name, $new_slug = null ) {
-    // Try to get the term by slug first, then name if that fails
-    $term = get_term_by( 'slug', sanitize_title( $old_term ), $taxonomy );
-    if ( ! $term ) {
-        $term = get_term_by( 'name', $old_term, $taxonomy );
+        if ( ! $term || is_wp_error( $term ) ) {
+            return new WP_Error( 'term_not_found', "Term '$old_term' not found in taxonomy '$taxonomy'." );
+        }
+
+        $args = [ 'name' => $new_name ];
+        if ( $new_slug ) {
+            $args['slug'] = sanitize_title( $new_slug );
+        }
+
+        return wp_update_term( $term->term_id, $taxonomy, $args );
     }
-
-    if ( ! $term || is_wp_error( $term ) ) {
-        return new WP_Error( 'term_not_found', "Term '$old_term' not found in taxonomy '$taxonomy'." );
-    }
-
-    $args = [ 'name' => $new_name ];
-    if ( $new_slug ) {
-        $args['slug'] = sanitize_title( $new_slug );
-    }
-
-    return wp_update_term( $term->term_id, $taxonomy, $args );
-}
     
     public function merge() {}
     

@@ -1,5 +1,4 @@
 <?php
-if ( defined( 'WP_CLI' ) && WP_CLI ) {
 
     class Rename_Taxonomy_Term_Command {
 
@@ -188,7 +187,6 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     }
 
     WP_CLI::add_command( 'taxonomy rename_term', 'Rename_Taxonomy_Term_Command' );
-}
 
 /*
 # dry run

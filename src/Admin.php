@@ -29,15 +29,43 @@ function code_testing_tool_page_content() {
         <?php
 $tax_class = BlogTaxonomies::init();
 
-$blog_tax = $tax_class->taxonomies();
+// $blog_tax = $tax_class->taxonomies();
 
-foreach ($blog_tax as $tax) {
-    echo '<h2>' . $tax . '</h2>';
-}
-echo '<pre>';
-print_r($tax_class->get_terms('industries'));
-echo '</pre>';
+// foreach ($blog_tax as $tax) {
+//     echo '<h2>' . $tax . '</h2>';
+// }
+// echo '<pre>';
+// print_r($tax_class->get_terms('industries'));
+// echo '</pre>';
         ?>
     </div>
     <?php
+echo '<h2>Renaming</h2>';
+echo 'check error log';
+$terms_to_rename = [
+    [
+        'taxonomy' => 'industries',
+        'old'      => 'TT',
+        'new'      => 'Testing',
+    ],
+    [
+        'taxonomy' => 'products',
+        'old'      => 'FB',
+        'new'      => 'Foo Bar',
+    ],
+];
+
+foreach ( $terms_to_rename as $change ) {
+    $result = $tax_class->rename( $change['taxonomy'], $change['old'], $change['new'] );
+
+    if ( is_wp_error( $result ) ) {
+        error_log( "Failed to rename '{$change['old']}' in '{$change['taxonomy']}': " . $result->get_error_message() );
+    } else {
+        error_log( "Renamed '{$change['old']}' to '{$change['new']}' in '{$change['taxonomy']}'" );
+    }
 }
+
+}
+
+
+
