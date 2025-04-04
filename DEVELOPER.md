@@ -45,3 +45,10 @@ wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/t
 
 wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log --dry-run [WORKS]
 wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv --log=delete.log --dry-run [WORKS]
+
+
+# Errors
+
+wp boomi taxonomies merge products "A|B" "C" --post-type=invalid_post_type
+wp boomi taxonomies merge invalid-taxonomy "A|B" "C"
+wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/tax-merge.csv --post-type=invalid_post_type
