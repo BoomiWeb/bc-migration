@@ -198,7 +198,7 @@ class Merge extends CLICommands {
             return;
         }
 
-        $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log );
+        $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, null, $post_type );
 
         if ( is_wp_error( $result ) ) {
             WP_CLI::error( $result->get_error_message() );
