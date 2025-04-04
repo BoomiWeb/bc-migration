@@ -46,15 +46,18 @@ class Merge extends CLICommands {
         $dry_run    = isset( $assoc_args['dry-run'] );
         $delete_old = isset( $assoc_args['delete-old'] );
         $logfile    = $assoc_args['log'] ?? null;
+        $log        = null;
         $post_type = $assoc_args['post-type'] ?? 'post';
 
-        $log = function( $message ) use ( $logfile ) {
-            WP_CLI::log( $message );
+        if ($logfile) {
+            $log = function( $message ) use ( $logfile ) {
+                WP_CLI::log( $message );
 
-            if ( $logfile ) {
-                file_put_contents( $logfile, $message . PHP_EOL, FILE_APPEND );
-            }
-        };
+                if ( $logfile ) {
+                    file_put_contents( $logfile, $message . PHP_EOL, FILE_APPEND );
+                }
+            };
+        }
 
         $post_type = $assoc_args['post-type'] ?? 'post';
 
