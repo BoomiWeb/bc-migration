@@ -33,5 +33,7 @@ wp boomi taxonomies merge --file=merge.csv --dry-run --log=merge.log
 
 
 ## Single
-wp boomi taxonomies merge products "Foo Boo|Bar Foo" "Foo Bar" --post-type=blog
 wp boomi taxonomies merge products "Foo Boo|Bar Foo" "Foo Bar" --post-type=blog --delete-old --log=merge.log
+
+
+wp boomi taxonomies merge fake_tax "A|B" "C" --log=merge.log --dry-run

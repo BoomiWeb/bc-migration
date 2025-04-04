@@ -50,11 +50,12 @@ class Merge extends CLICommands {
         $post_type = $assoc_args['post-type'] ?? 'post';
 
         if ($logfile) {
-            $log = function( $message ) use ( $logfile ) {
-                WP_CLI::log( $message );
+            // Logging helper
+            $log = function ($message) use ($logfile) {
+                WP_CLI::log($message);
 
-                if ( $logfile ) {
-                    file_put_contents( $logfile, $message . PHP_EOL, FILE_APPEND );
+                if ($logfile) {       
+                    file_put_contents(BCM_PATH . '/' . $logfile, $message . PHP_EOL, FILE_APPEND);
                 }
             };
         }
@@ -96,7 +97,8 @@ class Merge extends CLICommands {
                     WP_CLI::warning( $message );
 
                     if ( $log ) {
-                        fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                        // fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                        $log("[SKIPPED] $message");
                     }
 
                     if ( isset( $row_num ) ) { 
@@ -120,7 +122,8 @@ class Merge extends CLICommands {
                     WP_CLI::warning( $message );
 
                     if ( $log ) {
-                        fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                        // fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                        $log("[SKIPPED] $message");
                     }
 
                     if ( isset( $row_num ) ){ 
@@ -163,7 +166,8 @@ class Merge extends CLICommands {
             WP_CLI::warning( $message );
             
             if ( $log ) {
-                fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                // fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                $log("[SKIPPED] $message");
             }
 
             if ( isset( $row_num ) ){ 
@@ -181,7 +185,8 @@ class Merge extends CLICommands {
             WP_CLI::warning( $message );
 
             if ( $log ) {
-                fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                // fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                $log("[SKIPPED] $message");
             }
 
             if ( isset( $row_num ) ){ 
@@ -193,6 +198,7 @@ class Merge extends CLICommands {
 
         if ( $dry_run ) {
             $log( "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
+
             return;
         }
 
@@ -217,7 +223,8 @@ class Merge extends CLICommands {
             WP_CLI::warning( $message );
 
             if ( $log ) {
-                fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                // fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                $log("[SKIPPED] $message");
             }
             
             return false;
@@ -232,7 +239,8 @@ class Merge extends CLICommands {
                 WP_CLI::warning( $message );
 
                 if ( $log ) {
-                    fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                    // fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                    $log("[SKIPPED] $message");
                 }
 
                 continue;
