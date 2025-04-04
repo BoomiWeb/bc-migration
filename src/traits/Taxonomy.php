@@ -32,4 +32,25 @@ trait Taxonomy {
 
         return $post_type;
     }
+
+    public function validate_taxonomy( string $taxonomy ) {
+        if ( ! is_string( $taxonomy ) ) {            
+            $message = isset( $row_num )
+                ? "Row {$row_num}: Taxonomy must be a string. Skipping."
+                : "Taxonomy must be a string.";
+
+            return new WP_Error( 'invalid_taxonomy', $message );
+        }
+
+        if ( ! taxonomy_exists( $taxonomy ) ) {
+            $message = isset( $row_num )
+                ? "Row {$row_num}: Taxonomy '{$taxonomy}' does not exist. Skipping."
+                : "Taxonomy '{$taxonomy}' does not exist.";
+
+            return new WP_Error( 'invalid_taxonomy', $message );
+        }
+
+        return $taxonomy;
+    }
+
 }

@@ -64,7 +64,6 @@ class Merge extends CLICommands {
         }
 
         $post_type = $assoc_args['post-type'] ?? 'post';
-
         $post_type = $this->validate_post_type( $post_type );
 
         if ( is_wp_error( $post_type ) ) {
@@ -102,23 +101,15 @@ class Merge extends CLICommands {
         list( $taxonomy, $from_string, $to_term ) = $args;
         $from_terms = explode( '|', $from_string );
 
-        if ( ! taxonomy_exists( $taxonomy ) ) {
-            $message = isset( $row_num )
-                ? "Row {$row_num}: Taxonomy '{$taxonomy}' does not exist. Skipping."
-                : "Taxonomy '{$taxonomy}' does not exist.";
+        $taxonomy   = $this->validate_taxonomy( $taxonomy );
 
-            WP_CLI::warning( $message );
+        if ( is_wp_error( $taxonomy ) ) {
+            WP_CLI::error( $taxonomy->get_error_message() );
 
             if ( $log ) {
-                $log("[SKIPPED] $message");
+                $log("[SKIPPED] {$taxonomy->get_error_message()}");
             }
-
-            if ( isset( $row_num ) ){ 
-                return false;
-            } else { 
-                WP_CLI::error( $message );
-            }
-        }        
+        }       
 
         if ( $dry_run ) {
             if ( $log ) {
@@ -164,23 +155,21 @@ class Merge extends CLICommands {
 
             // required fields see Delete.php
 
-            if ( ! taxonomy_exists( $taxonomy ) ) {
-                $message = isset( $row_num )
-                    ? "Row {$row_num}: Taxonomy '{$taxonomy}' does not exist. Skipping."
-                    : "Taxonomy '{$taxonomy}' does not exist.";
+            $taxonomy   = $this->validate_taxonomy( $taxonomy );
 
-                WP_CLI::warning( $message );
-
+            if ( is_wp_error( $taxonomy ) ) {
+                WP_CLI::warning( $taxonomy->get_error_message() );
+    
                 if ( $log ) {
-                    $log("[SKIPPED] $message");
+                    $log("[SKIPPED] {$taxonomy->get_error_message()}");
                 }
 
                 if ( isset( $row_num ) ){ 
                     return false;
                 } else { 
                     WP_CLI::error( $message );
-                }
-            }                
+                }                
+            }               
 
             if ( $dry_run ) {
                 $log( "Row $row_num: [DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );

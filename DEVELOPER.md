@@ -50,4 +50,5 @@ wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/
 # Errors
 
 wp boomi taxonomies merge products "A|B" "C" --post-type=invalid_post_type
+wp boomi taxonomies merge invalid-taxonomy "A|B" "C"
 wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/tax-merge.csv --post-type=invalid_post_type
