@@ -155,7 +155,6 @@ class Merge extends CLICommands {
         list( $taxonomy, $from_string, $to_term ) = $args;
         $from_terms = explode( '|', $from_string );
 
-// FIXME: check all args passed
         if ( ! post_type_exists( $post_type ) ) {
             $message = isset( $row_num )
                 ? "Row {$row_num}: Post type '{$post_type}' does not exist. Skipping."
@@ -256,23 +255,23 @@ class Merge extends CLICommands {
 
             if ( empty( $posts ) ) {
                 $log( ($row_num ? "Row $row_num: " : '') . "No posts found for '$from_name' in '$taxonomy'" );
-
-                continue;
-            }
-
-            foreach ( $posts as $post_id ) {
-                $terms = wp_get_post_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
-
-                if ( ! in_array( $to_term->term_id, $terms, true ) ) {
-                    $terms[] = $to_term->term_id;
-                    // wp_set_post_terms( $post_id, $terms, $taxonomy );
-                    wp_set_post_terms( $post_id, [ $to_term->term_id ], $taxonomy, true );
+            } else {
+                foreach ( $posts as $post_id ) {
+                    $terms = wp_get_post_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
+            
+                    if ( ! in_array( $to_term->term_id, $terms, true ) ) {
+                        $terms[] = $to_term->term_id;
+                        wp_set_post_terms( $post_id, [ $to_term->term_id ], $taxonomy, true );
+                    }
                 }
             }
-
+            
             if ( $delete_old ) {
-                wp_delete_term( $from_term->term_id, $taxonomy );
-                $log( ($row_num ? "Row $row_num: " : '') . "Merged and deleted term '$from_name'" );
+                if ( ! is_wp_error( wp_delete_term( $from_term->term_id, $taxonomy ) ) ) {
+                    $log( ($row_num ? "Row $row_num: " : '') . "Deleted term '$from_name'" );
+                } else {
+                    $log( ($row_num ? "Row $row_num: " : '') . "Failed to delete term '$from_name'" );
+                }
             } else {
                 $log( ($row_num ? "Row $row_num: " : '') . "Merged term '$from_name'" );
             }
