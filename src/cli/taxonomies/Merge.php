@@ -86,19 +86,46 @@ class Merge extends CLICommands {
                 $post_type = $data['post_type'] ?? 'post';
 
                 if ( ! post_type_exists( $post_type ) ) {
-                    $message = "Row {$row_num}: Post type '{$post_type}' does not exist. Skipping.";
+                    $message = isset( $row_num )
+                        ? "Row {$row_num}: Post type '{$post_type}' does not exist. Skipping."
+                        : "Post type '{$post_type}' does not exist.";
+
                     WP_CLI::warning( $message );
 
                     if ( $log ) {
                         fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
                     }
-                    
+
+                    if ( isset( $row_num ) ) { 
+                        return false;
+                    } else {
+                        WP_CLI::error( $message );
+                    }
+
                     continue;
                 }
 
                 $taxonomy   = $data['taxonomy'];
                 $from_terms = explode( '|', $data['from_terms'] );
                 $to_term    = $data['to_term'];
+
+                if ( ! taxonomy_exists( $taxonomy ) ) {
+                    $message = isset( $row_num )
+                        ? "Row {$row_num}: Taxonomy '{$taxonomy}' does not exist. Skipping."
+                        : "Taxonomy '{$taxonomy}' does not exist.";
+
+                    WP_CLI::warning( $message );
+
+                    if ( $log ) {
+                        fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                    }
+
+                    if ( isset( $row_num ) ){ 
+                        return false;
+                    } else { 
+                        WP_CLI::error( $message );
+                    }
+                }                
 
                 if ( $dry_run ) {
                     $log( "Row $row_num: [DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
@@ -124,6 +151,43 @@ class Merge extends CLICommands {
 
         list( $taxonomy, $from_string, $to_term ) = $args;
         $from_terms = explode( '|', $from_string );
+
+// FIXME: check all args passed
+        if ( ! post_type_exists( $post_type ) ) {
+            $message = isset( $row_num )
+                ? "Row {$row_num}: Post type '{$post_type}' does not exist. Skipping."
+                : "Post type '{$post_type}' does not exist.";
+            
+            WP_CLI::warning( $message );
+            
+            if ( $log ) {
+                fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+            }
+
+            if ( isset( $row_num ) ){ 
+                return false;
+            } else { 
+                WP_CLI::error( $message );
+            }
+        }
+
+        if ( ! taxonomy_exists( $taxonomy ) ) {
+            $message = isset( $row_num )
+                ? "Row {$row_num}: Taxonomy '{$taxonomy}' does not exist. Skipping."
+                : "Taxonomy '{$taxonomy}' does not exist.";
+
+            WP_CLI::warning( $message );
+
+            if ( $log ) {
+                fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+            }
+
+            if ( isset( $row_num ) ){ 
+                return false;
+            } else { 
+                WP_CLI::error( $message );
+            }
+        }        
 
         if ( $dry_run ) {
             $log( "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
@@ -160,11 +224,17 @@ class Merge extends CLICommands {
         foreach ( $from_terms as $from_name ) {
             $from_term = get_term_by( 'name', trim( $from_name ), $taxonomy );
 
-            if ( ! $from_term ) {
-                $log( ($row_num ? "Row $row_num: " : '') . "Term '$from_name' not found in '$taxonomy'" );
+            if ( ! $from_term || is_wp_error( $from_term ) ) {
+                $message = "Row {$row_num}: From term '{$from_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";
+
+                WP_CLI::warning( $message );
+
+                if ( $log ) {
+                    fwrite( $log, "[SKIPPED] $message" . PHP_EOL );
+                }
 
                 continue;
-            }
+            }            
 
             // Get all posts with this term.
             $posts = get_posts( [
