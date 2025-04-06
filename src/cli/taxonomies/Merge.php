@@ -65,12 +65,13 @@ class Merge extends CLICommands {
             $this->log("[SKIPPED] {$post_type->get_error_message()}");
         }
 
-        // Batch merge
+        // Batch merge.
+        // TODO: make this a bit more robust and flexible - separate func
         if ( isset( $assoc_args['file'] ) ) {
             $file = $assoc_args['file'];
 
             if ( ! file_exists( $file ) ) {
-                WP_CLI::error( "CSV file not found: $file" );
+                $this->output( "CSV file not found: $file", 'error' );
 
                 $this->log("[SKIPPED] CSV file not found: $file");
 
@@ -82,7 +83,8 @@ class Merge extends CLICommands {
             return;
         }
 
-        // Single command
+        // Single command.
+        // TODO: make this a bit more robust and flexible - separate func 
         if ( count( $args ) < 3 ) {
             WP_CLI::error( 'Please provide <taxonomy> <from_terms> <to_term> or use --file=<file>' );
         }
@@ -155,7 +157,7 @@ class Merge extends CLICommands {
 
                 $this->log( $message );
 
-                WP_CLI::log( $message );
+                $this->output( $message );
 
                 continue;
             }
@@ -163,7 +165,7 @@ class Merge extends CLICommands {
             $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, $row_num, $post_type );
 
             if ( is_wp_error( $result ) ) {
-                $this->log( "Row $row_num: Error - " . $result->get_error_message() );
+                $this->output( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
             }
         }
 

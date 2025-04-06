@@ -85,7 +85,7 @@ abstract class CLICommands {
      *                     Defaults to 'info'.
      * @return void
      */
-    public function output( $message = '', $type = 'info' ) {       
+    public function output( string $message = '', string $type = 'info' ) {       
         if ( empty( $message ) ) {
             return;
         }
