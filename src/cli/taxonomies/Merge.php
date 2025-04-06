@@ -145,15 +145,9 @@ class Merge extends CLICommands {
             $taxonomy   = $this->validate_taxonomy( $taxonomy );
 
             if ( is_wp_error( $taxonomy ) ) {
-                $this->output( $taxonomy->get_error_message(), 'warning' );
-    
-                $this->log("[SKIPPED] {$taxonomy->get_error_message()}");
+                $this->invalid_taxonomy( $taxonomy, $row_num );
 
-                if ( isset( $row_num ) ) { 
-                    return false;
-                } else { 
-                    $this->output( $taxonomy->get_error_message(), 'error' );
-                }                
+                continue;
             }               
 
             if ( $dry_run ) {

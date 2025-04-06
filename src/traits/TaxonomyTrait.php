@@ -53,4 +53,20 @@ trait TaxonomyTrait {
         return $taxonomy;
     }
 
+    public function invalid_taxonomy($taxonomy, $row_num = null) {
+        if ( !is_wp_error( $taxonomy ) ) {
+            return;
+        }
+
+        $this->output( $taxonomy->get_error_message(), 'warning' );
+
+        $this->log("[SKIPPED] {$taxonomy->get_error_message()}");
+
+        if ( isset( $row_num ) ) { 
+            return false;
+        } else { 
+            $this->output( $taxonomy->get_error_message(), 'error' );
+        }
+    }
+
 }
