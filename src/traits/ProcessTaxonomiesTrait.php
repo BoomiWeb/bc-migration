@@ -1,6 +1,6 @@
 <?php
 /**
- * Process CSV trait class
+ * Process taxonomies trait
  *
  * @package erikdmitchell\bcmigration\traits
  * @since   0.2.0
@@ -9,10 +9,9 @@
 
 namespace erikdmitchell\bcmigration\traits;
 
-use erikdmitchell\bcmigration\cli\CLI;
 use erikdmitchell\bcmigration\cli\CLIHelper;
 
-trait ProcessCSVTrait {
+trait ProcessTaxonomiesTrait {
     
     private function process_csv( $file, $delete_old = false, $dry_run = false, $log = null ) {
         $rows = array_map( 'str_getcsv', file( $file ) );

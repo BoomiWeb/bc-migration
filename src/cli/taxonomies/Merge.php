@@ -12,7 +12,7 @@ namespace erikdmitchell\bcmigration\cli\taxonomies;
 use erikdmitchell\bcmigration\abstracts\CLICommands;
 use erikdmitchell\bcmigration\traits\LoggerTrait;
 use erikdmitchell\bcmigration\traits\TaxonomyTrait;
-use erikdmitchell\bcmigration\traits\ProcessCSVTrait;
+use erikdmitchell\bcmigration\traits\ProcessTaxonomiesTrait;
 use WP_CLI;
 use WP_Error;
 
@@ -20,7 +20,7 @@ class Merge extends CLICommands {
 
     use TaxonomyTrait;
     use LoggerTrait;
-    use ProcessCSVTrait;
+    use ProcessTaxonomiesTrait;
 
     /**
      * Merge terms within a taxonomy.
@@ -179,7 +179,7 @@ class Merge extends CLICommands {
                 }
             }
             
-            if ( $delete_old ) {
+            if ( $delete_old ) { // TODO: we have a delete CLI class, maybe use that instead?
                 if ( ! is_wp_error( wp_delete_term( $from_term->term_id, $taxonomy ) ) ) {
                     $message = ($row_num ? "Row $row_num: " : '') . "Deleted term '$from_name'";
 
