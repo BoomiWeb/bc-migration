@@ -31,13 +31,21 @@ trait ProcessCSVTrait {
             $data = array_map( 'trim', $data );
             $post_type = $data['post_type'] ?? 'post';
 
-            // count see Delete.php
+            // skip empty lines.
+            if (count($row) === 1 && empty(trim($row[0]))) {
+                continue;
+            }
 
             $taxonomy   = $data['taxonomy'];
             $from_terms = explode( '|', $data['from_terms'] );
             $to_term    = $data['to_term'];
 
-            // required fields see Delete.php
+            // check required fields.
+            if (! $taxonomy || ! $from_terms || ! $to_term) {
+                $this->log("Row $row_num: Skipped - one or more required fields missing.");
+
+                continue;
+            }
 
             $taxonomy   = $this->validate_taxonomy( $taxonomy );
 
