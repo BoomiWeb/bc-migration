@@ -9,6 +9,7 @@
 
 namespace erikdmitchell\bcmigration\traits;
 
+use erikdmitchell\bcmigration\cli\CLIHelper;
 use WP_Error;
 
 trait TaxonomyTrait {
@@ -58,14 +59,14 @@ trait TaxonomyTrait {
             return;
         }
 
-        $this->output( $taxonomy->get_error_message(), 'warning' );
+        CLIHelper::output( $taxonomy->get_error_message(), 'warning' );
 
         $this->log("[SKIPPED] {$taxonomy->get_error_message()}");
 
         if ( isset( $row_num ) ) { 
             return false;
         } else { 
-            $this->output( $taxonomy->get_error_message(), 'error' );
+            CLIHelper::output( $taxonomy->get_error_message(), 'error' );
         }
     }
 

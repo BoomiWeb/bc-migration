@@ -12,6 +12,7 @@ namespace erikdmitchell\bcmigration\cli\taxonomies;
 use erikdmitchell\bcmigration\abstracts\CLICommands;
 use erikdmitchell\bcmigration\traits\LoggerTrait;
 use erikdmitchell\bcmigration\traits\TaxonomyTrait;
+use erikdmitchell\bcmigration\traits\ProcessCSVTrait;
 use WP_CLI;
 use WP_Error;
 
@@ -19,6 +20,7 @@ class Merge extends CLICommands {
 
     use TaxonomyTrait;
     use LoggerTrait;
+    use ProcessCSVTrait;
 
     /**
      * Merge terms within a taxonomy.
@@ -108,61 +110,6 @@ class Merge extends CLICommands {
         }
 
         WP_CLI::success( 'Merge complete.' );
-    }
-
-    private function process_csv( $file, $delete_old = false, $dry_run = false, $log = null ) {
-        $rows = array_map( 'str_getcsv', file( $file ) );
-        $header = array_map( 'trim', array_shift( $rows ) );
-        $required = [ 'taxonomy', 'from_terms', 'to_term' ];
-
-        $missing = array_diff( $required, $header );
-
-        if ( ! empty( $missing ) ) {
-            WP_CLI::error( 'CSV is missing required columns: ' . implode( ', ', $missing ) );
-        }
-
-        foreach ( $rows as $i => $row ) {
-            $row_num = $i + 2;
-            $data = array_combine( $header, $row );
-            $data = array_map( 'trim', $data );
-            $post_type = $data['post_type'] ?? 'post';
-
-            // count see Delete.php
-
-            $taxonomy   = $data['taxonomy'];
-            $from_terms = explode( '|', $data['from_terms'] );
-            $to_term    = $data['to_term'];
-
-            // required fields see Delete.php
-
-            $taxonomy   = $this->validate_taxonomy( $taxonomy );
-
-            if ( is_wp_error( $taxonomy ) ) {
-                $this->invalid_taxonomy( $taxonomy, $row_num );
-
-                continue;
-            }               
-
-            if ( $dry_run ) {
-                $message = "Row $row_num: [DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)";
-
-                $this->log( $message );
-
-                $this->output( $message );
-
-                continue;
-            }
-
-            $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, $row_num, $post_type );
-
-            if ( is_wp_error( $result ) ) {
-                $this->output( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
-            }
-        }
-
-        WP_CLI::success( $dry_run ? 'Dry run complete.' : 'Batch merge complete.' );
-
-        return;        
     }
 
     private function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $log, $row_num = null, $post_type = 'post' ) {

@@ -11,6 +11,13 @@ namespace erikdmitchell\bcmigration\cli\taxonomies;
 
 use erikdmitchell\bcmigration\cli\CLIHelper;
 
+/**
+ * Validate a file path for CLI commands.
+ *
+ * @param string $file Path to a file.
+ *
+ * @return bool True if the file is valid, false otherwise.
+ */
 function is_valid_file(string $file = '') {
     if ( ! file_exists( $file ) ) {
         CLIHelper::output( "CSV file not found: $file", 'error' );
