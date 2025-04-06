@@ -66,19 +66,10 @@ class Merge extends CLICommands {
         }
 
         // Batch merge.
-        // TODO: make this a bit more robust and flexible - separate func
         if ( isset( $assoc_args['file'] ) ) {
-            $file = $assoc_args['file'];
-
-            if ( ! file_exists( $file ) ) {
-                $this->output( "CSV file not found: $file", 'error' );
-
-                $this->log("[SKIPPED] CSV file not found: $file");
-
-                return;
-            }             
-
-            $this->process_csv( $file );
+            if (is_valid_file($assoc_args['file'])) {
+                $this->process_csv( $assoc_args['file']);
+            }
 
             return;
         }

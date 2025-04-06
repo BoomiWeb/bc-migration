@@ -18,16 +18,13 @@ use WP_CLI;
 class Taxonomies extends CLICommands {
 
     /**
-     * Construct
-     */
-    public function __construct() {}
-
-    /**
      * Register the commands.
      *
      * @return void
      */
     public static function register_commands() {
+        include_once __DIR__ . '/functions.php';
+
         $parent = 'boomi taxonomies';
 
         // Define mapping of commands to their respective classes.

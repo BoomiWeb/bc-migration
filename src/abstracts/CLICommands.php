@@ -78,39 +78,6 @@ abstract class CLICommands {
     }
 
     /**
-     * Outputs a message to the CLI.
-     *
-     * @param string $message The message to display.
-     * @param string $type The type of message. Can be 'info', 'success', 'warning', 'error'.
-     *                     Defaults to 'info'.
-     * @return void
-     */
-    public function output( string $message = '', string $type = 'info' ) {       
-        if ( empty( $message ) ) {
-            return;
-        }
-
-        if ( ! in_array( $type, array( 'info', 'success', 'warning', 'error' ) ) ) {
-            $type = 'info';
-        }
-
-        switch ( $type ) {
-            case 'info':
-                WP_CLI::log( $message );
-                break;
-            case 'success':
-                WP_CLI::success( $message );
-                break;
-            case 'warning':
-                WP_CLI::warning( $message );
-                break;
-            case 'error':
-                WP_CLI::error( $message );
-                break;
-        }
-    }
-
-    /**
      * Create dir if does not exist.
      *
      * @param string $path The directory path.
