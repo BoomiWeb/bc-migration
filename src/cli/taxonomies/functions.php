@@ -10,6 +10,7 @@
 namespace erikdmitchell\bcmigration\cli\taxonomies;
 
 use erikdmitchell\bcmigration\cli\CLIHelper;
+use WP_CLI;
 
 /**
  * Validate a file path for CLI commands.
@@ -20,19 +21,19 @@ use erikdmitchell\bcmigration\cli\CLIHelper;
  */
 function is_valid_file(string $file = '') {
     if ( ! file_exists( $file ) ) {
-        CLIHelper::output( "CSV file not found: $file", 'error' );
+        WP_CLI::error( "File not found: $file" );
 
         return false;
     }
 
     if ( ! is_readable( $file ) ) {
-        CLIHelper::output( "CSV file not readable: $file", 'error' );
+        WP_CLI::error( "File is not readable: $file" );
 
         return false;
     }
 
     if ( pathinfo( $file, PATHINFO_EXTENSION ) !== 'csv' ) {
-        CLIHelper::output( "File is not a CSV: $file", 'error' );
+        WP_CLI::error( "File is not a CSV: $file" );
 
         return false;
     }

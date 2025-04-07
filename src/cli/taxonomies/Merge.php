@@ -78,7 +78,7 @@ class Merge extends TaxonomyCLICommands {
         }
 
         // Single command.
-        $this->process_single( $args, $dry_run, $delete_old, $post_type );
+        $this->process_single( $dry_run, $delete_old, $post_type, $args );
     }
 
     protected function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $log, $row_num = null, $post_type = 'post' ) {

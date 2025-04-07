@@ -137,18 +137,9 @@ abstract class TaxonomyCLICommands extends CLICommands {
         return;        
     }
 
-    protected function process_single() {
+    protected function process_single(string $dry_run, string $delete_old, string $post_type, array $args = []) {
         WP_CLI::log( 'Processing single command...' );
-/*
-$args
-$taxonomy
-$from_string
-$to_term
-$delete_old
-$dry_run
-$log
-$post_type
-*/        
+
         if ( count( $args ) < 3 ) {
             WP_CLI::error( 'Please provide <taxonomy> <from_terms> <to_term> or use --file=<file>' );
         }
@@ -156,13 +147,13 @@ $post_type
         list( $taxonomy, $from_string, $to_term ) = $args;
         $from_terms = explode( '|', $from_string );
 
-        $taxonomy   = $this->validate_taxonomy( $taxonomy );
+        $taxonomy = $this->validate_taxonomy( $taxonomy );
 
         if ( is_wp_error( $taxonomy ) ) {
             WP_CLI::error( $taxonomy->get_error_message() );
 
             $this->log("[SKIPPED] {$taxonomy->get_error_message()}");
-        }       
+        }
 
         if ( $dry_run ) {
             $message = "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)";
@@ -180,7 +171,7 @@ $post_type
             WP_CLI::error( $result->get_error_message() );
         }
 
-        WP_CLI::success( 'Merge complete.' );        
+        WP_CLI::success( 'Merge complete.' );
     }    
 
 }
