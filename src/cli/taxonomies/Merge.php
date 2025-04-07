@@ -71,28 +71,44 @@ class Merge extends TaxonomyCLICommands {
         }
 
         // Single command.
-        $valid_args = $this->validate_command_args( $args, 3, 3 );
+        $this->process_single_term( $args, $dry_run, $delete_old, $post_type );
+    }
 
-        if ( !$valid_args ) {
-            $this->add_notice('Please provide <taxonomy> <from_terms> <to_term> or use --file=<file>', 'error'); 
-            
-            $this->display_notices();
+    private function process_single_term( array $args, $dry_run, $delete_old, $post_type ) {       
+        $taxonomy = $this->validate_taxonomy( $args[0] );
+
+        if ( is_wp_error( $taxonomy ) ) {
+            $this->add_notice( $taxonomy->get_error_message(), 'error' );
 
             return;
         }
 
-        $this->process_single( $dry_run, $delete_old, $post_type, $args );
+        $from_terms = explode( '|', $args[1] );
+        $to_term    = $args[2];
+
+        if ( $dry_run ) {
+            $message = "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)";
+
+            $this->log( $message );
+
+            return;
+        }
+
+        $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, null, $post_type );
+
+        if ( is_wp_error( $result ) ) {
+            $this->add_notice( 'Error - ' . $result->get_error_message(), 'warning' );
+        } else {
+            $this->log( "Merged " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
+            $this->add_notice( "Merged " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)", 'success' );
+        }
 
         $this->display_notices();
 
         return;
     }
 
-    protected function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $log, $row_num = null, $post_type = 'post' ) {
-        if ( ! taxonomy_exists( $taxonomy ) ) {
-            return new WP_Error( 'invalid_taxonomy', "Taxonomy '$taxonomy' does not exist." );
-        }
-
+    protected function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $row_num = null, $post_type = 'post' ) {
         $to_term = get_term_by( 'name', $to_term_name, $taxonomy );
 
         if ( ! $to_term || is_wp_error( $to_term ) ) {
@@ -113,7 +129,7 @@ class Merge extends TaxonomyCLICommands {
             $from_term = get_term_by( 'name', trim( $from_name ), $taxonomy );
 
             if ( ! $from_term || is_wp_error( $from_term ) ) {
-                $message = "Row {$row_num}: From term '{$from_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";
+                $message = ( $row_num ? "Row $row_num: " : '' ) . "From term '{$from_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";
 
                 $this->add_notice( $message, 'warning' );
 
