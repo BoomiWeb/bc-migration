@@ -143,13 +143,6 @@ abstract class TaxonomyCLICommands extends CLICommands {
 
     protected function process_single( string $dry_run, string $delete_old, string $post_type, array $args = array() ) {
         // FIXME: this needs to be dynamic
-        if ( count( $args ) < 3 ) {
-            $this->add_notice( 'Please provide <taxonomy> <from_terms> <to_term> or use --file=<file>', 'error' );
-
-            return;
-        }
-
-        // FIXME: this needs to be dynamic
         list( $taxonomy, $from_string, $to_term ) = $args;
         $from_terms                               = explode( '|', $from_string );
 
