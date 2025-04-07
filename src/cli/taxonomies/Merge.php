@@ -9,18 +9,19 @@
 
 namespace erikdmitchell\bcmigration\cli\taxonomies;
 
-use erikdmitchell\bcmigration\abstracts\CLICommands;
+// use erikdmitchell\bcmigration\abstracts\CLICommands;
+use erikdmitchell\bcmigration\abstracts\TaxonomyCLICommands;
 use erikdmitchell\bcmigration\traits\LoggerTrait;
-use erikdmitchell\bcmigration\traits\TaxonomyTrait;
-use erikdmitchell\bcmigration\traits\ProcessTaxonomiesTrait;
+// use erikdmitchell\bcmigration\traits\TaxonomyTrait;
+// use erikdmitchell\bcmigration\traits\ProcessTaxonomiesTrait;
 use WP_CLI;
 use WP_Error;
 
-class Merge extends CLICommands {
+class Merge extends TaxonomyCLICommands {
 
-    use TaxonomyTrait;
+    // use TaxonomyTrait;
     use LoggerTrait;
-    use ProcessTaxonomiesTrait;
+    // use ProcessTaxonomiesTrait;
 
     /**
      * Merge terms within a taxonomy.
@@ -77,42 +78,10 @@ class Merge extends CLICommands {
         }
 
         // Single command.
-        // TODO: make this a bit more robust and flexible - separate func 
-        if ( count( $args ) < 3 ) {
-            WP_CLI::error( 'Please provide <taxonomy> <from_terms> <to_term> or use --file=<file>' );
-        }
-
-        list( $taxonomy, $from_string, $to_term ) = $args;
-        $from_terms = explode( '|', $from_string );
-
-        $taxonomy   = $this->validate_taxonomy( $taxonomy );
-
-        if ( is_wp_error( $taxonomy ) ) {
-            WP_CLI::error( $taxonomy->get_error_message() );
-
-            $this->log("[SKIPPED] {$taxonomy->get_error_message()}");
-        }       
-
-        if ( $dry_run ) {
-            $message = "[DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)";
-
-            $this->log($message);
-        
-            WP_CLI::log( $message );
-
-            return;
-        }
-
-        $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, null, $post_type );
-
-        if ( is_wp_error( $result ) ) {
-            WP_CLI::error( $result->get_error_message() );
-        }
-
-        WP_CLI::success( 'Merge complete.' );
+        $this->process_single( $args, $dry_run, $delete_old, $post_type );
     }
 
-    private function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $log, $row_num = null, $post_type = 'post' ) {
+    protected function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $log, $row_num = null, $post_type = 'post' ) {
         if ( ! taxonomy_exists( $taxonomy ) ) {
             return new WP_Error( 'invalid_taxonomy', "Taxonomy '$taxonomy' does not exist." );
         }
