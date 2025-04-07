@@ -10,7 +10,6 @@
 namespace erikdmitchell\bcmigration\cli\taxonomies;
 
 use erikdmitchell\bcmigration\abstracts\TaxonomyCLICommands;
-use WP_CLI;
 use WP_Error;
 
 class Merge extends TaxonomyCLICommands {
@@ -72,6 +71,16 @@ class Merge extends TaxonomyCLICommands {
         }
 
         // Single command.
+        $valid_args = $this->validate_command_args( $args, 3, 3 );
+
+        if ( !$valid_args ) {
+            $this->add_notice('Please provide <taxonomy> <from_terms> <to_term> or use --file=<file>', 'error'); 
+            
+            $this->display_notices();
+
+            return;
+        }
+
         $this->process_single( $dry_run, $delete_old, $post_type, $args );
 
         $this->display_notices();

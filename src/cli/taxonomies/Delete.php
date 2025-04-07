@@ -9,11 +9,10 @@
 
 namespace erikdmitchell\bcmigration\cli\taxonomies;
 
-use erikdmitchell\bcmigration\abstracts\CLICommands;
-use WP_CLI;
+use erikdmitchell\bcmigration\abstracts\TaxonomyCLICommands;
 use WP_Error;
 
-class Delete extends CLICommands {
+class Delete extends TaxonomyCLICommands {
 
     /**
      * Delete a single term or bulk terms via a CSV file.
@@ -41,18 +40,23 @@ class Delete extends CLICommands {
      */
     public function delete_terms( $args, $assoc_args ) {
         $dry_run = isset( $assoc_args['dry-run'] );
-        $logfile = $assoc_args['log'] ?? null;
+        $log_name   = $assoc_args['log'] ?? null;
 
-        // Logging helper
-        $log = function ( $message ) use ( $logfile ) {
-            WP_CLI::log( $message );
+        if ( $log_name ) {
+            $this->set_log_name( $log_name );
+        }
 
-            if ( $logfile ) {
-                file_put_contents( BCM_PATH . '/' . $logfile, $message . PHP_EOL, FILE_APPEND );
-            }
-        };
+        // Batch merge.
 
         if ( isset( $assoc_args['file'] ) ) {
+            if ( is_valid_file( $assoc_args['file'] ) ) {
+                $this->process_csv( $assoc_args['file'] );
+            }
+
+            $this->display_notices();
+
+            return;
+
             $file = $assoc_args['file'];
 
             if ( ! file_exists( $file ) ) {
@@ -110,6 +114,13 @@ class Delete extends CLICommands {
                     continue;
                 }
 
+                // Single command.
+                $this->process_single( $dry_run, $delete_old, $post_type, $args );
+
+                $this->display_notices();
+        
+                return;
+                
                 // $term = get_term_by('slug', sanitize_title($term_name), $taxonomy)
                 // ?: get_term_by('name', $term_name, $taxonomy);
 
@@ -140,6 +151,23 @@ class Delete extends CLICommands {
             return;
         }
 
+        // Single command.
+        $valid_args = $this->validate_command_args( $args, 2, 2 );
+
+        if ( !$valid_args ) {
+            $this->add_notice('Please provide <taxonomy> <term> or use --file=<file>', 'error'); 
+            
+            $this->display_notices();
+
+            return;
+        }
+
+        $this->process_single( $dry_run, $delete_old, $post_type, $args );
+
+        $this->display_notices();
+
+        return;        
+/*
         // Handle single delete.
         if ( count( $args ) < 2 ) {
             WP_CLI::error( 'Please provide <taxonomy> <term> or use --file=<file>' );
@@ -164,6 +192,7 @@ class Delete extends CLICommands {
 
             WP_CLI::success( $message );
         }
+*/
     }
 
     private function delete_taxonomy_term( $taxonomy, $term_names, $log, $row_num = null ) {

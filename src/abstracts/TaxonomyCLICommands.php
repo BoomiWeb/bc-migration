@@ -142,12 +142,14 @@ abstract class TaxonomyCLICommands extends CLICommands {
     }
 
     protected function process_single( string $dry_run, string $delete_old, string $post_type, array $args = array() ) {
+        // FIXME: this needs to be dynamic
         if ( count( $args ) < 3 ) {
             $this->add_notice( 'Please provide <taxonomy> <from_terms> <to_term> or use --file=<file>', 'error' );
 
             return;
         }
 
+        // FIXME: this needs to be dynamic
         list( $taxonomy, $from_string, $to_term ) = $args;
         $from_terms                               = explode( '|', $from_string );
 
@@ -169,6 +171,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
             return;
         }
 
+        // FIXME: this needs to be dynamic
         $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, null, $post_type );
 
         if ( is_wp_error( $result ) ) {
@@ -176,5 +179,15 @@ abstract class TaxonomyCLICommands extends CLICommands {
         }
 
         $this->add_notice( 'Single merge complete.', 'success' );
+    }
+
+    protected function validate_command_args( array $args, int $min_args = 0, int $max_args = 0 ): bool {
+        $arg_count = count( $args );
+
+        if ( $arg_count < $min_args || ( $max_args > 0 && $arg_count > $max_args ) ) {                     
+            return false;
+        }
+
+        return true;
     }
 }

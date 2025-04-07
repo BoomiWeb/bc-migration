@@ -54,3 +54,8 @@ wp boomi taxonomies merge invalid-taxonomy "A|B" "C"
 wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/tax-merge.csv --post-type=invalid_post_type
 wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/tax-merge-bad.csv
 wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/invalid-file.csv
+
+# Testing
+wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log []
+wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv --log=delete.log  []
+wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log --dry-run []
