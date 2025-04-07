@@ -72,6 +72,10 @@ class Merge extends TaxonomyCLICommands {
 
         // Single command.
         $this->process_single_term( $args, $dry_run, $delete_old, $post_type );
+
+        $this->display_notices();
+
+        return;
     }
 
     private function process_single_term( array $args, $dry_run, $delete_old, $post_type ) {       
@@ -79,6 +83,12 @@ class Merge extends TaxonomyCLICommands {
 
         if ( is_wp_error( $taxonomy ) ) {
             $this->add_notice( $taxonomy->get_error_message(), 'error' );
+
+            return;
+        }
+
+        if (!$this->validate_command_args( $args, 3, 3 )) {
+            $this->add_notice( 'Invalid arguments. Usage: wp taxonomy merge_terms <taxonomy> <from_terms> <to_term>', 'error' );
 
             return;
         }

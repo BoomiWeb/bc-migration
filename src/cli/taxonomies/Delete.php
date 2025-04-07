@@ -152,18 +152,22 @@ class Delete extends TaxonomyCLICommands {
         }
 
         // Single command.
-        $valid_args = $this->validate_command_args( $args, 2, 2 );
+        $this->process_single_term( $args, $dry_run );
 
-        if ( !$valid_args ) {
-            $this->add_notice('Please provide <taxonomy> <term> or use --file=<file>', 'error'); 
-            
-            $this->display_notices();
+        $this->display_notices();
+
+        return;
+    }
+
+    private function process_single_term( array $args, $dry_run ) {
+        $taxonomy = $args[0] ?? '';
+        $term_names = explode( '|', $args[1] ?? '' );
+
+        if (!$this->validate_command_args( $args, 2, 2 )) {
+            $this->add_notice( 'Invalid arguments. Usage: wp taxonomy delete_term <taxonomy> <term>', 'error' );
 
             return;
         }
-
-        list($taxonomy, $term_name) = $args;
-        $term_name                  = explode( '|', $term_name );
 
         $taxonomy = $this->validate_taxonomy( $taxonomy );
 
@@ -171,39 +175,35 @@ class Delete extends TaxonomyCLICommands {
             $this->add_notice( $taxonomy->get_error_message(), 'error' );
 
             $this->log( "[SKIPPED] {$taxonomy->get_error_message()}" );
-        }     
-        
+
+            return;
+        }
+
         if ( $dry_run ) {
-            $message = "[DRY RUN] Would delete term '$term_name' in taxonomy '$taxonomy'.";
+            $message = "[DRY RUN] Would delete term(s) '" . implode( ', ', $term_names ) . "' in taxonomy '$taxonomy'.";
 
             $this->log( $message );
 
-            $this->add_notice( $message );            
+            $this->add_notice( $message );
 
             return;
-        }        
+        }
 
-        $result = $this->delete_taxonomy_term( $taxonomy, $term_name, $log );
+        $result = $this->delete_taxonomy_term( $taxonomy, $term_names );
 
         if ( is_wp_error( $result ) ) {
             $this->add_notice( 'Error - ' . $result->get_error_message(), 'warning' );
         } else {
-            $message = "Deleted term '$term_name' in taxonomy '$taxonomy'.";
+            $message = "Deleted term(s) '" . implode( ', ', $term_names ) . "' in taxonomy '$taxonomy'.";
 
             $this->add_notice( $message, 'success' );
             $this->log( $message );
         }
 
         $this->display_notices();
-
-        return;        
     }
 
-    private function delete_taxonomy_term( $taxonomy, $term_names, $log, $row_num = null ) {
-        if ( ! taxonomy_exists( $taxonomy ) ) {
-            return new WP_Error( 'invalid_taxonomy', "Taxonomy '$taxonomy' does not exist." );
-        }
-
+    private function delete_taxonomy_term( $taxonomy, $term_names, $row_num = null ) {
         foreach ( $term_names as $term_name ) {
             $term = get_term_by( 'slug', sanitize_title( $term_name ), $taxonomy );
 
@@ -212,24 +212,19 @@ class Delete extends TaxonomyCLICommands {
             }
 
             if ( ! $term || is_wp_error( $term ) ) {
-                // return new WP_Error( 'term_not_found', "Term '$term_name' not found in taxonomy '$taxonomy'." );
                 $message = "Term '$term_name' not found in taxonomy '$taxonomy'.";
 
-                WP_CLI::warning( $message );
+                $this->add_notice( $message, 'warning' );
 
-                if ( $log ) {
-                    $log( "[SKIPPED] $message" );
+                $this->log( "[SKIPPED] $message" );
 
-                    continue;
-                }
+                continue;
             }
 
             if ( ! is_wp_error( wp_delete_term( $term->term_id, $taxonomy ) ) ) {
-                if ( $log ) {
-                    $log( ( $row_num ? "Row $row_num: " : '' ) . "Deleted term '$term_name'" );
-                }
-            } elseif ( $log ) {
-                    $log( ( $row_num ? "Row $row_num: " : '' ) . "Failed to delete term '$term_name'" );
+                    $this->log( ( $row_num ? "Row $row_num: " : '' ) . "Deleted term '$term_name'" );
+            } else {
+                    $this->log( ( $row_num ? "Row $row_num: " : '' ) . "Failed to delete term '$term_name'" );
             }
         }
     }
