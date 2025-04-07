@@ -146,7 +146,15 @@ abstract class CLICommands {
         return $values;
     }
 
-
+    /**
+     * Adds a notice to be displayed at the end of the command.
+     *
+     * @param string $message The message to display.
+     * @param string $type    The type of notice. One of 'info', 'success', 'warning', 'error'.
+     *                        Default is 'info'.
+     *
+     * @return void
+     */
     public function add_notice( string $message = '', string $type = 'info' ) {
         if (empty($message)) {
             return;

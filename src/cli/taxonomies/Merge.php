@@ -55,7 +55,7 @@ class Merge extends TaxonomyCLICommands {
         $post_type = $this->validate_post_type( $post_type );
 
         if ( is_wp_error( $post_type ) ) {
-            $this->add_notice( 'error', $post_type->get_error_message() );
+            $this->add_notice( $post_type->get_error_message(), 'error' );
 
             $this->log("[SKIPPED] {$post_type->get_error_message()}");
         }
@@ -93,7 +93,7 @@ class Merge extends TaxonomyCLICommands {
                 $message = "Target term '{$to_term_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";
             }
             
-            $this->add_notice( 'warning', $message );
+            $this->add_notice( $message, 'warning' );
 
             $this->log("[SKIPPED] $message");
             
@@ -106,7 +106,7 @@ class Merge extends TaxonomyCLICommands {
             if ( ! $from_term || is_wp_error( $from_term ) ) {
                 $message = "Row {$row_num}: From term '{$from_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";
 
-                $this->add_notice( 'warning', $message );
+                $this->add_notice( $message, 'warning' );
 
                 $this->log("[SKIPPED] $message");
 
@@ -133,7 +133,7 @@ class Merge extends TaxonomyCLICommands {
 
                 $this->log( $message );
 
-                $this->add_notice( 'warning', $message );
+                $this->add_notice( $message, 'warning' );
             } else {
                 foreach ( $posts as $post_id ) {
                     $terms = wp_get_post_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
@@ -152,20 +152,20 @@ class Merge extends TaxonomyCLICommands {
 
                     $this->log( $message );
 
-                    $this->add_notice( 'success', $message );
+                    $this->add_notice( $message, 'success' );
                 } else {
                     $message = ($row_num ? "Row $row_num: " : '') . "Failed to delete term '$from_name'";
 
                     $this->log( $message );
 
-                    WP_CLI::warning( $message );
+                    $this->add_notice( $message, 'warning' );
                 }
             } else {
                 $message = ($row_num ? "Row $row_num: " : '') . "Merged term '$from_name'";
 
                 $this->log( $message );
 
-                $this->add_notice( 'success', $message );
+                $this->add_notice( $message, 'success' );
             }
         }
 

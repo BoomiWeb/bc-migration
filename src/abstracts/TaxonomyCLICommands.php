@@ -69,11 +69,11 @@ abstract class TaxonomyCLICommands extends CLICommands {
         $this->log("[SKIPPED] [IT] {$taxonomy->get_error_message()}");
 
         if ( isset( $row_num ) ) { 
-            $this->add_notice( 'warning', $taxonomy->get_error_message() );
+            $this->add_notice( $taxonomy->get_error_message(), 'warning' );
             
             return false;
         } else { 
-            $this->add_notice( 'error', $taxonomy->get_error_message() );
+            $this->add_notice( $taxonomy->get_error_message(), 'error' );
         }
     }    
 
@@ -85,7 +85,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
         $missing = array_diff( $required, $header );
 
         if ( ! empty( $missing ) ) {
-            $this->add_notice( 'error', 'CSV is missing required columns: ' . implode( ', ', $missing ) );
+            $this->add_notice( 'CSV is missing required columns: ' . implode( ', ', $missing ), 'error' );
         }
 
         foreach ( $rows as $i => $row ) {
@@ -123,7 +123,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
 
                 $this->log( $message );
 
-                $this->add_notice( 'log', $message );
+                $this->add_notice( $message );
 
                 continue;
             }
@@ -132,18 +132,18 @@ abstract class TaxonomyCLICommands extends CLICommands {
             $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, $row_num, $post_type );
 
             if ( is_wp_error( $result ) ) {
-                $this->add_notice('warning', "Row $row_num: Error - " . $result->get_error_message() );
+                $this->add_notice("Row $row_num: Error - " . $result->get_error_message(), 'warning' );
             }
         }
 
-        $this->add_notice( 'success', $dry_run ? 'Dry run complete.' : 'Batch merge complete.' );
+        $this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
 
         return;        
     }
 
     protected function process_single(string $dry_run, string $delete_old, string $post_type, array $args = []) {
         if ( count( $args ) < 3 ) {
-            $this->add_notice( 'error', 'Please provide <taxonomy> <from_terms> <to_term> or use --file=<file>' );
+            $this->add_notice( 'Please provide <taxonomy> <from_terms> <to_term> or use --file=<file>', 'error' );
 
             return;
         }
@@ -154,7 +154,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
         $taxonomy = $this->validate_taxonomy( $taxonomy );
 
         if ( is_wp_error( $taxonomy ) ) {
-            $this->add_notice( 'error', $taxonomy->get_error_message() );
+            $this->add_notice( $taxonomy->get_error_message(), 'error' );
 
             $this->log("[SKIPPED] {$taxonomy->get_error_message()}");
         }
@@ -164,7 +164,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
 
             $this->log($message);
 
-            $this->add_notice( 'log', $message );
+            $this->add_notice( $message );
 
             return;
         }
@@ -172,10 +172,10 @@ abstract class TaxonomyCLICommands extends CLICommands {
         $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, null, $post_type );
 
         if ( is_wp_error( $result ) ) {
-            $this->add_notice('warning', "Error - " . $result->get_error_message() );
+            $this->add_notice("Error - " . $result->get_error_message(), 'warning' );
         }
 
-        $this->add_notice( 'success', 'Single merge complete.' );
+        $this->add_notice( 'Single merge complete.', 'success' );
     }    
 
 }
