@@ -9,19 +9,11 @@
 
 namespace erikdmitchell\bcmigration\cli\taxonomies;
 
-// use erikdmitchell\bcmigration\abstracts\CLICommands;
 use erikdmitchell\bcmigration\abstracts\TaxonomyCLICommands;
-use erikdmitchell\bcmigration\traits\LoggerTrait;
-// use erikdmitchell\bcmigration\traits\TaxonomyTrait;
-// use erikdmitchell\bcmigration\traits\ProcessTaxonomiesTrait;
 use WP_CLI;
 use WP_Error;
 
 class Merge extends TaxonomyCLICommands {
-
-    // use TaxonomyTrait;
-    use LoggerTrait;
-    // use ProcessTaxonomiesTrait;
 
     /**
      * Merge terms within a taxonomy.
@@ -63,7 +55,7 @@ class Merge extends TaxonomyCLICommands {
         $post_type = $this->validate_post_type( $post_type );
 
         if ( is_wp_error( $post_type ) ) {
-            WP_CLI::error( $post_type->get_error_message() );
+            $this->add_notice( 'error', $post_type->get_error_message() );
 
             $this->log("[SKIPPED] {$post_type->get_error_message()}");
         }
@@ -74,11 +66,17 @@ class Merge extends TaxonomyCLICommands {
                 $this->process_csv( $assoc_args['file']);
             }
 
+            $this->display_notices();
+
             return;
         }
 
         // Single command.
         $this->process_single( $dry_run, $delete_old, $post_type, $args );
+
+        $this->display_notices();
+
+        return;
     }
 
     protected function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $log, $row_num = null, $post_type = 'post' ) {
@@ -95,7 +93,7 @@ class Merge extends TaxonomyCLICommands {
                 $message = "Target term '{$to_term_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";
             }
             
-            WP_CLI::warning( $message );
+            $this->add_notice( 'warning', $message );
 
             $this->log("[SKIPPED] $message");
             
@@ -108,7 +106,7 @@ class Merge extends TaxonomyCLICommands {
             if ( ! $from_term || is_wp_error( $from_term ) ) {
                 $message = "Row {$row_num}: From term '{$from_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";
 
-                WP_CLI::warning( $message );
+                $this->add_notice( 'warning', $message );
 
                 $this->log("[SKIPPED] $message");
 
@@ -135,7 +133,7 @@ class Merge extends TaxonomyCLICommands {
 
                 $this->log( $message );
 
-                WP_CLI::warning( $message );
+                $this->add_notice( 'warning', $message );
             } else {
                 foreach ( $posts as $post_id ) {
                     $terms = wp_get_post_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
@@ -154,7 +152,7 @@ class Merge extends TaxonomyCLICommands {
 
                     $this->log( $message );
 
-                    WP_CLI::success( $message );
+                    $this->add_notice( 'success', $message );
                 } else {
                     $message = ($row_num ? "Row $row_num: " : '') . "Failed to delete term '$from_name'";
 
@@ -167,7 +165,7 @@ class Merge extends TaxonomyCLICommands {
 
                 $this->log( $message );
 
-                WP_CLI::success( $message );
+                $this->add_notice( 'success', $message );
             }
         }
 

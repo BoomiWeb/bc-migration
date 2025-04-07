@@ -9,13 +9,15 @@
 
 namespace erikdmitchell\bcmigration\abstracts;
 
-use WP_CLI;
+use erikdmitchell\bcmigration\traits\LoggerTrait;
 use WP_Error;
 
 /**
  * CLI Commands
  */
 abstract class TaxonomyCLICommands extends CLICommands {
+
+    use LoggerTrait;
 
     public function validate_post_type( string $post_type ) {
         if ( ! is_string( $post_type ) ) {            
@@ -51,22 +53,24 @@ abstract class TaxonomyCLICommands extends CLICommands {
                 ? "Row {$row_num}: Taxonomy '{$taxonomy}' does not exist. Skipping."
                 : "Taxonomy '{$taxonomy}' does not exist.";
 
+            // log?
+
             return new WP_Error( 'invalid_taxonomy', $message );
         }
 
         return $taxonomy;
     }
 
-    public function invalid_taxonomy($taxonomy, $row_num = null) {
+    public function invalid_taxonomy($taxonomy, $row_num = null) {       
         if ( !is_wp_error( $taxonomy ) ) {
             return;
         }
 
-        $this->add_notice( 'error', $taxonomy->get_error_message() );
-
-        $this->log("[SKIPPED] {$taxonomy->get_error_message()}");
+        $this->log("[SKIPPED] [IT] {$taxonomy->get_error_message()}");
 
         if ( isset( $row_num ) ) { 
+            $this->add_notice( 'warning', $taxonomy->get_error_message() );
+            
             return false;
         } else { 
             $this->add_notice( 'error', $taxonomy->get_error_message() );
@@ -108,7 +112,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
 
             $taxonomy   = $this->validate_taxonomy( $taxonomy );
 
-            if ( is_wp_error( $taxonomy ) ) {
+            if ( is_wp_error( $taxonomy ) ) {              
                 $this->invalid_taxonomy( $taxonomy, $row_num );
 
                 continue;
@@ -119,7 +123,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
 
                 $this->log( $message );
 
-                $this->add_notice( 'info', $message );
+                $this->add_notice( 'log', $message );
 
                 continue;
             }
@@ -138,10 +142,10 @@ abstract class TaxonomyCLICommands extends CLICommands {
     }
 
     protected function process_single(string $dry_run, string $delete_old, string $post_type, array $args = []) {
-        WP_CLI::log( 'Processing single command...' );
-
         if ( count( $args ) < 3 ) {
-            WP_CLI::error( 'Please provide <taxonomy> <from_terms> <to_term> or use --file=<file>' );
+            $this->add_notice( 'error', 'Please provide <taxonomy> <from_terms> <to_term> or use --file=<file>' );
+
+            return;
         }
 
         list( $taxonomy, $from_string, $to_term ) = $args;
@@ -150,7 +154,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
         $taxonomy = $this->validate_taxonomy( $taxonomy );
 
         if ( is_wp_error( $taxonomy ) ) {
-            WP_CLI::error( $taxonomy->get_error_message() );
+            $this->add_notice( 'error', $taxonomy->get_error_message() );
 
             $this->log("[SKIPPED] {$taxonomy->get_error_message()}");
         }
@@ -160,7 +164,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
 
             $this->log($message);
 
-            WP_CLI::log( $message );
+            $this->add_notice( 'log', $message );
 
             return;
         }
@@ -168,10 +172,10 @@ abstract class TaxonomyCLICommands extends CLICommands {
         $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, null, $post_type );
 
         if ( is_wp_error( $result ) ) {
-            WP_CLI::error( $result->get_error_message() );
+            $this->add_notice('warning', "Error - " . $result->get_error_message() );
         }
 
-        WP_CLI::success( 'Merge complete.' );
+        $this->add_notice( 'success', 'Single merge complete.' );
     }    
 
 }
