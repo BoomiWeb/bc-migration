@@ -16,7 +16,7 @@ class BlogTaxonomies extends Taxonomies {
     protected static $instance = null;
 
     public function __construct() {
-        $this->taxonomies = $this->get_by_post_type('blog');
+        $this->taxonomies = $this->get_by_post_type( 'blog' );
 
         parent::__construct();
     }
@@ -39,7 +39,6 @@ class BlogTaxonomies extends Taxonomies {
     }
 
     // public function get_taxonomy_tags(string $tag = '') {
-    //     return $this->get($tag);
+    // return $this->get($tag);
     // }
-
 }

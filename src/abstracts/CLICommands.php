@@ -156,18 +156,18 @@ abstract class CLICommands {
      * @return void
      */
     public function add_notice( string $message = '', string $type = 'info' ) {
-        if (empty($message)) {
+        if ( empty( $message ) ) {
             return;
         }
 
-        if (!in_array($type, ['info', 'success', 'warning', 'error'])) {
+        if ( ! in_array( $type, array( 'info', 'success', 'warning', 'error' ) ) ) {
             $type = 'info';
         }
 
         $this->notices[] = array(
             'type'    => $type,
             'message' => $message,
-        );       
+        );
     }
 
     /**

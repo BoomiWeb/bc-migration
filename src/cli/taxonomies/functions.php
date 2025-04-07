@@ -19,7 +19,7 @@ use WP_CLI;
  *
  * @return bool True if the file is valid, false otherwise.
  */
-function is_valid_file(string $file = '') {
+function is_valid_file( string $file = '' ) {
     if ( ! file_exists( $file ) ) {
         WP_CLI::error( "File not found: $file" );
 

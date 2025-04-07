@@ -3,7 +3,7 @@
 namespace erikdmitchell\bcmigration;
 
 // Prevent direct access to the file.
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
@@ -18,7 +18,7 @@ function code_testing_tool_add_admin_page() {
         __NAMESPACE__ . '\code_testing_tool_page_content', // Callback function to display content
     );
 }
-add_action('admin_menu', __NAMESPACE__ . '\code_testing_tool_add_admin_page');
+add_action( 'admin_menu', __NAMESPACE__ . '\code_testing_tool_add_admin_page' );
 
 // Content of the admin page
 function code_testing_tool_page_content() {
@@ -27,44 +27,43 @@ function code_testing_tool_page_content() {
         <h1>Code Tester</h1>
 
         <?php
-$tax_class = BlogTaxonomies::init();
+        $tax_class = BlogTaxonomies::init();
 
-// $blog_tax = $tax_class->taxonomies();
+        // $blog_tax = $tax_class->taxonomies();
 
-// foreach ($blog_tax as $tax) {
-//     echo '<h2>' . $tax . '</h2>';
-// }
-// echo '<pre>';
-// print_r($tax_class->get_terms('industries'));
-// echo '</pre>';
+        // foreach ($blog_tax as $tax) {
+        // echo '<h2>' . $tax . '</h2>';
+        // }
+        // echo '<pre>';
+        // print_r($tax_class->get_terms('industries'));
+        // echo '</pre>';
         ?>
     </div>
     <?php
-echo '<h2>Renaming</h2>';
-echo 'check error log';
-$terms_to_rename = [
-    [
-        'taxonomy' => 'industries',
-        'old'      => 'TT',
-        'new'      => 'Testing',
-    ],
-    [
-        'taxonomy' => 'products',
-        'old'      => 'FB',
-        'new'      => 'Foo Bar',
-    ],
-];
+    echo '<h2>Renaming</h2>';
+    echo 'check error log';
+    $terms_to_rename = array(
+        array(
+            'taxonomy' => 'industries',
+            'old'      => 'TT',
+            'new'      => 'Testing',
+        ),
+        array(
+            'taxonomy' => 'products',
+            'old'      => 'FB',
+            'new'      => 'Foo Bar',
+        ),
+    );
 
-// foreach ( $terms_to_rename as $change ) {
-//     $result = $tax_class->rename( $change['taxonomy'], $change['old'], $change['new'] );
+    // foreach ( $terms_to_rename as $change ) {
+    // $result = $tax_class->rename( $change['taxonomy'], $change['old'], $change['new'] );
 
-//     if ( is_wp_error( $result ) ) {
-//         error_log( "Failed to rename '{$change['old']}' in '{$change['taxonomy']}': " . $result->get_error_message() );
-//     } else {
-//         error_log( "Renamed '{$change['old']}' to '{$change['new']}' in '{$change['taxonomy']}'" );
-//     }
-// }
-
+    // if ( is_wp_error( $result ) ) {
+    // error_log( "Failed to rename '{$change['old']}' in '{$change['taxonomy']}': " . $result->get_error_message() );
+    // } else {
+    // error_log( "Renamed '{$change['old']}' to '{$change['new']}' in '{$change['taxonomy']}'" );
+    // }
+    // }
 }
 
 

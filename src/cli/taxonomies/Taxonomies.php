@@ -34,19 +34,19 @@ class Taxonomies extends CLICommands {
                 'shortdesc' => 'Rename Taxonomies (terms)',
                 'longdesc'  => 'Rename Taxonomies (terms)',
                 'method'    => 'rename_term',
-            ), 
-            'merge' => array(
+            ),
+            'merge'  => array(
                 'class'     => __NAMESPACE__ . '\Merge',
                 'shortdesc' => 'Merge Taxonomies (terms)',
                 'longdesc'  => 'Merge Taxonomies (terms)',
                 'method'    => 'merge_terms',
-            ), 
+            ),
             'delete' => array(
                 'class'     => __NAMESPACE__ . '\Delete',
                 'shortdesc' => 'Delete Taxonomies (terms)',
                 'longdesc'  => 'Delete Taxonomies (terms)',
                 'method'    => 'delete_terms',
-            ),                                 
+            ),
         );
 
         foreach ( $commands as $command => $config ) {

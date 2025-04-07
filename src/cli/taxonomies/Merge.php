@@ -45,8 +45,8 @@ class Merge extends TaxonomyCLICommands {
     public function merge_terms( $args, $assoc_args ) {
         $dry_run    = isset( $assoc_args['dry-run'] );
         $delete_old = isset( $assoc_args['delete-old'] );
-        $log_name    = $assoc_args['log'] ?? null;
-        $post_type = $assoc_args['post-type'] ?? 'post';
+        $log_name   = $assoc_args['log'] ?? null;
+        $post_type  = $assoc_args['post-type'] ?? 'post';
 
         if ( $log_name ) {
             $this->set_log_name( $log_name );
@@ -57,13 +57,13 @@ class Merge extends TaxonomyCLICommands {
         if ( is_wp_error( $post_type ) ) {
             $this->add_notice( $post_type->get_error_message(), 'error' );
 
-            $this->log("[SKIPPED] {$post_type->get_error_message()}");
+            $this->log( "[SKIPPED] {$post_type->get_error_message()}" );
         }
 
         // Batch merge.
         if ( isset( $assoc_args['file'] ) ) {
-            if (is_valid_file($assoc_args['file'])) {
-                $this->process_csv( $assoc_args['file']);
+            if ( is_valid_file( $assoc_args['file'] ) ) {
+                $this->process_csv( $assoc_args['file'] );
             }
 
             $this->display_notices();
@@ -88,17 +88,17 @@ class Merge extends TaxonomyCLICommands {
 
         if ( ! $to_term || is_wp_error( $to_term ) ) {
             if ( $row_num ) {
-                $message = "Row {$row_num}: Target term '{$to_term_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";    
+                $message = "Row {$row_num}: Target term '{$to_term_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";
             } else {
                 $message = "Target term '{$to_term_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";
             }
-            
+
             $this->add_notice( $message, 'warning' );
 
-            $this->log("[SKIPPED] $message");
-            
+            $this->log( "[SKIPPED] $message" );
+
             return false;
-        }        
+        }
 
         foreach ( $from_terms as $from_name ) {
             $from_term = get_term_by( 'name', trim( $from_name ), $taxonomy );
@@ -108,60 +108,62 @@ class Merge extends TaxonomyCLICommands {
 
                 $this->add_notice( $message, 'warning' );
 
-                $this->log("[SKIPPED] $message");
+                $this->log( "[SKIPPED] $message" );
 
                 continue;
-            }            
+            }
 
             // Get all posts with this term.
-            $posts = get_posts( [
-                'post_type'      => $post_type,
-                'post_status'    => 'any',
-                'posts_per_page' => -1,
-                'tax_query'      => [
-                    [
-                        'taxonomy' => $taxonomy,
-                        'field'    => 'term_id',
-                        'terms'    => $from_term->term_id,
-                    ],
-                ],
-                'fields' => 'ids',
-            ] );
+            $posts = get_posts(
+                array(
+                    'post_type'      => $post_type,
+                    'post_status'    => 'any',
+                    'posts_per_page' => -1,
+                    'tax_query'      => array(
+                        array(
+                            'taxonomy' => $taxonomy,
+                            'field'    => 'term_id',
+                            'terms'    => $from_term->term_id,
+                        ),
+                    ),
+                    'fields'         => 'ids',
+                )
+            );
 
             if ( empty( $posts ) ) {
-                $message = ($row_num ? "Row $row_num: " : '') . "No posts found for '$from_name' in '$taxonomy'";
+                $message = ( $row_num ? "Row $row_num: " : '' ) . "No posts found for '$from_name' in '$taxonomy'";
 
                 $this->log( $message );
 
                 $this->add_notice( $message, 'warning' );
             } else {
                 foreach ( $posts as $post_id ) {
-                    $terms = wp_get_post_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
-            
+                    $terms = wp_get_post_terms( $post_id, $taxonomy, array( 'fields' => 'ids' ) );
+
                     if ( ! in_array( $to_term->term_id, $terms, true ) ) {
                         $terms[] = $to_term->term_id;
 
-                        wp_set_post_terms( $post_id, [ $to_term->term_id ], $taxonomy, true );
+                        wp_set_post_terms( $post_id, array( $to_term->term_id ), $taxonomy, true );
                     }
                 }
             }
-            
+
             if ( $delete_old ) { // TODO: we have a delete CLI class, maybe use that instead?
                 if ( ! is_wp_error( wp_delete_term( $from_term->term_id, $taxonomy ) ) ) {
-                    $message = ($row_num ? "Row $row_num: " : '') . "Deleted term '$from_name'";
+                    $message = ( $row_num ? "Row $row_num: " : '' ) . "Deleted term '$from_name'";
 
                     $this->log( $message );
 
                     $this->add_notice( $message, 'success' );
                 } else {
-                    $message = ($row_num ? "Row $row_num: " : '') . "Failed to delete term '$from_name'";
+                    $message = ( $row_num ? "Row $row_num: " : '' ) . "Failed to delete term '$from_name'";
 
                     $this->log( $message );
 
                     $this->add_notice( $message, 'warning' );
                 }
             } else {
-                $message = ($row_num ? "Row $row_num: " : '') . "Merged term '$from_name'";
+                $message = ( $row_num ? "Row $row_num: " : '' ) . "Merged term '$from_name'";
 
                 $this->log( $message );
 
