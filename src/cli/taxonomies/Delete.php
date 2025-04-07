@@ -162,37 +162,41 @@ class Delete extends TaxonomyCLICommands {
             return;
         }
 
-        $this->process_single( $dry_run, $delete_old, $post_type, $args );
-
-        $this->display_notices();
-
-        return;        
-/*
-        // Handle single delete.
-        if ( count( $args ) < 2 ) {
-            WP_CLI::error( 'Please provide <taxonomy> <term> or use --file=<file>' );
-        }
-
         list($taxonomy, $term_name) = $args;
         $term_name                  = explode( '|', $term_name );
 
+        $taxonomy = $this->validate_taxonomy( $taxonomy );
+
+        if ( is_wp_error( $taxonomy ) ) {
+            $this->add_notice( $taxonomy->get_error_message(), 'error' );
+
+            $this->log( "[SKIPPED] {$taxonomy->get_error_message()}" );
+        }     
+        
         if ( $dry_run ) {
-            $log( "[DRY RUN] Would delete term '$term_name' in taxonomy '$taxonomy'." );
+            $message = "[DRY RUN] Would delete term '$term_name' in taxonomy '$taxonomy'.";
+
+            $this->log( $message );
+
+            $this->add_notice( $message );            
 
             return;
-        }
+        }        
 
         $result = $this->delete_taxonomy_term( $taxonomy, $term_name, $log );
 
         if ( is_wp_error( $result ) ) {
-            WP_CLI::error( $result->get_error_message() );
+            $this->add_notice( 'Error - ' . $result->get_error_message(), 'warning' );
         } else {
             $message = "Deleted term '$term_name' in taxonomy '$taxonomy'.";
-            $log( $message );
 
-            WP_CLI::success( $message );
+            $this->add_notice( $message, 'success' );
+            $this->log( $message );
         }
-*/
+
+        $this->display_notices();
+
+        return;        
     }
 
     private function delete_taxonomy_term( $taxonomy, $term_names, $log, $row_num = null ) {

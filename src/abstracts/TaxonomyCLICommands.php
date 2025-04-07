@@ -141,39 +141,6 @@ abstract class TaxonomyCLICommands extends CLICommands {
         return;
     }
 
-    protected function process_single( string $dry_run, string $delete_old, string $post_type, array $args = array() ) {
-        // FIXME: this needs to be dynamic
-        list( $taxonomy, $from_string, $to_term ) = $args;
-        $from_terms                               = explode( '|', $from_string );
-
-        $taxonomy = $this->validate_taxonomy( $taxonomy );
-
-        if ( is_wp_error( $taxonomy ) ) {
-            $this->add_notice( $taxonomy->get_error_message(), 'error' );
-
-            $this->log( "[SKIPPED] {$taxonomy->get_error_message()}" );
-        }
-
-        if ( $dry_run ) {
-            $message = '[DRY RUN] Would merge ' . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)";
-
-            $this->log( $message );
-
-            $this->add_notice( $message );
-
-            return;
-        }
-
-        // FIXME: this needs to be dynamic
-        $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, null, $post_type );
-
-        if ( is_wp_error( $result ) ) {
-            $this->add_notice( 'Error - ' . $result->get_error_message(), 'warning' );
-        }
-
-        $this->add_notice( 'Single merge complete.', 'success' );
-    }
-
     protected function validate_command_args( array $args, int $min_args = 0, int $max_args = 0 ): bool {
         $arg_count = count( $args );
 
