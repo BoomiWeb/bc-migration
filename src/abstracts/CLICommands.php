@@ -146,24 +146,20 @@ abstract class CLICommands {
         return $values;
     }
 
-    /**
-     * Add a notice for output.
-     *
-     * @link https://make.wordpress.org/cli/handbook/references/internal-api/#output
-     *
-     * @param string $type The type of notice (see link).
-     * @param string $message The message to display.
-     * @return void
-     */
-    public function add_notice( $type = '', $message = '' ) {
-        if ( '' === $type || '' === $message ) {
+
+    public function add_notice( string $message = '', string $type = 'info' ) {
+        if (empty($message)) {
             return;
+        }
+
+        if (!in_array($type, ['info', 'success', 'warning', 'error'])) {
+            $type = 'info';
         }
 
         $this->notices[] = array(
             'type'    => $type,
             'message' => $message,
-        );
+        );       
     }
 
     /**
