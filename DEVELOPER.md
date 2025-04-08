@@ -63,6 +63,9 @@ wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log --dry-r
 # Term Validation
 
 ## Single
+wp boomi taxonomies term-validator category --terms="News,Updates"
+wp boomi taxonomies term-validator category --terms="News,Updates" --field=name
 
 ## Bulk
-wp boomi taxonomies term-validator category --file=terms.csv --field=slug --delete --dry-run --log=term-validation.log
+wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/ --dry-run --log=term-validation.log
+wp boomi taxonomies term-validator category --file=slugs.csv --field=slug --delete
