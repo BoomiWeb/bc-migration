@@ -42,7 +42,10 @@ class Rename extends TaxonomyCLICommands {
      *     wp taxonomy rename_term industries "M&A" "Mergers. & Acquisitions"
      *     wp taxonomy rename_term --file=terms.csv --dry-run --log=rename-log.txt
      *
-     * @when after_wp_load
+     * @param string[]             $args       CLI positional arguments.
+     * @param array<string, mixed> $assoc_args CLI associative arguments.
+     *
+     * @return void
      */
     public function rename_term( $args, $assoc_args ) {
         $dry_run  = isset( $assoc_args['dry-run'] );

@@ -41,9 +41,10 @@ class APIIDA extends CLICommands {
      *     $ wp boomi migrate apiida remove-folder
      *     Success: Removed the APIIDA uploads folder.
      *
-     * @subcommand migrate
-     * @param string[] $args The action to perform.
-     * @param string[] $assoc_args The arguments array.
+     * @param string[]             $args       CLI positional arguments.
+     * @param array<string, mixed> $assoc_args CLI associative arguments.
+     *
+     * @return void
      */
     public function migrate( $args, $assoc_args ) {
         list ( $action ) = $args;

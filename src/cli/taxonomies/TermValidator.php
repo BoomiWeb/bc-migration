@@ -47,6 +47,11 @@ class TermValidator extends TaxonomyCLICommands {
      *     wp term-validator category --file=slugs.csv --field=slug --delete
      *     wp term-validator category --file=slugs.csv --field=slug --delete --log=term-validation.log
      *     wp term-validator category --terms="123,456" --field=id --dry-run
+     *
+     * @param string[]             $args       CLI positional arguments.
+     * @param array<string, mixed> $assoc_args CLI associative arguments.
+     *
+     * @return void
      */
     public function validate_terms( $args, $assoc_args ) {
         list( $taxonomy ) = $args;

@@ -41,7 +41,10 @@ class Merge extends TaxonomyCLICommands {
      *     wp taxonomy merge_terms products "B2B Integration|CRM Integration" "Integration" --delete-old
      *     wp taxonomy merge_terms --file=merge-terms.csv --dry-run --log=merge.log
      *
-     * @when after_wp_load
+     * @param string[]             $args       CLI positional arguments.
+     * @param array<string, mixed> $assoc_args CLI associative arguments.
+     *
+     * @return void
      */
     public function merge_terms( $args, $assoc_args ) {
         $dry_run    = isset( $assoc_args['dry-run'] );
