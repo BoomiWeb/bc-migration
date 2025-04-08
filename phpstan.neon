@@ -3,7 +3,9 @@ parameters:
     paths:
         - src/
     scanDirectories:
-        - src/        
+        - src/ 
+    scanFiles:
+        - vendor/wp-cli/wp-cli/php/wp-cli.php     
     excludePaths:
         - 'vendor/*'       
     treatPhpDocTypesAsCertain: false
