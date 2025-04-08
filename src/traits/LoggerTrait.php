@@ -27,7 +27,6 @@ trait LoggerTrait {
      */
     protected string $log_dir = BCM_PATH;
 
-
     /**
      * Sets the name of the log file to write to.
      *

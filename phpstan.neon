@@ -9,3 +9,5 @@ parameters:
     excludePaths:
         - 'vendor/*'       
     treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        - '#Call to static method getInstance\(\) on an unknown class BoomiCMS\\BC_DB#'
