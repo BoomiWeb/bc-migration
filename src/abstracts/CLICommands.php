@@ -160,7 +160,7 @@ abstract class CLICommands {
             return;
         }
 
-        if ( ! in_array( $type, array( 'log', 'success', 'warning', 'error' ) ) ) {
+        if ( ! in_array( $type, array( 'log', 'success', 'warning', 'error' ), true ) ) {
             $type = 'log';
         }
 

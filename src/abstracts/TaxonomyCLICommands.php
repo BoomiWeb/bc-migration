@@ -196,7 +196,11 @@ abstract class TaxonomyCLICommands extends CLICommands {
      * @return bool|\WP_Term If the term is valid, returns the term object. Otherwise, returns false.
      */
     protected function is_term_valid( string $term_name, string $taxonomy, int $row_num = 0 ) {
-        $term = get_term_by( 'slug', sanitize_title( $term_name ), $taxonomy ) ?: get_term_by( 'name', $term_name, $taxonomy );
+        $term = get_term_by( 'slug', sanitize_title( $term_name ), $taxonomy );
+
+        if ( ! $term ) {
+            $term = get_term_by( 'name', $term_name, $taxonomy );
+        }
 
         if ( ! $term || is_wp_error( $term ) ) {
             $message = "Row $row_num: Skipped - term '$term_name' not found in taxonomy '$taxonomy'."; // TODO: add check for row number

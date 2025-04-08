@@ -21,7 +21,12 @@ abstract class Taxonomies {
      * @return array|WP_Error The terms data or WP_Error on failure.
      */
     public function get_terms( string $term = '' ) {
-        $terms = get_terms( $term, 'hide_empty=0' );
+        $terms = get_terms(
+            array(
+                'taxonomy'   => $term,
+                'hide_empty' => false,
+            )
+        );
 
         return $terms;
     }
@@ -49,8 +54,9 @@ abstract class Taxonomies {
      * @return array|WP_Error The updated term data or WP_Error on failure.
      */
     public function rename( string $taxonomy, string $old_term, string $new_name, $new_slug = null ) {
-        // Try to get the term by slug first, then name if that fails
+        // Try to get the term by slug first, then name if that fails.
         $term = get_term_by( 'slug', sanitize_title( $old_term ), $taxonomy );
+
         if ( ! $term ) {
             $term = get_term_by( 'name', $old_term, $taxonomy );
         }

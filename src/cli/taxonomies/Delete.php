@@ -68,8 +68,8 @@ class Delete extends TaxonomyCLICommands {
     /**
      * Process a CSV file of terms to delete.
      *
-     * @param string $file
-     * @param bool   $dry_run
+     * @param string $file The path to the CSV file.
+     * @param bool   $dry_run Whether to perform a dry run.
      *
      * @return void
      */

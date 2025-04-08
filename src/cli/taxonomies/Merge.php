@@ -235,7 +235,7 @@ class Merge extends TaxonomyCLICommands {
                     'post_type'      => $post_type,
                     'post_status'    => 'any',
                     'posts_per_page' => -1,
-                    'tax_query'      => array(
+                    'tax_query'      => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
                         array(
                             'taxonomy' => $taxonomy,
                             'field'    => 'term_id',
