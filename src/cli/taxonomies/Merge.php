@@ -76,8 +76,6 @@ class Merge extends TaxonomyCLICommands {
         $this->process_single_term( $args, $dry_run, $delete_old, $post_type );
 
         $this->display_notices();
-
-        return;
     }
 
     /**
@@ -139,8 +137,6 @@ class Merge extends TaxonomyCLICommands {
         }
 
         $this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
-
-        return;
     }
 
     /**
@@ -189,8 +185,6 @@ class Merge extends TaxonomyCLICommands {
         }
 
         $this->display_notices();
-
-        return;
     }
 
     /**

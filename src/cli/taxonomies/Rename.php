@@ -67,8 +67,6 @@ class Rename extends TaxonomyCLICommands {
         $this->process_single_term( $args, $dry_run );
 
         $this->display_notices();
-
-        return;
     }
 
     /**
@@ -137,8 +135,6 @@ class Rename extends TaxonomyCLICommands {
         }
 
         $this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
-
-        return;
     }
 
     /**

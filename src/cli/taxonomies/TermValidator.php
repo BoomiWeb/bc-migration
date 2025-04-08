@@ -164,8 +164,6 @@ class TermValidator extends TaxonomyCLICommands {
         $this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch validation complete.', 'success' );
 
         $this->display_notices();
-
-        return;
     }
 
     /**

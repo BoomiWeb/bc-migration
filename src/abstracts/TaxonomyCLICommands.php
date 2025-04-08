@@ -165,8 +165,6 @@ abstract class TaxonomyCLICommands extends CLICommands {
         $this->log( $message );
 
         $this->add_notice( $message );
-
-        return;
     }
 
     /**

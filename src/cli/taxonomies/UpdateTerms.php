@@ -79,8 +79,6 @@ class UpdateTerms extends TaxonomyCLICommands {
         }
 
         $this->display_notices();
-
-        return;
     }
 
     /**
@@ -155,8 +153,6 @@ class UpdateTerms extends TaxonomyCLICommands {
         }
 
         $this->process_terms( $mappings, $taxonomy, $dry_run );
-
-        return;
     }
 
     /**
