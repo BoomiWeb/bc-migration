@@ -77,36 +77,30 @@ abstract class TaxonomyCLICommands extends CLICommands {
         }
     }
 
-    protected function process_csv( $file, $delete_old = false, $dry_run = false, $log = null ) {
+    // Neither Delete.php or Merge.php use params other than $file
+    protected function process_csv( $file, $delete_old = false, $dry_run = false, $log = null ) { // TODO: do we need to pas $log.
         $rows     = array_map( 'str_getcsv', file( $file ) );
-        $header   = array_map( 'trim', array_shift( $rows ) );
-        $required = array( 'taxonomy', 'from_terms', 'to_term' );
+        $headers  = array_map( 'trim', array_shift( $rows ) );
 
-        $missing = array_diff( $required, $header );
-
-        if ( ! empty( $missing ) ) {
-            $this->add_notice( 'CSV is missing required columns: ' . implode( ', ', $missing ), 'error' );
+        // Custom
+        if (!$this->validate_headers( $headers, array( 'taxonomy', 'from_terms', 'to_term' ) )) {
+            return;
         }
 
         foreach ( $rows as $i => $row ) {
             $row_num   = $i + 2;
-            $data      = array_combine( $header, $row );
+            $data      = array_combine( $headers, $row );
             $data      = array_map( 'trim', $data );
-            $post_type = $data['post_type'] ?? 'post';
+            $post_type = $data['post_type'] ?? 'post'; // Custom
+            $taxonomy  = $data['taxonomy'];
 
             // skip empty lines.
             if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
                 continue;
             }
 
-            $taxonomy   = $data['taxonomy'];
-            $from_terms = explode( '|', $data['from_terms'] );
-            $to_term    = $data['to_term'];
-
-            // check required fields.
-            if ( ! $taxonomy || ! $from_terms || ! $to_term ) {
-                $this->log( "Row $row_num: Skipped - one or more required fields missing." );
-
+            // Check required fields. Custom
+            if ( ! $this->has_required_fields( $data, array( 'taxonomy', 'from_terms', 'to_term' ), $row_num ) ) {
                 continue;
             }
 
@@ -118,12 +112,12 @@ abstract class TaxonomyCLICommands extends CLICommands {
                 continue;
             }
 
+            $from_terms = explode( '|', $data['from_terms'] ); // Custom
+            $to_term    = $data['to_term']; // Custom
+
+            // Custom
             if ( $dry_run ) {
-                $message = "Row $row_num: [DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)";
-
-                $this->log( $message );
-
-                $this->add_notice( $message );
+                $this->dry_run_result( $taxonomy, $from_terms, $to_term, $row_num );
 
                 continue;
             }
@@ -137,6 +131,46 @@ abstract class TaxonomyCLICommands extends CLICommands {
         }
 
         $this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
+
+        return;
+    }
+
+    protected function validate_headers(array $headers, array $required) {
+        $missing = array_diff( $required, $headers );
+
+        if ( ! empty( $missing ) ) {
+            $this->add_notice( 'CSV is missing required columns: ' . implode( ', ', $missing ), 'error' );
+
+            $this->log( 'CSV is missing required columns: ' . implode( ', ', $missing ) );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function has_required_fields(array $data, array $required, int $row_num = 0) {
+        $taxonomy   = $data['taxonomy']; // Custom
+        $from_terms = explode( '|', $data['from_terms'] ); // Custom
+        $to_term    = $data['to_term']; // Custom
+
+        if ( ! $taxonomy || ! $from_terms || ! $to_term ) { // Custom
+            $this->add_notice( "Row $row_num: Skipped - one or more required fields missing.", 'error' );
+
+            $this->log( "Row $row_num: Skipped - one or more required fields missing." );
+
+            return false;
+        }        
+
+        return true;
+    }
+
+    protected function dry_run_result($taxonomy, $from_terms, $to_term, $row_num) {
+        $message = "Row $row_num: [DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)";
+
+        $this->log( $message );
+
+        $this->add_notice( $message );
 
         return;
     }

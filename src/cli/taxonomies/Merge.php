@@ -61,7 +61,7 @@ class Merge extends TaxonomyCLICommands {
 
         // Batch merge.
         if ( isset( $assoc_args['file'] ) ) {
-            if ( is_valid_file( $assoc_args['file'] ) ) {
+            if ( is_valid_file( $assoc_args['file'] ) ) {               
                 $this->process_csv( $assoc_args['file'] );
             }
 

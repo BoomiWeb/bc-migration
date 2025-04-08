@@ -47,7 +47,6 @@ class Delete extends TaxonomyCLICommands {
         }
 
         // Batch merge.
-
         if ( isset( $assoc_args['file'] ) ) {
             if ( is_valid_file( $assoc_args['file'] ) ) {
                 $this->process_csv( $assoc_args['file'] );
@@ -56,71 +55,28 @@ class Delete extends TaxonomyCLICommands {
             $this->display_notices();
 
             return;
-
-            $file = $assoc_args['file'];
-
-            if ( ! file_exists( $file ) ) {
-                WP_CLI::error( "File not found: $file" );
-            }
-
-            $rows   = array_map( 'str_getcsv', file( $file ) );
-            $header = array_map( 'trim', array_shift( $rows ) );
+        }        
+/*
 
             $required_columns = array( 'taxonomy', 'term' );
             $missing_columns  = array_diff( $required_columns, $header );
 
-            if ( ! empty( $missing_columns ) ) {
-                WP_CLI::error( 'CSV is missing required columns: ' . implode( ', ', $missing_columns ) );
-            }
 
             foreach ( $rows as $i => $row ) {
-                $row_num = $i + 2; // CSV line number
-                $data    = array_combine( $header, $row );
-                $data    = array_map( 'trim', $data );
-
-                // post type see Merge.php
-
-                if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
-                    // skip empty lines
-                    continue;
-                }
 
                 $taxonomy   = $data['taxonomy'] ?? '';
                 $term_names = explode( '|', $data['term'] );
 
-                // if (! $taxonomy || ! $term_name) {
-                // $log("Row $row_num: Skipped – one or more required fields missing.");
 
-                // continue;
-                // }
+                Validate taxonomy.
 
-                if ( ! taxonomy_exists( $taxonomy ) ) {
-                    $message = isset( $row_num )
-                        ? "Row {$row_num}: Taxonomy '{$taxonomy}' does not exist. Skipping."
-                        : "Taxonomy '{$taxonomy}' does not exist.";
-
-                    WP_CLI::warning( $message );
-
-                    if ( $log ) {
-                        $log( "[SKIPPED] $message" );
-                    }
-
-                    if ( isset( $row_num ) ) {
-                        return false;
-                    } else {
-                        WP_CLI::error( $message );
-                    }
-
-                    continue;
-                }
-
-                // Single command.
                 $this->process_single( $dry_run, $delete_old, $post_type, $args );
 
                 $this->display_notices();
         
                 return;
-                
+                // Check term func
+                // Check term
                 // $term = get_term_by('slug', sanitize_title($term_name), $taxonomy)
                 // ?: get_term_by('name', $term_name, $taxonomy);
 
@@ -128,14 +84,14 @@ class Delete extends TaxonomyCLICommands {
                 // $log("Row $row_num: Skipped – term '$term_name' not found in taxonomy '$taxonomy'.");
 
                 // continue;
-                // }
-
+                // 
+                // Check term [end]
                 if ( $dry_run ) {
                     $log( "Row $row_num: [DRY RUN] Would delete term(s) " . implode( ', ', $term_names ) . " in $taxonomy" );
 
                     continue;
                 }
-
+// standard from here
                 $result = $this->delete_taxonomy_term( $taxonomy, $term_names, $log, $row_num );
 
                 if ( is_wp_error( $result ) ) {
@@ -149,7 +105,7 @@ class Delete extends TaxonomyCLICommands {
             WP_CLI::success( $dry_run ? 'Dry run complete.' : 'Bulk delete complete.' );
 
             return;
-        }
+        */
 
         // Single command.
         $this->process_single_term( $args, $dry_run );
