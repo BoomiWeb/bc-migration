@@ -5,7 +5,8 @@ parameters:
     scanDirectories:
         - src/ 
     scanFiles:
-        - vendor/wp-cli/wp-cli/php/wp-cli.php     
+        - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
+        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
     excludePaths:
         - 'vendor/*'       
     treatPhpDocTypesAsCertain: false

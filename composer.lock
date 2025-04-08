@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e9809dc24d90a90f101d7a353293274",
+    "content-hash": "542836db5de6bee8eebb2ea59b26a28e",
     "packages": [
         {
             "name": "composer/pcre",
@@ -290,50 +290,6 @@
             "time": "2023-12-17T18:09:59+00:00"
         },
         {
-            "name": "php-stubs/acf-pro-stubs",
-            "version": "v5.12.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-stubs/acf-pro-stubs.git",
-                "reference": "9391822d613d3fde17deac8e6b343c346e5db73f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/acf-pro-stubs/zipball/9391822d613d3fde17deac8e6b343c346e5db73f",
-                "reference": "9391822d613d3fde17deac8e6b343c346e5db73f",
-                "shasum": ""
-            },
-            "require": {
-                "php-stubs/wordpress-stubs": "^4.7 || ^5.0 || ^6.0"
-            },
-            "require-dev": {
-                "php": "~7.1",
-                "php-stubs/generator": "^0.8"
-            },
-            "suggest": {
-                "symfony/polyfill-php73": "Symfony polyfill backporting some PHP 7.3+ features to lower PHP versions",
-                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "description": "Advanced Custom Fields PRO stubs for static analysis.",
-            "homepage": "https://github.com/php-stubs/acf-pro-stubs",
-            "keywords": [
-                "PHPStan",
-                "acf",
-                "static analysis",
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/php-stubs/acf-pro-stubs/issues",
-                "source": "https://github.com/php-stubs/acf-pro-stubs/tree/v5.12.3"
-            },
-            "time": "2022-12-25T22:14:16+00:00"
-        },
-        {
             "name": "php-stubs/wordpress-stubs",
             "version": "v6.7.2",
             "source": {
@@ -380,50 +336,6 @@
                 "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.7.2"
             },
             "time": "2025-02-12T04:51:58+00:00"
-        },
-        {
-            "name": "php-stubs/wp-cli-stubs",
-            "version": "v2.11.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-stubs/wp-cli-stubs.git",
-                "reference": "f27ff9e8e29d7962cb070e58de70dfaf63183007"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wp-cli-stubs/zipball/f27ff9e8e29d7962cb070e58de70dfaf63183007",
-                "reference": "f27ff9e8e29d7962cb070e58de70dfaf63183007",
-                "shasum": ""
-            },
-            "require": {
-                "php-stubs/wordpress-stubs": "^4.7 || ^5.0 || ^6.0"
-            },
-            "require-dev": {
-                "php": "~7.3 || ~8.0",
-                "php-stubs/generator": "^0.8.0"
-            },
-            "suggest": {
-                "symfony/polyfill-php73": "Symfony polyfill backporting some PHP 7.3+ features to lower PHP versions",
-                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "WP-CLI function and class declaration stubs for static analysis.",
-            "homepage": "https://github.com/php-stubs/wp-cli-stubs",
-            "keywords": [
-                "PHPStan",
-                "static analysis",
-                "wordpress",
-                "wp-cli"
-            ],
-            "support": {
-                "issues": "https://github.com/php-stubs/wp-cli-stubs/issues",
-                "source": "https://github.com/php-stubs/wp-cli-stubs/tree/v2.11.0"
-            },
-            "time": "2024-11-25T10:09:13+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",
@@ -947,16 +859,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.12.0",
+            "version": "3.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "2d1b63db139c3c6ea0c927698e5160f8b3b8d630"
+                "reference": "ea16a1f3719783345febd3aab41beb55c8c84bfd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/2d1b63db139c3c6ea0c927698e5160f8b3b8d630",
-                "reference": "2d1b63db139c3c6ea0c927698e5160f8b3b8d630",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/ea16a1f3719783345febd3aab41beb55c8c84bfd",
+                "reference": "ea16a1f3719783345febd3aab41beb55c8c84bfd",
                 "shasum": ""
             },
             "require": {
@@ -1027,7 +939,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-03-18T05:04:51+00:00"
+            "time": "2025-04-04T12:57:55+00:00"
         },
         {
             "name": "symfony/config",
@@ -1106,16 +1018,16 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v7.2.4",
+            "version": "v7.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "f0a1614cccb4b8431a97076f9debc08ddca321ca"
+                "reference": "58ab71379f14a741755717cece2868bf41ed45d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/f0a1614cccb4b8431a97076f9debc08ddca321ca",
-                "reference": "f0a1614cccb4b8431a97076f9debc08ddca321ca",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/58ab71379f14a741755717cece2868bf41ed45d8",
+                "reference": "58ab71379f14a741755717cece2868bf41ed45d8",
                 "shasum": ""
             },
             "require": {
@@ -1123,7 +1035,7 @@
                 "psr/container": "^1.1|^2.0",
                 "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/service-contracts": "^3.5",
-                "symfony/var-exporter": "^6.4|^7.0"
+                "symfony/var-exporter": "^6.4.20|^7.2.5"
             },
             "conflict": {
                 "ext-psr": "<1.1|>=2",
@@ -1166,7 +1078,7 @@
             "description": "Allows you to standardize and centralize the way objects are constructed in your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dependency-injection/tree/v7.2.4"
+                "source": "https://github.com/symfony/dependency-injection/tree/v7.2.5"
             },
             "funding": [
                 {
@@ -1182,7 +1094,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-21T09:47:16+00:00"
+            "time": "2025-03-13T12:21:46+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -1637,16 +1549,16 @@
         },
         {
             "name": "symfony/var-exporter",
-            "version": "v7.2.4",
+            "version": "v7.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "4ede73aa7a73d81506002d2caadbbdad1ef5b69a"
+                "reference": "c37b301818bd7288715d40de634f05781b686ace"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/4ede73aa7a73d81506002d2caadbbdad1ef5b69a",
-                "reference": "4ede73aa7a73d81506002d2caadbbdad1ef5b69a",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/c37b301818bd7288715d40de634f05781b686ace",
+                "reference": "c37b301818bd7288715d40de634f05781b686ace",
                 "shasum": ""
             },
             "require": {
@@ -1693,7 +1605,7 @@
                 "serialize"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-exporter/tree/v7.2.4"
+                "source": "https://github.com/symfony/var-exporter/tree/v7.2.5"
             },
             "funding": [
                 {
@@ -1709,7 +1621,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-13T10:27:23+00:00"
+            "time": "2025-03-13T12:21:46+00:00"
         },
         {
             "name": "szepeviktor/phpstan-wordpress",
@@ -1843,302 +1755,92 @@
     ],
     "packages-dev": [
         {
-            "name": "mustache/mustache",
-            "version": "v2.14.2",
+            "name": "php-stubs/acf-pro-stubs",
+            "version": "v5.12.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/bobthecow/mustache.php.git",
-                "reference": "e62b7c3849d22ec55f3ec425507bf7968193a6cb"
+                "url": "https://github.com/php-stubs/acf-pro-stubs.git",
+                "reference": "9391822d613d3fde17deac8e6b343c346e5db73f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/e62b7c3849d22ec55f3ec425507bf7968193a6cb",
-                "reference": "e62b7c3849d22ec55f3ec425507bf7968193a6cb",
+                "url": "https://api.github.com/repos/php-stubs/acf-pro-stubs/zipball/9391822d613d3fde17deac8e6b343c346e5db73f",
+                "reference": "9391822d613d3fde17deac8e6b343c346e5db73f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.4"
+                "php-stubs/wordpress-stubs": "^4.7 || ^5.0 || ^6.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "~1.11",
-                "phpunit/phpunit": "~3.7|~4.0|~5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Mustache": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Justin Hileman",
-                    "email": "justin@justinhileman.info",
-                    "homepage": "http://justinhileman.com"
-                }
-            ],
-            "description": "A Mustache implementation in PHP.",
-            "homepage": "https://github.com/bobthecow/mustache.php",
-            "keywords": [
-                "mustache",
-                "templating"
-            ],
-            "support": {
-                "issues": "https://github.com/bobthecow/mustache.php/issues",
-                "source": "https://github.com/bobthecow/mustache.php/tree/v2.14.2"
-            },
-            "time": "2022-08-23T13:07:01+00:00"
-        },
-        {
-            "name": "symfony/finder",
-            "version": "v7.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/finder.git",
-                "reference": "87a71856f2f56e4100373e92529eed3171695cfb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/87a71856f2f56e4100373e92529eed3171695cfb",
-                "reference": "87a71856f2f56e4100373e92529eed3171695cfb",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.2"
-            },
-            "require-dev": {
-                "symfony/filesystem": "^6.4|^7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Finder\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Finds files and directories via an intuitive fluent interface",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/finder/tree/v7.2.2"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-12-30T19:00:17+00:00"
-        },
-        {
-            "name": "wp-cli/mustangostang-spyc",
-            "version": "0.6.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wp-cli/spyc.git",
-                "reference": "6aa0b4da69ce9e9a2c8402dab8d43cf32c581cc7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/spyc/zipball/6aa0b4da69ce9e9a2c8402dab8d43cf32c581cc7",
-                "reference": "6aa0b4da69ce9e9a2c8402dab8d43cf32c581cc7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.3.*@dev"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.5.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "includes/functions.php"
-                ],
-                "psr-4": {
-                    "Mustangostang\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "mustangostang",
-                    "email": "vlad.andersen@gmail.com"
-                }
-            ],
-            "description": "A simple YAML loader/dumper class for PHP (WP-CLI fork)",
-            "homepage": "https://github.com/mustangostang/spyc/",
-            "support": {
-                "source": "https://github.com/wp-cli/spyc/tree/autoload"
-            },
-            "time": "2017-04-25T11:26:20+00:00"
-        },
-        {
-            "name": "wp-cli/php-cli-tools",
-            "version": "v0.11.22",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wp-cli/php-cli-tools.git",
-                "reference": "a6bb94664ca36d0962f9c2ff25591c315a550c51"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/php-cli-tools/zipball/a6bb94664ca36d0962f9c2ff25591c315a550c51",
-                "reference": "a6bb94664ca36d0962f9c2ff25591c315a550c51",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">= 5.3.0"
-            },
-            "require-dev": {
-                "roave/security-advisories": "dev-latest",
-                "wp-cli/wp-cli-tests": "^4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.11.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "lib/cli/cli.php"
-                ],
-                "psr-0": {
-                    "cli": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Daniel Bachhuber",
-                    "email": "daniel@handbuilt.co",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "James Logsdon",
-                    "email": "jlogsdon@php.net",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Console utilities for PHP",
-            "homepage": "http://github.com/wp-cli/php-cli-tools",
-            "keywords": [
-                "cli",
-                "console"
-            ],
-            "support": {
-                "issues": "https://github.com/wp-cli/php-cli-tools/issues",
-                "source": "https://github.com/wp-cli/php-cli-tools/tree/v0.11.22"
-            },
-            "time": "2023-12-03T19:25:05+00:00"
-        },
-        {
-            "name": "wp-cli/wp-cli",
-            "version": "v2.11.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wp-cli/wp-cli.git",
-                "reference": "53f0df112901fcf95099d0f501912a209429b6a9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/wp-cli/zipball/53f0df112901fcf95099d0f501912a209429b6a9",
-                "reference": "53f0df112901fcf95099d0f501912a209429b6a9",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "mustache/mustache": "^2.14.1",
-                "php": "^5.6 || ^7.0 || ^8.0",
-                "symfony/finder": ">2.7",
-                "wp-cli/mustangostang-spyc": "^0.6.3",
-                "wp-cli/php-cli-tools": "~0.11.2"
-            },
-            "require-dev": {
-                "roave/security-advisories": "dev-latest",
-                "wp-cli/db-command": "^1.3 || ^2",
-                "wp-cli/entity-command": "^1.2 || ^2",
-                "wp-cli/extension-command": "^1.1 || ^2",
-                "wp-cli/package-command": "^1 || ^2",
-                "wp-cli/wp-cli-tests": "^4.0.1"
+                "php": "~7.1",
+                "php-stubs/generator": "^0.8"
             },
             "suggest": {
-                "ext-readline": "Include for a better --prompt implementation",
-                "ext-zip": "Needed to support extraction of ZIP archives when doing downloads or updates"
+                "symfony/polyfill-php73": "Symfony polyfill backporting some PHP 7.3+ features to lower PHP versions",
+                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
             },
-            "bin": [
-                "bin/wp",
-                "bin/wp.bat"
-            ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "2.11.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "WP_CLI\\": "php/"
-                },
-                "classmap": [
-                    "php/class-wp-cli.php",
-                    "php/class-wp-cli-command.php"
-                ]
-            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "GPL-2.0-or-later"
             ],
-            "description": "WP-CLI framework",
-            "homepage": "https://wp-cli.org",
+            "description": "Advanced Custom Fields PRO stubs for static analysis.",
+            "homepage": "https://github.com/php-stubs/acf-pro-stubs",
             "keywords": [
-                "cli",
+                "PHPStan",
+                "acf",
+                "static analysis",
                 "wordpress"
             ],
             "support": {
-                "docs": "https://make.wordpress.org/cli/handbook/",
-                "issues": "https://github.com/wp-cli/wp-cli/issues",
-                "source": "https://github.com/wp-cli/wp-cli"
+                "issues": "https://github.com/php-stubs/acf-pro-stubs/issues",
+                "source": "https://github.com/php-stubs/acf-pro-stubs/tree/v5.12.3"
             },
-            "time": "2024-08-08T03:04:55+00:00"
+            "time": "2022-12-25T22:14:16+00:00"
+        },
+        {
+            "name": "php-stubs/wp-cli-stubs",
+            "version": "v2.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-stubs/wp-cli-stubs.git",
+                "reference": "f27ff9e8e29d7962cb070e58de70dfaf63183007"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-stubs/wp-cli-stubs/zipball/f27ff9e8e29d7962cb070e58de70dfaf63183007",
+                "reference": "f27ff9e8e29d7962cb070e58de70dfaf63183007",
+                "shasum": ""
+            },
+            "require": {
+                "php-stubs/wordpress-stubs": "^4.7 || ^5.0 || ^6.0"
+            },
+            "require-dev": {
+                "php": "~7.3 || ~8.0",
+                "php-stubs/generator": "^0.8.0"
+            },
+            "suggest": {
+                "symfony/polyfill-php73": "Symfony polyfill backporting some PHP 7.3+ features to lower PHP versions",
+                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "WP-CLI function and class declaration stubs for static analysis.",
+            "homepage": "https://github.com/php-stubs/wp-cli-stubs",
+            "keywords": [
+                "PHPStan",
+                "static analysis",
+                "wordpress",
+                "wp-cli"
+            ],
+            "support": {
+                "issues": "https://github.com/php-stubs/wp-cli-stubs/issues",
+                "source": "https://github.com/php-stubs/wp-cli-stubs/tree/v2.11.0"
+            },
+            "time": "2024-11-25T10:09:13+00:00"
         }
     ],
     "aliases": [],
