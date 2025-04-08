@@ -51,7 +51,6 @@ class Rename extends TaxonomyCLICommands {
         }
 
         // Batch merge.
-        /*
         if ( isset( $assoc_args['file'] ) ) {
             if ( is_valid_file( $assoc_args['file'] ) ) {
                 $this->process_csv( $assoc_args['file'], $dry_run );
@@ -61,88 +60,73 @@ class Rename extends TaxonomyCLICommands {
 
             return;
         }
-        */
-
-        if ( isset( $assoc_args['file'] ) ) {
-            $file = $assoc_args['file'];
-
-            if ( ! file_exists( $file ) ) {
-                WP_CLI::error( "File not found: $file" );
-            }
-
-            $rows   = array_map( 'str_getcsv', file( $file ) );
-            $header = array_map( 'trim', array_shift( $rows ) );
-
-            $required_columns = array( 'taxonomy', 'old_term', 'new_name' );
-            $missing_columns  = array_diff( $required_columns, $header );
-
-            if ( ! empty( $missing_columns ) ) {
-                WP_CLI::error( 'CSV is missing required columns: ' . implode( ', ', $missing_columns ) );
-            }
-
-            foreach ( $rows as $i => $row ) {
-                $row_num = $i + 2; // CSV line number
-
-                if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
-                    // skip empty lines
-                    continue;
-                }
-
-                $data = array_combine( $header, $row );
-
-                // Trim all fields
-                $data = array_map( 'trim', $data );
-
-                $taxonomy = $data['taxonomy'] ?? '';
-                $old_term = $data['old_term'] ?? '';
-                $new_name = $data['new_name'] ?? '';
-                $new_slug = $data['new_slug'] ?? null;
-
-                if ( ! $taxonomy || ! $old_term || ! $new_name ) {
-                    $log( "Row $row_num: Skipped – one or more required fields missing." );
-
-                    continue;
-                }
-
-                if ( ! taxonomy_exists( $taxonomy ) ) {
-                    $log( "Row $row_num: Skipped – taxonomy '$taxonomy' does not exist." );
-
-                    continue;
-                }
-
-                $term = get_term_by( 'slug', sanitize_title( $old_term ), $taxonomy )
-                    ?: get_term_by( 'name', $old_term, $taxonomy );
-
-                if ( ! $term ) {
-                    $log( "Row $row_num: Skipped – term '$old_term' not found in taxonomy '$taxonomy'." );
-
-                    continue;
-                }
-
-                if ( $dry_run ) {
-                    $log( "Row $row_num: [DRY RUN] Would rename '$old_term' to '$new_name' in taxonomy '$taxonomy'" );
-
-                    continue;
-                }
-
-                $result = $this->rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug );
-
-                if ( is_wp_error( $result ) ) {
-                    $log( "Row $row_num: Error – " . $result->get_error_message() );
-                } else {
-                    $log( "Row $row_num: Renamed '$old_term' to '$new_name' in taxonomy '$taxonomy'" );
-                }
-            }
-
-            WP_CLI::success( $dry_run ? 'Dry run complete.' : 'Bulk rename complete.' );
-
-            return;
-        }
 
         // Handle single rename.
         $this->process_single_term( $args, $dry_run );
 
         $this->display_notices();
+
+        return;
+    }
+
+    private function process_csv( string $file, bool $dry_run = false ) {
+        $rows    = array_map( 'str_getcsv', file( $file ) );
+        $headers = array_map( 'trim', array_shift( $rows ) );
+
+        if ( ! $this->validate_headers( $headers, array( 'taxonomy', 'old_term', 'new_name' ) ) ) {
+            return;
+        }
+
+        foreach ( $rows as $i => $row ) {
+            $row_num  = $i + 2;
+            $data     = array_combine( $headers, $row );
+            $data     = array_map( 'trim', $data );
+            $taxonomy = $data['taxonomy'] ?? '';
+            $old_term = $data['old_term'] ?? '';
+            $new_name = $data['new_name'] ?? '';
+            $new_slug = $data['new_slug'] ?? null;
+
+            // skip empty lines.
+            if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
+                continue;
+            }
+
+            // Check required fields.
+            if ( ! $this->has_required_fields( $data, array( 'taxonomy', 'old_term', 'new_name' ), $row_num ) ) {
+                continue;
+            }
+
+            $taxonomy = $this->validate_taxonomy( $taxonomy );
+
+            if ( is_wp_error( $taxonomy ) ) {
+                $this->invalid_taxonomy( $taxonomy, $row_num );
+
+                continue;
+            }
+
+            if ( $dry_run ) {
+                $message = "Row $row_num: [DRY RUN] Would rename '$old_term' to '$new_name' in taxonomy '$taxonomy'";
+
+                $this->log( $message );
+
+                $this->add_notice( $message );
+
+                continue;
+            }
+
+            $result = $this->rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug );
+
+            if ( is_wp_error( $result ) ) {
+                $this->add_notice( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
+            } else {
+                $message = "Row $row_num: Renamed '$old_term' to '$new_name' in taxonomy '$taxonomy'";
+
+                $this->add_notice( $message, 'success' );
+                $this->log( $message );
+            }
+        }
+
+        $this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
 
         return;
     }
@@ -185,14 +169,14 @@ class Rename extends TaxonomyCLICommands {
             $this->add_notice( $message, 'success' );
             $this->log( $message );
         }
-    }    
+    }
 
     private function rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug = null ) {
         $term = $this->is_term_valid( $old_term, $taxonomy );
 
         if ( ! $term ) {
             return;
-        }        
+        }
 
         $args = array( 'name' => $new_name );
 
