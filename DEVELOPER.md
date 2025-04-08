@@ -84,7 +84,3 @@ wp boomi taxonomies update_terms content-type --csv=/Users/erikmitchell/bc-migra
 
 # Dry run
 wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News" --dry-run
-
-# CSV Format
-Parent > Child1, Child2
-Another Parent > Another Child
