@@ -55,57 +55,7 @@ class Delete extends TaxonomyCLICommands {
             $this->display_notices();
 
             return;
-        }        
-/*
-
-            $required_columns = array( 'taxonomy', 'term' );
-            $missing_columns  = array_diff( $required_columns, $header );
-
-
-            foreach ( $rows as $i => $row ) {
-
-                $taxonomy   = $data['taxonomy'] ?? '';
-                $term_names = explode( '|', $data['term'] );
-
-
-                Validate taxonomy.
-
-                $this->process_single( $dry_run, $delete_old, $post_type, $args );
-
-                $this->display_notices();
-        
-                return;
-                // Check term func
-                // Check term
-                // $term = get_term_by('slug', sanitize_title($term_name), $taxonomy)
-                // ?: get_term_by('name', $term_name, $taxonomy);
-
-                // if (! $term) {
-                // $log("Row $row_num: Skipped – term '$term_name' not found in taxonomy '$taxonomy'.");
-
-                // continue;
-                // 
-                // Check term [end]
-                if ( $dry_run ) {
-                    $log( "Row $row_num: [DRY RUN] Would delete term(s) " . implode( ', ', $term_names ) . " in $taxonomy" );
-
-                    continue;
-                }
-// standard from here
-                $result = $this->delete_taxonomy_term( $taxonomy, $term_names, $log, $row_num );
-
-                if ( is_wp_error( $result ) ) {
-                    $log( "Row $row_num: Error – " . $result->get_error_message() );
-                }
-                // } else {
-                // $log("Row $row_num: Deleted term '$term_name' in taxonomy '$taxonomy'.");
-                // }
-            }
-
-            WP_CLI::success( $dry_run ? 'Dry run complete.' : 'Bulk delete complete.' );
-
-            return;
-        */
+        }
 
         // Single command.
         $this->process_single_term( $args, $dry_run );
@@ -114,6 +64,66 @@ class Delete extends TaxonomyCLICommands {
 
         return;
     }
+
+    private function process_csv( string $file, string $post_type, bool $delete_old = false, bool $dry_run = false ) {
+        $rows     = array_map( 'str_getcsv', file( $file ) );
+        $headers  = array_map( 'trim', array_shift( $rows ) );
+
+        if (!$this->validate_headers( $headers, array( 'taxonomy', 'term' ) )) {
+            return;
+        }
+
+        foreach ( $rows as $i => $row ) {
+            $row_num   = $i + 2;
+            $data      = array_combine( $headers, $row );
+            $data      = array_map( 'trim', $data );
+            $taxonomy   = $data['taxonomy'] ?? '';
+            $term_names = explode( '|', $data['term'] );
+
+            // skip empty lines.
+            if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
+                continue;
+            }
+
+            // Check required fields.
+            if ( ! $this->has_required_fields( $data, array( 'taxonomy', 'term' ), $row_num ) ) {
+                continue;
+            }
+
+            $taxonomy = $this->validate_taxonomy( $taxonomy );
+
+            if ( is_wp_error( $taxonomy ) ) {
+                $this->invalid_taxonomy( $taxonomy, $row_num );
+
+                continue;
+            }
+
+            if ( $dry_run ) {
+                $message = "Row $row_num: [DRY RUN] Would delete term(s) " . implode( ', ', $term_names ) . " in $taxonomy";
+
+                $this->log( $message );
+
+                $this->add_notice( $message );                
+
+                continue;
+            }
+
+            $result = $this->delete_taxonomy_term( $taxonomy, $term_names, $row_num );
+
+            if ( is_wp_error( $result ) ) {
+                $this->add_notice( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
+            } else {
+                $message = "Row $row_num: Deleted term(s) '" . implode( ', ', $term_names ) . "' in taxonomy '$taxonomy'.";
+
+                $this->add_notice( $message, 'success' );
+                $this->log( $message );
+            }
+        }
+
+        $this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
+
+        return;
+    }     
 
     private function process_single_term( array $args, $dry_run ) {
         $taxonomy = $args[0] ?? '';
@@ -161,26 +171,16 @@ class Delete extends TaxonomyCLICommands {
 
     private function delete_taxonomy_term( $taxonomy, $term_names, $row_num = null ) {
         foreach ( $term_names as $term_name ) {
-            $term = get_term_by( 'slug', sanitize_title( $term_name ), $taxonomy );
+            $term = $this->is_term_valid( $term_name, $taxonomy );
 
-            if ( ! $term ) {
-                $term = get_term_by( 'name', $term_name, $taxonomy );
-            }
-
-            if ( ! $term || is_wp_error( $term ) ) {
-                $message = "Term '$term_name' not found in taxonomy '$taxonomy'.";
-
-                $this->add_notice( $message, 'warning' );
-
-                $this->log( "[SKIPPED] $message" );
-
+            if ( !$term ) {
                 continue;
             }
 
             if ( ! is_wp_error( wp_delete_term( $term->term_id, $taxonomy ) ) ) {
-                    $this->log( ( $row_num ? "Row $row_num: " : '' ) . "Deleted term '$term_name'" );
+                $this->log( ( $row_num ? "Row $row_num: " : '' ) . "Deleted term '$term_name'" );
             } else {
-                    $this->log( ( $row_num ? "Row $row_num: " : '' ) . "Failed to delete term '$term_name'" );
+                $this->log( ( $row_num ? "Row $row_num: " : '' ) . "Failed to delete term '$term_name'" );
             }
         }
     }

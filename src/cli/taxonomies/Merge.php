@@ -78,7 +78,7 @@ class Merge extends TaxonomyCLICommands {
         return;
     }
 
-    protected function process_csv( string $file, string $post_type, bool $delete_old = false, bool $dry_run = false ) {
+    private function process_csv( string $file, string $post_type, bool $delete_old = false, bool $dry_run = false ) {
         $rows     = array_map( 'str_getcsv', file( $file ) );
         $headers  = array_map( 'trim', array_shift( $rows ) );
 
