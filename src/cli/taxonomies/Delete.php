@@ -49,7 +49,7 @@ class Delete extends TaxonomyCLICommands {
         // Batch merge.
         if ( isset( $assoc_args['file'] ) ) {
             if ( is_valid_file( $assoc_args['file'] ) ) {
-                $this->process_csv( $assoc_args['file'] );
+                $this->process_csv( $assoc_args['file'], $dry_run );
             }
 
             $this->display_notices();
@@ -65,7 +65,7 @@ class Delete extends TaxonomyCLICommands {
         return;
     }
 
-    private function process_csv( string $file, string $post_type, bool $delete_old = false, bool $dry_run = false ) {
+    private function process_csv( string $file, bool $dry_run = false ) {
         $rows     = array_map( 'str_getcsv', file( $file ) );
         $headers  = array_map( 'trim', array_shift( $rows ) );
 
