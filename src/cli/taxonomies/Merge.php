@@ -10,8 +10,6 @@
 namespace erikdmitchell\bcmigration\cli\taxonomies;
 
 use erikdmitchell\bcmigration\abstracts\TaxonomyCLICommands;
-use WP_CLI;
-use WP_Error;
 
 class Merge extends TaxonomyCLICommands {
 
@@ -63,7 +61,7 @@ class Merge extends TaxonomyCLICommands {
         // Batch merge.
         if ( isset( $assoc_args['file'] ) ) {
             if ( is_valid_file( $assoc_args['file'] ) ) {
-                $this->process_csv( $assoc_args['file'] );
+                $this->process_csv( $assoc_args['file'], $delete_old, $dry_run );
             }
 
             $this->display_notices();
@@ -72,18 +70,107 @@ class Merge extends TaxonomyCLICommands {
         }
 
         // Single command.
-        $this->process_single( $dry_run, $delete_old, $post_type, $args );
+        $this->process_single_term( $args, $dry_run, $delete_old, $post_type );
 
         $this->display_notices();
 
         return;
     }
 
-    protected function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $log, $row_num = null, $post_type = 'post' ) {
-        if ( ! taxonomy_exists( $taxonomy ) ) {
-            return new WP_Error( 'invalid_taxonomy', "Taxonomy '$taxonomy' does not exist." );
+    private function process_csv( string $file, string $post_type, bool $delete_old = false, bool $dry_run = false ) {
+        $rows    = array_map( 'str_getcsv', file( $file ) );
+        $headers = array_map( 'trim', array_shift( $rows ) );
+
+        if ( ! $this->validate_headers( $headers, array( 'taxonomy', 'from_terms', 'to_term' ) ) ) {
+            return;
         }
 
+        foreach ( $rows as $i => $row ) {
+            $row_num  = $i + 2;
+            $data     = array_combine( $headers, $row );
+            $data     = array_map( 'trim', $data );
+            $taxonomy = $data['taxonomy'];
+
+            // skip empty lines.
+            if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
+                continue;
+            }
+
+            // Check required fields.
+            if ( ! $this->has_required_fields( $data, array( 'taxonomy', 'from_terms', 'to_term' ), $row_num ) ) {
+                continue;
+            }
+
+            $taxonomy = $this->validate_taxonomy( $taxonomy );
+
+            if ( is_wp_error( $taxonomy ) ) {
+                $this->invalid_taxonomy( $taxonomy, $row_num );
+
+                continue;
+            }
+
+            $from_terms = explode( '|', $data['from_terms'] );
+            $to_term    = $data['to_term'];
+
+            if ( $dry_run ) {
+                $this->dry_run_result( $taxonomy, $from_terms, $to_term, $row_num );
+
+                continue;
+            }
+
+            $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $row_num, $post_type );
+
+            if ( is_wp_error( $result ) ) {
+                $this->add_notice( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
+            }
+        }
+
+        $this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
+
+        return;
+    }
+
+    private function process_single_term( array $args, $dry_run, $delete_old, $post_type ) {
+        $taxonomy = $this->validate_taxonomy( $args[0] );
+
+        if ( is_wp_error( $taxonomy ) ) {
+            $this->add_notice( $taxonomy->get_error_message(), 'error' );
+
+            return;
+        }
+
+        if ( ! $this->validate_command_args( $args, 3, 3 ) ) {
+            $this->add_notice( 'Invalid arguments. Usage: wp taxonomy merge_terms <taxonomy> <from_terms> <to_term>', 'error' );
+
+            return;
+        }
+
+        $from_terms = explode( '|', $args[1] );
+        $to_term    = $args[2];
+
+        if ( $dry_run ) {
+            $message = '[DRY RUN] Would merge ' . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)";
+
+            $this->log( $message );
+
+            return;
+        }
+
+        $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, null, $post_type );
+
+        if ( is_wp_error( $result ) ) {
+            $this->add_notice( 'Error - ' . $result->get_error_message(), 'warning' );
+        } else {
+            $this->log( 'Merged ' . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
+            $this->add_notice( 'Merged ' . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)", 'success' );
+        }
+
+        $this->display_notices();
+
+        return;
+    }
+
+    protected function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $row_num = null, $post_type = 'post' ) {
         $to_term = get_term_by( 'name', $to_term_name, $taxonomy );
 
         if ( ! $to_term || is_wp_error( $to_term ) ) {
@@ -104,7 +191,7 @@ class Merge extends TaxonomyCLICommands {
             $from_term = get_term_by( 'name', trim( $from_name ), $taxonomy );
 
             if ( ! $from_term || is_wp_error( $from_term ) ) {
-                $message = "Row {$row_num}: From term '{$from_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";
+                $message = ( $row_num ? "Row $row_num: " : '' ) . "From term '{$from_name}' does not exist in taxonomy '{$taxonomy}'. Skipping.";
 
                 $this->add_notice( $message, 'warning' );
 

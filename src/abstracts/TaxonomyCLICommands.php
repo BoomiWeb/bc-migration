@@ -77,104 +77,69 @@ abstract class TaxonomyCLICommands extends CLICommands {
         }
     }
 
-    protected function process_csv( $file, $delete_old = false, $dry_run = false, $log = null ) {
-        $rows     = array_map( 'str_getcsv', file( $file ) );
-        $header   = array_map( 'trim', array_shift( $rows ) );
-        $required = array( 'taxonomy', 'from_terms', 'to_term' );
-
-        $missing = array_diff( $required, $header );
+    protected function validate_headers( array $headers, array $required ) {
+        $missing = array_diff( $required, $headers );
 
         if ( ! empty( $missing ) ) {
             $this->add_notice( 'CSV is missing required columns: ' . implode( ', ', $missing ), 'error' );
+
+            $this->log( 'CSV is missing required columns: ' . implode( ', ', $missing ) );
+
+            return false;
         }
 
-        foreach ( $rows as $i => $row ) {
-            $row_num   = $i + 2;
-            $data      = array_combine( $header, $row );
-            $data      = array_map( 'trim', $data );
-            $post_type = $data['post_type'] ?? 'post';
+        return true;
+    }
 
-            // skip empty lines.
-            if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
-                continue;
-            }
+    protected function has_required_fields( array $data, array $required, int $row_num = 0 ) {
+        $missing_keys = array_diff_key( array_flip( $required ), $data );
 
-            $taxonomy   = $data['taxonomy'];
-            $from_terms = explode( '|', $data['from_terms'] );
-            $to_term    = $data['to_term'];
+        if ( ! empty( $missing_keys ) ) {
+            // TODO: add message.
+            $this->add_notice( "Row $row_num: Skipped - one or more required fields missing.", 'warning' );  // TODO: add check for row number.
 
-            // check required fields.
-            if ( ! $taxonomy || ! $from_terms || ! $to_term ) {
-                $this->log( "Row $row_num: Skipped - one or more required fields missing." );
+            $this->log( "Row $row_num: Skipped - one or more required fields missing." );
 
-                continue;
-            }
-
-            $taxonomy = $this->validate_taxonomy( $taxonomy );
-
-            if ( is_wp_error( $taxonomy ) ) {
-                $this->invalid_taxonomy( $taxonomy, $row_num );
-
-                continue;
-            }
-
-            if ( $dry_run ) {
-                $message = "Row $row_num: [DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)";
-
-                $this->log( $message );
-
-                $this->add_notice( $message );
-
-                continue;
-            }
-
-            // FIXME: this probably needs to be dynamic
-            $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, $row_num, $post_type );
-
-            if ( is_wp_error( $result ) ) {
-                $this->add_notice( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
-            }
+            return false;
         }
 
-        $this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
+        return true;
+    }
+
+    protected function dry_run_result( $taxonomy, $from_terms, $to_term, $row_num ) {
+        // FIXME: this is too specific to the merge command.
+        $message = "Row $row_num: [DRY RUN] Would merge " . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)";
+
+        $this->log( $message );
+
+        $this->add_notice( $message );
 
         return;
     }
 
-    protected function process_single( string $dry_run, string $delete_old, string $post_type, array $args = array() ) {
-        if ( count( $args ) < 3 ) {
-            $this->add_notice( 'Please provide <taxonomy> <from_terms> <to_term> or use --file=<file>', 'error' );
+    protected function validate_command_args( array $args, int $min_args = 0, int $max_args = 0 ): bool {
+        $arg_count = count( $args );
 
-            return;
+        if ( $arg_count < $min_args || ( $max_args > 0 && $arg_count > $max_args ) ) {
+            return false;
         }
 
-        list( $taxonomy, $from_string, $to_term ) = $args;
-        $from_terms                               = explode( '|', $from_string );
+        return true;
+    }
 
-        $taxonomy = $this->validate_taxonomy( $taxonomy );
+    protected function is_term_valid( string $term_name, string $taxonomy, int $row_num = 0 ) {
+        $term = get_term_by( 'slug', sanitize_title( $term_name ), $taxonomy ) ?: get_term_by( 'name', $term_name, $taxonomy );
 
-        if ( is_wp_error( $taxonomy ) ) {
-            $this->add_notice( $taxonomy->get_error_message(), 'error' );
-
-            $this->log( "[SKIPPED] {$taxonomy->get_error_message()}" );
-        }
-
-        if ( $dry_run ) {
-            $message = '[DRY RUN] Would merge ' . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)";
+        if ( ! $term || is_wp_error( $term ) ) {
+            $message = "Row $row_num: Skipped - term '$term_name' not found in taxonomy '$taxonomy'."; // TODO: add check for row number
 
             $this->log( $message );
 
-            $this->add_notice( $message );
+            $this->add_notice( $message, 'warning' );
 
-            return;
+            return false;
         }
 
-        $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, null, $post_type );
-
-        if ( is_wp_error( $result ) ) {
-            $this->add_notice( 'Error - ' . $result->get_error_message(), 'warning' );
-        }
-
-        $this->add_notice( 'Single merge complete.', 'success' );
+        return $term;
     }
 }
