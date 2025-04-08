@@ -14,15 +14,24 @@ namespace erikdmitchell\bcmigration\abstracts;
  */
 abstract class Taxonomies {
 
-    public function __construct() {
-    }
-
+    /**
+     * Retrieve terms from a taxonomy.
+     *
+     * @param string $term Optional. Term name or slug to search for.
+     * @return array|WP_Error The terms data or WP_Error on failure.
+     */
     public function get_terms( string $term = '' ) {
         $terms = get_terms( $term, 'hide_empty=0' );
 
         return $terms;
     }
 
+    /**
+     * Retrieves the taxonomies associated with the given post type.
+     *
+     * @param string $post_type Optional. Post type to retrieve taxonomies for.
+     * @return array Array of taxonomy names.
+     */
     public function get_by_post_type( string $post_type = '' ) {
         $taxonomies = get_object_taxonomies( $post_type, 'names' );
 
@@ -57,8 +66,4 @@ abstract class Taxonomies {
 
         return wp_update_term( $term->term_id, $taxonomy, $args );
     }
-
-    public function merge() {}
-
-    public function delete() {}
 }
