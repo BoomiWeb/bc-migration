@@ -75,6 +75,8 @@ class TermValidator extends TaxonomyCLICommands {
 
                 $this->log( "[SKIPPED] File '{$file}' not found." );
 
+                $this->display_notices();
+
                 return;
             }
 
@@ -84,6 +86,8 @@ class TermValidator extends TaxonomyCLICommands {
             $this->add_notice( 'You must provide either --terms or --file.', 'error' );
 
             $this->log( '[SKIPPED] You must provide either --terms or --file.' );
+
+            $this->display_notices();
 
             return;
         }
@@ -175,7 +179,9 @@ class TermValidator extends TaxonomyCLICommands {
             }
         }
 
-        $this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
+        $this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch validation complete.', 'success' );
+
+        $this->display_notices();
 
         return;
     }
