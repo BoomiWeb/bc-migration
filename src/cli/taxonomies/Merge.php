@@ -62,7 +62,7 @@ class Merge extends TaxonomyCLICommands {
         // Batch merge.
         if ( isset( $assoc_args['file'] ) ) {
             if ( is_valid_file( $assoc_args['file'] ) ) {               
-                $this->process_csv( $assoc_args['file'] );
+                $this->process_csv( $assoc_args['file'], $delete_old, $dry_run );
             }
 
             $this->display_notices();
@@ -77,6 +77,59 @@ class Merge extends TaxonomyCLICommands {
 
         return;
     }
+
+    protected function process_csv( string $file, string $post_type, bool $delete_old = false, bool $dry_run = false ) {
+        $rows     = array_map( 'str_getcsv', file( $file ) );
+        $headers  = array_map( 'trim', array_shift( $rows ) );
+
+        if (!$this->validate_headers( $headers, array( 'taxonomy', 'from_terms', 'to_term' ) )) {
+            return;
+        }
+
+        foreach ( $rows as $i => $row ) {
+            $row_num   = $i + 2;
+            $data      = array_combine( $headers, $row );
+            $data      = array_map( 'trim', $data );
+            $taxonomy  = $data['taxonomy'];
+
+            // skip empty lines.
+            if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
+                continue;
+            }
+
+            // Check required fields.
+            if ( ! $this->has_required_fields( $data, array( 'taxonomy', 'from_terms', 'to_term' ), $row_num ) ) {
+                continue;
+            }
+
+            $taxonomy = $this->validate_taxonomy( $taxonomy );
+
+            if ( is_wp_error( $taxonomy ) ) {
+                $this->invalid_taxonomy( $taxonomy, $row_num );
+
+                continue;
+            }
+
+            $from_terms = explode( '|', $data['from_terms'] );
+            $to_term    = $data['to_term'];
+
+            if ( $dry_run ) {
+                $this->dry_run_result( $taxonomy, $from_terms, $to_term, $row_num );
+
+                continue;
+            }
+
+            $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, $row_num, $post_type );
+
+            if ( is_wp_error( $result ) ) {
+                $this->add_notice( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
+            }
+        }
+
+        $this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
+
+        return;
+    }    
 
     private function process_single_term( array $args, $dry_run, $delete_old, $post_type ) {       
         $taxonomy = $this->validate_taxonomy( $args[0] );
