@@ -91,14 +91,12 @@ abstract class TaxonomyCLICommands extends CLICommands {
         return true;
     }
 
-    protected function has_required_fields(array $data, array $required, int $row_num = 0) {
-echo "has_required_fields - check\n";        
-        $taxonomy   = $data['taxonomy']; // Custom
-        $from_terms = explode( '|', $data['from_terms'] ); // Custom
-        $to_term    = $data['to_term']; // Custom
+    protected function has_required_fields(array $data, array $required, int $row_num = 0) { 
+        $missing_keys = array_diff_key(array_flip($required), $data);
 
-        if ( ! $taxonomy || ! $from_terms || ! $to_term ) { // Custom
-            $this->add_notice( "Row $row_num: Skipped - one or more required fields missing.", 'error' );
+        if ( ! empty( $missing_keys ) ) {
+            // TODO: add message.
+            $this->add_notice( "Row $row_num: Skipped - one or more required fields missing.", 'warning' );  // TODO: add check for row number.
 
             $this->log( "Row $row_num: Skipped - one or more required fields missing." );
 

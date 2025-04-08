@@ -119,7 +119,7 @@ class Merge extends TaxonomyCLICommands {
                 continue;
             }
 
-            $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $log, $row_num, $post_type );
+            $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $row_num, $post_type );
 
             if ( is_wp_error( $result ) ) {
                 $this->add_notice( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
