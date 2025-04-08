@@ -10,7 +10,6 @@
 namespace erikdmitchell\bcmigration\cli\taxonomies;
 
 use erikdmitchell\bcmigration\abstracts\TaxonomyCLICommands;
-use WP_Error;
 
 class Delete extends TaxonomyCLICommands {
 
@@ -39,8 +38,8 @@ class Delete extends TaxonomyCLICommands {
      * @when after_wp_load
      */
     public function delete_terms( $args, $assoc_args ) {
-        $dry_run = isset( $assoc_args['dry-run'] );
-        $log_name   = $assoc_args['log'] ?? null;
+        $dry_run  = isset( $assoc_args['dry-run'] );
+        $log_name = $assoc_args['log'] ?? null;
 
         if ( $log_name ) {
             $this->set_log_name( $log_name );
@@ -66,17 +65,17 @@ class Delete extends TaxonomyCLICommands {
     }
 
     private function process_csv( string $file, bool $dry_run = false ) {
-        $rows     = array_map( 'str_getcsv', file( $file ) );
-        $headers  = array_map( 'trim', array_shift( $rows ) );
+        $rows    = array_map( 'str_getcsv', file( $file ) );
+        $headers = array_map( 'trim', array_shift( $rows ) );
 
-        if (!$this->validate_headers( $headers, array( 'taxonomy', 'term' ) )) {
+        if ( ! $this->validate_headers( $headers, array( 'taxonomy', 'term' ) ) ) {
             return;
         }
 
         foreach ( $rows as $i => $row ) {
-            $row_num   = $i + 2;
-            $data      = array_combine( $headers, $row );
-            $data      = array_map( 'trim', $data );
+            $row_num    = $i + 2;
+            $data       = array_combine( $headers, $row );
+            $data       = array_map( 'trim', $data );
             $taxonomy   = $data['taxonomy'] ?? '';
             $term_names = explode( '|', $data['term'] );
 
@@ -103,7 +102,7 @@ class Delete extends TaxonomyCLICommands {
 
                 $this->log( $message );
 
-                $this->add_notice( $message );                
+                $this->add_notice( $message );
 
                 continue;
             }
@@ -123,13 +122,13 @@ class Delete extends TaxonomyCLICommands {
         $this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
 
         return;
-    }     
+    }
 
     private function process_single_term( array $args, $dry_run ) {
-        $taxonomy = $args[0] ?? '';
+        $taxonomy   = $args[0] ?? '';
         $term_names = explode( '|', $args[1] ?? '' );
 
-        if (!$this->validate_command_args( $args, 2, 2 )) {
+        if ( ! $this->validate_command_args( $args, 2, 2 ) ) {
             $this->add_notice( 'Invalid arguments. Usage: wp taxonomy delete_term <taxonomy> <term>', 'error' );
 
             return;
@@ -173,7 +172,7 @@ class Delete extends TaxonomyCLICommands {
         foreach ( $term_names as $term_name ) {
             $term = $this->is_term_valid( $term_name, $taxonomy );
 
-            if ( !$term ) {
+            if ( ! $term ) {
                 continue;
             }
 
