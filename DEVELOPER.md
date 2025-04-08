@@ -75,6 +75,7 @@ wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migrat
 
 # Single string input
 wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News"
+wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News" --log=update-terms.log
 
 # CSV input
 wp boomi taxonomies update_terms content-type --csv=terms.csv

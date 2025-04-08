@@ -28,10 +28,14 @@
      *
      * [--dry-run]
      * : If set, no changes will be made.
+     * 
+     * [--log=<logfile>]
+     * : Path to a log file for results.
      *
      * ## EXAMPLES
      *
      * wp taxonomy update_terms content-type "News & Updates > Press Release, News"
+     * wp taxonomy update_terms content-type "News & Updates > Press Release, News" --log=update-terms.log
      * wp taxonomy update_terms content-type --csv=terms.csv --dry-run
      *
      */
@@ -39,8 +43,22 @@
         list( $taxonomy ) = $args;
         $dry_run = isset( $assoc_args['dry-run'] );
         $csv_path = isset( $assoc_args['csv'] ) ? $assoc_args['csv'] : null;
-
+        $log_name         = $assoc_args['log'] ?? null;
         $mappings = [];
+
+        if ( $log_name ) {
+            $this->set_log_name( $log_name );
+        }
+
+        $taxonomy = $this->validate_taxonomy( $taxonomy );
+
+        if ( is_wp_error( $taxonomy ) ) {
+            $this->add_notice( $taxonomy->get_error_message(), 'error' );
+            $this->log( $taxonomy->get_error_message() );
+            $this->display_notices();
+            
+            return;
+        }
 
         if ( $csv_path ) {
             if ( ! file_exists( $csv_path ) ) {
@@ -71,7 +89,7 @@
         } elseif ( isset( $args[1] ) ) {
             $input = $args[1];
             $parts = explode( '>', $input );
-            
+
             if ( count( $parts ) === 2 ) {
                 $parent = trim( $parts[0] );
                 $children = array_map( 'trim', explode( ',', $parts[1] ) );
