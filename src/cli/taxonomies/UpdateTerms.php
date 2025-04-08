@@ -95,21 +95,7 @@
                 return;
             }
         } elseif ( isset( $args[1] ) ) {
-            $input = $args[1];
-            $parts = explode( '>', $input );
-
-            if ( count( $parts ) === 2 ) {
-                $parent = trim( $parts[0] );
-                $children = array_map( 'trim', explode( ',', $parts[1] ) );
-                $mappings[] = [ 'parent' => $parent, 'children' => $children ];
-            } else {
-                $this->add_notice( "Invalid input format. Use: Parent > Child1, Child2", 'error' );
-                $this->log( "Invalid input format. Use: Parent > Child1, Child2" );
-
-                $this->display_notices();
-
-                return;
-            }
+            $this->process_single_term( $args, $taxonomy, $dry_run );
         } else {
             $this->add_notice( "You must provide either a terms string or a CSV file.", 'error' );
             $this->log( "You must provide either a terms string or a CSV file." );
@@ -122,6 +108,26 @@
         $this->process_terms( $mappings, $taxonomy, $dry_run );
 
         $this->display_notices();
+
+        return;
+    }
+
+    private function process_single_term(array $args, string $taxonomy, bool $dry_run) {        
+        $input = $args[1];
+        $parts = explode( '>', $input );
+
+        if ( count( $parts ) === 2 ) {
+            $parent = trim( $parts[0] );
+            $children = array_map( 'trim', explode( ',', $parts[1] ) );
+            $mappings[] = [ 'parent' => $parent, 'children' => $children ];
+        } else {
+            $this->add_notice( "Invalid input format. Use: Parent > Child1, Child2", 'error' );
+            $this->log( "Invalid input format. Use: Parent > Child1, Child2" );
+
+            return;
+        } 
+        
+        $this->process_terms( $mappings, $taxonomy, $dry_run );
 
         return;
     }
