@@ -142,10 +142,10 @@ class Merge extends TaxonomyCLICommands {
     /**
      * Process a single taxonomy term merge command.
      *
-     * @param array  $args     CLI arguments.
-     * @param bool   $dry_run  If set, simulate actions without making changes.
-     * @param bool   $delete_old  If set, delete the old terms after merging.
-     * @param string $post_type Post type to run the merge on.
+     * @param string[] $args     CLI arguments.
+     * @param bool     $dry_run  If set, simulate actions without making changes.
+     * @param bool     $delete_old  If set, delete the old terms after merging.
+     * @param string   $post_type Post type to run the merge on.
      *
      * @return void
      */
@@ -190,12 +190,12 @@ class Merge extends TaxonomyCLICommands {
     /**
      * Merges multiple terms into a single term.
      *
-     * @param string $taxonomy     The taxonomy to merge within.
-     * @param array  $from_terms   Array of term names to merge.
-     * @param string $to_term_name The term to merge into.
-     * @param bool   $delete_old   If true, delete the old terms after merging.
-     * @param int    $row_num      The row number (for logging purposes).
-     * @param string $post_type    The post type to run the merge on.
+     * @param string   $taxonomy     The taxonomy to merge within.
+     * @param string[] $from_terms   Array of term names to merge.
+     * @param string   $to_term_name The term to merge into.
+     * @param bool     $delete_old   If true, delete the old terms after merging.
+     * @param int      $row_num      The row number (for logging purposes).
+     * @param string   $post_type    The post type to run the merge on.
      *
      * @return bool If the merge was successful.
      */

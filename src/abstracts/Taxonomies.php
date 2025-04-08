@@ -35,7 +35,7 @@ abstract class Taxonomies {
      * Retrieves the taxonomies associated with the given post type.
      *
      * @param string $post_type Optional. Post type to retrieve taxonomies for.
-     * @return array Array of taxonomy names.
+     * @return string[] Array of taxonomy names.
      */
     public function get_by_post_type( string $post_type = '' ) {
         $taxonomies = get_object_taxonomies( $post_type, 'names' );
@@ -50,8 +50,7 @@ abstract class Taxonomies {
      * @param string      $old_term The current term name or slug to search for.
      * @param string      $new_name The new name you want to assign.
      * @param string|null $new_slug (Optional) New slug for the term.
-     *
-     * @return array|WP_Error The updated term data or WP_Error on failure.
+     * @return array{term_id: int, term_taxonomy_id: int}|WP_Error The updated term data or WP_Error on failure.
      */
     public function rename( string $taxonomy, string $old_term, string $new_name, $new_slug = null ) {
         // Try to get the term by slug first, then name if that fails.

@@ -134,8 +134,8 @@ class Delete extends TaxonomyCLICommands {
     /**
      * Process a single term deletion.
      *
-     * @param array $args   CLI arguments.
-     * @param bool  $dry_run  If set, no changes will be made.
+     * @param string[] $args   CLI arguments.
+     * @param bool     $dry_run  If set, no changes will be made.
      *
      * @return void
      */

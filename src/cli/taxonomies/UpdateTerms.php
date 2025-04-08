@@ -128,9 +128,9 @@ class UpdateTerms extends TaxonomyCLICommands {
     /**
      * Process a single term from a string argument.
      *
-     * @param array  $args    CLI arguments.
-     * @param string $taxonomy The taxonomy to update.
-     * @param bool   $dry_run  If set, no changes will be made.
+     * @param string[] $args    CLI arguments.
+     * @param string   $taxonomy The taxonomy to update.
+     * @param bool     $dry_run  If set, no changes will be made.
      *
      * @return void
      */
@@ -158,9 +158,9 @@ class UpdateTerms extends TaxonomyCLICommands {
     /**
      * Process a set of terms with parent-child relationships.
      *
-     * @param array  $mappings Set of term sets with parent and children.
-     * @param string $taxonomy The taxonomy to update.
-     * @param bool   $dry_run If set, no changes will be made.
+     * @param array<array{parent: string, children: string[]}> $mappings Set of term sets with parent and children.
+     * @param string                                           $taxonomy The taxonomy to update.
+     * @param bool                                             $dry_run If set, no changes will be made.
      *
      * @return void
      */

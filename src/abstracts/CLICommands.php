@@ -126,9 +126,10 @@ abstract class CLICommands {
     /**
      * Pick fields from an associative array or object.
      *
-     * @param  array|object $item    Associative array or object to pick fields from.
-     * @param  array        $fields  List of fields to pick.
-     * @return array
+     * @param array<string, mixed>|object $item   Associative array or object to pick fields from.
+     * @param string[]                    $fields List of fields to pick.
+     *
+     * @return array<string, mixed> The picked fields as an associative array.
      */
     private function pick_fields( $item, $fields ) {
         $values = array();
@@ -173,7 +174,7 @@ abstract class CLICommands {
     /**
      * Get all notices.
      *
-     * @return array The array of notices.
+     * @return array<array{type: string, message: string}> The array of notices.
      */
     public function get_notices() {
         return $this->notices;

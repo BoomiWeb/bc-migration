@@ -42,8 +42,8 @@ class APIIDA extends CLICommands {
      *     Success: Removed the APIIDA uploads folder.
      *
      * @subcommand migrate
-     * @param array $args The action to perform.
-     * @param array $assoc_args The arguments array.
+     * @param string[] $args The action to perform.
+     * @param string[] $assoc_args The arguments array.
      */
     public function migrate( $args, $assoc_args ) {
         list ( $action ) = $args;
