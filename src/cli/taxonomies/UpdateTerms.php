@@ -119,6 +119,14 @@
             return;
         }
 
+        $this->process_terms( $mappings, $taxonomy, $dry_run );
+
+        $this->display_notices();
+
+        return;
+    }
+
+    private function process_terms($mappings, $taxonomy, $dry_run) {
         foreach ( $mappings as $set ) {
             $parent = $set['parent'];
             $children = $set['children'];
@@ -185,9 +193,5 @@
                 }
             }
         }
-
-        $this->display_notices();
-
-        return;
     }
 }
