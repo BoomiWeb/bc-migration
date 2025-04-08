@@ -55,7 +55,7 @@ trait LoggerTrait {
             mkdir( $this->log_dir, 0775, true );
         }
 
-        $timestamp = date( 'Y-m-d H:i:s' );
+        $timestamp = gmdate( 'Y-m-d H:i:s' );
         $formatted = "[{$timestamp}] {$message}" . PHP_EOL;
 
         file_put_contents( $log_file, $formatted, FILE_APPEND );
