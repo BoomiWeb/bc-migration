@@ -150,18 +150,18 @@ abstract class CLICommands {
      * Adds a notice to be displayed at the end of the command.
      *
      * @param string $message The message to display.
-     * @param string $type    The type of notice. One of 'info', 'success', 'warning', 'error'.
-     *                        Default is 'info'.
+     * @param string $type    The type of notice. One of 'log', 'success', 'warning', 'error'.
+     *                        Default is 'log'.
      *
      * @return void
      */
-    public function add_notice( string $message = '', string $type = 'info' ) {
+    public function add_notice( string $message = '', string $type = 'log' ) {
         if ( empty( $message ) ) {
             return;
         }
 
-        if ( ! in_array( $type, array( 'info', 'success', 'warning', 'error' ) ) ) {
-            $type = 'info';
+        if ( ! in_array( $type, array( 'log', 'success', 'warning', 'error' ) ) ) {
+            $type = 'log';
         }
 
         $this->notices[] = array(

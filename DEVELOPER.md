@@ -59,3 +59,14 @@ wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/i
 wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log [X]
 wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv --log=delete.log  []
 wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log --dry-run []
+
+# Term Validation
+
+## Single
+wp boomi taxonomies term-validator category --terms="News,Updates"
+wp boomi taxonomies term-validator category --terms="News,Updates" --field=name
+
+## Bulk
+wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --delete --dry-run --log=term-validation.log
+wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --log=term-validation.log
+wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --log=term-validation.log --delete
