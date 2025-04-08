@@ -11,6 +11,9 @@ namespace erikdmitchell\bcmigration\cli\taxonomies;
 
 use erikdmitchell\bcmigration\abstracts\TaxonomyCLICommands;
 
+/**
+ * TermValidator Class
+ */
 class TermValidator extends TaxonomyCLICommands {
     /**
      * Validate, sync, and optionally clean up taxonomy terms.

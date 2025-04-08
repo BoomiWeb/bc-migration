@@ -10,9 +10,11 @@
 namespace erikdmitchell\bcmigration\cli\taxonomies;
 
 use erikdmitchell\bcmigration\abstracts\TaxonomyCLICommands;
-use WP_CLI;
 use WP_Error;
 
+/**
+ * Rename Class
+ */
 class Rename extends TaxonomyCLICommands {
 
     /**

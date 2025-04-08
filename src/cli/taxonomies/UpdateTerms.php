@@ -11,6 +11,9 @@ namespace erikdmitchell\bcmigration\cli\taxonomies;
 
 use erikdmitchell\bcmigration\abstracts\TaxonomyCLICommands;
 
+/**
+ * UpdateTerms Class
+ */
 class UpdateTerms extends TaxonomyCLICommands {
     /**
      * Updates or creates taxonomy terms with parent-child relationships.

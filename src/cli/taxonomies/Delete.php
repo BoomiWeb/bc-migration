@@ -11,6 +11,9 @@ namespace erikdmitchell\bcmigration\cli\taxonomies;
 
 use erikdmitchell\bcmigration\abstracts\TaxonomyCLICommands;
 
+/**
+ * Delete Class
+ */
 class Delete extends TaxonomyCLICommands {
 
     /**
