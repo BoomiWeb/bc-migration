@@ -153,15 +153,36 @@ class TermValidator extends TaxonomyCLICommands {
                 $created[] = $term_identifier;
             }
         }
-
+// delete
         if ( isset( $assoc_args['delete'] ) ) {
             $provided_lookup = array_flip( $provided_terms );
+            $taxonomy_object = get_taxonomy( $taxonomy );
+            $default_term_id = null;
 
+            if ( $taxonomy === 'category' ) {
+                $default_term_id = (int) get_option( 'default_category' );
+            } else {
+                $taxonomy_object = get_taxonomy( $taxonomy );
+                if ( isset( $taxonomy_object->default_term ) ) {
+                    $default_term = get_term_by( 'slug', $taxonomy_object->default_term, $taxonomy );
+                    if ( $default_term && ! is_wp_error( $default_term ) ) {
+                        $default_term_id = $default_term->term_id;
+                    }
+                }
+            }           
+echo "default_term_id: $default_term_id\n";
             foreach ( $existing_map as $field_value => $term ) {
                 if ( ! isset( $provided_lookup[ $field_value ] ) ) {
                     if ( $dry_run ) {
                         $this->add_notice( "[Dry Run] Would delete term: {$term->name} ({$field}: {$field_value})", 'info' );
                         $this->log( "[Dry Run] Would delete term: {$term->name} ({$field}: {$field_value})" );
+
+                        continue;
+                    }
+
+                    if ( $term->term_id === $default_term_id ) {
+                        $this->add_notice( "Cannot delete default term: {$term->name} ({$field}: {$field_value})", 'warning' );
+                        $this->log( "[SKIPPED] Cannot delete default term: {$term->name} ({$field}: {$field_value})" );
 
                         continue;
                     }

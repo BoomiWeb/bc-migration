@@ -67,6 +67,6 @@ wp boomi taxonomies term-validator category --terms="News,Updates"
 wp boomi taxonomies term-validator category --terms="News,Updates" --field=name
 
 ## Bulk
-wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --dry-run --log=term-validation.log
+wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --delete --dry-run --log=term-validation.log
 wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --log=term-validation.log
 wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --log=term-validation.log --delete
