@@ -165,7 +165,7 @@ class TermValidator extends TaxonomyCLICommands {
         return;
     }
 
-    private function delete_terms($taxonomy, $provided_terms, $existing_map, $field, $dry_run) {
+    private function delete_terms( $taxonomy, $provided_terms, $existing_map, $field, $dry_run ) {
         $provided_lookup = array_flip( $provided_terms );
         $taxonomy_object = get_taxonomy( $taxonomy );
         $default_term_id = null;
@@ -180,7 +180,7 @@ class TermValidator extends TaxonomyCLICommands {
                     $default_term_id = $default_term->term_id;
                 }
             }
-        }           
+        }
 
         foreach ( $existing_map as $field_value => $term ) {
             if ( ! isset( $provided_lookup[ $field_value ] ) ) {
