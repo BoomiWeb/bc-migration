@@ -65,4 +65,4 @@ wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log --dry-r
 ## Single
 
 ## Bulk
-wp term-validator category --file=terms.csv --field=slug --delete --dry-run
+wp boomi taxonomies term-validator category --file=terms.csv --field=slug --delete --dry-run

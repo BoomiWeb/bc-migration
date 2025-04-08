@@ -47,6 +47,12 @@ class Taxonomies extends CLICommands {
                 'longdesc'  => 'Delete Taxonomies (terms)',
                 'method'    => 'delete_terms',
             ),
+            'term-validator' => array(
+                'class'     => __NAMESPACE__ . '\TermValidator',
+                'shortdesc' => 'Validate Taxonomies (terms)',
+                'longdesc'  => 'Validate Taxonomies (terms)',
+                'method'    => 'validate_terms',
+            ),            
         );
 
         foreach ( $commands as $command => $config ) {

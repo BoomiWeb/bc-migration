@@ -11,7 +11,7 @@ namespace erikdmitchell\bcmigration\cli\taxonomies;
 
 use erikdmitchell\bcmigration\abstracts\TaxonomyCLICommands;
 
-class Merge extends TaxonomyCLICommands {
+class TermValidator extends TaxonomyCLICommands {
     /**
      * Validate, sync, and optionally clean up taxonomy terms.
      *
@@ -35,20 +35,33 @@ class Merge extends TaxonomyCLICommands {
      * [--dry-run]
      * : Perform a dry run without modifying anything.
      *
+     * [--log=<logfile>]
+     * : Path to a log file for results. 
+     *
      * ## EXAMPLES
      *
-     *     wp term-validator category --terms="News,Updates" --field=name
+     *     wp term-validator category --terms="News,Updates" --field=name 
      *     wp term-validator category --file=slugs.csv --field=slug --delete
+     *     wp term-validator category --file=slugs.csv --field=slug --delete --log=term-validation.log
      *     wp term-validator category --terms="123,456" --field=id --dry-run
      */
-    public function __invoke( $args, $assoc_args ) {
+    public function validate_terms( $args, $assoc_args ) {
         list( $taxonomy ) = $args;
         $field = $assoc_args['field'] ?? 'name';
         $dry_run = isset( $assoc_args['dry-run'] );
+        $log_name   = $assoc_args['log'] ?? null;
         $terms_input = [];
 
-        if ( ! taxonomy_exists( $taxonomy ) ) {
-            WP_CLI::error( "Taxonomy '{$taxonomy}' does not exist." );
+        if ( $log_name ) {
+            $this->set_log_name( $log_name );
+        }        
+
+        $taxonomy = $this->validate_taxonomy( $taxonomy );
+
+        if ( is_wp_error( $taxonomy ) ) {
+            $this->invalid_taxonomy( $taxonomy);
+
+            return;
         }
 
         // Load term input from args
