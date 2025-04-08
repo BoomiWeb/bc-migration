@@ -64,7 +64,6 @@
             if ( ! file_exists( $csv_path ) ) {
                 $this->add_notice( "CSV file not found: {$csv_path}", 'error' );
                 $this->log( "CSV file not found: {$csv_path}" );
-
                 $this->display_notices();
                 
                 return;
@@ -85,6 +84,15 @@
                 $parent = trim( $parts[0] );
                 $children = array_map( 'trim', explode( ',', $parts[1] ) );
                 $mappings[] = [ 'parent' => $parent, 'children' => $children ];
+            }
+
+            if ( empty( $mappings ) ) {
+                $this->add_notice( "No valid mappings found in CSV file.", 'error' );
+                $this->log( "No valid mappings found in CSV file." );
+
+                $this->display_notices();
+
+                return;
             }
         } elseif ( isset( $args[1] ) ) {
             $input = $args[1];

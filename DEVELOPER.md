@@ -78,7 +78,9 @@ wp boomi taxonomies update_terms content-type "News & Updates > Press Release, N
 wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News" --log=update-terms.log
 
 # CSV input
-wp boomi taxonomies update_terms content-type --csv=terms.csv
+wp boomi taxonomies update_terms content-type --csv=/Users/erikmitchell/bc-migration/src/examples/update-terms.csv
+wp boomi taxonomies update_terms content-type --csv=/Users/erikmitchell/bc-migration/src/examples/update-terms.csv --dry-run
+wp boomi taxonomies update_terms content-type --csv=/Users/erikmitchell/bc-migration/src/examples/update-terms.csv --log=update-terms.log
 
 # Dry run
 wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News" --dry-run
