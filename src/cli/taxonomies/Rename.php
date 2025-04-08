@@ -69,6 +69,14 @@ class Rename extends TaxonomyCLICommands {
         return;
     }
 
+    /**
+     * Process a CSV file of terms to rename.
+     *
+     * @param string $file     Path to the CSV file.
+     * @param bool   $dry_run  If set, simulate actions without making changes.
+     *
+     * @return void
+     */
     private function process_csv( string $file, bool $dry_run = false ) {
         $rows    = array_map( 'str_getcsv', file( $file ) );
         $headers = array_map( 'trim', array_shift( $rows ) );
@@ -131,6 +139,14 @@ class Rename extends TaxonomyCLICommands {
         return;
     }
 
+    /**
+     * Processes the renaming of a single taxonomy term.
+     *
+     * @param array $args CLI arguments including taxonomy, old term name, and new term name.
+     * @param bool  $dry_run If true, simulates the rename process without making changes.
+     *
+     * @return void
+     */
     private function process_single_term( array $args, $dry_run ) {
         $taxonomy = $this->validate_taxonomy( $args[0] );
 
@@ -171,6 +187,16 @@ class Rename extends TaxonomyCLICommands {
         }
     }
 
+        /**
+         * Rename a taxonomy term.
+         *
+         * @param string $taxonomy The taxonomy to update.
+         * @param string $old_term The old term name or slug.
+         * @param string $new_name The new name for the term.
+         * @param string $new_slug Optional new slug for the term.
+         *
+         * @return array|WP_Error The updated term data or a WP_Error on failure.
+         */
     private function rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug = null ) {
         $term = $this->is_term_valid( $old_term, $taxonomy );
 

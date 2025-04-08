@@ -64,6 +64,14 @@ class Delete extends TaxonomyCLICommands {
         return;
     }
 
+    /**
+     * Process a CSV file of terms to delete.
+     *
+     * @param string $file
+     * @param bool   $dry_run
+     *
+     * @return void
+     */
     private function process_csv( string $file, bool $dry_run = false ) {
         $rows    = array_map( 'str_getcsv', file( $file ) );
         $headers = array_map( 'trim', array_shift( $rows ) );
@@ -124,6 +132,14 @@ class Delete extends TaxonomyCLICommands {
         return;
     }
 
+    /**
+     * Process a single term deletion.
+     *
+     * @param array $args   CLI arguments.
+     * @param bool  $dry_run  If set, no changes will be made.
+     *
+     * @return void
+     */
     private function process_single_term( array $args, $dry_run ) {
         $taxonomy   = $args[0] ?? '';
         $term_names = explode( '|', $args[1] ?? '' );
@@ -168,6 +184,15 @@ class Delete extends TaxonomyCLICommands {
         $this->display_notices();
     }
 
+    /**
+     * Deletes specified taxonomy terms.
+     *
+     * @param string   $taxonomy  The taxonomy from which to delete terms.
+     * @param string[] $term_names An array of term names to be deleted.
+     * @param int|null $row_num  Optional row number for logging purposes.
+     *
+     * @return void
+     */
     private function delete_taxonomy_term( $taxonomy, $term_names, $row_num = null ) {
         foreach ( $term_names as $term_name ) {
             $term = $this->is_term_valid( $term_name, $taxonomy );

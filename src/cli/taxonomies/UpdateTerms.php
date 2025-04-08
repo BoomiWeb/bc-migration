@@ -80,6 +80,16 @@ class UpdateTerms extends TaxonomyCLICommands {
         return;
     }
 
+    /**
+     * Processes a CSV file containing parent > children relationships and updates
+     * the terms in the specified taxonomy.
+     *
+     * @param string $csv_path Path to the CSV file.
+     * @param string $taxonomy The taxonomy to update.
+     * @param bool   $dry_run  If set, no changes will be made.
+     *
+     * @return void
+     */
     private function process_csv( string $csv_path, string $taxonomy, bool $dry_run ) {
         $mappings = array();
         $lines    = file( $csv_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
@@ -114,6 +124,15 @@ class UpdateTerms extends TaxonomyCLICommands {
         $this->process_terms( $mappings, $taxonomy, $dry_run );
     }
 
+    /**
+     * Process a single term from a string argument.
+     *
+     * @param array  $args    CLI arguments.
+     * @param string $taxonomy The taxonomy to update.
+     * @param bool   $dry_run  If set, no changes will be made.
+     *
+     * @return void
+     */
     private function process_single_term( array $args, string $taxonomy, bool $dry_run ) {
         $input = $args[1];
         $parts = explode( '>', $input );
@@ -137,6 +156,15 @@ class UpdateTerms extends TaxonomyCLICommands {
         return;
     }
 
+    /**
+     * Process a set of terms with parent-child relationships.
+     *
+     * @param array  $mappings Set of term sets with parent and children.
+     * @param string $taxonomy The taxonomy to update.
+     * @param bool   $dry_run If set, no changes will be made.
+     *
+     * @return void
+     */
     private function process_terms( $mappings, $taxonomy, $dry_run ) {
         foreach ( $mappings as $set ) {
             $parent   = $set['parent'];

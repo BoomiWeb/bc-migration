@@ -77,6 +77,16 @@ class Merge extends TaxonomyCLICommands {
         return;
     }
 
+    /**
+     * Processes a CSV file containing taxonomies, from terms, and destination terms to merge.
+     *
+     * @param string $file        Path to the CSV file.
+     * @param string $post_type   Post type to run the merge on.
+     * @param bool   $delete_old  If set, delete the old terms after merging.
+     * @param bool   $dry_run     If set, simulate actions without making changes.
+     *
+     * @return void
+     */
     private function process_csv( string $file, string $post_type, bool $delete_old = false, bool $dry_run = false ) {
         $rows    = array_map( 'str_getcsv', file( $file ) );
         $headers = array_map( 'trim', array_shift( $rows ) );
@@ -130,6 +140,16 @@ class Merge extends TaxonomyCLICommands {
         return;
     }
 
+    /**
+     * Process a single taxonomy term merge command.
+     *
+     * @param array  $args     CLI arguments.
+     * @param bool   $dry_run  If set, simulate actions without making changes.
+     * @param bool   $delete_old  If set, delete the old terms after merging.
+     * @param string $post_type Post type to run the merge on.
+     *
+     * @return void
+     */
     private function process_single_term( array $args, $dry_run, $delete_old, $post_type ) {
         $taxonomy = $this->validate_taxonomy( $args[0] );
 
@@ -170,6 +190,18 @@ class Merge extends TaxonomyCLICommands {
         return;
     }
 
+    /**
+     * Merges multiple terms into a single term.
+     *
+     * @param string $taxonomy     The taxonomy to merge within.
+     * @param array  $from_terms   Array of term names to merge.
+     * @param string $to_term_name The term to merge into.
+     * @param bool   $delete_old   If true, delete the old terms after merging.
+     * @param int    $row_num      The row number (for logging purposes).
+     * @param string $post_type    The post type to run the merge on.
+     *
+     * @return bool If the merge was successful.
+     */
     protected function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $row_num = null, $post_type = 'post' ) {
         $to_term = get_term_by( 'name', $to_term_name, $taxonomy );
 
