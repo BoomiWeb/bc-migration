@@ -38,8 +38,6 @@ class BlogTaxonomies extends Taxonomies {
      */
     public function __construct() {
         $this->taxonomies = $this->get_by_post_type( 'blog' );
-
-        parent::__construct();
     }
 
     /**
