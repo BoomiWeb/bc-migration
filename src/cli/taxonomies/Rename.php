@@ -9,11 +9,11 @@
 
 namespace erikdmitchell\bcmigration\cli\taxonomies;
 
-use erikdmitchell\bcmigration\abstracts\CLICommands;
+use erikdmitchell\bcmigration\abstracts\TaxonomyCLICommands;
 use WP_CLI;
 use WP_Error;
 
-class Rename extends CLICommands {
+class Rename extends TaxonomyCLICommands {
 
     /**
      * Rename a single term or bulk terms via a CSV file.
@@ -43,17 +43,25 @@ class Rename extends CLICommands {
      * @when after_wp_load
      */
     public function rename_term( $args, $assoc_args ) {
-        $dry_run = isset( $assoc_args['dry-run'] );
-        $logfile = $assoc_args['log'] ?? null;
+        $dry_run  = isset( $assoc_args['dry-run'] );
+        $log_name = $assoc_args['log'] ?? null;
 
-        // Logging helper
-        $log = function ( $message ) use ( $logfile ) {
-            WP_CLI::log( $message );
+        if ( $log_name ) {
+            $this->set_log_name( $log_name );
+        }
 
-            if ( $logfile ) {
-                file_put_contents( BCM_PATH . '/' . $logfile, $message . PHP_EOL, FILE_APPEND );
+        // Batch merge.
+        /*
+        if ( isset( $assoc_args['file'] ) ) {
+            if ( is_valid_file( $assoc_args['file'] ) ) {
+                $this->process_csv( $assoc_args['file'], $dry_run );
             }
-        };
+
+            $this->display_notices();
+
+            return;
+        }
+        */
 
         if ( isset( $assoc_args['file'] ) ) {
             $file = $assoc_args['file'];
@@ -132,15 +140,37 @@ class Rename extends CLICommands {
         }
 
         // Handle single rename.
-        if ( count( $args ) < 3 ) {
-            WP_CLI::error( 'Please provide <taxonomy> <old_term> <new_name> or use --file=<file>' );
+        $this->process_single_term( $args, $dry_run );
+
+        $this->display_notices();
+
+        return;
+    }
+
+    private function process_single_term( array $args, $dry_run ) {
+        $taxonomy = $this->validate_taxonomy( $args[0] );
+
+        if ( is_wp_error( $taxonomy ) ) {
+            $this->add_notice( $taxonomy->get_error_message(), 'error' );
+
+            return;
+        }
+
+        if ( ! $this->validate_command_args( $args, 3, 3 ) ) {
+            $this->add_notice( 'Please provide <taxonomy> <old_term> <new_name> or use --file=<file>', 'error' );
+
+            return;
         }
 
         list($taxonomy, $old_term, $new_name) = $args;
         $new_slug                             = $assoc_args['new-slug'] ?? null;
 
         if ( $dry_run ) {
-            $log( "[DRY RUN] Would rename '$old_term' to '$new_name' in taxonomy '$taxonomy'" );
+            $message = "[DRY RUN] Would rename '$old_term' to '$new_name' in taxonomy '$taxonomy'";
+
+            $this->log( $message );
+
+            $this->add_notice( $message );
 
             return;
         }
@@ -148,26 +178,24 @@ class Rename extends CLICommands {
         $result = $this->rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug );
 
         if ( is_wp_error( $result ) ) {
-            WP_CLI::error( $result->get_error_message() );
+            $this->add_notice( 'Error - ' . $result->get_error_message(), 'warning' );
         } else {
             $message = "Renamed term '$old_term' to '$new_name' in taxonomy '$taxonomy'.";
-            $log( $message );
 
-            WP_CLI::success( $message );
+            $this->add_notice( $message, 'success' );
+            $this->log( $message );
         }
-    }
+    }    
 
     private function rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug = null ) {
-        $term = get_term_by( 'slug', sanitize_title( $old_term ), $taxonomy );
-        if ( ! $term ) {
-            $term = get_term_by( 'name', $old_term, $taxonomy );
-        }
+        $term = $this->is_term_valid( $old_term, $taxonomy );
 
-        if ( ! $term || is_wp_error( $term ) ) {
-            return new WP_Error( 'term_not_found', "Term '$old_term' not found in taxonomy '$taxonomy'." );
-        }
+        if ( ! $term ) {
+            return;
+        }        
 
         $args = array( 'name' => $new_name );
+
         if ( $new_slug ) {
             $args['slug'] = sanitize_title( $new_slug );
         }
