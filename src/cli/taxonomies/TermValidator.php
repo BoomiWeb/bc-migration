@@ -130,13 +130,13 @@ class TermValidator extends TaxonomyCLICommands {
                 continue;
             }
 
-            // Try to insert by name, fallback to slug or ID as best effort
+            // Try to insert by name, fallback to slug or ID as best effort.
             $insert_args = array( 'slug' => sanitize_title( $term_identifier ) );
 
-            if ( $field === 'slug' ) {
+            if ( 'slug' === $field ) {
                 $insert_args['slug'] = $term_identifier;
                 $term_result         = wp_insert_term( $term_identifier, $taxonomy, $insert_args );
-            } elseif ( $field === 'id' ) {
+            } elseif ( 'id' === $field ) {
                 $this->add_notice( "Cannot create terms by ID: {$term_identifier}", 'warning' );
 
                 $this->log( "[SKIPPED] Cannot create terms by ID: {$term_identifier}" );
@@ -180,7 +180,7 @@ class TermValidator extends TaxonomyCLICommands {
         $taxonomy_object = get_taxonomy( $taxonomy );
         $default_term_id = null;
 
-        if ( $taxonomy === 'category' ) {
+        if ( 'category' === $taxonomy ) {
             $default_term_id = (int) get_option( 'default_category' );
         } else {
             $taxonomy_object = get_taxonomy( $taxonomy );

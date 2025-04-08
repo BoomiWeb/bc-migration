@@ -11,7 +11,7 @@ namespace erikdmitchell\bcmigration;
 
 use erikdmitchell\bcmigration\cli\CLI;
 
-// Setup our uploads path and url
+// Setup our uploads path and url.
 $wp_uploads_dir     = wp_upload_dir();
 $bcm_dirname        = 'bc-migration';
 $wp_uploads_path    = $wp_uploads_dir['basedir'] . '/' . $bcm_dirname;
