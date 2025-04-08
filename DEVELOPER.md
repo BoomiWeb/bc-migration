@@ -70,3 +70,18 @@ wp boomi taxonomies term-validator category --terms="News,Updates" --field=name
 wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --delete --dry-run --log=term-validation.log
 wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --log=term-validation.log
 wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --log=term-validation.log --delete
+
+# Term Updater
+
+# Single string input
+wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News"
+
+# CSV input
+wp boomi taxonomies update_terms content-type --csv=terms.csv
+
+# Dry run
+wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News" --dry-run
+
+# CSV Format
+Parent > Child1, Child2
+Another Parent > Another Child

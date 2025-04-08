@@ -53,6 +53,12 @@ class Taxonomies extends CLICommands {
                 'longdesc'  => 'Validate Taxonomies (terms)',
                 'method'    => 'validate_terms',
             ),
+            'update_terms' => array(
+                'class'     => __NAMESPACE__ . '\UpdateTerms',
+                'shortdesc' => 'Update Taxonomies (terms)',
+                'longdesc'  => 'Update Taxonomies (terms)',
+                'method'    => 'update_terms',
+            ),            
         );
 
         foreach ( $commands as $command => $config ) {
