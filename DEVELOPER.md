@@ -59,3 +59,10 @@ wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/i
 wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log [X]
 wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv --log=delete.log  []
 wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log --dry-run []
+
+# Term Validation
+
+## Single
+
+## Bulk
+wp term-validator category --file=terms.csv --field=slug --delete --dry-run
