@@ -107,8 +107,8 @@ abstract class TaxonomyCLICommands extends CLICommands {
     /**
      * Validates that the given array of CSV headers contains all required fields.
      *
-     * @param array $headers The array of CSV headers.
-     * @param array $required The list of required field keys.
+     * @param string[] $headers  The array of CSV headers.
+     * @param string[] $required The list of required field keys.
      *
      * @return bool Returns true if all required fields are present, false otherwise.
      */
@@ -129,9 +129,9 @@ abstract class TaxonomyCLICommands extends CLICommands {
     /**
      * Checks if the given data array contains all required fields.
      *
-     * @param array $data The data array to check.
-     * @param array $required The list of required field keys.
-     * @param int   $row_num The row number for logging purposes. Defaults to 0.
+     * @param array<string, mixed> $data     The data array to check.
+     * @param string[]             $required The list of required field keys.
+     * @param int                  $row_num  The row number for logging purposes. Defaults to 0.
      *
      * @return bool Returns true if all required fields are present, false otherwise.
      */
@@ -153,10 +153,12 @@ abstract class TaxonomyCLICommands extends CLICommands {
     /**
      * Outputs a dry run message for a merge command.
      *
-     * @param string $taxonomy The taxonomy.
-     * @param array  $from_terms The terms to merge.
-     * @param string $to_term The term to merge into.
-     * @param int    $row_num The row number.
+     * @param string   $taxonomy   The taxonomy.
+     * @param string[] $from_terms The terms to merge.
+     * @param string   $to_term    The term to merge into.
+     * @param int      $row_num    The row number.
+     *
+     * @return void
      */
     protected function dry_run_result( $taxonomy, $from_terms, $to_term, $row_num ) {
         // FIXME: this is too specific to the merge command.
@@ -170,9 +172,9 @@ abstract class TaxonomyCLICommands extends CLICommands {
     /**
      * Validate the number of command arguments.
      *
-     * @param array $args      The command arguments.
-     * @param int   $min_args  The minimum number of arguments allowed. Default 0.
-     * @param int   $max_args  The maximum number of arguments allowed. Default 0.
+     * @param string[] $args      The command arguments.
+     * @param int      $min_args  The minimum number of arguments allowed. Default 0.
+     * @param int      $max_args  The maximum number of arguments allowed. Default 0.
      *
      * @return bool True if valid, false otherwise.
      */
@@ -191,9 +193,9 @@ abstract class TaxonomyCLICommands extends CLICommands {
      *
      * @param string $term_name The term name or slug.
      * @param string $taxonomy  The taxonomy to look in.
-     * @param int    $row_num    The row number in the CSV file.
+     * @param int    $row_num   The row number in the CSV file.
      *
-     * @return bool|\WP_Term If the term is valid, returns the term object. Otherwise, returns false.
+     * @return \WP_Term|false If the term is valid, returns the term object. Otherwise, returns false.
      */
     protected function is_term_valid( string $term_name, string $taxonomy, int $row_num = 0 ) {
         $term = get_term_by( 'slug', sanitize_title( $term_name ), $taxonomy );

@@ -22,8 +22,6 @@
 		"phpstan/phpstan": "^1.8",
 		"szepeviktor/phpstan-wordpress": "^1.0",
 		"phpstan/extension-installer": "^1.1",
-		"php-stubs/acf-pro-stubs": "^5.10",
-		"php-stubs/wp-cli-stubs": "^2.5",
 		"phpmd/phpmd": "@stable"        
     },
     "config": {
@@ -37,5 +35,10 @@
 		"phpcbf": "phpcbf -p --standard=./phpcs.ruleset.xml",
 		"phpstan": "vendor/bin/phpstan analyse --memory-limit=1G --error-format=table",
 		"snyk": "snyk code test"
-	}
+	},
+    "require-dev": {
+		"php-stubs/acf-pro-stubs": "^5.10",
+		"php-stubs/wp-cli-stubs": "^2.5",
+        "php-stubs/wordpress-stubs": "^6.7"
+    }
 }

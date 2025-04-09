@@ -22,20 +22,14 @@ use WP_CLI;
 function is_valid_file( string $file = '' ) {
     if ( ! file_exists( $file ) ) {
         WP_CLI::error( "File not found: $file" );
-
-        return false;
     }
 
     if ( ! is_readable( $file ) ) {
         WP_CLI::error( "File is not readable: $file" );
-
-        return false;
     }
 
     if ( pathinfo( $file, PATHINFO_EXTENSION ) !== 'csv' ) {
         WP_CLI::error( "File is not a CSV: $file" );
-
-        return false;
     }
 
     return true;

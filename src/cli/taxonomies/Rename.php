@@ -42,7 +42,10 @@ class Rename extends TaxonomyCLICommands {
      *     wp taxonomy rename_term industries "M&A" "Mergers. & Acquisitions"
      *     wp taxonomy rename_term --file=terms.csv --dry-run --log=rename-log.txt
      *
-     * @when after_wp_load
+     * @param string[]             $args       CLI positional arguments.
+     * @param array<string, mixed> $assoc_args CLI associative arguments.
+     *
+     * @return void
      */
     public function rename_term( $args, $assoc_args ) {
         $dry_run  = isset( $assoc_args['dry-run'] );
@@ -140,8 +143,9 @@ class Rename extends TaxonomyCLICommands {
     /**
      * Processes the renaming of a single taxonomy term.
      *
-     * @param array $args CLI arguments including taxonomy, old term name, and new term name.
-     * @param bool  $dry_run If true, simulates the rename process without making changes.
+     * @param string[]             $args       CLI arguments including taxonomy, old term name, and new term name.
+     * @param array<string, mixed> $assoc_args CLI associative arguments.
+     * @param bool                 $dry_run    If true, simulates the rename process without making changes.
      *
      * @return void
      */
@@ -185,16 +189,16 @@ class Rename extends TaxonomyCLICommands {
         }
     }
 
-        /**
-         * Rename a taxonomy term.
-         *
-         * @param string $taxonomy The taxonomy to update.
-         * @param string $old_term The old term name or slug.
-         * @param string $new_name The new name for the term.
-         * @param string $new_slug Optional new slug for the term.
-         *
-         * @return array|WP_Error The updated term data or a WP_Error on failure.
-         */
+    /**
+     * Rename a taxonomy term.
+     *
+     * @param string $taxonomy The taxonomy to update.
+     * @param string $old_term The old term name or slug.
+     * @param string $new_name The new name for the term.
+     * @param string $new_slug Optional new slug for the term.
+     *
+     * @return array{term_id: int, term_taxonomy_id: int}|WP_Error The updated term data or a WP_Error on failure.
+     */
     private function rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug = null ) {
         $term = $this->is_term_valid( $old_term, $taxonomy );
 

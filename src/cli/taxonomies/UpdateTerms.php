@@ -40,6 +40,11 @@ class UpdateTerms extends TaxonomyCLICommands {
      * wp taxonomy update_terms content-type "News & Updates > Press Release, News"
      * wp taxonomy update_terms content-type "News & Updates > Press Release, News" --log=update-terms.log
      * wp taxonomy update_terms content-type --csv=terms.csv --dry-run
+     *
+     * @param string[]             $args       CLI positional arguments.
+     * @param array<string, mixed> $assoc_args CLI associative arguments.
+     *
+     * @return void
      */
     public function update_terms( $args, $assoc_args ) {
         list( $taxonomy ) = $args;
@@ -128,9 +133,9 @@ class UpdateTerms extends TaxonomyCLICommands {
     /**
      * Process a single term from a string argument.
      *
-     * @param array  $args    CLI arguments.
-     * @param string $taxonomy The taxonomy to update.
-     * @param bool   $dry_run  If set, no changes will be made.
+     * @param string[] $args    CLI arguments.
+     * @param string   $taxonomy The taxonomy to update.
+     * @param bool     $dry_run  If set, no changes will be made.
      *
      * @return void
      */
@@ -158,9 +163,9 @@ class UpdateTerms extends TaxonomyCLICommands {
     /**
      * Process a set of terms with parent-child relationships.
      *
-     * @param array  $mappings Set of term sets with parent and children.
-     * @param string $taxonomy The taxonomy to update.
-     * @param bool   $dry_run If set, no changes will be made.
+     * @param array<array{parent: string, children: string[]}> $mappings Set of term sets with parent and children.
+     * @param string                                           $taxonomy The taxonomy to update.
+     * @param bool                                             $dry_run If set, no changes will be made.
      *
      * @return void
      */
@@ -219,11 +224,12 @@ class UpdateTerms extends TaxonomyCLICommands {
                     }
                 } else {
                     $child_id = is_array( $child_term ) ? $child_term['term_id'] : $child_term;
+
                     if ( $dry_run ) {
                         $this->add_notice( "Child term exists: {$child} (ID {$child_id})", 'success' );
                         $this->log( "Child term exists: {$child} (ID {$child_id})" );
                     } else {
-                        wp_update_term( $child_id, $taxonomy, array( 'parent' => $parent_id ) );
+                        wp_update_term( (int) $child_id, $taxonomy, array( 'parent' => $parent_id ) );
 
                         $this->add_notice( "Updated child term: {$child} to be under {$parent}", 'success' );
                         $this->log( "Updated child term: {$child} to be under {$parent}" );

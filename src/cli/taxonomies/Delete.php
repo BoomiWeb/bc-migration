@@ -38,7 +38,10 @@ class Delete extends TaxonomyCLICommands {
      *     wp taxonomy delete_term industries "M&A" "Mergers. & Acquisitions"
      *     wp taxonomy delete_term --file=terms.csv --dry-run --log=delete-log.txt
      *
-     * @when after_wp_load
+     * @param string[]             $args       CLI positional arguments.
+     * @param array<string, mixed> $assoc_args CLI associative arguments.
+     *
+     * @return void
      */
     public function delete_terms( $args, $assoc_args ) {
         $dry_run  = isset( $assoc_args['dry-run'] );
@@ -134,8 +137,8 @@ class Delete extends TaxonomyCLICommands {
     /**
      * Process a single term deletion.
      *
-     * @param array $args   CLI arguments.
-     * @param bool  $dry_run  If set, no changes will be made.
+     * @param string[] $args   CLI arguments.
+     * @param bool     $dry_run  If set, no changes will be made.
      *
      * @return void
      */
