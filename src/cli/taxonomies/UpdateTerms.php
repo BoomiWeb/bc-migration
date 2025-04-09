@@ -224,7 +224,7 @@ class UpdateTerms extends TaxonomyCLICommands {
                     }
                 } else {
                     $child_id = is_array( $child_term ) ? $child_term['term_id'] : $child_term;
-                    
+
                     if ( $dry_run ) {
                         $this->add_notice( "Child term exists: {$child} (ID {$child_id})", 'success' );
                         $this->log( "Child term exists: {$child} (ID {$child_id})" );

@@ -174,11 +174,12 @@ class TermValidator extends TaxonomyCLICommands {
     /**
      * Deletes taxonomy terms not present in the provided list.
      *
-     * @param string   $taxonomy The taxonomy slug (e.g., 'category', 'post_tag', 'content-type').
-     * @param string[] $provided_terms The list of terms to keep; any existing terms not in this list will be deleted.
-     * @param string[] $existing_map A map of existing terms by the specified field.
-     * @param string   $field The field to use for mapping existing terms (e.g., 'slug', 'name', 'id').
-     * @param bool     $dry_run If true, will not delete any terms; just log and display notices.
+     * @param string                 $taxonomy The taxonomy slug (e.g., 'category', 'post_tag', 'content-type').
+     * @param string[]               $provided_terms The list of terms to keep; any existing terms not in this list will be deleted.
+     * @param array<string, \WP_Term> $existing_map A map of existing terms by the specified field.
+     * @param string                 $field The field to use for mapping existing terms (e.g., 'slug', 'name', 'id').
+     * @param bool                   $dry_run If true, will not delete any terms; just log and display notices.
+     * @return void
      */
     private function delete_terms( $taxonomy, $provided_terms, $existing_map, $field, $dry_run ) {
         $provided_lookup = array_flip( $provided_terms );
