@@ -78,6 +78,12 @@ class BCMigration {
      */
     private function includes() {
         include_once __DIR__ . '/functions.php';
+
+        if ( is_admin() ) {
+            include_once __DIR__ . '/admin/Admin.php';
+
+            new \erikdmitchell\bcmigration\admin\Admin();
+        }
     }
 
     /**
