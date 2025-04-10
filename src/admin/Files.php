@@ -37,7 +37,28 @@ class Files {
         }
 
         return self::$instance;
-    }    
+    }  
+    
+    public function upload() {
+        if (isset($_POST['bcm_upload_csv']) && check_admin_referer('bcm_upload_csv_action')) {
+            if (!empty($_FILES['bcm_csv_file']['tmp_name'])) {
+                $uploaded_file = $_FILES['bcm_csv_file'];
+
+                if (strtolower(pathinfo($uploaded_file['name'], PATHINFO_EXTENSION)) === 'csv') {
+                    $filename = sanitize_file_name($uploaded_file['name']);
+                    $destination = $this->upload_dir . $filename;
+                
+                    if (move_uploaded_file($uploaded_file['tmp_name'], $destination)) {
+                        echo '<div class="notice notice-success"><p>Uploaded: ' . esc_html($filename) . '</p></div>';
+                    } else {
+                        echo '<div class="notice notice-error"><p>Failed to upload file.</p></div>';
+                    }
+                } else {
+                    echo '<div class="notice notice-error"><p>Only CSV files are allowed.</p></div>';
+                }
+            }
+        }        
+    }
 
     public function delete() {      
         if (isset($_POST['bcm_delete_file']) && current_user_can('manage_options')) {

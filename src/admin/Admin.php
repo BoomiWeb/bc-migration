@@ -17,6 +17,7 @@ class Admin {
 
     public function check_file_actions() {
         Files::init()->delete();
+        Files::init()->upload();
     }
 
     public function menu() {
