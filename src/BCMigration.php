@@ -20,10 +20,12 @@ $example_files_path = __DIR__ . '/examples';
 
 // Define constants for the plugin.
 define( 'BCM_PATH', __DIR__ );
+define( 'BCM_URL', __DIR__ );
 define( 'BCM_DIRNAME', $bcm_dirname );
 define( 'BCM_UPLOADS_PATH', $wp_uploads_path );
 define( 'BCM_UPLOADS_URL', $wp_uploads_url );
 define( 'BCM_EXAMPLE_FILES_PATH', $example_files_path );
+define('BCM_VERSION', '0.1.0');
 
 /**
  * BC Migration class.
