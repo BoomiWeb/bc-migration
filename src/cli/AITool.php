@@ -46,6 +46,11 @@ class AITool extends CLICommands {
      *     # Remove the AI Tool uploads folder.
      *     $ wp boomi migrate aitool remove-folder
      *     Success: Removed the AI Tool uploads folder.
+     *
+     * @param string[]             $args       CLI positional arguments.
+     * @param array<string, mixed> $assoc_args CLI associative arguments.
+     *
+     * @return void
      */
     public function migrate( $args, $assoc_args ) {
         list ( $action ) = $args;

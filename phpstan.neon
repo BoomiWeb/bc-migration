@@ -3,20 +3,12 @@ parameters:
     paths:
         - src/
     scanDirectories:
-        - src/        
+        - src/ 
+    scanFiles:
+        - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
+        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
     excludePaths:
         - 'vendor/*'       
     treatPhpDocTypesAsCertain: false
     ignoreErrors:
-        - 
-            message: '#Call to static method getInstance\(\) on an unknown class BoomiCMS\\BC_DB#'
-            paths:
-                - src/Database/*.php
-        - 
-            message: '#Action callback returns mixed but should not return anything#'
-            paths:
-                - includes/hooks.php
-        -
-            message: '#Variable \$\w+ might not be defined#'
-            paths: 
-                - includes/admin/views/*
+        - '#Call to static method getInstance\(\) on an unknown class BoomiCMS\\BC_DB#'

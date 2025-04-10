@@ -70,7 +70,7 @@ class MigrateReports {
      *
      * Finds all the files in the bc-apiida directory and migrates them to the database.
      *
-     * @return array An array of migrated data.
+     * @return array<int, mixed> An array of migrated data.
      */
     public function migrate_data() {
         $files = $this->get_files();
@@ -88,7 +88,7 @@ class MigrateReports {
      * Finds all the files in the bc-apiida directory and returns them as an array.
      * If the directory does not exist, or if there are no files with the name 'data-*', an empty array is returned.
      *
-     * @return array
+     * @return array<int, string> An array of file paths.
      */
     protected function get_files() {
         return array();
@@ -97,9 +97,8 @@ class MigrateReports {
     /**
      * Migrates the AI Tool reports from the JSON files to the database.
      *
-     * @param array $files Array of JSON files to be migrated.
-     *
-     * @return array Array of IDs of migrated reports.
+     * @param array<int, string> $files Array of JSON file paths to be migrated.
+     * @return array<int, int> Array of IDs of migrated reports.
      */
     protected function migrate_reports( array $files ) {
         return $files;
@@ -126,8 +125,7 @@ class MigrateReports {
      * If the data is not valid (e.g. empty or not set), this function will return true
      * to indicate that the data should be skipped.
      *
-     * @param array $data The data to check for.
-     *
+     * @param array{first_name: string, last_name: string, email: string} $data The data to check for.
      * @return bool True if the database entry exists, false otherwise.
      */
     protected function db_entry_exists( array $data ) {
@@ -162,8 +160,7 @@ class MigrateReports {
      * If the insertion fails, a WP_Error object is returned indicating
      * the failure. If successful, the ID of the inserted row is returned.
      *
-     * @param array $data The data to insert.
-     *
+     * @param array<string, mixed> $data The data to insert.
      * @return int|WP_Error The ID of the inserted row, or a WP_Error object on failure.
      */
     protected function insert_into_db( array $data ) {
