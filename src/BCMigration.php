@@ -19,8 +19,8 @@ $wp_uploads_url     = $wp_uploads_dir['baseurl'] . '/' . $bcm_dirname;
 $example_files_path = __DIR__ . '/examples';
 
 define( 'BCM_DIRNAME', $bcm_dirname );
-define( 'BCM_PATH', $wp_uploads_path );
-define( 'BCM_URL', $wp_uploads_url );
+define( 'BCM_UPLOADS_PATH', $wp_uploads_path );
+define( 'BCM_UPLOADS_URL', $wp_uploads_url );
 define( 'BCM_EXAMPLE_FILES_PATH', $example_files_path );
 
 /**
@@ -84,8 +84,8 @@ class BCMigration {
      * @return void
      */
     public function maybe_create_uploads_folder() {
-        if ( ! is_dir( BCM_PATH ) ) {
-            mkdir( BCM_PATH );
+        if ( ! is_dir( BCM_UPLOADS_PATH ) ) {
+            mkdir( BCM_UPLOADS_PATH );
         }
     }
 }
