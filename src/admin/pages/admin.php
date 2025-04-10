@@ -32,7 +32,7 @@
             <?php
             if ( ! empty( $files ) ) {
                 foreach ( $files as $file_path ) {
-                    $filename    = basename( $file_path );
+                    $filename    = basename( $file_path );                   
                     $ext         = pathinfo( $filename, PATHINFO_EXTENSION );
                     $file_url    = $upload_url . $filename;
                     $file_size   = size_format( filesize( $file_path ), 2 );
@@ -40,6 +40,7 @@
                     ?>
                     <tr>
                         <td><strong><?php echo esc_html( $filename ); ?></strong></td>
+                        <td><?php echo esc_html( $file_path ); ?></td>
                         <td><?php echo esc_html( $upload_time ); ?></td>
                         <td><?php echo esc_html( $file_size ); ?></td>
                         <td>
