@@ -37,9 +37,12 @@ class UpdateTerms extends TaxonomyCLICommands {
      *
      * ## EXAMPLES
      *
-     * wp taxonomy update_terms content-type "News & Updates > Press Release, News"
-     * wp taxonomy update_terms content-type "News & Updates > Press Release, News" --log=update-terms.log
-     * wp taxonomy update_terms content-type --csv=terms.csv --dry-run
+     *      wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News"
+     *      wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News" --log=update-terms.log
+     *      wp boomi taxonomies update_terms content-type --csv=terms.csv --dry-run
+     *      wp boomi taxonomies update_terms content-type --csv=path/to/file.csv --log=log.txt
+     *
+     * @when after_wp_load
      *
      * @param string[]             $args       CLI positional arguments.
      * @param array<string, mixed> $assoc_args CLI associative arguments.

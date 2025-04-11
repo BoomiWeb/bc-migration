@@ -59,7 +59,6 @@ class Migrate extends CLICommands {
                 array(
                     'shortdesc' => $config['shortdesc'],
                     'longdesc'  => $config['longdesc'],
-                    'synopsis'  => array(),
                 )
             );
         }

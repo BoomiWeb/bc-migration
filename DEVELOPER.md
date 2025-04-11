@@ -1,3 +1,5 @@
+# WP CLI Commands
+
 Rename Taxonomies
 
 # dry run
@@ -5,9 +7,11 @@ Rename Taxonomies
 wp boomi taxonomies rename --file=/Users/erikmitchell/bc-migration/src/examples/tax-rename.csv --dry-run
 
 # log output
+
 wp boomi taxonomies rename --file=/Users/erikmitchell/bc-migration/src/examples/tax-rename.csv --log=rename-terms.log
 
 # rename single
+
 wp boomi taxonomies rename industries "M&A" "Mergers & Acquisitions" --new-slug="mergers-acquisitions" --dry-run --log=rename.log
 wp boomi taxonomies rename industries "Mergers. & Acquisitions" "Mergers & Acquisitions"
 
@@ -38,14 +42,13 @@ wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log [WORKS]
 
 # batch
 
-wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv --log=delete.log 
+wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv --log=delete.log
 wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/tax-merge.csv
 
 # dry run
 
 wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log --dry-run [WORKS]
 wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv --log=delete.log --dry-run [WORKS]
-
 
 # Errors
 
@@ -56,6 +59,7 @@ wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/t
 wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/invalid-file.csv
 
 # Testing
+
 wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log [X]
 wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv --log=delete.log  []
 wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log --dry-run []
@@ -63,24 +67,29 @@ wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log --dry-r
 # Term Validation
 
 ## Single
+
 wp boomi taxonomies term-validator category --terms="News,Updates"
 wp boomi taxonomies term-validator category --terms="News,Updates" --field=name
 
 ## Bulk
+
 wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --delete --dry-run --log=term-validation.log
 wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --log=term-validation.log
 wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --log=term-validation.log --delete
 
-# Term Updater
+## Term Updater (Parent > Child Terms)
 
-# Single string input
+### Single string input
+
 wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News"
 wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News" --log=update-terms.log
 
-# CSV input
+### CSV input
+
 wp boomi taxonomies update_terms content-type --csv=/Users/erikmitchell/bc-migration/src/examples/update-terms.csv
 wp boomi taxonomies update_terms content-type --csv=/Users/erikmitchell/bc-migration/src/examples/update-terms.csv --dry-run
 wp boomi taxonomies update_terms content-type --csv=/Users/erikmitchell/bc-migration/src/examples/update-terms.csv --log=update-terms.log
 
-# Dry run
+### Dry run
+
 wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News" --dry-run

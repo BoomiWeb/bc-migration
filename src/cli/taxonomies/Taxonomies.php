@@ -61,14 +61,13 @@ class Taxonomies extends CLICommands {
             ),
         );
 
-        foreach ( $commands as $command => $config ) {
+        foreach ( $commands as $command => $config ) {    
             WP_CLI::add_command(
                 "{$parent} {$command}",
                 array( $config['class'], $config['method'] ),
                 array(
                     'shortdesc' => $config['shortdesc'],
                     'longdesc'  => $config['longdesc'],
-                    'synopsis'  => array(),
                 )
             );
         }
