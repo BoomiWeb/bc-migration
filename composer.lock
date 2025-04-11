@@ -4,8 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "542836db5de6bee8eebb2ea59b26a28e",
-    "packages": [
+    "content-hash": "c607f084cb958546ac10afe66194008e",
+    "packages": [],
+    "packages-dev": [
         {
             "name": "composer/pcre",
             "version": "3.3.2",
@@ -290,6 +291,50 @@
             "time": "2023-12-17T18:09:59+00:00"
         },
         {
+            "name": "php-stubs/acf-pro-stubs",
+            "version": "v5.12.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-stubs/acf-pro-stubs.git",
+                "reference": "9391822d613d3fde17deac8e6b343c346e5db73f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-stubs/acf-pro-stubs/zipball/9391822d613d3fde17deac8e6b343c346e5db73f",
+                "reference": "9391822d613d3fde17deac8e6b343c346e5db73f",
+                "shasum": ""
+            },
+            "require": {
+                "php-stubs/wordpress-stubs": "^4.7 || ^5.0 || ^6.0"
+            },
+            "require-dev": {
+                "php": "~7.1",
+                "php-stubs/generator": "^0.8"
+            },
+            "suggest": {
+                "symfony/polyfill-php73": "Symfony polyfill backporting some PHP 7.3+ features to lower PHP versions",
+                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Advanced Custom Fields PRO stubs for static analysis.",
+            "homepage": "https://github.com/php-stubs/acf-pro-stubs",
+            "keywords": [
+                "PHPStan",
+                "acf",
+                "static analysis",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/php-stubs/acf-pro-stubs/issues",
+                "source": "https://github.com/php-stubs/acf-pro-stubs/tree/v5.12.3"
+            },
+            "time": "2022-12-25T22:14:16+00:00"
+        },
+        {
             "name": "php-stubs/wordpress-stubs",
             "version": "v6.7.2",
             "source": {
@@ -336,6 +381,50 @@
                 "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.7.2"
             },
             "time": "2025-02-12T04:51:58+00:00"
+        },
+        {
+            "name": "php-stubs/wp-cli-stubs",
+            "version": "v2.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-stubs/wp-cli-stubs.git",
+                "reference": "f27ff9e8e29d7962cb070e58de70dfaf63183007"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-stubs/wp-cli-stubs/zipball/f27ff9e8e29d7962cb070e58de70dfaf63183007",
+                "reference": "f27ff9e8e29d7962cb070e58de70dfaf63183007",
+                "shasum": ""
+            },
+            "require": {
+                "php-stubs/wordpress-stubs": "^4.7 || ^5.0 || ^6.0"
+            },
+            "require-dev": {
+                "php": "~7.3 || ~8.0",
+                "php-stubs/generator": "^0.8.0"
+            },
+            "suggest": {
+                "symfony/polyfill-php73": "Symfony polyfill backporting some PHP 7.3+ features to lower PHP versions",
+                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "WP-CLI function and class declaration stubs for static analysis.",
+            "homepage": "https://github.com/php-stubs/wp-cli-stubs",
+            "keywords": [
+                "PHPStan",
+                "static analysis",
+                "wordpress",
+                "wp-cli"
+            ],
+            "support": {
+                "issues": "https://github.com/php-stubs/wp-cli-stubs/issues",
+                "source": "https://github.com/php-stubs/wp-cli-stubs/tree/v2.11.0"
+            },
+            "time": "2024-11-25T10:09:13+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",
@@ -1751,96 +1840,6 @@
                 }
             ],
             "time": "2024-03-25T16:39:00+00:00"
-        }
-    ],
-    "packages-dev": [
-        {
-            "name": "php-stubs/acf-pro-stubs",
-            "version": "v5.12.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-stubs/acf-pro-stubs.git",
-                "reference": "9391822d613d3fde17deac8e6b343c346e5db73f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/acf-pro-stubs/zipball/9391822d613d3fde17deac8e6b343c346e5db73f",
-                "reference": "9391822d613d3fde17deac8e6b343c346e5db73f",
-                "shasum": ""
-            },
-            "require": {
-                "php-stubs/wordpress-stubs": "^4.7 || ^5.0 || ^6.0"
-            },
-            "require-dev": {
-                "php": "~7.1",
-                "php-stubs/generator": "^0.8"
-            },
-            "suggest": {
-                "symfony/polyfill-php73": "Symfony polyfill backporting some PHP 7.3+ features to lower PHP versions",
-                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "description": "Advanced Custom Fields PRO stubs for static analysis.",
-            "homepage": "https://github.com/php-stubs/acf-pro-stubs",
-            "keywords": [
-                "PHPStan",
-                "acf",
-                "static analysis",
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/php-stubs/acf-pro-stubs/issues",
-                "source": "https://github.com/php-stubs/acf-pro-stubs/tree/v5.12.3"
-            },
-            "time": "2022-12-25T22:14:16+00:00"
-        },
-        {
-            "name": "php-stubs/wp-cli-stubs",
-            "version": "v2.11.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-stubs/wp-cli-stubs.git",
-                "reference": "f27ff9e8e29d7962cb070e58de70dfaf63183007"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wp-cli-stubs/zipball/f27ff9e8e29d7962cb070e58de70dfaf63183007",
-                "reference": "f27ff9e8e29d7962cb070e58de70dfaf63183007",
-                "shasum": ""
-            },
-            "require": {
-                "php-stubs/wordpress-stubs": "^4.7 || ^5.0 || ^6.0"
-            },
-            "require-dev": {
-                "php": "~7.3 || ~8.0",
-                "php-stubs/generator": "^0.8.0"
-            },
-            "suggest": {
-                "symfony/polyfill-php73": "Symfony polyfill backporting some PHP 7.3+ features to lower PHP versions",
-                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "WP-CLI function and class declaration stubs for static analysis.",
-            "homepage": "https://github.com/php-stubs/wp-cli-stubs",
-            "keywords": [
-                "PHPStan",
-                "static analysis",
-                "wordpress",
-                "wp-cli"
-            ],
-            "support": {
-                "issues": "https://github.com/php-stubs/wp-cli-stubs/issues",
-                "source": "https://github.com/php-stubs/wp-cli-stubs/tree/v2.11.0"
-            },
-            "time": "2024-11-25T10:09:13+00:00"
         }
     ],
     "aliases": [],
