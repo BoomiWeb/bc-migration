@@ -3,282 +3,201 @@
 A collection of examples for new `wp boomi taxonomies` CLI commands to help rename, merge, delete, validate, and update taxonomy terms.
 
 ---
-
+    
 ## Rename Taxonomies
 
-### Dry Run
+Rename a single term or bulk terms via a CSV file.
 
-```bash
-wp boomi taxonomies rename --file=/Users/erikmitchell/bc-migration/src/examples/tax-rename.csv --dry-run
+### Command Options
+
+```
+[<taxonomy> <old_term> <new_name>]    Taxonomy, old term, and new name for single term rename.
+[--new-slug=<new-slug>]               Optional new slug for single rename.
+[--file=<file>]                       Path to CSV file for bulk rename.
+[--dry-run]                           Only simulate the changes; no actual updates.
+[--log=<logfile>]                     File to write logs to.
 ```
 
-> Simulates renaming terms from a CSV without applying changes.
+### CSV Format
 
-### Log Output
-
-```bash
-wp boomi taxonomies rename --file=/Users/erikmitchell/bc-migration/src/examples/tax-rename.csv --log=rename-terms.log
+```
+taxonomy,old_term,new_name
+subcats,Fruit,Fruits
+subcats,Bacon,Bacon Power
+subcats,Monkey Power,Monkey Power Max
+subcats,Test,Testing
 ```
 
-> Logs rename actions to a file for review.
+### Examples
 
-### Rename Single Term
-
-```bash
-wp boomi taxonomies rename industries "M&A" "Mergers & Acquisitions" --new-slug="mergers-acquisitions" --dry-run --log=rename.log
 ```
-
-> Dry-run to rename a single term within a taxonomy, specifying a new slug.
-
-```bash
 wp boomi taxonomies rename industries "Mergers. & Acquisitions" "Mergers & Acquisitions"
 ```
 
-> Renames a single term with live execution (no dry-run).
+> Rename a single term.
+
+```
+wp boomi taxonomies rename --file=/Users/erikmitchell/bc-migration/src/examples/tax-rename.csv
+```
+
+> Rename terms from a CSV file.
 
 ---
 
 ## Merge Taxonomies
 
-### Single Merge
+Merge terms within a taxonomy
 
-```bash
-wp boomi taxonomies merge products "Foo Boo|Bar Foo" "Foo Bar" --post-type=blog --delete-old --log=merge.log
+### Command Options
+
+```
+[<taxonomy> <from_terms> <to_term>]   Taxonomy, pipe-separated list of old terms, and destination term.
+[--file=<file>]                       Path to CSV file for batch merge.
+[--delete-old]                        Delete the old terms after merging.
+[--dry-run]                           Simulate actions without making changes.
+[--log=<logfile>]                     Path to a log file for results.
 ```
 
-> Merges multiple terms into one, deletes old ones, and logs results.
+### CSV Format
 
-```bash
-wp boomi taxonomies merge products "Foo Boo|Bar Foo" "Foo Bar" --post-type=blog
+```
+TODO
 ```
 
-> Same as above but without deletion or logging.
-
-### Batch Merge
-
-```bash
-wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/tax-merge.csv --log=merge.log
+### Examples
+```
+wp boomi taxonomies merge products "Foo Boo|Bar Foo" "Foo Bar"
 ```
 
-> Merges terms in bulk from CSV and logs output.
+> A single-term merge.
 
-```bash
-wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/tax-merge.csv --delete-old
 ```
-
-> Bulk merge with deletion of old terms.
-
-```bash
 wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/tax-merge.csv
 ```
 
-> Basic bulk merge with no log or deletion flags.
-
-### Dry Run
-
-```bash
-wp boomi taxonomies merge products "Foo Boo|Bar Foo" "Foo Bar" --post-type=blog --dry-run
-```
-
-> Test a single-term merge without applying changes.
-
-```bash
-wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/tax-merge.csv --log=merge.log --dry-run
-```
-
-> Simulates a batch merge and logs the expected result.
+> Merges terms in bulk from CSV.
 
 ---
 
 ## Delete Terms
 
-### Delete Single Term
+Delete a single term or bulk terms via a CSV file.
 
-```bash
-wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log --dry-run
+### Command Options
+
+```
+[<taxonomy> <term>]                  Taxonomy and term to delete.
+[--file=<file>]                      Path to CSV file for bulk delete.
+[--dry-run]                          Only simulate the changes; no actual updates.
+[--log=<logfile>]                    File to write logs to.
 ```
 
-> Simulates deletion of a single term with logging.
+### CSV Format
 
-```bash
-wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log
+```
+TODO
 ```
 
-> Deletes a single term from a taxonomy and logs the action.
+### Examples
 
-### Batch Delete
-
-```bash
-wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv --log=delete.log
+```
+wp boomi taxonomies delete industries "Foo Boo|Bar Foo"
 ```
 
-> Deletes multiple terms from a CSV file with logging.
+> Delete a single term.
 
-```bash
-wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/tax-merge.csv
+```
+wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv
 ```
 
-> (Likely misfiled in the delete section; this is actually a merge command.)
-
-### Dry Run
-
-```bash
-wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log --dry-run
-```
-
-> Dry run for single term deletion.
-
-```bash
-wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv --log=delete.log --dry-run
-```
-
-> Dry run for batch deletion from a file.
-
----
-
-## Error Examples
-
-```bash
-wp boomi taxonomies merge products "A|B" "C" --post-type=invalid_post_type
-```
-
-> Invalid post type should trigger an error.
-
-```bash
-wp boomi taxonomies merge invalid-taxonomy "A|B" "C"
-```
-
-> Invalid taxonomy should also return an error.
-
-```bash
-wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/tax-merge.csv --post-type=invalid_post_type
-```
-
-> Post type in file context is invalid.
-
-```bash
-wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/tax-merge-bad.csv
-```
-
-> Malformed CSV file—should fail.
-
-```bash
-wp boomi taxonomies merge --file=/Users/erikmitchell/bc-migration/src/examples/invalid-file.csv
-```
-
-> File doesn’t exist or is inaccessible.
-
----
-
-## Testing (Misc)
-
-```bash
-wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log
-```
-
-> Confirming deletion command works as expected.
-
-```bash
-wp boomi taxonomies delete --file=/Users/erikmitchell/bc-migration/src/examples/tax-delete.csv --log=delete.log
-```
-
-> Testing file-based deletions.
-
-```bash
-wp boomi taxonomies delete industries "Foo Boo|Bar Foo" --log=delete.log --dry-run
-```
-
-> Test dry run of deletion logic.
+> Delete multiple terms from a CSV file.
 
 ---
 
 ## Term Validation
 
-### Single Term Input
+Validate, sync, and optionally clean up taxonomy terms.
 
-```bash
+### Command Options
+
+```
+<taxonomy>                           The taxonomy to validate and sync.
+[--terms=<terms>]                    Comma-separated list of term identifiers.
+[--file=<file>]                      Path to a CSV file with one term per line.
+[--field=<field>]                    Field type to match terms by. Accepts: name, slug, id. Default is name.
+[--delete]                           Delete terms not in the provided list.
+[--dry-run]                          Perform a dry run without modifying anything.
+[--log=<logfile>]                    Path to a log file for results.
+``` 
+
+### CSV Format
+
+```
+TODO
+```
+
+### Examples
+
+```
 wp boomi taxonomies term-validator category --terms="News,Updates"
 ```
 
 > Validates terms against existing ones in the `category` taxonomy.
 
-```bash
-wp boomi taxonomies term-validator category --terms="News,Updates" --field=name
+```
+wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv
 ```
 
-> Uses term names instead of slugs for validation.
+> Validate terms from a file.
 
-### Bulk Term Input
-
-```bash
-wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --delete --dry-run --log=term-validation.log
+```
+wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --delete
 ```
 
-> Simulated validation and deletion of invalid terms from CSV.
-
-```bash
-wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --log=term-validation.log
-```
-
-> Log-only run for validating terms from a file.
-
-```bash
-wp boomi taxonomies term-validator category --file=/Users/erikmitchell/bc-migration/src/examples/categories.csv --log=term-validation.log --delete
-```
-
-> Validates and deletes invalid terms in bulk.
+> Validation and deletion of invalid terms from CSV.
 
 ---
 
 ## Term Updater (Parent > Child Terms)
 
-### Single String Input
+Updates or creates taxonomy terms with parent-child relationships.
 
-```bash
+### Command Options
+
+```
+<taxonomy>                           The taxonomy name (e.g. category, post_tag, content-type).
+[<terms>]                            A string defining parent > child relationships.
+[--csv=<file>]                       Path to a CSV file defining parent > children.
+[--dry-run]                          If set, no changes will be made.
+[--log=<logfile>]                    Path to a log file for results.
+```
+
+### CSV Format
+
+```
+TODO
+```
+
+### Examples
+
+```
 wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News"
 ```
 
 > Moves "Press Release" and "News" under parent "News & Updates".
 
-```bash
-wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News" --log=update-terms.log
+
 ```
-
-> Same as above with logging.
-
-### CSV Input
-
-```bash
 wp boomi taxonomies update_terms content-type --csv=/Users/erikmitchell/bc-migration/src/examples/update-terms.csv
 ```
 
 > Updates taxonomy hierarchy from a CSV file.
 
-```bash
-wp boomi taxonomies update_terms content-type --csv=/Users/erikmitchell/bc-migration/src/examples/update-terms.csv --dry-run
-```
-
-> Dry run to validate the changes before applying.
-
-```bash
-wp boomi taxonomies update_terms content-type --csv=/Users/erikmitchell/bc-migration/src/examples/update-terms.csv --log=update-terms.log
-```
-
-> Full run with logging for auditing.
-
-### Dry Run (Single Input)
-
-```bash
-wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News" --dry-run
-```
-
-> Simulate the update for a single line input before running live.
-
 ---
 
 ## Terminus Example
 
-```bash
+```
 terminus remote:wp boomi.taxcli -- boomi taxonomies update_terms content-type --csv=/code/wp-content/uploads/bc-migration/update-resource-types.csv --log=update-resource-types.log
 ```
 
