@@ -38,7 +38,10 @@ class Subprocessors extends CLICommands {
      *
      *     wp boomi migrate subprocessors subscribe-data 123
      *
-     * @subcommand migrate
+     * @param string[]             $args       CLI positional arguments.
+     * @param array<string, mixed> $assoc_args CLI associative arguments.
+     *
+     * @return void
      */
     public function migrate( $args, $assoc_args ) {
         list ( $action, $post_id ) = $args;

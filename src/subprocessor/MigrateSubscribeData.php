@@ -86,9 +86,9 @@ class MigrateSubscribeData {
     /**
      * Migrates the `bcm_subprocessors_email` table to the `subscribe_to_page` table.
      *
-     * @param array $posts Array of post IDs to migrate.
+     * @param int[] $posts Array of post IDs to migrate.
      *
-     * @return array Array of migrated row IDs.
+     * @return int[] Array of migrated row IDs.
      */
     private function migrate_email_db( array $posts ) {
         global $wpdb;
@@ -142,6 +142,8 @@ class MigrateSubscribeData {
      * Deletes the options set by the subscribe form.
      *
      * This deletes the options for the subscribe emails and settings.
+     *
+     * @return void
      */
     private function remove_email_options() {
         \delete_option( '_bc_subprocessors_subscribe_emails' );

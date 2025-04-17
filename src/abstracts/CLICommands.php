@@ -126,9 +126,10 @@ abstract class CLICommands {
     /**
      * Pick fields from an associative array or object.
      *
-     * @param  array|object $item    Associative array or object to pick fields from.
-     * @param  array        $fields  List of fields to pick.
-     * @return array
+     * @param array<string, mixed>|object $item   Associative array or object to pick fields from.
+     * @param string[]                    $fields List of fields to pick.
+     *
+     * @return array<string, mixed> The picked fields as an associative array.
      */
     private function pick_fields( $item, $fields ) {
         $values = array();
@@ -147,17 +148,21 @@ abstract class CLICommands {
     }
 
     /**
-     * Add a notice for output.
+     * Adds a notice to be displayed at the end of the command.
      *
-     * @link https://make.wordpress.org/cli/handbook/references/internal-api/#output
-     *
-     * @param string $type The type of notice (see link).
      * @param string $message The message to display.
+     * @param string $type    The type of notice. One of 'log', 'success', 'warning', 'error'.
+     *                        Default is 'log'.
+     *
      * @return void
      */
-    public function add_notice( $type = '', $message = '' ) {
-        if ( '' === $type || '' === $message ) {
+    public function add_notice( string $message = '', string $type = 'log' ) {
+        if ( empty( $message ) ) {
             return;
+        }
+
+        if ( ! in_array( $type, array( 'log', 'success', 'warning', 'error' ), true ) ) {
+            $type = 'log';
         }
 
         $this->notices[] = array(
@@ -169,7 +174,7 @@ abstract class CLICommands {
     /**
      * Get all notices.
      *
-     * @return array The array of notices.
+     * @return array<array{type: string, message: string}> The array of notices.
      */
     public function get_notices() {
         return $this->notices;

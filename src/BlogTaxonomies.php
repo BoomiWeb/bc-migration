@@ -1,11 +1,26 @@
 <?php
+/**
+ * Blog Taxonomies class
+ *
+ * @package erikdmitchell\bcmigration
+ * @since   0.2.0
+ * @version 0.1.0
+ */
 
 namespace erikdmitchell\bcmigration;
 
 use erikdmitchell\bcmigration\abstracts\Taxonomies;
 
+/**
+ * BlogTaxonomies class
+ */
 class BlogTaxonomies extends Taxonomies {
 
+    /**
+     * The taxonomies associated with the 'blog' post type.
+     *
+     * @var array
+     */
     public $taxonomies;
 
     /**
@@ -15,10 +30,14 @@ class BlogTaxonomies extends Taxonomies {
      */
     protected static $instance = null;
 
+    /**
+     * Constructor.
+     *
+     * Initializes the BlogTaxonomies class by fetching taxonomies related
+     * to the 'blog' post type and calling the parent constructor.
+     */
     public function __construct() {
-        $this->taxonomies = $this->get_by_post_type('blog');
-
-        parent::__construct();
+        $this->taxonomies = $this->get_by_post_type( 'blog' );
     }
 
     /**
@@ -34,12 +53,12 @@ class BlogTaxonomies extends Taxonomies {
         return self::$instance;
     }
 
+    /**
+     * Get the taxonomies associated with the 'blog' post type.
+     *
+     * @return array The taxonomies associated with the 'blog' post type.
+     */
     public function taxonomies() {
         return $this->taxonomies;
     }
-
-    // public function get_taxonomy_tags(string $tag = '') {
-    //     return $this->get($tag);
-    // }
-
 }
