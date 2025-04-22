@@ -20,6 +20,7 @@ class UpdateTerms extends TaxonomyCLICommands {
      *
      * ## OPTIONS
      *
+     * FIXME: This is not correct.
      * <taxonomy>
      * : The taxonomy name (e.g. category, post_tag, content-type).
      *
@@ -50,7 +51,7 @@ class UpdateTerms extends TaxonomyCLICommands {
      * @return void
      */
     public function update_terms( $args, $assoc_args ) {
-        list( $taxonomy ) = $args;
+        // list( $taxonomy ) = $args;
         $dry_run          = isset( $assoc_args['dry-run'] );
         $csv_path         = isset( $assoc_args['csv'] ) ? $assoc_args['csv'] : null;
         $log_name         = $assoc_args['log'] ?? null;
@@ -140,21 +141,6 @@ class UpdateTerms extends TaxonomyCLICommands {
 
 
     private function process_single_term( array $args, bool $dry_run ) {
-echo "process single term\n";        
-print_r($args);        
-        $input = $args[1];
-        $parts = explode( '>', $input );
-
-    /*
-     elseif ( isset( $args[1] ) ) {
-            $this->process_single_term( $args, $taxonomy, $dry_run );
-        } else {
-            $this->add_notice( 'You must provide either a terms string or a CSV file.', 'error' );
-            $this->log( 'You must provide either a terms string or a CSV file.' );
-        }
-            */
-
-        //----------
         $taxonomy = $this->validate_taxonomy( $args[0] );
 
         if ( is_wp_error( $taxonomy ) ) {
@@ -163,12 +149,15 @@ print_r($args);
             return;
         }
 
-        if ( ! $this->validate_command_args( $args, 3, 3 ) ) {
-            $this->add_notice( 'Invalid arguments. Usage: wp taxonomy merge_terms <taxonomy> <from_terms> <to_term>', 'error' );
+        if ( ! $this->validate_command_args( $args, 2,2 ) ) {
+            $this->add_notice( 'Invalid arguments. Usage: wp taxonomy update_terms <taxonomy> <terms>', 'error' );
 
             return;
-        }
-        //---------        
+        } 
+        
+        $input = $args[1];
+        $parts = explode( '>', $input );        
+        
         if ( count( $parts ) === 2 ) {
             $parent     = trim( $parts[0] );
             $children   = array_map( 'trim', explode( ',', $parts[1] ) );
@@ -181,8 +170,15 @@ print_r($args);
             $this->log( 'Invalid input format. Use: Parent > Child1, Child2' );
 
             return;
-        }
+        }    
 
+        if ( empty( $mappings ) ) {
+            $this->add_notice( 'No valid mappings found in input.', 'error' );
+            $this->log( 'No valid mappings found in input.' );
+
+            return;
+        }
+        
         $this->process_terms( $mappings, $taxonomy, $dry_run );
     }
 
