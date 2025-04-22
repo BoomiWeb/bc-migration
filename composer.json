@@ -1,0 +1,17 @@
+{
+    "name": "erikdmitchell/bc-migration",
+    "description": "Custom migration tooling for WP",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "erikdmitchell\\bcmigration\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Erik Mitchell",
+            "email": "erikdmitchell@gmail.com"
+        }
+    ]
+}
