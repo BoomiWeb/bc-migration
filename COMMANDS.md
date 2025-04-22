@@ -61,7 +61,10 @@ Merge terms within a taxonomy
 ### CSV Format
 
 ```
-TODO
+taxonomy,from_terms,to_term,post_type
+products,"Das Flow","Integration",blog
+industries,"Foo|Bar","Foo Bar",post
+invalid,"Foo|Bar","Foo Bar",post
 ```
 
 ### Examples
@@ -95,7 +98,10 @@ Delete a single term or bulk terms via a CSV file.
 ### CSV Format
 
 ```
-TODO
+taxonomy,term
+products,"Das Flow"
+industries,"Foo Boo"
+industries,"Foo Bar"
 ```
 
 ### Examples
@@ -175,7 +181,10 @@ Updates or creates taxonomy terms with parent-child relationships.
 ### CSV Format
 
 ```
-TODO
+taxonomy,terms
+content-type,"News & Updates > Press Release, News"
+content-type,"Briefs > Executive Brief, Industry Brief, Product Brief, Service Brief"
+industries,"Agriculture > Foo"
 ```
 
 ### Examples
