@@ -188,7 +188,8 @@ wp boomi taxonomies update_terms content-type "News & Updates > Press Release, N
 
 
 ```
-wp boomi taxonomies update_terms content-type --csv=/Users/erikmitchell/bc-migration/src/examples/update-terms.csv
+<!-- wp boomi taxonomies update_terms content-type --csv=/Users/erikmitchell/bc-migration/src/examples/update-terms.csv -->
+wp boomi taxonomies update_terms --csv=/Users/erikmitchell/bc-migration/src/examples/update-terms.csv
 ```
 
 > Updates taxonomy hierarchy from a CSV file.
