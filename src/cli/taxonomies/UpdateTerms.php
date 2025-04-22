@@ -50,9 +50,7 @@ class UpdateTerms extends TaxonomyCLICommands {
      * @return void
      */
     public function update_terms( $args, $assoc_args ) {
-        // list( $taxonomy ) = $args;
         $dry_run          = isset( $assoc_args['dry-run'] );
-        // $csv_path         = isset( $assoc_args['csv'] ) ? $assoc_args['csv'] : null;
         $log_name         = $assoc_args['log'] ?? null;
 
         if ( $log_name ) {
@@ -68,38 +66,10 @@ class UpdateTerms extends TaxonomyCLICommands {
             $this->display_notices();
 
             return;
-        }
-
-        // if ( $csv_path ) {
-        //     if ( ! file_exists( $csv_path ) ) {
-        //         $this->add_notice( "CSV file not found: {$csv_path}", 'error' );
-        //         $this->log( "CSV file not found: {$csv_path}" );
-        //         $this->display_notices();
-
-        //         return;
-        //     }
-
-        //     $this->process_csv( $csv_path, $taxonomy, $dry_run );
-        // }        
+        }     
 
         // Single merge.
-
-        // $taxonomy = $this->validate_taxonomy( $taxonomy );
-
-        // if ( is_wp_error( $taxonomy ) ) {
-        //     $this->add_notice( $taxonomy->get_error_message(), 'error' );
-        //     $this->log( $taxonomy->get_error_message() );
-        //     $this->display_notices();
-
-        //     return;
-        // }
-
-//  elseif ( isset( $args[1] ) ) {
-            $this->process_single_term( $args, $dry_run );
-        // } else {
-        //     $this->add_notice( 'You must provide either a terms string or a CSV file.', 'error' );
-        //     $this->log( 'You must provide either a terms string or a CSV file.' );
-        // }
+        $this->process_single_term( $args, $dry_run );
 
         $this->display_notices();
     }
@@ -114,9 +84,6 @@ class UpdateTerms extends TaxonomyCLICommands {
      * @return void
      */
     private function process_csv( string $file, bool $dry_run ) {
-        $mappings = array();
-        // $lines    = file( $csv_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
-
         $rows    = array_map( 'str_getcsv', file( $file ) );
         $headers = array_map( 'trim', array_shift( $rows ) );
 
