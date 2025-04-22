@@ -20,8 +20,11 @@ class UpdateTerms extends TaxonomyCLICommands {
      *
      * ## OPTIONS
      *
-     * [<taxonomy> <terms>]
-     * : The taxonomy name, A string defining parent > child relationships.
+     * [<taxonomy>]
+     * : The taxonomy name.
+     *
+     * [<terms>]
+     * : A string defining parent > child relationships.
      *
      * [--file=<file>]
      * : Path to a CSV file defining parent > children.
@@ -34,8 +37,8 @@ class UpdateTerms extends TaxonomyCLICommands {
      *
      * ## EXAMPLES
      *
-     *      wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News"
-     *      wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News" --log=update-terms.log
+     *      wp boomi taxonomies update_terms content-type 'News & Updates > Press Release, News'
+     *      wp boomi taxonomies update_terms content-type 'News & Updates > Press Release, News' --log=update-terms.log
      *      wp boomi taxonomies update_terms --file=terms.csv --dry-run
      *      wp boomi taxonomies update_terms --file=path/to/file.csv --log=log.txt
      *
@@ -119,36 +122,78 @@ class UpdateTerms extends TaxonomyCLICommands {
 
         if ( ! $this->validate_headers( $headers, array( 'taxonomy', 'from_terms', 'to_term' ) ) ) {
             return;
-        }        
+        }   
+        
+        foreach ( $rows as $i => $row ) {
+            $row_num  = $i + 2;
+            $data     = array_combine( $headers, $row );
+            $data     = array_map( 'trim', $data );
+            $taxonomy = $data['taxonomy'];
 
-        foreach ( $lines as $line ) {
-            $parts = explode( '>', $line );
+            // skip empty lines.
+            if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
+                continue;
+            }
 
-            if ( count( $parts ) !== 2 ) {
-                $this->add_notice( "Invalid format in line: {$line}", 'warning' );
-                $this->log( "Invalid format in line: {$line}" );
+            // Check required fields.
+            if ( ! $this->has_required_fields( $data, array( 'taxonomy', 'terms' ), $row_num ) ) {
+                continue;
+            }
+
+            $taxonomy = $this->validate_taxonomy( $taxonomy );
+
+            if ( is_wp_error( $taxonomy ) ) {
+                $this->invalid_taxonomy( $taxonomy, $row_num );
 
                 continue;
             }
 
-            $parent     = trim( $parts[0] );
-            $children   = array_map( 'trim', explode( ',', $parts[1] ) );
-            $mappings[] = array(
-                'parent'   => $parent,
-                'children' => $children,
-            );
-        }
+            print_r( $data );
 
-        if ( empty( $mappings ) ) {
-            $this->add_notice( 'No valid mappings found in CSV file.', 'error' );
-            $this->log( 'No valid mappings found in CSV file.' );
+            // $from_terms = explode( '|', $data['from_terms'] );
+            // $to_term    = $data['to_term'];
 
-            $this->display_notices();
+            // if ( $dry_run ) {
+            //     $this->dry_run_result( $taxonomy, $from_terms, $to_term, $row_num );
 
-            return;
-        }
+            //     continue;
+            // }
 
-        $this->process_terms( $mappings, $taxonomy, $dry_run );
+            // $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $row_num, $post_type );
+
+            // if ( is_wp_error( $result ) ) {
+            //     $this->add_notice( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
+            // }
+        }        
+
+        // foreach ( $lines as $line ) {
+        //     $parts = explode( '>', $line );
+
+        //     if ( count( $parts ) !== 2 ) {
+        //         $this->add_notice( "Invalid format in line: {$line}", 'warning' );
+        //         $this->log( "Invalid format in line: {$line}" );
+
+        //         continue;
+        //     }
+
+        //     $parent     = trim( $parts[0] );
+        //     $children   = array_map( 'trim', explode( ',', $parts[1] ) );
+        //     $mappings[] = array(
+        //         'parent'   => $parent,
+        //         'children' => $children,
+        //     );
+        // }
+
+        // if ( empty( $mappings ) ) {
+        //     $this->add_notice( 'No valid mappings found in CSV file.', 'error' );
+        //     $this->log( 'No valid mappings found in CSV file.' );
+
+        //     $this->display_notices();
+
+        //     return;
+        // }
+
+        // $this->process_terms( $mappings, $taxonomy, $dry_run );
     }
 
     private function process_single_term( array $args, bool $dry_run ) {
