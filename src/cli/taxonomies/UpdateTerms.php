@@ -23,7 +23,7 @@ class UpdateTerms extends TaxonomyCLICommands {
      * [<taxonomy> <terms>]
      * : The taxonomy name, A string defining parent > child relationships.
      *
-     * [--csv=<file>]
+     * [--file=<file>]
      * : Path to a CSV file defining parent > children.
      *
      * [--dry-run]
@@ -36,8 +36,8 @@ class UpdateTerms extends TaxonomyCLICommands {
      *
      *      wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News"
      *      wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News" --log=update-terms.log
-     *      wp boomi taxonomies update_terms --csv=terms.csv --dry-run
-     *      wp boomi taxonomies update_terms --csv=path/to/file.csv --log=log.txt
+     *      wp boomi taxonomies update_terms --file=terms.csv --dry-run
+     *      wp boomi taxonomies update_terms --file=path/to/file.csv --log=log.txt
      *
      * @when after_wp_load
      *
@@ -49,7 +49,7 @@ class UpdateTerms extends TaxonomyCLICommands {
     public function update_terms( $args, $assoc_args ) {
         // list( $taxonomy ) = $args;
         $dry_run          = isset( $assoc_args['dry-run'] );
-        $csv_path         = isset( $assoc_args['csv'] ) ? $assoc_args['csv'] : null;
+        // $csv_path         = isset( $assoc_args['csv'] ) ? $assoc_args['csv'] : null;
         $log_name         = $assoc_args['log'] ?? null;
 
         if ( $log_name ) {
@@ -57,17 +57,27 @@ class UpdateTerms extends TaxonomyCLICommands {
         }
 
         // Batch merge.
-        if ( $csv_path ) {
-            if ( ! file_exists( $csv_path ) ) {
-                $this->add_notice( "CSV file not found: {$csv_path}", 'error' );
-                $this->log( "CSV file not found: {$csv_path}" );
-                $this->display_notices();
-
-                return;
+        if ( isset( $assoc_args['file'] ) ) {
+            if ( is_valid_file( $assoc_args['file'] ) ) {
+                $this->process_csv( $assoc_args['file'], $dry_run );
             }
 
-            $this->process_csv( $csv_path, $taxonomy, $dry_run );
-        }        
+            $this->display_notices();
+
+            return;
+        }
+
+        // if ( $csv_path ) {
+        //     if ( ! file_exists( $csv_path ) ) {
+        //         $this->add_notice( "CSV file not found: {$csv_path}", 'error' );
+        //         $this->log( "CSV file not found: {$csv_path}" );
+        //         $this->display_notices();
+
+        //         return;
+        //     }
+
+        //     $this->process_csv( $csv_path, $taxonomy, $dry_run );
+        // }        
 
         // Single merge.
 
@@ -95,15 +105,21 @@ class UpdateTerms extends TaxonomyCLICommands {
      * Processes a CSV file containing parent > children relationships and updates
      * the terms in the specified taxonomy.
      *
-     * @param string $csv_path Path to the CSV file.
-     * @param string $taxonomy The taxonomy to update.
+     * @param string $file Path to the CSV file.
      * @param bool   $dry_run  If set, no changes will be made.
      *
      * @return void
      */
-    private function process_csv( string $csv_path, string $taxonomy, bool $dry_run ) {
+    private function process_csv( string $file, bool $dry_run ) {
         $mappings = array();
-        $lines    = file( $csv_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
+        // $lines    = file( $csv_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
+
+        $rows    = array_map( 'str_getcsv', file( $file ) );
+        $headers = array_map( 'trim', array_shift( $rows ) );
+
+        if ( ! $this->validate_headers( $headers, array( 'taxonomy', 'from_terms', 'to_term' ) ) ) {
+            return;
+        }        
 
         foreach ( $lines as $line ) {
             $parts = explode( '>', $line );
