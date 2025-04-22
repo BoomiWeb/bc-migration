@@ -39,8 +39,8 @@ class UpdateTerms extends TaxonomyCLICommands {
      *
      *      wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News"
      *      wp boomi taxonomies update_terms content-type "News & Updates > Press Release, News" --log=update-terms.log
-     *      wp boomi taxonomies update_terms content-type --csv=terms.csv --dry-run
-     *      wp boomi taxonomies update_terms content-type --csv=path/to/file.csv --log=log.txt
+     *      wp boomi taxonomies update_terms --csv=terms.csv --dry-run
+     *      wp boomi taxonomies update_terms --csv=path/to/file.csv --log=log.txt
      *
      * @when after_wp_load
      *
@@ -59,16 +59,7 @@ class UpdateTerms extends TaxonomyCLICommands {
             $this->set_log_name( $log_name );
         }
 
-        $taxonomy = $this->validate_taxonomy( $taxonomy );
-
-        if ( is_wp_error( $taxonomy ) ) {
-            $this->add_notice( $taxonomy->get_error_message(), 'error' );
-            $this->log( $taxonomy->get_error_message() );
-            $this->display_notices();
-
-            return;
-        }
-
+        // Batch merge.
         if ( $csv_path ) {
             if ( ! file_exists( $csv_path ) ) {
                 $this->add_notice( "CSV file not found: {$csv_path}", 'error' );
@@ -79,12 +70,26 @@ class UpdateTerms extends TaxonomyCLICommands {
             }
 
             $this->process_csv( $csv_path, $taxonomy, $dry_run );
-        } elseif ( isset( $args[1] ) ) {
-            $this->process_single_term( $args, $taxonomy, $dry_run );
-        } else {
-            $this->add_notice( 'You must provide either a terms string or a CSV file.', 'error' );
-            $this->log( 'You must provide either a terms string or a CSV file.' );
-        }
+        }        
+
+        // Single merge.
+
+        // $taxonomy = $this->validate_taxonomy( $taxonomy );
+
+        // if ( is_wp_error( $taxonomy ) ) {
+        //     $this->add_notice( $taxonomy->get_error_message(), 'error' );
+        //     $this->log( $taxonomy->get_error_message() );
+        //     $this->display_notices();
+
+        //     return;
+        // }
+
+//  elseif ( isset( $args[1] ) ) {
+            $this->process_single_term( $args, $dry_run );
+        // } else {
+        //     $this->add_notice( 'You must provide either a terms string or a CSV file.', 'error' );
+        //     $this->log( 'You must provide either a terms string or a CSV file.' );
+        // }
 
         $this->display_notices();
     }
@@ -133,19 +138,37 @@ class UpdateTerms extends TaxonomyCLICommands {
         $this->process_terms( $mappings, $taxonomy, $dry_run );
     }
 
-    /**
-     * Process a single term from a string argument.
-     *
-     * @param string[] $args    CLI arguments.
-     * @param string   $taxonomy The taxonomy to update.
-     * @param bool     $dry_run  If set, no changes will be made.
-     *
-     * @return void
-     */
-    private function process_single_term( array $args, string $taxonomy, bool $dry_run ) {
+
+    private function process_single_term( array $args, bool $dry_run ) {
+echo "process single term\n";        
+print_r($args);        
         $input = $args[1];
         $parts = explode( '>', $input );
 
+    /*
+     elseif ( isset( $args[1] ) ) {
+            $this->process_single_term( $args, $taxonomy, $dry_run );
+        } else {
+            $this->add_notice( 'You must provide either a terms string or a CSV file.', 'error' );
+            $this->log( 'You must provide either a terms string or a CSV file.' );
+        }
+            */
+
+        //----------
+        $taxonomy = $this->validate_taxonomy( $args[0] );
+
+        if ( is_wp_error( $taxonomy ) ) {
+            $this->add_notice( $taxonomy->get_error_message(), 'error' );
+
+            return;
+        }
+
+        if ( ! $this->validate_command_args( $args, 3, 3 ) ) {
+            $this->add_notice( 'Invalid arguments. Usage: wp taxonomy merge_terms <taxonomy> <from_terms> <to_term>', 'error' );
+
+            return;
+        }
+        //---------        
         if ( count( $parts ) === 2 ) {
             $parent     = trim( $parts[0] );
             $children   = array_map( 'trim', explode( ',', $parts[1] ) );
