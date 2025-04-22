@@ -20,12 +20,8 @@ class UpdateTerms extends TaxonomyCLICommands {
      *
      * ## OPTIONS
      *
-     * FIXME: This is not correct.
-     * <taxonomy>
-     * : The taxonomy name (e.g. category, post_tag, content-type).
-     *
-     * [<terms>]
-     * : A string defining parent > child relationships.
+     * [<taxonomy> <terms>]
+     * : The taxonomy name, A string defining parent > child relationships.
      *
      * [--csv=<file>]
      * : Path to a CSV file defining parent > children.
@@ -138,7 +134,6 @@ class UpdateTerms extends TaxonomyCLICommands {
 
         $this->process_terms( $mappings, $taxonomy, $dry_run );
     }
-
 
     private function process_single_term( array $args, bool $dry_run ) {
         $taxonomy = $this->validate_taxonomy( $args[0] );
