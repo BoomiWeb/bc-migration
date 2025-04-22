@@ -38,8 +38,8 @@ class Merge extends TaxonomyCLICommands {
      *
      * ## EXAMPLES
      *
-     *     wp taxonomy merge_terms products "B2B Integration|CRM Integration" "Integration" --delete-old
-     *     wp taxonomy merge_terms --file=merge-terms.csv --dry-run --log=merge.log
+     *     wp boomi taxonomies merge products "B2B Integration|CRM Integration" "Integration" --delete-old
+     *     wp boomi taxonomies merge --file=merge-terms.csv --dry-run --log=merge.log
      *
      * @param string[]             $args       CLI positional arguments.
      * @param array<string, mixed> $assoc_args CLI associative arguments.

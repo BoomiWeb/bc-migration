@@ -39,8 +39,8 @@ class Rename extends TaxonomyCLICommands {
      *
      * ## EXAMPLES
      *
-     *     wp taxonomy rename_term industries "M&A" "Mergers. & Acquisitions"
-     *     wp taxonomy rename_term --file=terms.csv --dry-run --log=rename-log.txt
+     *     wp boomi taxonomies rename industries "M&A" "Mergers. & Acquisitions"
+     *     wp boomi taxonomies rename --file=terms.csv --dry-run --log=rename-log.txt
      *
      * @param string[]             $args       CLI positional arguments.
      * @param array<string, mixed> $assoc_args CLI associative arguments.
