@@ -151,6 +151,7 @@ class Migrate extends TaxonomyCLICommands {
     
         // Check or create destination term.
         $dest_term = get_term_by( 'name', $term_name, $to_tax );
+        
         if ( ! $dest_term ) {
             if ( $dry_run ) {
                 $message = "{$prefix}Would create term '$term_name' in taxonomy '$to_tax'.";
