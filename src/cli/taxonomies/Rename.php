@@ -22,9 +22,15 @@ class Rename extends TaxonomyCLICommands {
      *
      * ## OPTIONS
      *
-     * [<taxonomy> <old_term> <new_name>]
-     * : Taxonomy, old term, and new name for single term rename.
+     * [<taxonomy>]
+     * : The taxonomy name.
      *
+     * [<old_term>]
+     * : The old term name or slug.
+     * 
+     * [<new_name>]
+     * : The new name for the term.
+     * 
      * [--new-slug=<new-slug>]
      * : Optional new slug for single rename.
      *
