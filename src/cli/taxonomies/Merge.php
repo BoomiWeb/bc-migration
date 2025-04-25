@@ -21,8 +21,14 @@ class Merge extends TaxonomyCLICommands {
      *
      * ## OPTIONS
      *
-     * [<taxonomy> <from_terms> <to_term>]
-     * : Taxonomy, pipe-separated list of old terms, and destination term.
+     * [<taxonomy>]
+     * : The taxonomy name.
+     * 
+     * [<from_terms>]
+     * : Pipe-separated list of terms to merge.
+     * 
+     * [<to_term>]
+     * : Term to merge into.
      *
      * [--file=<file>]
      * : Path to CSV file for batch merge.
