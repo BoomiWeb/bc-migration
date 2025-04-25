@@ -135,42 +135,51 @@ class Migrate extends TaxonomyCLICommands {
         }
     }
 
-    protected function migrate( string $term_name, string $from_tax, string $to_tax, bool $delete_original = false, int $row_num = null, bool $dry_run = false ) {
+    protected function migrate( string $term_name, string $from_tax, string $to_tax, bool $delete_original = false, $row_num = null, bool $dry_run = false ) {
+        $prefix = $row_num ? "Row $row_num: " : '';
+    
         $source_term = get_term_by( 'name', $term_name, $from_tax );
     
         if ( ! $source_term ) {
-            $msg = "Term '$term_name' not found in taxonomy '$from_tax'.";
-            $this->add_notice( $msg, 'error' );
-            $this->log( $msg, 'error' );
-            return new WP_Error( 'term_not_found', $msg );
+            $message = "{$prefix}Term '$term_name' not found in taxonomy '$from_tax'.";
+            
+            $this->add_notice( $message, 'error' );
+            $this->log( $message, 'error' );
+            
+            return new WP_Error( 'term_not_found', $message );
         }
     
+        // Check or create destination term.
         $dest_term = get_term_by( 'name', $term_name, $to_tax );
-    
         if ( ! $dest_term ) {
             if ( $dry_run ) {
-                $this->add_notice( "DRY RUN: Would create term '$term_name' in taxonomy '$to_tax'.", 'info' );
-                $this->log( "DRY RUN: Would create term '$term_name' in taxonomy '$to_tax'.", 'info' );
-                $dest_term_id = 'new_term_id';
+                $message = "{$prefix}Would create term '$term_name' in taxonomy '$to_tax'.";
+                
+                $this->add_notice( $message, 'success' );
+                $this->log( $message, 'success' );
+               
+                $dest_term_id = 0; // placeholder
             } else {
                 $dest_term = wp_insert_term( $term_name, $to_tax );
-    
+                
                 if ( is_wp_error( $dest_term ) ) {
-                    $msg = "Failed to create term '$term_name' in taxonomy '$to_tax': " . $dest_term->get_error_message();
-                    $this->add_notice( $msg, 'error' );
-                    $this->log( $msg, 'error' );
+                    $message = "{$prefix}Failed to create term '$term_name' in taxonomy '$to_tax': " . $dest_term->get_error_message();
+                    $this->add_notice( $message, 'error' );
+                    $this->log( $message, 'error' );
                     return $dest_term;
                 }
-    
+                
                 $dest_term_id = $dest_term['term_id'];
-                $msg = "Created new term '$term_name' in taxonomy '$to_tax'.";
-                $this->add_notice( $msg, 'success' );
-                $this->log( $msg, 'success' );
+                $message = "{$prefix}Created new term '$term_name' in taxonomy '$to_tax'.";
+                
+                $this->add_notice( $message, 'success' );
+                $this->log( $message, 'success' );
             }
         } else {
             $dest_term_id = $dest_term->term_id;
         }
     
+        // Get posts with the source term.
         $posts = get_posts( [
             'post_type' => 'any',
             'tax_query' => [
@@ -182,41 +191,54 @@ class Migrate extends TaxonomyCLICommands {
             ],
             'posts_per_page' => -1,
             'fields' => 'ids',
-        ] );
+        ] ); 
     
         if ( empty( $posts ) ) {
-            $msg = "No posts found with term '$term_name' in taxonomy '$from_tax'.";
-            $this->add_notice( $msg, 'warning' );
-            $this->log( $msg, 'warning' );
-            return new WP_Error( 'no_posts_found', $msg );
+            $message = "{$prefix}No posts found with term '$term_name' in taxonomy '$from_tax'.";
+            
+            $this->add_notice( $message, 'warning' );
+            $this->log( $message, 'warning' );
+            
+            return new WP_Error( 'no_posts_found', $message );
         }
     
         if ( $dry_run ) {
-            $this->add_notice( "DRY RUN: Would assign '$term_name' in '$to_tax' to " . count( $posts ) . " post(s).", 'info' );
-            $this->log( "DRY RUN: Would assign '$term_name' in '$to_tax' to " . count( $posts ) . " post(s).", 'info' );
+            $message = "{$prefix}Would update " . count( $posts ) . " post(s) with term '$term_name' in taxonomy '$to_tax'.";
+            
+            $this->add_notice( $message, 'success' );
+            $this->log( $message, 'success' );
         } else {
             foreach ( $posts as $post_id ) {
                 wp_set_object_terms( $post_id, $dest_term_id, $to_tax, true );
             }
-            $this->add_notice( count( $posts ) . " post(s) updated with '$term_name' in taxonomy '$to_tax'.", 'success' );
-            $this->log( count( $posts ) . " post(s) updated with '$term_name' in taxonomy '$to_tax'.", 'success' );
+            
+            $message = "{$prefix}" . count( $posts ) . " post(s) updated with '$term_name' in taxonomy '$to_tax'.";
+            
+            $this->add_notice( $message, 'success' );
+            $this->log( $message, 'success' );
         }
     
+        // Delete term if requested.
         if ( $delete_original ) {
             if ( $dry_run ) {
-                $this->add_notice( "DRY RUN: Would delete term '$term_name' from taxonomy '$from_tax'.", 'info' );
-                $this->log( "DRY RUN: Would delete term '$term_name' from taxonomy '$from_tax'.", 'info' );
+                $message = "{$prefix}Would delete term '$term_name' from taxonomy '$from_tax'.";
+
+                $this->add_notice( $message, 'success' );
+                $this->log( $message, 'success' );
             } else {
                 $result = wp_delete_term( $source_term->term_id, $from_tax );
+
                 if ( is_wp_error( $result ) ) {
-                    $msg = "Failed to delete term '$term_name' from taxonomy '$from_tax': " . $result->get_error_message();
-                    $this->add_notice( $msg, 'error' );
-                    $this->log( $msg, 'error' );
+                    $message = "{$prefix}Failed to delete term '$term_name' from taxonomy '$from_tax': " . $result->get_error_message();
+                    
+                    $this->add_notice( $message, 'error' );
+                    $this->log( $message, 'error' );
                     return $result;
                 } else {
-                    $msg = "Deleted term '$term_name' from taxonomy '$from_tax'.";
-                    $this->add_notice( $msg, 'success' );
-                    $this->log( $msg, 'success' );
+                    $message = "{$prefix}Deleted term '$term_name' from taxonomy '$from_tax'.";
+                    
+                    $this->add_notice( $message, 'success' );
+                    $this->log( $message, 'success' );
                 }
             }
         }
