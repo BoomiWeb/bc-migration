@@ -1,8 +1,8 @@
 {
     "name": "erikdmitchell/bc-migration",
     "description": "Custom migration tooling for WP",
-    "type": "library",
-    "license": "MIT",
+    "type": "boomi-cms-plugin",
+    "license": "GPL-3.0-or-later",
     "autoload": {
         "psr-4": {
             "erikdmitchell\\bcmigration\\": "src/"
