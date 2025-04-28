@@ -35,8 +35,8 @@ class Delete extends TaxonomyCLICommands {
      *
      * ## EXAMPLES
      *
-     *     wp taxonomy delete_term industries "M&A" "Mergers. & Acquisitions"
-     *     wp taxonomy delete_term --file=terms.csv --dry-run --log=delete-log.txt
+     *     wp boomi taxonomies delete industries "M&A" "Mergers. & Acquisitions"
+     *     wp boomi taxonomies delete --file=terms.csv --dry-run --log=delete-log.txt
      *
      * @param string[]             $args       CLI positional arguments.
      * @param array<string, mixed> $assoc_args CLI associative arguments.

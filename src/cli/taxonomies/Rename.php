@@ -22,9 +22,15 @@ class Rename extends TaxonomyCLICommands {
      *
      * ## OPTIONS
      *
-     * [<taxonomy> <old_term> <new_name>]
-     * : Taxonomy, old term, and new name for single term rename.
+     * [<taxonomy>]
+     * : The taxonomy name.
      *
+     * [<old_term>]
+     * : The old term name or slug.
+     * 
+     * [<new_name>]
+     * : The new name for the term.
+     * 
      * [--new-slug=<new-slug>]
      * : Optional new slug for single rename.
      *
@@ -39,8 +45,8 @@ class Rename extends TaxonomyCLICommands {
      *
      * ## EXAMPLES
      *
-     *     wp taxonomy rename_term industries "M&A" "Mergers. & Acquisitions"
-     *     wp taxonomy rename_term --file=terms.csv --dry-run --log=rename-log.txt
+     *     wp boomi taxonomies rename industries "M&A" "Mergers. & Acquisitions"
+     *     wp boomi taxonomies rename --file=terms.csv --dry-run --log=rename-log.txt
      *
      * @param string[]             $args       CLI positional arguments.
      * @param array<string, mixed> $assoc_args CLI associative arguments.

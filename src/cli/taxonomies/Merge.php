@@ -21,8 +21,14 @@ class Merge extends TaxonomyCLICommands {
      *
      * ## OPTIONS
      *
-     * [<taxonomy> <from_terms> <to_term>]
-     * : Taxonomy, pipe-separated list of old terms, and destination term.
+     * [<taxonomy>]
+     * : The taxonomy name.
+     * 
+     * [<from_terms>]
+     * : Pipe-separated list of terms to merge.
+     * 
+     * [<to_term>]
+     * : Term to merge into.
      *
      * [--file=<file>]
      * : Path to CSV file for batch merge.
@@ -38,8 +44,8 @@ class Merge extends TaxonomyCLICommands {
      *
      * ## EXAMPLES
      *
-     *     wp taxonomy merge_terms products "B2B Integration|CRM Integration" "Integration" --delete-old
-     *     wp taxonomy merge_terms --file=merge-terms.csv --dry-run --log=merge.log
+     *     wp boomi taxonomies merge products "B2B Integration|CRM Integration" "Integration" --delete-old
+     *     wp boomi taxonomies merge --file=merge-terms.csv --dry-run --log=merge.log
      *
      * @param string[]             $args       CLI positional arguments.
      * @param array<string, mixed> $assoc_args CLI associative arguments.
@@ -50,18 +56,9 @@ class Merge extends TaxonomyCLICommands {
         $dry_run    = isset( $assoc_args['dry-run'] );
         $delete_old = isset( $assoc_args['delete-old'] );
         $log_name   = $assoc_args['log'] ?? null;
-        $post_type  = $assoc_args['post-type'] ?? 'post';
 
         if ( $log_name ) {
             $this->set_log_name( $log_name );
-        }
-
-        $post_type = $this->validate_post_type( $post_type );
-
-        if ( is_wp_error( $post_type ) ) {
-            $this->add_notice( $post_type->get_error_message(), 'error' );
-
-            $this->log( "[SKIPPED] {$post_type->get_error_message()}" );
         }
 
         // Batch merge.
@@ -76,7 +73,7 @@ class Merge extends TaxonomyCLICommands {
         }
 
         // Single command.
-        $this->process_single_term( $args, $dry_run, $delete_old, $post_type );
+        $this->process_single_term( $args, $dry_run, $delete_old );
 
         $this->display_notices();
     }
@@ -85,13 +82,12 @@ class Merge extends TaxonomyCLICommands {
      * Processes a CSV file containing taxonomies, from terms, and destination terms to merge.
      *
      * @param string $file        Path to the CSV file.
-     * @param string $post_type   Post type to run the merge on.
      * @param bool   $delete_old  If set, delete the old terms after merging.
      * @param bool   $dry_run     If set, simulate actions without making changes.
      *
      * @return void
      */
-    private function process_csv( string $file, string $post_type, bool $delete_old = false, bool $dry_run = false ) {
+    private function process_csv( string $file, bool $delete_old = false, bool $dry_run = false ) {
         $rows    = array_map( 'str_getcsv', file( $file ) );
         $headers = array_map( 'trim', array_shift( $rows ) );
 
@@ -132,7 +128,7 @@ class Merge extends TaxonomyCLICommands {
                 continue;
             }
 
-            $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $row_num, $post_type );
+            $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $row_num );
 
             if ( is_wp_error( $result ) ) {
                 $this->add_notice( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
@@ -148,11 +144,10 @@ class Merge extends TaxonomyCLICommands {
      * @param string[] $args     CLI arguments.
      * @param bool     $dry_run  If set, simulate actions without making changes.
      * @param bool     $delete_old  If set, delete the old terms after merging.
-     * @param string   $post_type Post type to run the merge on.
      *
      * @return void
      */
-    private function process_single_term( array $args, $dry_run, $delete_old, $post_type ) {
+    private function process_single_term( array $args, $dry_run, $delete_old ) {
         $taxonomy = $this->validate_taxonomy( $args[0] );
 
         if ( is_wp_error( $taxonomy ) ) {
@@ -178,7 +173,7 @@ class Merge extends TaxonomyCLICommands {
             return;
         }
 
-        $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, null, $post_type );
+        $result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, null );
 
         if ( is_wp_error( $result ) ) {
             $this->add_notice( 'Error - ' . $result->get_error_message(), 'warning' );
@@ -198,11 +193,10 @@ class Merge extends TaxonomyCLICommands {
      * @param string   $to_term_name The term to merge into.
      * @param bool     $delete_old   If true, delete the old terms after merging.
      * @param int      $row_num      The row number (for logging purposes).
-     * @param string   $post_type    The post type to run the merge on.
      *
      * @return bool If the merge was successful.
      */
-    protected function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $row_num = null, $post_type = 'post' ) {
+    protected function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $row_num = null ) {
         $to_term = get_term_by( 'name', $to_term_name, $taxonomy );
 
         if ( ! $to_term || is_wp_error( $to_term ) ) {
@@ -235,7 +229,6 @@ class Merge extends TaxonomyCLICommands {
             // Get all posts with this term.
             $posts = get_posts(
                 array(
-                    'post_type'      => $post_type,
                     'post_status'    => 'any',
                     'posts_per_page' => -1,
                     'tax_query'      => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
