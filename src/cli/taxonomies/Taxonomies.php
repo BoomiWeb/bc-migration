@@ -41,6 +41,12 @@ class Taxonomies extends CLICommands {
                 'longdesc'  => 'Merge Taxonomies (terms)',
                 'method'    => 'merge_terms',
             ),
+            'migrate'          => array(
+                'class'     => __NAMESPACE__ . '\Migrate',
+                'shortdesc' => 'Migrate terms between different Taxonomies.',
+                'longdesc'  => 'Migrate terms between different Taxonomies.',
+                'method'    => 'migrate_terms',
+            ),            
             'delete'         => array(
                 'class'     => __NAMESPACE__ . '\Delete',
                 'shortdesc' => 'Delete Taxonomies (terms)',

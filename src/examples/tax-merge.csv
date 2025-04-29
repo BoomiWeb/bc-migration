@@ -1,4 +1,0 @@
-taxonomy,from_terms,to_term,post_type
-products,"Das Flow","Integration",blog
-industries,"Foo|Bar","Foo Bar",post
-invalid,"Foo|Bar","Foo Bar",post
