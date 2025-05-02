@@ -42,23 +42,16 @@ class Files {
 	public function upload() {
 		if ( isset( $_POST['bcm_upload_csv'] ) && check_admin_referer( 'bcm_upload_csv_action' ) ) {
 			if ( ! empty( $_FILES['bcm_csv_file']['tmp_name'] ) ) {
-				$uploaded_file = $_FILES['bcm_csv_file'];
-
-				if ( strtolower( pathinfo( $uploaded_file['name'], PATHINFO_EXTENSION ) ) === 'csv' ) {
-					$filename    = sanitize_file_name( $uploaded_file['name'] );
-					$destination = $this->upload_dir . $filename;
-
-					if ( move_uploaded_file( $uploaded_file['tmp_name'], $destination ) ) {
-						echo '<div class="notice notice-success"><p>Uploaded: ' . esc_html( $filename ) . '</p></div>';
-					} else {
-						echo '<div class="notice notice-error"><p>Failed to upload file.</p></div>';
-					}
+				$result = $this->handle_csv_upload( $_FILES['bcm_csv_file'] );
+	
+				if ( is_wp_error( $result ) ) {
+					echo '<div class="notice notice-error"><p>' . esc_html( $result->get_error_message() ) . '</p></div>';
 				} else {
-					echo '<div class="notice notice-error"><p>Only CSV files are allowed.</p></div>';
+					echo '<div class="notice notice-success"><p>Uploaded: ' . esc_html( basename( $result ) ) . '</p></div>';
 				}
 			}
 		}
-	}
+	}	
 
 	public function delete() {
 		if ( isset( $_POST['bcm_delete_file'] ) && current_user_can( 'manage_options' ) ) {
@@ -68,9 +61,35 @@ class Files {
 			$file_path   = $this->upload_dir . $delete_file;
 
 			if ( file_exists( $file_path ) ) {
-				unlink( $file_path );
+				wp_delete_file( $file_path );
 				echo '<div class="notice notice-success"><p>Deleted: ' . esc_html( $delete_file ) . '</p></div>';
 			}
 		}
 	}
+
+	private function handle_csv_upload( $file ) {
+		if ( ! is_uploaded_file( $file['tmp_name'] ) || $file['error'] !== UPLOAD_ERR_OK ) {
+			return new WP_Error( 'upload_error', 'File upload failed or was invalid.' );
+		}
+	
+		$extension = strtolower( pathinfo( $file['name'], PATHINFO_EXTENSION ) );
+		if ( $extension !== 'csv' ) {
+			return new WP_Error( 'invalid_type', 'Only CSV files are allowed.' );
+		}
+	
+		$mime = mime_content_type( $file['tmp_name'] );
+		$allowed_mime = [ 'text/plain', 'text/csv', 'application/vnd.ms-excel' ];
+		if ( ! in_array( $mime, $allowed_mime, true ) ) {
+			return new WP_Error( 'invalid_mime', 'Uploaded file is not a valid CSV.' );
+		}
+	
+		$filename    = sanitize_file_name( $file['name'] );
+		$destination = trailingslashit( $this->upload_dir ) . $filename;
+	
+		if ( ! move_uploaded_file( $file['tmp_name'], $destination ) ) {
+			return new WP_Error( 'move_failed', 'Failed to move uploaded file.' );
+		}
+	
+		return $destination;
+	}	
 }
