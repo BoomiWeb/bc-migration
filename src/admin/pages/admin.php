@@ -1,9 +1,17 @@
 <?php
-	$upload_dir = trailingslashit( BCM_UPLOADS_PATH );
-	$upload_url = trailingslashit( BCM_UPLOADS_URL );
+/**
+ * Main admin page.
+ *
+ * @package erikdmitchell\bcmigration\admin
+ * @since   0.1.0
+ * @version 0.1.0
+ */
 
-	// Get files
-	$files = glob( $upload_dir . '*.{csv,log}', GLOB_BRACE );
+$upload_dir = trailingslashit( BCM_UPLOADS_PATH );
+$upload_url = trailingslashit( BCM_UPLOADS_URL );
+
+// Get files.
+$files = glob( $upload_dir . '*.{csv,log}', GLOB_BRACE );
 ?>
 
 <div class="wrap">
@@ -36,7 +44,7 @@
 					$ext         = pathinfo( $filename, PATHINFO_EXTENSION );
 					$file_url    = $upload_url . $filename;
 					$file_size   = size_format( filesize( $file_path ), 2 );
-					$upload_time = date( 'Y-m-d H:i:s', filemtime( $file_path ) );
+					$upload_time = gmdate( 'Y-m-d H:i:s', filemtime( $file_path ) );
 					?>
 					<tr>
 						<td><strong><?php echo esc_html( $filename ); ?></strong></td>
@@ -45,7 +53,7 @@
 						<td><?php echo esc_html( $file_size ); ?></td>
 						<td>
 							<a href="<?php echo esc_url( $file_url ); ?>" class="button">Download</a>
-							<?php if ( $ext === 'log' ) : ?>
+							<?php if ( 'log' === $ext ) : ?>
 								<button type="button" class="button button-secondary" onclick="toggleLog('<?php echo esc_attr( $filename ); ?>')">View</button>
 							<?php endif; ?>
 							<form method="post" style="display:inline;">
@@ -55,7 +63,7 @@
 							</form>
 						</td>
 					</tr>
-					<?php if ( $ext === 'log' ) : ?>
+					<?php if ( 'log' === $ext ) : ?>
 						<tr id="log-<?php echo esc_attr( $filename ); ?>" style="display:none;">
 							<td colspan="4">
 								<textarea readonly rows="10" style="width:100%;"><?php echo esc_textarea( file_get_contents( $file_path ) ); ?></textarea>

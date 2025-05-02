@@ -159,7 +159,7 @@ class Migrate extends TaxonomyCLICommands {
 				$this->add_notice( $message, 'success' );
 				$this->log( $message, 'success' );
 
-				$dest_term_id = 0; // placeholder
+				$dest_term_id = 0; // placeholder.
 			} else {
 				$dest_term = wp_insert_term( $term_name, $to_tax );
 

@@ -133,7 +133,6 @@ class UpdateTerms extends TaxonomyCLICommands {
 			);
 
 			if ( $dry_run ) {
-				// $this->dry_run_result( $taxonomy, $from_terms, $to_term, $row_num );
 				$this->add_notice( "Row $row_num: Dry run - No changes made.", 'info' );
 				$this->log( "Row $row_num: Dry run - No changes made." );
 
