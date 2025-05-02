@@ -1,4 +1,18 @@
 <?php
+/**
+ * Post Type CLI class
+ *
+ * @package erikdmitchell\bcmigration\cli
+ * @since   0.3.0
+ * @version 0.1.0
+ */
+
+namespace erikdmitchell\bcmigration\cli;
+
+use erikdmitchell\bcmigration\abstracts\CLICommands;
+use erikdmitchell\bcmigration\subprocessor\MigrateSubscribeData;
+use WP_CLI;
+
 /*
 wp myplugin migrate_posts --from=old_post_type --to=new_post_type --post_ids=1,2,3,4
 wp myplugin migrate_posts --from=old_post_type --to=new_post_type --taxonomy=category-slug
@@ -26,7 +40,7 @@ wp myplugin migrate_posts --from=book --to=article --taxonomy=fiction --taxonomy
 wp myplugin migrate_posts --from=book --to=article --csv=posts.csv --copy-meta --copy-tax
 */
 
-class Migrate_Posts_Command {
+class PostType {
 
 	/**
 	 * Migrate posts from one custom post type to another.
@@ -56,7 +70,7 @@ class Migrate_Posts_Command {
 	 *
 	 */    
 
-	public function __invoke( $args, $assoc_args ) {
+	public function migrate( $args, $assoc_args ) {
 		$from          = $assoc_args['from'] ?? null;
 		$to            = $assoc_args['to'] ?? null;
 		$term_slug     = $assoc_args['taxonomy'] ?? null;
@@ -159,5 +173,3 @@ class Migrate_Posts_Command {
 		}
 	}
 }
-
-WP_CLI::add_command( 'myplugin migrate_posts', 'Migrate_Posts_Command' );
