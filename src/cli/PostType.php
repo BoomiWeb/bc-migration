@@ -10,8 +10,9 @@
 namespace erikdmitchell\bcmigration\cli;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
-use erikdmitchell\bcmigration\subprocessor\MigrateSubscribeData;
+use erikdmitchell\bcmigration\traits\LoggerTrait;
 use WP_CLI;
+use WP_Query;
 
 /*
 wp myplugin migrate_posts --from=old_post_type --to=new_post_type --post_ids=1,2,3,4
@@ -40,7 +41,9 @@ wp myplugin migrate_posts --from=book --to=article --taxonomy=fiction --taxonomy
 wp myplugin migrate_posts --from=book --to=article --csv=posts.csv --copy-meta --copy-tax
 */
 
-class PostType {
+class PostType extends CLICommands {
+
+	use LoggerTrait;
 
 	/**
 	 * Migrate posts from one custom post type to another.
@@ -64,7 +67,7 @@ class PostType {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     wp myplugin migrate_posts --from=book --to=article --post_ids=1,2,3
+	 *     wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510
 	 *     wp myplugin migrate_posts --from=book --to=article --taxonomy=fiction
 	 *     wp myplugin migrate_posts --from=book --to=article --csv=ids.csv
 	 *
@@ -83,10 +86,19 @@ class PostType {
 			WP_CLI::error( '`--from` and `--to` post types are required.' );
 		}
 
-		// Determine post IDs to migrate
+		// FIXME: add param
+		$log_name   = $assoc_args['log'] ?? null;
+
+        if ( $log_name ) {
+            $this->set_log_name( $log_name );
+        }  
+
+		// Determine post IDs to migrate.
 		if ( isset( $assoc_args['post_ids'] ) ) {
 			$post_ids = array_map( 'intval', explode( ',', $assoc_args['post_ids'] ) );
+print_r($post_ids);			
 		} elseif ( $term_slug ) {
+echo "term slug\n";			
 			$query = new WP_Query( [
 				'post_type'      => $from,
 				'posts_per_page' => -1,
@@ -101,11 +113,15 @@ class PostType {
 			] );
 			$post_ids = $query->posts;
 		} elseif ( isset( $assoc_args['csv'] ) ) {
+echo "csv - make sure the arg is file\n";			
 			$csv_path = $assoc_args['csv'];
+
 			if ( ! file_exists( $csv_path ) ) {
 				WP_CLI::error( "CSV file not found: $csv_path" );
 			}
+
 			$file = fopen( $csv_path, 'r' );
+
 			while ( ( $line = fgetcsv( $file ) ) !== false ) {
 				foreach ( $line as $id ) {
 					if ( is_numeric( $id ) ) {
@@ -113,6 +129,7 @@ class PostType {
 					}
 				}
 			}
+
 			fclose( $file );
 		}
 
@@ -122,16 +139,20 @@ class PostType {
 
 		// Ensure taxonomies are registered on the target post type
 		if ( $copy_tax ) {
+echo "copy tax\n";			
 			$this->ensure_taxonomies_attached( $from, $to );
 		}
 
 		$count = 0;
+
 		foreach ( $post_ids as $post_id ) {
 			$post = get_post( $post_id );
+// print_r($post);			
 			if ( ! $post || $post->post_type !== $from ) {
+echo "post type is not the from value\n";				
 				continue;
 			}
-
+echo "$post_id > $to\n";
 			wp_update_post( [
 				'ID'        => $post_id,
 				'post_type' => $to,
