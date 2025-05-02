@@ -15,7 +15,7 @@ use WP_CLI;
 use WP_Query;
 
 /*
-wp myplugin migrate_posts --from=old_post_type --to=new_post_type --post_ids=1,2,3,4
+
 wp myplugin migrate_posts --from=old_post_type --to=new_post_type --taxonomy=category-slug
 wp myplugin migrate_posts --from=old_post_type --to=new_post_type --csv=/path/to/file.csv
 
@@ -62,14 +62,14 @@ class PostType extends CLICommands {
 	 * [--taxonomy=<slug>]
 	 * : A taxonomy term slug to migrate all matching posts.
 	 *
-	 * [--csv=<file_path>]
+	 * [--file=<file_path>]
 	 * : Path to a CSV file with post IDs to migrate.
 	 *
 	 * ## EXAMPLES
 	 *
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510
-	 *     wp myplugin migrate_posts --from=book --to=article --taxonomy=fiction
-	 *     wp myplugin migrate_posts --from=book --to=article --csv=ids.csv
+	 *     wp boomi migrate post-type --from=post --to=page --taxonomy=api
+	 *     wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510
 	 *
 	 */    
 
@@ -85,6 +85,8 @@ class PostType extends CLICommands {
 		if ( ! $from || ! $to ) {
 			WP_CLI::error( '`--from` and `--to` post types are required.' );
 		}
+
+		// TODO: check valid post types
 
 		// FIXME: add param
 		$log_name   = $assoc_args['log'] ?? null;
@@ -112,9 +114,9 @@ echo "term slug\n";
 				'fields' => 'ids',
 			] );
 			$post_ids = $query->posts;
-		} elseif ( isset( $assoc_args['csv'] ) ) {
-echo "csv - make sure the arg is file\n";			
-			$csv_path = $assoc_args['csv'];
+		} elseif ( isset( $assoc_args['file'] ) ) {
+echo "csv\n";			
+			$csv_path = $assoc_args['file'];
 
 			if ( ! file_exists( $csv_path ) ) {
 				WP_CLI::error( "CSV file not found: $csv_path" );
