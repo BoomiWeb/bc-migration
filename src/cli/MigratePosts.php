@@ -1,6 +1,60 @@
 <?php
+/*
+wp myplugin migrate_posts --from=old_post_type --to=new_post_type --post_ids=1,2,3,4
+wp myplugin migrate_posts --from=old_post_type --to=new_post_type --taxonomy=category-slug
+wp myplugin migrate_posts --from=old_post_type --to=new_post_type --csv=/path/to/file.csv
+
+# Basic migration with meta and taxonomies
+wp myplugin migrate_posts --from=book --to=article --post_ids=1,2,3 --copy-meta --copy-tax
+
+# Migrate via taxonomy slug
+wp myplugin migrate_posts --from=book --to=article --taxonomy=fiction --copy-meta --copy-tax
+
+# Migrate via CSV
+wp myplugin migrate_posts --from=book --to=article --csv=ids.csv --copy-meta --copy-tax
+
+# Migrate and copy meta/tax, auto-attach taxonomies to destination
+wp myplugin migrate_posts --from=book --to=article --post_ids=1,2,3 --copy-meta --copy-tax
+
+# Migrate by post ID
+wp myplugin migrate_posts --from=book --to=article --post_ids=1,2,3 --copy-meta --copy-tax
+
+# Migrate posts from the 'fiction' term in the 'genre' taxonomy
+wp myplugin migrate_posts --from=book --to=article --taxonomy=fiction --taxonomy-type=genre --copy-meta --copy-tax
+
+# Migrate via CSV
+wp myplugin migrate_posts --from=book --to=article --csv=posts.csv --copy-meta --copy-tax
+*/
 
 class Migrate_Posts_Command {
+
+	/**
+	 * Migrate posts from one custom post type to another.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--from=<post_type>]
+	 * : The current post type.
+	 *
+	 * [--to=<post_type>]
+	 * : The new post type to migrate to.
+	 *
+	 * [--post_ids=<ids>]
+	 * : A comma-separated list of post IDs to migrate.
+	 *
+	 * [--taxonomy=<slug>]
+	 * : A taxonomy term slug to migrate all matching posts.
+	 *
+	 * [--csv=<file_path>]
+	 * : Path to a CSV file with post IDs to migrate.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp myplugin migrate_posts --from=book --to=article --post_ids=1,2,3
+	 *     wp myplugin migrate_posts --from=book --to=article --taxonomy=fiction
+	 *     wp myplugin migrate_posts --from=book --to=article --csv=ids.csv
+	 *
+	 */    
 
 	public function __invoke( $args, $assoc_args ) {
 		$from          = $assoc_args['from'] ?? null;
