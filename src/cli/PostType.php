@@ -80,7 +80,6 @@ class PostType extends CLICommands {
 		$taxonomy_type = $assoc_args['taxonomy-type'] ?? 'category';
 		$copy_meta     = isset( $assoc_args['copy-meta'] );
 		$copy_tax      = isset( $assoc_args['copy-tax'] );
-		$post_ids      = [];
 
 		if ( ! $from || ! $to ) {
 			WP_CLI::error( '`--from` and `--to` post types are required.' );
@@ -98,88 +97,47 @@ class PostType extends CLICommands {
 		// Determine post IDs to migrate.
 		if ( isset( $assoc_args['post_ids'] ) ) {
 			$post_ids = array_map( 'intval', explode( ',', $assoc_args['post_ids'] ) );
-print_r($post_ids);			
+
+			if ( empty( $post_ids ) ) {
+				WP_CLI::error( 'No valid post IDs to migrate.' );
+			}
+
+			$this->change_post_type( $post_ids, $from, $to, $copy_meta, $copy_tax );
+
+			// TODO: success or error message
+			return;			
 		} elseif ( $term_slug ) {
-echo "term slug\n";			
-			$query = new WP_Query( [
-				'post_type'      => $from,
-				'posts_per_page' => -1,
-				'tax_query'      => [
-					[
-						'taxonomy' => $taxonomy_type,
-						'field'    => 'slug',
-						'terms'    => $term_slug,
-					],
-				],
-				'fields' => 'ids',
-			] );
-			$post_ids = $query->posts;
-		} elseif ( isset( $assoc_args['file'] ) ) {
-echo "csv\n";			
+			$post_ids = $this->get_post_ids_by_term( $term_slug, $from, $taxonomy_type );
+
+			$this->change_post_type( $post_ids, $from, $to, $copy_meta, $copy_tax );
+
+			// TODO: success or error message
+			return;			
+		} elseif ( isset( $assoc_args['file'] ) ) {			
 			$file = $assoc_args['file'];
-// echo "file: $file\n";
+
 			if ( ! file_exists( $file ) ) {
 				WP_CLI::error( "CSV file not found: $file" );
 			}
 
-			$rows    = array_map( 'str_getcsv', file( $file ) );
-			$headers = array_map( 'trim', array_shift( $rows ) );
-	
-			if ( ! $this->validate_headers( $headers, array( 'from', 'to', 'post_ids' ) ) ) {
-// echo "bad headers\n";				
-				return;
-			}
-	
-			foreach ( $rows as $i => $row ) {
-				$row_num  = $i + 2;
-				$data     = array_combine( $headers, $row );
-				$data     = array_map( 'trim', $data );
-print_r($data);				
-
-				// skip empty lines.
-				if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
-					continue;
-				}
-
-				// Check required fields.
-				if ( ! $this->has_required_fields( $data, array( 'from', 'to', 'post_ids' ), $row_num ) ) {
-					continue;
-				}
-
-				$from = $data['from'];
-				$to = $data['to'];
-				$post_ids = explode('|', $data['post_ids']);
-
-echo "from: $from > to: $to\n";
-print_r($post_ids);
-			}			
-/*
-			$file = fopen( $csv_path, 'r' );
-
-			while ( ( $line = fgetcsv( $file ) ) !== false ) {
-print_r($line);				
-				foreach ( $line as $id ) {
-					if ( is_numeric( $id ) ) {
-						$post_ids[] = (int) $id;
-					}
-				}
-			}
-
-			fclose( $file );
-			*/
+			$this->process_csv_file( $file, $copy_meta, $copy_tax );
+			
+			// TODO: success or error message
+			return;
 		}
+
+		// WP_CLI::error( 'No valid post IDs or CSV file to migrate.' );
+	}
+
+// TODO: more detailed output
+	private function change_post_type(array $post_ids, string $from, string $to, $copy_meta, $copy_tax) {
+		$count = 0;
 
 		if ( empty( $post_ids ) ) {
 			WP_CLI::error( 'No valid post IDs to migrate.' );
 		}
 
-		// Ensure taxonomies are registered on the target post type
-		if ( $copy_tax ) {
-echo "copy tax\n";			
-			$this->ensure_taxonomies_attached( $from, $to );
-		}
-
-		$count = 0;
+		// TODO: check valid post types
 
 		foreach ( $post_ids as $post_id ) {
 			$post = get_post( $post_id );
@@ -195,37 +153,110 @@ echo "$post_id > $to\n";
 			] );
 
 			if ( $copy_meta ) {
-				$meta = get_post_meta( $post_id );
-				foreach ( $meta as $key => $values ) {
-					foreach ( $values as $value ) {
-						add_post_meta( $post_id, $key, maybe_unserialize( $value ), false );
-					}
-				}
+				$this->copy_meta( $post_id );
 			}
 
 			if ( $copy_tax ) {
-				$taxonomies = get_object_taxonomies( $from );
-				foreach ( $taxonomies as $taxonomy ) {
-					$terms = wp_get_object_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
-					if ( ! is_wp_error( $terms ) ) {
-						wp_set_object_terms( $post_id, $terms, $taxonomy );
-					}
-				}
+				$this->ensure_taxonomies_attached( $from, $to );
+				// TODO: check return before moving forward
+				$this->copy_tax( $post_id, $from );
 			}
 
 			$count++;
 		}
 
-		WP_CLI::success( "Migrated $count posts from `$from` to `$to`." );
+		return $count;
 	}
 
+	private function get_post_ids_by_term( string $from, string $term_slug, string $taxonomy_type ) {		
+		$query = new WP_Query( [
+			'post_type'      => $from,
+			'posts_per_page' => -1,
+			'tax_query'      => [
+				[
+					'taxonomy' => $taxonomy_type,
+					'field'    => 'slug',
+					'terms'    => $term_slug,
+				],
+			],
+			'fields' => 'ids',
+		] );
+
+		// TODO: more detailed output & validate query
+		
+		return $query->posts;		
+	}
+
+	private function process_csv_file(string $file, $copy_meta, $copy_tax) {
+		$rows    = array_map( 'str_getcsv', file( $file ) );
+		$headers = array_map( 'trim', array_shift( $rows ) );
+
+		if ( ! $this->validate_headers( $headers, array( 'from', 'to', 'post_ids' ) ) ) {				
+			return;
+		}
+
+		foreach ( $rows as $i => $row ) {
+			$row_num  = $i + 2;
+			$data     = array_combine( $headers, $row );
+			$data     = array_map( 'trim', $data );
+print_r($data);				
+
+			// skip empty lines.
+			if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
+				continue;
+			}
+
+			// Check required fields.
+			if ( ! $this->has_required_fields( $data, array( 'from', 'to', 'post_ids' ), $row_num ) ) {
+				continue;
+			}
+
+			$from = $data['from'];
+			$to = $data['to'];
+			$post_ids = explode('|', $data['post_ids']);
+
+echo "from: $from > to: $to\n";
+print_r($post_ids);
+
+			$this->change_post_type( $post_ids, $from, $to, $copy_meta, $copy_tax );
+		}
+	}
+
+// TODO: more detailed output	
 	private function ensure_taxonomies_attached( $from, $to ) {
 		$from_taxonomies = get_object_taxonomies( $from, 'objects' );
+
 		foreach ( $from_taxonomies as $taxonomy => $taxonomy_obj ) {
 			if ( ! in_array( $to, $taxonomy_obj->object_type, true ) ) {
 				$taxonomy_obj->object_type[] = $to;
+		
 				register_taxonomy( $taxonomy, $taxonomy_obj->object_type, (array) $taxonomy_obj );
+		
 				WP_CLI::log( "Attached taxonomy `$taxonomy` to `$to`." );
+			}
+		}
+	}
+
+	// TODO: more detailed output
+	private function copy_meta(int $post_id) {
+		$meta = get_post_meta( $post_id );
+
+		foreach ( $meta as $key => $values ) {
+			foreach ( $values as $value ) {
+				add_post_meta( $post_id, $key, maybe_unserialize( $value ), false );
+			}
+		}
+	}
+
+	// TODO: more detailed output
+	private function copy_tax(int $post_id, string $from) {
+		$taxonomies = get_object_taxonomies( $from );
+
+		foreach ( $taxonomies as $taxonomy ) {
+			$terms = wp_get_object_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
+
+			if ( ! is_wp_error( $terms ) ) {
+				wp_set_object_terms( $post_id, $terms, $taxonomy );
 			}
 		}
 	}
