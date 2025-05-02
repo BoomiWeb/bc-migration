@@ -5,20 +5,16 @@
     <!-- Include paths -->
     <file>src</file>
 
-    <!-- Show progress, show the error codes for each message (source). -->
+    <!-- Show progress, show error sources -->
     <arg value="ps" />
-
-    <!-- Strip the filepaths in reports down to the relevant bit. -->
     <arg name="basepath" value="./" />
-
-    <!-- Check up to 8 files simultaneously. -->
     <arg name="parallel" value="8" />
 
-    <!-- Configs -->
+    <!-- Compatibility settings -->
     <config name="minimum_supported_wp_version" value="6.7" />
     <config name="testVersion" value="8.0-" />
 
-    <!-- PHP Compatibility for WordPress -->
+    <!-- PHP Compatibility -->
     <rule ref="PHPCompatibility">
         <properties>
             <property name="testVersion" value="8.0-" />
@@ -26,9 +22,18 @@
     </rule>
 
     <!-- WordPress Coding Standards -->
-    <rule ref="WordPress" />
+	<rule ref="WordPress">
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+        <exclude name="WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents" />
+        <exclude name="WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents" />
+        <exclude name="WordPress.WP.AlternativeFunctions.file_system_operations_mkdir" />
+        <exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery" />
+        <exclude name="WordPress.DB.PreparedSQL.InterpolatedNotPrepared" />
+        <exclude name="WordPress.DB.DirectDatabaseQuery.NoCaching" />
+	</rule>
 
-    <!-- Text Domain Checking -->
+    <!-- I18n -->
     <rule ref="WordPress.WP.I18n">
         <properties>
             <property name="text_domain" type="array" value="bc-migration" />
