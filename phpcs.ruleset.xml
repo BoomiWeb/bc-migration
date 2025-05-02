@@ -6,7 +6,7 @@
 	<description>BC Migration Ruleset.</description>
 	
 	<!-- Include file/paths -->
-	<file>./src</file>
+	<file>src</file>
 	
 	<!-- Exclude paths --> 
 	
