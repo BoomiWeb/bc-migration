@@ -19,7 +19,7 @@
     <config name="testVersion" value="8.0-" />
 
     <!-- PHP Compatibility for WordPress -->
-    <rule ref="PHPCompatibilityWP">
+    <rule ref="PHPCompatibility">
         <properties>
             <property name="testVersion" value="8.0-" />
         </properties>

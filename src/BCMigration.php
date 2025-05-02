@@ -32,70 +32,70 @@ define( 'BCM_VERSION', '0.1.0' );
  */
 class BCMigration {
 
-    /**
-     * The version number.
-     *
-     * @var string
-     */
-    public $version = '0.1.0';
+	/**
+	 * The version number.
+	 *
+	 * @var string
+	 */
+	public $version = '0.1.0';
 
-    /**
-     * The single instance of the class.
-     *
-     * @var BCMigration|null
-     */
-    protected static ?BCMigration $instance = null;
+	/**
+	 * The single instance of the class.
+	 *
+	 * @var BCMigration|null
+	 */
+	protected static ?BCMigration $instance = null;
 
-    /**
-     * Constructor.
-     *
-     * @return void
-     */
-    private function __construct() {
-        $this->includes();
-        $this->maybe_create_uploads_folder();
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @return void
+	 */
+	private function __construct() {
+		$this->includes();
+		$this->maybe_create_uploads_folder();
+	}
 
-    /**
-     * Gets the single instance of the class.
-     *
-     * @return BCMigration Single instance of the class.
-     */
-    public static function init() {
-        if ( ! self::$instance ) {
-            self::$instance = new self();
+	/**
+	 * Gets the single instance of the class.
+	 *
+	 * @return BCMigration Single instance of the class.
+	 */
+	public static function init() {
+		if ( ! self::$instance ) {
+			self::$instance = new self();
 
-            if ( defined( 'WP_CLI' ) && WP_CLI ) {
-                new CLI();
-            }
-        }
+			if ( defined( 'WP_CLI' ) && WP_CLI ) {
+				new CLI();
+			}
+		}
 
-        return self::$instance;
-    }
+		return self::$instance;
+	}
 
-    /**
-     * Includes the necessary files for plugin functionality.
-     *
-     * @return void
-     */
-    private function includes() {
-        include_once __DIR__ . '/functions.php';
+	/**
+	 * Includes the necessary files for plugin functionality.
+	 *
+	 * @return void
+	 */
+	private function includes() {
+		include_once __DIR__ . '/functions.php';
 
-        if ( is_admin() ) {
-            include_once __DIR__ . '/admin/Admin.php';
+		if ( is_admin() ) {
+			include_once __DIR__ . '/admin/Admin.php';
 
-            new \erikdmitchell\bcmigration\admin\Admin();
-        }
-    }
+			new \erikdmitchell\bcmigration\admin\Admin();
+		}
+	}
 
-    /**
-     * Checks if the uploads folder exists and creates it if not.
-     *
-     * @return void
-     */
-    public function maybe_create_uploads_folder() {
-        if ( ! is_dir( BCM_UPLOADS_PATH ) ) {
-            mkdir( BCM_UPLOADS_PATH );
-        }
-    }
+	/**
+	 * Checks if the uploads folder exists and creates it if not.
+	 *
+	 * @return void
+	 */
+	public function maybe_create_uploads_folder() {
+		if ( ! is_dir( BCM_UPLOADS_PATH ) ) {
+			mkdir( BCM_UPLOADS_PATH );
+		}
+	}
 }
