@@ -69,7 +69,7 @@ class PostType extends CLICommands {
 	 *
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510
 	 *     wp boomi migrate post-type --from=post --to=page --taxonomy=api
-	 *     wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510
+	 *     wp boomi migrate post-type --from=post --to=page --file=/Users/erikmitchell/bc-migration/examples/post-type.csv
 	 *
 	 */    
 
@@ -116,15 +116,48 @@ echo "term slug\n";
 			$post_ids = $query->posts;
 		} elseif ( isset( $assoc_args['file'] ) ) {
 echo "csv\n";			
-			$csv_path = $assoc_args['file'];
-
-			if ( ! file_exists( $csv_path ) ) {
-				WP_CLI::error( "CSV file not found: $csv_path" );
+			$file = $assoc_args['file'];
+// echo "file: $file\n";
+			if ( ! file_exists( $file ) ) {
+				WP_CLI::error( "CSV file not found: $file" );
 			}
 
+			$rows    = array_map( 'str_getcsv', file( $file ) );
+			$headers = array_map( 'trim', array_shift( $rows ) );
+	
+			if ( ! $this->validate_headers( $headers, array( 'from', 'to', 'post_ids' ) ) ) {
+// echo "bad headers\n";				
+				return;
+			}
+	
+			foreach ( $rows as $i => $row ) {
+				$row_num  = $i + 2;
+				$data     = array_combine( $headers, $row );
+				$data     = array_map( 'trim', $data );
+print_r($data);				
+
+				// skip empty lines.
+				if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
+					continue;
+				}
+
+				// Check required fields.
+				if ( ! $this->has_required_fields( $data, array( 'from', 'to', 'post_ids' ), $row_num ) ) {
+					continue;
+				}
+
+				$from = $data['from'];
+				$to = $data['to'];
+				$post_ids = explode('|', $data['post_ids']);
+
+echo "from: $from > to: $to\n";
+print_r($post_ids);
+			}			
+/*
 			$file = fopen( $csv_path, 'r' );
 
 			while ( ( $line = fgetcsv( $file ) ) !== false ) {
+print_r($line);				
 				foreach ( $line as $id ) {
 					if ( is_numeric( $id ) ) {
 						$post_ids[] = (int) $id;
@@ -133,6 +166,7 @@ echo "csv\n";
 			}
 
 			fclose( $file );
+			*/
 		}
 
 		if ( empty( $post_ids ) ) {
@@ -195,4 +229,50 @@ echo "$post_id > $to\n";
 			}
 		}
 	}
+
+    /**
+     * Validates that the given array of CSV headers contains all required fields.
+     *
+     * @param string[] $headers  The array of CSV headers.
+     * @param string[] $required The list of required field keys.
+     *
+     * @return bool Returns true if all required fields are present, false otherwise.
+     */
+    protected function validate_headers( array $headers, array $required ) {
+        $missing = array_diff( $required, $headers );
+
+        if ( ! empty( $missing ) ) {
+            $this->add_notice( 'CSV is missing required columns: ' . implode( ', ', $missing ), 'error' );
+
+            $this->log( 'CSV is missing required columns: ' . implode( ', ', $missing ) );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if the given data array contains all required fields.
+     *
+     * @param array<string, mixed> $data     The data array to check.
+     * @param string[]             $required The list of required field keys.
+     * @param int                  $row_num  The row number for logging purposes. Defaults to 0.
+     *
+     * @return bool Returns true if all required fields are present, false otherwise.
+     */
+    protected function has_required_fields( array $data, array $required, int $row_num = 0 ) {
+        $missing_keys = array_diff_key( array_flip( $required ), $data );
+
+        if ( ! empty( $missing_keys ) ) {
+            // TODO: add message.
+            $this->add_notice( "Row $row_num: Skipped - one or more required fields missing.", 'warning' );  // TODO: add check for row number.
+
+            $this->log( "Row $row_num: Skipped - one or more required fields missing." );
+
+            return false;
+        }
+
+        return true;
+    }
 }
