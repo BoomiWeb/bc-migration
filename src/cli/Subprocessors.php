@@ -18,62 +18,62 @@ use WP_CLI;
  */
 class Subprocessors extends CLICommands {
 
-    /**
-     * Construct
-     */
-    public function __construct() {}
+	/**
+	 * Construct
+	 */
+	public function __construct() {}
 
-    /**
-     * Migrates data from a post
-     *
-     * ## OPTIONS
-     *
-     * <action>
-     * : The action to perform. Currently only `subscribe-data` is supported.
-     *
-     * <post_id>
-     * : The post ID to migrate data from.
-     *
-     * ## EXAMPLES
-     *
-     *     wp boomi migrate subprocessors subscribe-data 123
-     *
-     * @param string[]             $args       CLI positional arguments.
-     * @param array<string, mixed> $assoc_args CLI associative arguments.
-     *
-     * @return void
-     */
-    public function migrate( $args, $assoc_args ) {
-        list ( $action, $post_id ) = $args;
+	/**
+	 * Migrates data from a post
+	 *
+	 * ## OPTIONS
+	 *
+	 * <action>
+	 * : The action to perform. Currently only `subscribe-data` is supported.
+	 *
+	 * <post_id>
+	 * : The post ID to migrate data from.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp boomi migrate subprocessors subscribe-data 123
+	 *
+	 * @param string[]             $args       CLI positional arguments.
+	 * @param array<string, mixed> $assoc_args CLI associative arguments.
+	 *
+	 * @return void
+	 */
+	public function migrate( $args, $assoc_args ) {
+		list ( $action, $post_id ) = $args;
 
-        if ( empty( $action ) || empty( $post_id ) ) {
-            WP_CLI::error( 'Invalid arguments. Requires action and post_id' );
-        }
+		if ( empty( $action ) || empty( $post_id ) ) {
+			WP_CLI::error( 'Invalid arguments. Requires action and post_id' );
+		}
 
-        switch ( $action ) {
-            case 'subscribe-data':
-                $this->migrate_subscribe_data( (int) $post_id );
-                break;
-            default:
-                WP_CLI::error( 'Invalid action.' );
-                break;
-        }
-    }
+		switch ( $action ) {
+			case 'subscribe-data':
+				$this->migrate_subscribe_data( (int) $post_id );
+				break;
+			default:
+				WP_CLI::error( 'Invalid action.' );
+				break;
+		}
+	}
 
-    /**
-     * Migrates subscribe data for a given post ID, and removes the legacy email DB table.
-     *
-     * @param int $post_id The ID of the post whose subscribe data should be migrated.
-     */
-    private function migrate_subscribe_data( int $post_id ) {
-        WP_CLI::log( 'Migrating subscribe data...' );
+	/**
+	 * Migrates subscribe data for a given post ID, and removes the legacy email DB table.
+	 *
+	 * @param int $post_id The ID of the post whose subscribe data should be migrated.
+	 */
+	private function migrate_subscribe_data( int $post_id ) {
+		WP_CLI::log( 'Migrating subscribe data...' );
 
-        $migrated_data = MigrateSubscribeData::init()->migrate_subscribe_data( $post_id );
+		$migrated_data = MigrateSubscribeData::init()->migrate_subscribe_data( $post_id );
 
-        if ( ! $migrated_data['db_removed'] ) {
-            WP_CLI::warning( 'Database not removed' );
-        }
+		if ( ! $migrated_data['db_removed'] ) {
+			WP_CLI::warning( 'Database not removed' );
+		}
 
-        WP_CLI::success( 'Data migrated. Migrated ' . count( $migrated_data['migrated_row_ids'] ) . ' rows.' );
-    }
+		WP_CLI::success( 'Data migrated. Migrated ' . count( $migrated_data['migrated_row_ids'] ) . ' rows.' );
+	}
 }
