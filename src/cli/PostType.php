@@ -62,6 +62,9 @@ class PostType extends CLICommands {
 	 * [--taxonomy=<slug>]
 	 * : A taxonomy term slug to migrate all matching posts.
 	 *
+	 * [--taxonomy-type=<type>]
+	 * : The type of taxonomy to migrate.
+	 * 
 	 * [--file=<file_path>]
 	 * : Path to a CSV file with post IDs to migrate.
 	 *
@@ -100,13 +103,19 @@ class PostType extends CLICommands {
 			}
 
 			$this->change_post_type( $post_ids, $from, $to, $copy_meta, $copy_tax );			
-		} elseif ( $term_slug ) {
-			$post_ids = $this->get_post_ids_by_term( $term_slug, $from, $taxonomy_type );
+		} elseif ( $term_slug ) {					
+			$post_ids = $this->get_post_ids_by_term( $from, $term_slug, $taxonomy_type );
+
+			if ( false === $post_ids ) {
+				$this->display_notices();
+
+				return;
+			}
 
 			$this->change_post_type( $post_ids, $from, $to, $copy_meta, $copy_tax );
-
-			// TODO: success or error message
-			return;			
+			
+			$this->log( "Migrated $term_slug posts", 'success' );
+			$this->add_notice( "Migrated $term_slug posts", 'success' );
 		} elseif ( isset( $assoc_args['file'] ) ) {			
 			$file = $assoc_args['file'];
 
@@ -216,7 +225,37 @@ echo "copy_tax\n";
 		return;
 	}
 
-	private function get_post_ids_by_term( string $from, string $term_slug, string $taxonomy_type ) {		
+	/**
+	 * Get post IDs by term.
+	 *
+	 * @param string $from       Post type to retrieve posts from.
+	 * @param string $term_slug  Term slug to retrieve posts by.
+	 * @param string $taxonomy_type Taxonomy type to retrieve terms from.
+	 *
+	 * @return array|false Returns an array of post IDs or false if any of the checks fail.
+	 */
+	private function get_post_ids_by_term( string $from, string $term_slug, string $taxonomy_type ) {	
+		if (! $this->is_valid_post_type( $from ) ) {
+			$this->log( "`$from` is not a valid post type.", 'error' );
+			$this->add_notice( "`$from` is not a valid post type.", 'error' );
+
+			return false;
+		}	
+		
+		if (!taxonomy_exists( $taxonomy_type ) ) {
+			$this->log( "Taxonomy `$taxonomy_type` does not exist.", 'error' );
+			$this->add_notice( "Taxonomy `$taxonomy_type` does not exist.", 'error' );
+
+			return false;
+		}
+
+		if (!term_exists( $term_slug, $taxonomy_type ) ) {
+			$this->log( "`$term_slug` does not exist in `$taxonomy_type`.", 'error' );
+			$this->add_notice( "`$term_slug` does not exist in `$taxonomy_type`.", 'error' );
+
+			return false;
+		}
+
 		$query = new WP_Query( [
 			'post_type'      => $from,
 			'posts_per_page' => -1,
@@ -229,8 +268,6 @@ echo "copy_tax\n";
 			],
 			'fields' => 'ids',
 		] );
-
-		// TODO: more detailed output & validate query
 		
 		return $query->posts;		
 	}
@@ -320,6 +357,13 @@ echo "copy_tax\n";
         return true;
     }
 
+    /**
+     * Checks if the given post type exists.
+     *
+     * @param string $post_type The post type to check.
+     *
+     * @return bool Returns true if the post type exists, false otherwise.
+     */
 	private function is_valid_post_type( string $post_type ) {
 		if ( ! post_type_exists( $post_type ) ) {
 			return false;
