@@ -72,7 +72,7 @@ class PostType extends CLICommands {
 	 *
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510
 	 *     wp boomi migrate post-type --from=post --to=page --taxonomy=api
-	 *     wp boomi migrate post-type --from=post --to=page --file=/Users/erikmitchell/bc-migration/examples/post-type.csv
+	 *     wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type.csv
 	 *
 	 */    
 
@@ -85,10 +85,6 @@ class PostType extends CLICommands {
 		$copy_tax      = isset( $assoc_args['copy-tax'] );
 		$log_name   = $assoc_args['log'] ?? 'migrate-post-type.log';
 
-		if ( ! $from || ! $to ) {
-			WP_CLI::error( '`--from` and `--to` post types are required.' );
-		}
-
 		if ( $log_name ) {			
             $this->set_log_name( $log_name );
         }  
@@ -98,13 +94,12 @@ class PostType extends CLICommands {
 			$post_ids = array_map( 'intval', explode( ',', $assoc_args['post_ids'] ) );
 
 			if ( empty( $post_ids ) ) {
+				$this->log( 'No valid post IDs to migrate.' );
+
 				WP_CLI::error( 'No valid post IDs to migrate.' );
 			}
 
-			$this->change_post_type( $post_ids, $from, $to, $copy_meta, $copy_tax );
-
-			// TODO: success or error message
-			return;			
+			$this->change_post_type( $post_ids, $from, $to, $copy_meta, $copy_tax );			
 		} elseif ( $term_slug ) {
 			$post_ids = $this->get_post_ids_by_term( $term_slug, $from, $taxonomy_type );
 
@@ -121,11 +116,11 @@ class PostType extends CLICommands {
 
 			$this->process_csv_file( $file, $copy_meta, $copy_tax );
 
-			WP_CLI::success( "CSV file processed: $file" );
-			
-			// TODO: success or error message
-			return;
+			$this->log( "Processed $file", 'success' );
+			$this->add_notice( "Processed $file", 'success' );
 		}
+
+		$this->display_notices();
 	}
 
 	private function process_csv_file(string $file, $copy_meta, $copy_tax) {
@@ -163,29 +158,34 @@ class PostType extends CLICommands {
 		}
 	}	
 
-// TODO: more detailed output
 	private function change_post_type(array $post_ids, string $from, string $to, $copy_meta, $copy_tax) {
 		$count = 0;
 
 		if ( empty( $post_ids ) ) {
-			$this->log( 'No valid post IDs to migrate.' );
+			$this->log( 'No valid post IDs to migrate.', 'error' );
+
 			WP_CLI::error( 'No valid post IDs to migrate.' );
 		}
 
 		// Check valid post types.
-		if ( ! $this->is_valid_post_type( $from ) ) {
-			$this->log( "`$from` is not a valid post type." );
-			WP_CLI::error( "`$from` is not a valid post type." );
+		if ( ! $this->is_valid_post_type( $from ) ) {		
+			$this->log( "`$from` is not a valid post type.", 'error' );
+			$this->add_notice( "`$from` is not a valid post type.", 'error' );
+
+			return;
 		} else if ( ! $this->is_valid_post_type( $to ) ) {
-			$this->log( "`$to` is not a valid post type." );
-			WP_CLI::error( "`$to` is not a valid post type." );
+			$this->log( "`$to` is not a valid post type.", 'error' );
+			$this->add_notice( "`$to` is not a valid post type.", 'error' );
+
+			return;
 		}
 
-		foreach ( $post_ids as $post_id ) {
+		foreach ( $post_ids as $post_id ) {		
 			$post = get_post( $post_id );
 		
-			if ( ! $post || $post->post_type !== $from ) {
-				$this->log( "Post $post_id is not a $from post." );
+			if ( ! $post || $post->post_type !== $from ) {				
+				$this->log( "Post $post_id is not a '$from' post type.", 'warning' );
+				$this->add_notice( "Post $post_id is not a '$from' post type.", 'warning' );
 
 				continue;
 			}
@@ -196,10 +196,12 @@ class PostType extends CLICommands {
 			] );
 
 			if ( $copy_meta ) {
+echo "copy_meta\n";				
 				$this->copy_meta( $post_id );
 			}
 
 			if ( $copy_tax ) {
+echo "copy_tax\n";				
 				$this->ensure_taxonomies_attached( $from, $to );
 				// TODO: check return before moving forward
 				$this->copy_tax( $post_id, $from );
@@ -208,7 +210,10 @@ class PostType extends CLICommands {
 			$count++;
 		}
 
-		return $count;
+		$this->log( "Migrated $count posts.", 'success' );
+		$this->add_notice( "Migrated $count posts.", 'success' );
+
+		return;
 	}
 
 	private function get_post_ids_by_term( string $from, string $term_slug, string $taxonomy_type ) {		
@@ -323,12 +328,3 @@ class PostType extends CLICommands {
 		return true;
 	}
 }
-
-/*
-if ( is_wp_error( $result ) ) {
-	$this->add_notice( 'Error - ' . $result->get_error_message(), 'warning' );
-} else {
-	$this->log( 'Merged ' . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
-	$this->add_notice( 'Merged ' . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)", 'success' );
-}
-*/
