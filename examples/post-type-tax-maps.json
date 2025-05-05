@@ -1,0 +1,12 @@
+[
+    {
+      "term": "news",
+      "from": "old_category",
+      "to": "new_category"
+    },
+    {
+      "term": "events",
+      "from": "old_category",
+      "to": "new_category"
+    }
+  ]

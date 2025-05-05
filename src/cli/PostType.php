@@ -14,29 +14,6 @@ use erikdmitchell\bcmigration\traits\LoggerTrait;
 use WP_CLI;
 use WP_Query;
 
-/*
-# Basic migration with meta and taxonomies
-wp myplugin migrate_posts --from=book --to=article --post_ids=1,2,3 --copy-meta --copy-tax
-
-# Migrate via taxonomy slug
-wp myplugin migrate_posts --from=book --to=article --taxonomy=fiction --copy-meta --copy-tax
-
-# Migrate via CSV
-wp myplugin migrate_posts --from=book --to=article --csv=ids.csv --copy-meta --copy-tax
-
-# Migrate and copy meta/tax, auto-attach taxonomies to destination
-wp myplugin migrate_posts --from=book --to=article --post_ids=1,2,3 --copy-meta --copy-tax
-
-# Migrate by post ID
-wp myplugin migrate_posts --from=book --to=article --post_ids=1,2,3 --copy-meta --copy-tax
-
-# Migrate posts from the 'fiction' term in the 'genre' taxonomy
-wp myplugin migrate_posts --from=book --to=article --taxonomy=fiction --taxonomy-type=genre --copy-meta --copy-tax
-
-# Migrate via CSV
-wp myplugin migrate_posts --from=book --to=article --csv=posts.csv --copy-meta --copy-tax
-*/
-
 class PostType extends CLICommands {
 
 	use LoggerTrait;
@@ -61,14 +38,17 @@ class PostType extends CLICommands {
 	 * [--taxonomy-type=<type>]
 	 * : The type of taxonomy to migrate.
 	 * 
-	 * [--copy-tax]
-	 * : Copy all post taxonomies.
-	 * 
 	 * [--file=<file_path>]
 	 * : Path to a CSV file with post IDs to migrate.
 	 *
 	 * [--log=<name>]
      * : Name of the log file.
+	 * 
+	 * [--copy-tax]
+	 * : Copy all post taxonomies.
+	 * 
+	 * [--tax-map=<file_path>]
+	 * : Path to a JSON file with custom taxonomy mappings.
 	 * 
 	 * ## EXAMPLES
 	 *
@@ -76,6 +56,7 @@ class PostType extends CLICommands {
 	 *     wp boomi migrate post-type --from=post --to=page --taxonomy=api
 	 *     wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type.csv
 	 * 	   wp boomi migrate post-type --from=post --to=page --post_ids=188688 --copy-tax
+	 *     wp boomi migrate post-type --from=post --to=page --post_ids=188688 --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json
 	 *
 	 */    
 
@@ -84,8 +65,10 @@ class PostType extends CLICommands {
 		$to            = $assoc_args['to'] ?? null;
 		$term_slug     = $assoc_args['taxonomy'] ?? null;
 		$taxonomy_type = $assoc_args['taxonomy-type'] ?? 'category';
-		$copy_tax      = isset( $assoc_args['copy-tax'] );
 		$log_name   = $assoc_args['log'] ?? 'migrate-post-type.log';
+		$copy_tax      = isset( $assoc_args['copy-tax'] );
+		$tax_map_file       = $assoc_args['tax-map'] ?? null;
+		
 
 		if ( $log_name ) {			
             $this->set_log_name( $log_name );
@@ -111,7 +94,7 @@ class PostType extends CLICommands {
 				return;
 			}
 
-			$this->change_post_type( $post_ids, $from, $to, $copy_tax );
+			$this->change_post_type( $post_ids, $from, $to, $copy_tax, $tax_map_file );
 			
 			$this->log( "Migrated $term_slug posts", 'success' );
 			$this->add_notice( "Migrated $term_slug posts", 'success' );
@@ -119,6 +102,7 @@ class PostType extends CLICommands {
 			$file = $assoc_args['file'];
 
 			if ( ! file_exists( $file ) ) {
+				$this->log( "CSV file not found: $file", 'error' );
 				WP_CLI::error( "CSV file not found: $file" );
 			}
 
@@ -168,7 +152,7 @@ class PostType extends CLICommands {
 		}
 	}	
 
-	private function change_post_type(array $post_ids, string $from, string $to, $copy_tax) {
+	private function change_post_type(array $post_ids, string $from, string $to, $copy_tax, $tax_map_file = null) {
 		$count = 0;
 
 		if ( empty( $post_ids ) ) {
@@ -200,17 +184,17 @@ class PostType extends CLICommands {
 				continue;
 			}
 
-			$updated = wp_update_post( [
-				'ID'        => $post_id,
-				'post_type' => $to,
-			] );
+			// $updated = wp_update_post( [
+			// 	'ID'        => $post_id,
+			// 	'post_type' => $to,
+			// ] );
 
-			if (is_wp_error( $updated )) {
-				$this->log( "Failed to update post $post_id.", 'error' );
-				$this->add_notice( "Failed to update post $post_id.", 'error' );
+			// if (is_wp_error( $updated )) {
+			// 	$this->log( "Failed to update post $post_id.", 'error' );
+			// 	$this->add_notice( "Failed to update post $post_id.", 'error' );
 
-				continue;
-			}
+			// 	continue;
+			// }
 
 			if ( $copy_tax ) {				
 				$attached = $this->ensure_taxonomies_attached( $from, $to );
@@ -223,6 +207,19 @@ class PostType extends CLICommands {
 				}
 
 				$this->copy_tax( $post_id, $from );
+			}
+
+			if ($tax_map_file) {
+				if ( ! file_exists( $tax_map_file ) ) {
+					$this->log( "Mapping file not found: $tax_map_file", 'error' );
+					$this->add_notice( "Mapping file not found: $tax_map_file", 'error' );
+				}
+
+				$tax_map = json_decode( file_get_contents( $tax_map_file ) );
+
+				$this->tax_map( $post_id, $tax_map );
+
+				continue;
 			}
 
 			$count++;
@@ -317,6 +314,62 @@ class PostType extends CLICommands {
 			// TODO: return error
 		}
 	}
+
+	private function tax_map( int $post_id, array $tax_map ) {
+echo "tax_map: " . print_r( $tax_map, true );		
+		// TODO
+	}
+
+	private function migrate_post_terms( $terms, string $from, string $to, int $post_id ) {
+echo "terms: " . print_r( $terms, true );
+echo "from: $from\n";
+echo "to: $to\n";
+echo "post_id: $post_id\n";
+
+/*
+$data = json_decode( file_get_contents( $file ), true );
+if ( json_last_error() !== JSON_ERROR_NONE ) {
+	WP_CLI::error( 'Invalid JSON format.' );
+}
+
+foreach ( $data as $entry ) {
+	$this->migrate_term(
+		$entry['term'] ?? null,
+		$entry['from'] ?? null,
+		$entry['to'] ?? null
+	);
+}
+*/
+		foreach ( $terms as $term ) {
+echo "term: $term\n";
+			// $result = wp_insert_term( $term, $to );	
+		}		
+	}
+
+    private function migrate_term( string $term, string $from_tax, string $to_tax ) {
+        if ( ! $term || ! $from_tax || ! $to_tax ) {
+            WP_CLI::warning( 'Incomplete mapping. Skipping.' );
+            return;
+        }
+
+        $term_obj = get_term_by( is_numeric( $term ) ? 'id' : 'slug', $term, $from_tax );
+
+        if ( ! $term_obj ) {
+            WP_CLI::warning( "Term '{$term}' not found in taxonomy '{$from_tax}'." );
+            return;
+        }
+
+        $result = wp_insert_term( $term_obj->name, $to_tax, [
+            'slug'        => $term_obj->slug,
+            'description' => $term_obj->description,
+        ] );
+
+        if ( is_wp_error( $result ) ) {
+            WP_CLI::warning( "Failed to insert term '{$term}': " . $result->get_error_message() );
+        } else {
+            WP_CLI::success( "Migrated term '{$term}' from '{$from_tax}' to '{$to_tax}'." );
+        }
+    }	
 
     /**
      * Validates that the given array of CSV headers contains all required fields.
