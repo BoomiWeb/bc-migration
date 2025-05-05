@@ -121,6 +121,8 @@ class PostType extends CLICommands {
 			}
 
 			$this->process_csv_file( $file, $copy_meta, $copy_tax );
+
+			WP_CLI::success( "CSV file processed: $file" );
 			
 			// TODO: success or error message
 			return;
@@ -141,12 +143,12 @@ class PostType extends CLICommands {
 
 		foreach ( $post_ids as $post_id ) {
 			$post = get_post( $post_id );
-// print_r($post);			
-			if ( ! $post || $post->post_type !== $from ) {
-echo "post type is not the from value\n";				
+		
+			if ( ! $post || $post->post_type !== $from ) {	
+				// TODO: success or error message
 				continue;
 			}
-echo "$post_id > $to\n";
+
 			wp_update_post( [
 				'ID'        => $post_id,
 				'post_type' => $to,
@@ -198,8 +200,7 @@ echo "$post_id > $to\n";
 		foreach ( $rows as $i => $row ) {
 			$row_num  = $i + 2;
 			$data     = array_combine( $headers, $row );
-			$data     = array_map( 'trim', $data );
-print_r($data);				
+			$data     = array_map( 'trim', $data );				
 
 			// skip empty lines.
 			if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
@@ -214,9 +215,6 @@ print_r($data);
 			$from = $data['from'];
 			$to = $data['to'];
 			$post_ids = explode('|', $data['post_ids']);
-
-echo "from: $from > to: $to\n";
-print_r($post_ids);
 
 			$this->change_post_type( $post_ids, $from, $to, $copy_meta, $copy_tax );
 		}
