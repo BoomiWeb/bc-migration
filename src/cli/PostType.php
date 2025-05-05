@@ -64,9 +64,6 @@ class PostType extends CLICommands {
 	 * [--copy-tax]
 	 * : Copy all post taxonomies.
 	 * 
-	 * [--copy-tax-match]
-	 * : Copy post taxonomies, matching the source and destination taxonomies.
-	 * 
 	 * [--file=<file_path>]
 	 * : Path to a CSV file with post IDs to migrate.
 	 *
@@ -87,7 +84,6 @@ class PostType extends CLICommands {
 		$to            = $assoc_args['to'] ?? null;
 		$term_slug     = $assoc_args['taxonomy'] ?? null;
 		$taxonomy_type = $assoc_args['taxonomy-type'] ?? 'category';
-		$copy_meta     = isset( $assoc_args['copy-meta'] ); // FIXME: remove
 		$copy_tax      = isset( $assoc_args['copy-tax'] );
 		$log_name   = $assoc_args['log'] ?? 'migrate-post-type.log';
 
@@ -105,7 +101,7 @@ class PostType extends CLICommands {
 				WP_CLI::error( 'No valid post IDs to migrate.' );
 			}
 
-			$this->change_post_type( $post_ids, $from, $to, $copy_meta, $copy_tax );			
+			$this->change_post_type( $post_ids, $from, $to, $copy_tax );			
 		} elseif ( $term_slug ) {					
 			$post_ids = $this->get_post_ids_by_term( $from, $term_slug, $taxonomy_type );
 
@@ -115,7 +111,7 @@ class PostType extends CLICommands {
 				return;
 			}
 
-			$this->change_post_type( $post_ids, $from, $to, $copy_meta, $copy_tax );
+			$this->change_post_type( $post_ids, $from, $to, $copy_tax );
 			
 			$this->log( "Migrated $term_slug posts", 'success' );
 			$this->add_notice( "Migrated $term_slug posts", 'success' );
@@ -126,7 +122,7 @@ class PostType extends CLICommands {
 				WP_CLI::error( "CSV file not found: $file" );
 			}
 
-			$this->process_csv_file( $file, $copy_meta, $copy_tax );
+			$this->process_csv_file( $file, $copy_tax );
 
 			$this->log( "Processed $file", 'success' );
 			$this->add_notice( "Processed $file", 'success' );
@@ -135,7 +131,7 @@ class PostType extends CLICommands {
 		$this->display_notices();
 	}
 
-	private function process_csv_file(string $file, $copy_meta, $copy_tax) {
+	private function process_csv_file(string $file, $copy_tax) {
 		$rows    = array_map( 'str_getcsv', file( $file ) );
 		$headers = array_map( 'trim', array_shift( $rows ) );
 
@@ -168,11 +164,11 @@ class PostType extends CLICommands {
 			$to = $data['to'];
 			$post_ids = explode('|', $data['post_ids']);
 
-			$this->change_post_type( $post_ids, $from, $to, $copy_meta, $copy_tax );
+			$this->change_post_type( $post_ids, $from, $to, $copy_tax );
 		}
 	}	
 
-	private function change_post_type(array $post_ids, string $from, string $to, $copy_meta, $copy_tax) {
+	private function change_post_type(array $post_ids, string $from, string $to, $copy_tax) {
 		$count = 0;
 
 		if ( empty( $post_ids ) ) {
