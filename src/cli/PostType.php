@@ -62,7 +62,10 @@ class PostType extends CLICommands {
 	 * : The type of taxonomy to migrate.
 	 * 
 	 * [--copy-tax]
-	 * : Copy post taxonomies.
+	 * : Copy all post taxonomies.
+	 * 
+	 * [--copy-tax-match]
+	 * : Copy post taxonomies, matching the source and destination taxonomies.
 	 * 
 	 * [--file=<file_path>]
 	 * : Path to a CSV file with post IDs to migrate.
@@ -75,6 +78,7 @@ class PostType extends CLICommands {
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510
 	 *     wp boomi migrate post-type --from=post --to=page --taxonomy=api
 	 *     wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type.csv
+	 * 	   wp boomi migrate post-type --from=post --to=page --post_ids=188688 --copy-tax
 	 *
 	 */    
 
@@ -205,15 +209,32 @@ class PostType extends CLICommands {
 				'post_type' => $to,
 			] );
 
-			if ( $copy_meta ) {
-echo "copy_meta\n";				
-				$this->copy_meta( $post_id );
-			}
+			// wp error
 
 			if ( $copy_tax ) {
-echo "copy_tax\n";				
-				$this->ensure_taxonomies_attached( $from, $to );
-				// TODO: check return before moving forward
+				// $original_taxonomies = get_object_taxonomies( $from );
+				// $new_post_type_taxonomies = get_object_taxonomies( $to );
+				// $shared_taxonomies = array_intersect( $original_taxonomies, $new_post_type_taxonomies );
+				
+				// print_r( $shared_taxonomies );
+
+				// if ( empty( $shared_taxonomies ) ) {
+				// 	$this->log( "No shared taxonomies found.", 'warning' );
+				// 	$this->add_notice( "No shared taxonomies found.", 'warning' );
+
+				// 	continue;
+				// }
+								
+				
+				$attached = $this->ensure_taxonomies_attached( $from, $to );
+
+				if (! $attached ) {
+					$this->log( "Taxonomies not attached.", 'warning' );
+					$this->add_notice( "Taxonomies not attached.", 'warning' );
+
+					continue;
+				}
+
 				$this->copy_tax( $post_id, $from );
 			}
 
@@ -277,18 +298,22 @@ echo "copy_tax\n";
 	private function ensure_taxonomies_attached( $from, $to ) {
 		$from_taxonomies = get_object_taxonomies( $from, 'objects' );
 
+		if ( empty( $from_taxonomies ) ) {
+			return false;
+		}
+
 		foreach ( $from_taxonomies as $taxonomy => $taxonomy_obj ) {
 			if ( ! in_array( $to, $taxonomy_obj->object_type, true ) ) {
 				$taxonomy_obj->object_type[] = $to;
-		
+
 				register_taxonomy( $taxonomy, $taxonomy_obj->object_type, (array) $taxonomy_obj );
 		
-				WP_CLI::log( "Attached taxonomy `$taxonomy` to `$to`." );
+				$this->log( "Attached taxonomy `$taxonomy` to `$to`." );
+				$this->add_notice( "Attached taxonomy `$taxonomy` to `$to`." );
 			}
 		}
 	}
 
-	// TODO: more detailed output
 	private function copy_tax(int $post_id, string $from) {
 		$taxonomies = get_object_taxonomies( $from );
 
@@ -297,7 +322,12 @@ echo "copy_tax\n";
 
 			if ( ! is_wp_error( $terms ) ) {
 				wp_set_object_terms( $post_id, $terms, $taxonomy );
+
+				$this->log( "Copied terms from `$from`." );
+				$this->add_notice( "Copied terms from `$from`." );
 			}
+
+			// TODO: return error
 		}
 	}
 
