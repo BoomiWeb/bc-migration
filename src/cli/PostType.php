@@ -204,28 +204,19 @@ class PostType extends CLICommands {
 				continue;
 			}
 
-			wp_update_post( [
+			$updated = wp_update_post( [
 				'ID'        => $post_id,
 				'post_type' => $to,
 			] );
 
-			// wp error
+			if (is_wp_error( $updated )) {
+				$this->log( "Failed to update post $post_id.", 'error' );
+				$this->add_notice( "Failed to update post $post_id.", 'error' );
 
-			if ( $copy_tax ) {
-				// $original_taxonomies = get_object_taxonomies( $from );
-				// $new_post_type_taxonomies = get_object_taxonomies( $to );
-				// $shared_taxonomies = array_intersect( $original_taxonomies, $new_post_type_taxonomies );
-				
-				// print_r( $shared_taxonomies );
+				continue;
+			}
 
-				// if ( empty( $shared_taxonomies ) ) {
-				// 	$this->log( "No shared taxonomies found.", 'warning' );
-				// 	$this->add_notice( "No shared taxonomies found.", 'warning' );
-
-				// 	continue;
-				// }
-								
-				
+			if ( $copy_tax ) {				
 				$attached = $this->ensure_taxonomies_attached( $from, $to );
 
 				if (! $attached ) {
