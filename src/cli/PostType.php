@@ -15,10 +15,6 @@ use WP_CLI;
 use WP_Query;
 
 /*
-
-wp myplugin migrate_posts --from=old_post_type --to=new_post_type --taxonomy=category-slug
-wp myplugin migrate_posts --from=old_post_type --to=new_post_type --csv=/path/to/file.csv
-
 # Basic migration with meta and taxonomies
 wp myplugin migrate_posts --from=book --to=article --post_ids=1,2,3 --copy-meta --copy-tax
 
@@ -65,6 +61,9 @@ class PostType extends CLICommands {
 	 * [--taxonomy-type=<type>]
 	 * : The type of taxonomy to migrate.
 	 * 
+	 * [--copy-tax]
+	 * : Copy post taxonomies.
+	 * 
 	 * [--file=<file_path>]
 	 * : Path to a CSV file with post IDs to migrate.
 	 *
@@ -84,7 +83,7 @@ class PostType extends CLICommands {
 		$to            = $assoc_args['to'] ?? null;
 		$term_slug     = $assoc_args['taxonomy'] ?? null;
 		$taxonomy_type = $assoc_args['taxonomy-type'] ?? 'category';
-		$copy_meta     = isset( $assoc_args['copy-meta'] );
+		$copy_meta     = isset( $assoc_args['copy-meta'] ); // FIXME: remove
 		$copy_tax      = isset( $assoc_args['copy-tax'] );
 		$log_name   = $assoc_args['log'] ?? 'migrate-post-type.log';
 
@@ -137,9 +136,8 @@ class PostType extends CLICommands {
 		$headers = array_map( 'trim', array_shift( $rows ) );
 
 		if ( ! $this->validate_headers( $headers, array( 'from', 'to', 'post_ids' ) ) ) {	
-			$this->log( "Invalid CSV headers: $file" );
-
-			WP_CLI::error( "Invalid CSV headers: $file" );
+			$this->log( "Invalid CSV headers: $file", 'error' );
+			$this->add_notice( "Invalid CSV headers: $file", 'error' );
 
 			return;
 		}
@@ -156,6 +154,9 @@ class PostType extends CLICommands {
 
 			// Check required fields.
 			if ( ! $this->has_required_fields( $data, array( 'from', 'to', 'post_ids' ), $row_num ) ) {
+				$this->log( "Row $row_num: Skipped - one or more required fields missing.", 'warning' );
+				$this->add_notice( "Row $row_num: Skipped - one or more required fields missing.", 'warning' );
+
 				continue;
 			}
 
@@ -283,17 +284,6 @@ echo "copy_tax\n";
 				register_taxonomy( $taxonomy, $taxonomy_obj->object_type, (array) $taxonomy_obj );
 		
 				WP_CLI::log( "Attached taxonomy `$taxonomy` to `$to`." );
-			}
-		}
-	}
-
-	// TODO: more detailed output
-	private function copy_meta(int $post_id) {
-		$meta = get_post_meta( $post_id );
-
-		foreach ( $meta as $key => $values ) {
-			foreach ( $values as $value ) {
-				add_post_meta( $post_id, $key, maybe_unserialize( $value ), false );
 			}
 		}
 	}
