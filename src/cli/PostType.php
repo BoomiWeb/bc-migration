@@ -65,6 +65,9 @@ class PostType extends CLICommands {
 	 * [--file=<file_path>]
 	 * : Path to a CSV file with post IDs to migrate.
 	 *
+	 * [--log=<name>]
+     * : Name of the log file.
+	 * 
 	 * ## EXAMPLES
 	 *
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510
@@ -80,17 +83,13 @@ class PostType extends CLICommands {
 		$taxonomy_type = $assoc_args['taxonomy-type'] ?? 'category';
 		$copy_meta     = isset( $assoc_args['copy-meta'] );
 		$copy_tax      = isset( $assoc_args['copy-tax'] );
+		$log_name   = $assoc_args['log'] ?? 'migrate-post-type.log';
 
 		if ( ! $from || ! $to ) {
 			WP_CLI::error( '`--from` and `--to` post types are required.' );
 		}
 
-		// TODO: check valid post types
-
-		// FIXME: add param
-		$log_name   = $assoc_args['log'] ?? null;
-
-        if ( $log_name ) {
+		if ( $log_name ) {			
             $this->set_log_name( $log_name );
         }  
 
@@ -127,25 +126,67 @@ class PostType extends CLICommands {
 			// TODO: success or error message
 			return;
 		}
-
-		// WP_CLI::error( 'No valid post IDs or CSV file to migrate.' );
 	}
+
+	private function process_csv_file(string $file, $copy_meta, $copy_tax) {
+		$rows    = array_map( 'str_getcsv', file( $file ) );
+		$headers = array_map( 'trim', array_shift( $rows ) );
+
+		if ( ! $this->validate_headers( $headers, array( 'from', 'to', 'post_ids' ) ) ) {	
+			$this->log( "Invalid CSV headers: $file" );
+
+			WP_CLI::error( "Invalid CSV headers: $file" );
+
+			return;
+		}
+
+		foreach ( $rows as $i => $row ) {
+			$row_num  = $i + 2;
+			$data     = array_combine( $headers, $row );
+			$data     = array_map( 'trim', $data );				
+
+			// skip empty lines.
+			if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
+				continue;
+			}
+
+			// Check required fields.
+			if ( ! $this->has_required_fields( $data, array( 'from', 'to', 'post_ids' ), $row_num ) ) {
+				continue;
+			}
+
+			$from = $data['from'];
+			$to = $data['to'];
+			$post_ids = explode('|', $data['post_ids']);
+
+			$this->change_post_type( $post_ids, $from, $to, $copy_meta, $copy_tax );
+		}
+	}	
 
 // TODO: more detailed output
 	private function change_post_type(array $post_ids, string $from, string $to, $copy_meta, $copy_tax) {
 		$count = 0;
 
 		if ( empty( $post_ids ) ) {
+			$this->log( 'No valid post IDs to migrate.' );
 			WP_CLI::error( 'No valid post IDs to migrate.' );
 		}
 
-		// TODO: check valid post types
+		// Check valid post types.
+		if ( ! $this->is_valid_post_type( $from ) ) {
+			$this->log( "`$from` is not a valid post type." );
+			WP_CLI::error( "`$from` is not a valid post type." );
+		} else if ( ! $this->is_valid_post_type( $to ) ) {
+			$this->log( "`$to` is not a valid post type." );
+			WP_CLI::error( "`$to` is not a valid post type." );
+		}
 
 		foreach ( $post_ids as $post_id ) {
 			$post = get_post( $post_id );
 		
-			if ( ! $post || $post->post_type !== $from ) {	
-				// TODO: success or error message
+			if ( ! $post || $post->post_type !== $from ) {
+				$this->log( "Post $post_id is not a $from post." );
+
 				continue;
 			}
 
@@ -187,37 +228,6 @@ class PostType extends CLICommands {
 		// TODO: more detailed output & validate query
 		
 		return $query->posts;		
-	}
-
-	private function process_csv_file(string $file, $copy_meta, $copy_tax) {
-		$rows    = array_map( 'str_getcsv', file( $file ) );
-		$headers = array_map( 'trim', array_shift( $rows ) );
-
-		if ( ! $this->validate_headers( $headers, array( 'from', 'to', 'post_ids' ) ) ) {				
-			return;
-		}
-
-		foreach ( $rows as $i => $row ) {
-			$row_num  = $i + 2;
-			$data     = array_combine( $headers, $row );
-			$data     = array_map( 'trim', $data );				
-
-			// skip empty lines.
-			if ( count( $row ) === 1 && empty( trim( $row[0] ) ) ) {
-				continue;
-			}
-
-			// Check required fields.
-			if ( ! $this->has_required_fields( $data, array( 'from', 'to', 'post_ids' ), $row_num ) ) {
-				continue;
-			}
-
-			$from = $data['from'];
-			$to = $data['to'];
-			$post_ids = explode('|', $data['post_ids']);
-
-			$this->change_post_type( $post_ids, $from, $to, $copy_meta, $copy_tax );
-		}
 	}
 
 // TODO: more detailed output	
@@ -304,4 +314,21 @@ class PostType extends CLICommands {
 
         return true;
     }
+
+	private function is_valid_post_type( string $post_type ) {
+		if ( ! post_type_exists( $post_type ) ) {
+			return false;
+		}
+
+		return true;
+	}
 }
+
+/*
+if ( is_wp_error( $result ) ) {
+	$this->add_notice( 'Error - ' . $result->get_error_message(), 'warning' );
+} else {
+	$this->log( 'Merged ' . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)" );
+	$this->add_notice( 'Merged ' . implode( ', ', $from_terms ) . " into $to_term ($taxonomy)", 'success' );
+}
+*/
