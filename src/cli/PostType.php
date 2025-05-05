@@ -11,7 +11,6 @@ namespace erikdmitchell\bcmigration\cli;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
 use erikdmitchell\bcmigration\traits\LoggerTrait;
-use WP_CLI;
 use WP_Query;
 
 class PostType extends CLICommands {
@@ -67,8 +66,7 @@ class PostType extends CLICommands {
 		$taxonomy_type = $assoc_args['taxonomy-type'] ?? 'category';
 		$log_name   = $assoc_args['log'] ?? 'migrate-post-type.log';
 		$copy_tax      = isset( $assoc_args['copy-tax'] );
-		$tax_map_file       = $assoc_args['tax-map'] ?? null;
-		
+		$tax_map_file       = $assoc_args['tax-map'] ?? null;		
 
 		if ( $log_name ) {			
             $this->set_log_name( $log_name );
@@ -79,12 +77,13 @@ class PostType extends CLICommands {
 			$post_ids = array_map( 'intval', explode( ',', $assoc_args['post_ids'] ) );
 
 			if ( empty( $post_ids ) ) {
-				$this->log( 'No valid post IDs to migrate.' );
+				$this->log( 'No valid post IDs to migrate.', 'error' );
+				$this->add_notice( 'No valid post IDs to migrate.', 'error' );
 
-				WP_CLI::error( 'No valid post IDs to migrate.' );
+				return;
 			}
 
-			$this->change_post_type( $post_ids, $from, $to, $copy_tax );			
+			$this->change_post_type( $post_ids, $from, $to, $copy_tax, $tax_map_file );			
 		} elseif ( $term_slug ) {					
 			$post_ids = $this->get_post_ids_by_term( $from, $term_slug, $taxonomy_type );
 
@@ -103,7 +102,9 @@ class PostType extends CLICommands {
 
 			if ( ! file_exists( $file ) ) {
 				$this->log( "CSV file not found: $file", 'error' );
-				WP_CLI::error( "CSV file not found: $file" );
+				$this->add_notice( "CSV file not found: $file", 'error' );
+
+				return;
 			}
 
 			$this->process_csv_file( $file, $copy_tax );
@@ -157,8 +158,9 @@ class PostType extends CLICommands {
 
 		if ( empty( $post_ids ) ) {
 			$this->log( 'No valid post IDs to migrate.', 'error' );
-
-			WP_CLI::error( 'No valid post IDs to migrate.' );
+			$this->add_notice( 'No valid post IDs to migrate.', 'error' );
+			
+			return;
 		}
 
 		// Check valid post types.
@@ -184,17 +186,17 @@ class PostType extends CLICommands {
 				continue;
 			}
 
-			// $updated = wp_update_post( [
-			// 	'ID'        => $post_id,
-			// 	'post_type' => $to,
-			// ] );
+			$updated = wp_update_post( [
+				'ID'        => $post_id,
+				'post_type' => $to,
+			] );
 
-			// if (is_wp_error( $updated )) {
-			// 	$this->log( "Failed to update post $post_id.", 'error' );
-			// 	$this->add_notice( "Failed to update post $post_id.", 'error' );
+			if (is_wp_error( $updated )) {
+				$this->log( "Failed to update post $post_id.", 'warning' );
+				$this->add_notice( "Failed to update post $post_id.", 'warning' );
 
-			// 	continue;
-			// }
+				continue;
+			}
 
 			if ( $copy_tax ) {				
 				$attached = $this->ensure_taxonomies_attached( $from, $to );
@@ -211,8 +213,8 @@ class PostType extends CLICommands {
 
 			if ($tax_map_file) {
 				if ( ! file_exists( $tax_map_file ) ) {
-					$this->log( "Mapping file not found: $tax_map_file", 'error' );
-					$this->add_notice( "Mapping file not found: $tax_map_file", 'error' );
+					$this->log( "Mapping file not found: $tax_map_file", 'warning' );
+					$this->add_notice( "Mapping file not found: $tax_map_file", 'warning' );
 				}
 
 				$tax_map = json_decode( file_get_contents( $tax_map_file ) );
@@ -242,22 +244,22 @@ class PostType extends CLICommands {
 	 */
 	private function get_post_ids_by_term( string $from, string $term_slug, string $taxonomy_type ) {	
 		if (! $this->is_valid_post_type( $from ) ) {
-			$this->log( "`$from` is not a valid post type.", 'error' );
-			$this->add_notice( "`$from` is not a valid post type.", 'error' );
+			$this->log( "`$from` is not a valid post type.", 'warning' );
+			$this->add_notice( "`$from` is not a valid post type.", 'warning' );
 
 			return false;
 		}	
 		
 		if (!taxonomy_exists( $taxonomy_type ) ) {
-			$this->log( "Taxonomy `$taxonomy_type` does not exist.", 'error' );
-			$this->add_notice( "Taxonomy `$taxonomy_type` does not exist.", 'error' );
+			$this->log( "Taxonomy `$taxonomy_type` does not exist.", 'warning' );
+			$this->add_notice( "Taxonomy `$taxonomy_type` does not exist.", 'warning' );
 
 			return false;
 		}
 
 		if (!term_exists( $term_slug, $taxonomy_type ) ) {
-			$this->log( "`$term_slug` does not exist in `$taxonomy_type`.", 'error' );
-			$this->add_notice( "`$term_slug` does not exist in `$taxonomy_type`.", 'error' );
+			$this->log( "`$term_slug` does not exist in `$taxonomy_type`.", 'warning' );
+			$this->add_notice( "`$term_slug` does not exist in `$taxonomy_type`.", 'warning' );
 
 			return false;
 		}
@@ -315,47 +317,53 @@ class PostType extends CLICommands {
 		}
 	}
 
-	private function tax_map( int $post_id, array $tax_map ) {
-echo "tax_map: " . print_r( $tax_map, true );		
-		// TODO
+	private function tax_map( int $post_id, array $tax_map ) {	
+		foreach ( $tax_map as $obj) {
+			$this->migrate_post_terms( $obj->from, $obj->to, $post_id );
+		}
 	}
 
-	private function migrate_post_terms( $terms, string $from, string $to, int $post_id ) {
-echo "terms: " . print_r( $terms, true );
-echo "from: $from\n";
-echo "to: $to\n";
-echo "post_id: $post_id\n";
+	private function migrate_post_terms( string $from, string $to, int $post_id ) {
+		if (!taxonomy_exists( $from ) ) {		
+			$this->log( "Taxonomy `$from` does not exist.", 'warning' );
+			$this->add_notice( "Taxonomy `$from` does not exist.", 'warning' );
 
-/*
-$data = json_decode( file_get_contents( $file ), true );
-if ( json_last_error() !== JSON_ERROR_NONE ) {
-	WP_CLI::error( 'Invalid JSON format.' );
-}
+			return false;
+		} else if (!taxonomy_exists( $to ) ) {					
+			$this->log( "Taxonomy `$to` does not exist.", 'warning' );
+			$this->add_notice( "Taxonomy `$to` does not exist.", 'warning' );
 
-foreach ( $data as $entry ) {
-	$this->migrate_term(
-		$entry['term'] ?? null,
-		$entry['from'] ?? null,
-		$entry['to'] ?? null
-	);
-}
-*/
-		foreach ( $terms as $term ) {
-echo "term: $term\n";
-			// $result = wp_insert_term( $term, $to );	
-		}		
+			return false;
+		}
+
+		$terms = wp_get_object_terms( $post_id, $from, [ 'fields' => 'ids' ] );
+
+		if ( is_wp_error( $terms ) ) {
+			$this->log( "Error getting terms: " . $terms->get_error_message(), 'warning' );
+			$this->add_notice( "Error getting terms: " . $terms->get_error_message(), 'warning' );
+
+			return false;
+		}
+
+		foreach ( $terms as $term ) {		
+			$this->migrate_term( $term, $from, $to );
+		}
 	}
 
     private function migrate_term( string $term, string $from_tax, string $to_tax ) {
         if ( ! $term || ! $from_tax || ! $to_tax ) {
-            WP_CLI::warning( 'Incomplete mapping. Skipping.' );
+			$this->log( "Invalid arguments for migrate_term(): term: $term, from_tax: $from_tax, to_tax: $to_tax" );
+			$this->add_notice( "Invalid arguments for migrate_term(): term: $term, from_tax: $from_tax, to_tax: $to_tax" );
+
             return;
         }
 
         $term_obj = get_term_by( is_numeric( $term ) ? 'id' : 'slug', $term, $from_tax );
 
         if ( ! $term_obj ) {
-            WP_CLI::warning( "Term '{$term}' not found in taxonomy '{$from_tax}'." );
+			$this->log( "Term '{$term}' not found in taxonomy '{$from_tax}'." );
+			$this->add_notice( "Term '{$term}' not found in taxonomy '{$from_tax}'." );
+            
             return;
         }
 
@@ -365,9 +373,11 @@ echo "term: $term\n";
         ] );
 
         if ( is_wp_error( $result ) ) {
-            WP_CLI::warning( "Failed to insert term '{$term}': " . $result->get_error_message() );
+			$this->log( $result->get_error_message(), 'warning' );
+			$this->add_notice( $result->get_error_message(), 'erwarningror' );
         } else {
-            WP_CLI::success( "Migrated term '{$term}' from '{$from_tax}' to '{$to_tax}'." );
+			$this->log( "Migrated term '{$term}' from '{$from_tax}' to '{$to_tax}'." );
+			$this->add_notice( "Migrated term '{$term}' from '{$from_tax}' to '{$to_tax}'." );
         }
     }	
 
@@ -383,9 +393,9 @@ echo "term: $term\n";
         $missing = array_diff( $required, $headers );
 
         if ( ! empty( $missing ) ) {
-            $this->add_notice( 'CSV is missing required columns: ' . implode( ', ', $missing ), 'error' );
+            $this->add_notice( 'CSV is missing required columns: ' . implode( ', ', $missing ), 'warning' );
 
-            $this->log( 'CSV is missing required columns: ' . implode( ', ', $missing ) );
+            $this->log( 'CSV is missing required columns: ' . implode( ', ', $missing ), 'warning' );
 
             return false;
         }
