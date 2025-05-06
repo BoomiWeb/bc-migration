@@ -14,29 +14,6 @@ use erikdmitchell\bcmigration\traits\LoggerTrait;
 use WP_CLI;
 use WP_Query;
 
-/*
-# Basic migration with meta and taxonomies
-wp myplugin migrate_posts --from=book --to=article --post_ids=1,2,3 --copy-meta --copy-tax
-
-# Migrate via taxonomy slug
-wp myplugin migrate_posts --from=book --to=article --taxonomy=fiction --copy-meta --copy-tax
-
-# Migrate via CSV
-wp myplugin migrate_posts --from=book --to=article --csv=ids.csv --copy-meta --copy-tax
-
-# Migrate and copy meta/tax, auto-attach taxonomies to destination
-wp myplugin migrate_posts --from=book --to=article --post_ids=1,2,3 --copy-meta --copy-tax
-
-# Migrate by post ID
-wp myplugin migrate_posts --from=book --to=article --post_ids=1,2,3 --copy-meta --copy-tax
-
-# Migrate posts from the 'fiction' term in the 'genre' taxonomy
-wp myplugin migrate_posts --from=book --to=article --taxonomy=fiction --taxonomy-type=genre --copy-meta --copy-tax
-
-# Migrate via CSV
-wp myplugin migrate_posts --from=book --to=article --csv=posts.csv --copy-meta --copy-tax
-*/
-
 class PostType extends CLICommands {
 
 	use LoggerTrait;
