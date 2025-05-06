@@ -10,7 +10,7 @@
 namespace erikdmitchell\bcmigration\cli;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
-use erikdmitchell\bcmigration\MigratePostTaxonomies;
+use erikdmitchell\bcmigration\MapPostTaxonomies;
 use erikdmitchell\bcmigration\traits\LoggerTrait;
 use WP_Query;
 
@@ -319,73 +319,25 @@ class PostType extends CLICommands {
 	}
 
 	private function tax_map( int $post_id, array $tax_map ) {			
-		$tax_mapper = new MigratePostTaxonomies();
+		$tax_mapper = new MapPostTaxonomies();
 
 		foreach ( $tax_map as $obj) {
 			$results = $tax_mapper->migrate( $obj->from, $obj->to, $post_id );
 		}
+return;
+		$tax_terms = [];
+
+		foreach ( $tax_map as $obj ) {
+			$term_id = $tax_mapper->get_mapped_term_id( $obj->from, $obj->to );
+			if ( $term_id ) {
+				$tax_terms[ $obj->to ][] = $term_id;
+			}
+		}
+		
+		foreach ( $tax_terms as $taxonomy => $term_ids ) {
+			wp_set_object_terms( $post_id, $term_ids, $taxonomy );
+		}		
 	}
-
-    private function migrate_term( string $term, string $from_tax, string $to_tax, int $post_id ) {
-        if ( ! $term || ! $from_tax || ! $to_tax ) {
-			$this->log( "Invalid arguments for migrate_term(): term: $term, from_tax: $from_tax, to_tax: $to_tax" );
-			$this->add_notice( "Invalid arguments for migrate_term(): term: $term, from_tax: $from_tax, to_tax: $to_tax" );
-
-            return;
-        }
-
-		$from_term_obj = get_term_by( is_numeric( $term ) ? 'id' : 'slug', $term, $from_tax );
-
-		if ( ! $from_term_obj ) {
-			$this->log( "Term '$term' not found in taxonomy '$from_tax'." );
-			$this->add_notice( "Term '$term' not found in taxonomy '$from_tax'." );
-
-			return;
-		}
-
-		if (term_exists( $term, $to_tax ) ) {
-			$this->log( "Term '$term' already exists in taxonomy '$to_tax'." );
-			$this->add_notice( "Term '$term' already exists in taxonomy '$to_tax'." );
-// do shit here
-			return;
-		}
-
-
-		// term_exists( $from_term_obj->name, $to_tax )
-		$to_term_obj = get_term_by( 'slug', $from_term_obj->slug, $to_tax );
-
-		if ( $to_term_obj ) {
-			$this->log( "Term '{$from_term_obj->name}' already exists in taxonomy '{$to_tax}'. Skipping." );
-			$this->add_notice( "Term '{$from_term_obj->name}' already exists in taxonomy '{$to_tax}'. Skipping." );
-			// $this->log( "Term '{$from_term_obj->name}' already exists in taxonomy '{$to_tax}'." );
-			// $this->add_notice( "Term '{$from_term_obj->name}' already exists in taxonomy '{$to_tax}'." );
-echo "term exists ($to_term_obj->term_id) - we need to update the post ($post_id) with the new term [$to_tax]\n";
-			// $result = wp_set_post_terms( $post_id, array( (int) $to_term_obj->term_id ), $to_tax );
-			// $result = wp_set_object_terms( $post_id, array($to_term_obj->term_id), $to_tax );
-			// $result = wp_set_object_terms( $post_id, array(22574, 22575), $to_tax ); // this needs to happen in bulk
-// array, false, wp error
-// print_r($result);
-
-			return;
-		}
-
-        $result = wp_insert_term( $from_term_obj->name, $to_tax, [
-            'slug'        => $from_term_obj->slug,
-            'description' => $from_term_obj->description,
-        ] );
-
-        if ( is_wp_error( $result ) ) {
-			$this->log( $result->get_error_message(), 'warning' );
-			$this->add_notice( $result->get_error_message(), 'warning' );
-        } else {
-echo "insert term - we need to update the post with the new term\n";			
-// echo "insert term was good, we need to set the post with the updated term";			
-			wp_set_object_terms( $post_id, $term, $to_tax );
-
-			$this->log( "Migrated term '{$term}' from '{$from_tax}' to '{$to_tax}'." );
-			$this->add_notice( "Migrated term '{$term}' from '{$from_tax}' to '{$to_tax}'." );
-        }
-    }
 	
 	private function taxonomy_term_exists( string $term, string $tax ) {
 		$term_obj = get_term_by( is_numeric( $term ) ? 'id' : 'slug', $term, $tax );

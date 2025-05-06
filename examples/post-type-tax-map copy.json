@@ -1,0 +1,14 @@
+[
+  {
+    "from": "category",
+    "to": "event-category"
+  },
+  {
+    "from": "invalid-category",
+    "to": "event-category"
+  },
+  {
+    "from": "category",
+    "to": "invalid-category"
+  }
+]
