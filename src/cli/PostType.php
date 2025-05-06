@@ -10,6 +10,7 @@
 namespace erikdmitchell\bcmigration\cli;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
+use erikdmitchell\bcmigration\MigratePostTaxonomies;
 use erikdmitchell\bcmigration\traits\LoggerTrait;
 use WP_Query;
 
@@ -317,9 +318,11 @@ class PostType extends CLICommands {
 		}
 	}
 
-	private function tax_map( int $post_id, array $tax_map ) {	
+	private function tax_map( int $post_id, array $tax_map ) {			
+		$tax_mapper = new MigratePostTaxonomies();
+
 		foreach ( $tax_map as $obj) {
-			$this->migrate_post_terms( $obj->from, $obj->to, $post_id );
+			$results = $tax_mapper->migrate( $obj->from, $obj->to, $post_id );
 		}
 	}
 
@@ -386,7 +389,7 @@ class PostType extends CLICommands {
 echo "term exists ($to_term_obj->term_id) - we need to update the post ($post_id) with the new term [$to_tax]\n";
 			// $result = wp_set_post_terms( $post_id, array( (int) $to_term_obj->term_id ), $to_tax );
 			// $result = wp_set_object_terms( $post_id, array($to_term_obj->term_id), $to_tax );
-			$result = wp_set_object_terms( $post_id, array(22574, 22575), $to_tax ); // this needs to happen in bulk
+			// $result = wp_set_object_terms( $post_id, array(22574, 22575), $to_tax ); // this needs to happen in bulk
 // array, false, wp error
 // print_r($result);
 
