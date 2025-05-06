@@ -178,15 +178,28 @@ class PostType extends CLICommands {
 				continue;
 			}
 
-			wp_update_post( [
+			$updated = wp_update_post( [
 				'ID'        => $post_id,
 				'post_type' => $to,
 			] );
 
-			if ( $copy_tax ) {
-echo "copy_tax\n";				
-				$this->ensure_taxonomies_attached( $from, $to );
-				// TODO: check return before moving forward
+			if (is_wp_error( $updated )) {
+				$this->log( "Failed to update post $post_id.", 'warning' );
+				$this->add_notice( "Failed to update post $post_id.", 'warning' );
+
+				continue;
+			}
+
+			if ( $copy_tax ) {				
+				$attached = $this->ensure_taxonomies_attached( $from, $to );
+
+				if (! $attached ) {
+					$this->log( "Taxonomies not attached.", 'warning' );
+					$this->add_notice( "Taxonomies not attached.", 'warning' );
+
+					continue;
+				}
+
 				$this->copy_tax( $post_id, $from );
 			}
 
