@@ -50,6 +50,7 @@ class PostType extends CLICommands {
 	 * ## EXAMPLES
 	 *
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510
+	 *     wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510 --copy-tax
 	 *     wp boomi migrate post-type --from=post --to=page --taxonomy=api
 	 *     wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type.csv
 	 *
@@ -112,8 +113,8 @@ class PostType extends CLICommands {
 		$headers = array_map( 'trim', array_shift( $rows ) );
 
 		if ( ! $this->validate_headers( $headers, array( 'from', 'to', 'post_ids' ) ) ) {	
-			$this->log( "Invalid CSV headers: $file", 'error' );
-			$this->add_notice( "Invalid CSV headers: $file", 'error' );
+			$this->log( "Invalid CSV headers: $file", 'warning' );
+			$this->add_notice( "Invalid CSV headers: $file", 'warning' );
 
 			return;
 		}
@@ -148,20 +149,21 @@ class PostType extends CLICommands {
 		$count = 0;
 
 		if ( empty( $post_ids ) ) {
-			$this->log( 'No valid post IDs to migrate.', 'error' );
+			$this->log( 'No valid post IDs to migrate.', 'warning' );
+			$this->add_notice( 'No valid post IDs to migrate.', 'warning' );
 
-			WP_CLI::error( 'No valid post IDs to migrate.' );
+			return;
 		}
 
 		// Check valid post types.
 		if ( ! $this->is_valid_post_type( $from ) ) {		
-			$this->log( "`$from` is not a valid post type.", 'error' );
-			$this->add_notice( "`$from` is not a valid post type.", 'error' );
+			$this->log( "`$from` is not a valid post type.", 'warning' );
+			$this->add_notice( "`$from` is not a valid post type.", 'warning' );
 
 			return;
 		} else if ( ! $this->is_valid_post_type( $to ) ) {
-			$this->log( "`$to` is not a valid post type.", 'error' );
-			$this->add_notice( "`$to` is not a valid post type.", 'error' );
+			$this->log( "`$to` is not a valid post type.", 'warning' );
+			$this->add_notice( "`$to` is not a valid post type.", 'warning' );
 
 			return;
 		}
@@ -208,22 +210,22 @@ echo "copy_tax\n";
 	 */
 	private function get_post_ids_by_term( string $from, string $term_slug, string $taxonomy_type ) {	
 		if (! $this->is_valid_post_type( $from ) ) {
-			$this->log( "`$from` is not a valid post type.", 'error' );
-			$this->add_notice( "`$from` is not a valid post type.", 'error' );
+			$this->log( "`$from` is not a valid post type.", 'warning' );
+			$this->add_notice( "`$from` is not a valid post type.", 'warning' );
 
 			return false;
 		}	
 		
 		if (!taxonomy_exists( $taxonomy_type ) ) {
-			$this->log( "Taxonomy `$taxonomy_type` does not exist.", 'error' );
-			$this->add_notice( "Taxonomy `$taxonomy_type` does not exist.", 'error' );
+			$this->log( "Taxonomy `$taxonomy_type` does not exist.", 'warning' );
+			$this->add_notice( "Taxonomy `$taxonomy_type` does not exist.", 'warning' );
 
 			return false;
 		}
 
 		if (!term_exists( $term_slug, $taxonomy_type ) ) {
-			$this->log( "`$term_slug` does not exist in `$taxonomy_type`.", 'error' );
-			$this->add_notice( "`$term_slug` does not exist in `$taxonomy_type`.", 'error' );
+			$this->log( "`$term_slug` does not exist in `$taxonomy_type`.", 'warning' );
+			$this->add_notice( "`$term_slug` does not exist in `$taxonomy_type`.", 'warning' );
 
 			return false;
 		}
@@ -284,9 +286,8 @@ echo "copy_tax\n";
         $missing = array_diff( $required, $headers );
 
         if ( ! empty( $missing ) ) {
-            $this->add_notice( 'CSV is missing required columns: ' . implode( ', ', $missing ), 'error' );
-
-            $this->log( 'CSV is missing required columns: ' . implode( ', ', $missing ) );
+			$this->log( 'CSV is missing required columns: ' . implode( ', ', $missing ), 'warning' );
+            $this->add_notice( 'CSV is missing required columns: ' . implode( ', ', $missing ), 'warning' );
 
             return false;
         }
