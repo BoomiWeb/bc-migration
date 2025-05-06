@@ -259,34 +259,54 @@ class PostType extends CLICommands {
 		return $query->posts;		
 	}
 
-// TODO: more detailed output	
-	private function ensure_taxonomies_attached( $from, $to ) {
-		$from_taxonomies = get_object_taxonomies( $from, 'objects' );
+    private function ensure_taxonomies_attached( $from, $to ) {
+        $from_taxonomies = get_object_taxonomies( $from, 'objects' );
 
-		foreach ( $from_taxonomies as $taxonomy => $taxonomy_obj ) {
-			if ( ! in_array( $to, $taxonomy_obj->object_type, true ) ) {
-				$taxonomy_obj->object_type[] = $to;
-		
-				register_taxonomy( $taxonomy, $taxonomy_obj->object_type, (array) $taxonomy_obj );
-		
-				WP_CLI::log( "Attached taxonomy `$taxonomy` to `$to`." );
+        if ( empty( $from_taxonomies ) ) {
+			$this->log( "No taxonomies attached to `$from`.", 'warning' );
+			$this->add_notice( "No taxonomies attached to `$from`.", 'warning' );
+
+            return false;
+        }
+
+        foreach ( $from_taxonomies as $taxonomy => $taxonomy_obj ) {
+            if ( ! in_array( $to, $taxonomy_obj->object_type, true ) ) {
+                $taxonomy_obj->object_type[] = $to;
+
+                register_taxonomy( $taxonomy, $taxonomy_obj->object_type, (array) $taxonomy_obj );
+        
+                $this->log( "Attached taxonomy `$taxonomy` to `$to`." );
+                $this->add_notice( "Attached taxonomy `$taxonomy` to `$to`." );
+            }
+        }
+    }
+
+    private function copy_tax(int $post_id, string $from) {
+        $taxonomies = get_object_taxonomies( $from );
+
+        foreach ( $taxonomies as $taxonomy ) {
+            $terms = wp_get_object_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
+
+			if ( is_wp_error( $terms ) ) {
+				$this->log( "Failed to get terms for `$post_id`.", 'warning' );
+				$this->add_notice( "Failed to get terms for `$post_id`.", 'warning' );
+
+				continue;
 			}
-		}
-	}
 
-	// TODO: more detailed output
-	private function copy_tax(int $post_id, string $from) {
-		$taxonomies = get_object_taxonomies( $from );
+			$terms_set = wp_set_object_terms( $post_id, $terms, $taxonomy );
 
-		foreach ( $taxonomies as $taxonomy ) {
-			$terms = wp_get_object_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
+			if ( is_wp_error( $terms_set ) ) {
+				$this->log( "Failed to set terms for `$post_id`.", 'warning' );
+				$this->add_notice( "Failed to set terms for `$post_id`.", 'warning' );
 
-			if ( ! is_wp_error( $terms ) ) {
-				wp_set_object_terms( $post_id, $terms, $taxonomy );
+				continue;
 			}
-		}
-	}
 
+			$this->log( "Copied terms from `$from`." );
+			$this->add_notice( "Copied terms from `$from`." );
+        }
+    }
     /**
      * Validates that the given array of CSV headers contains all required fields.
      *
