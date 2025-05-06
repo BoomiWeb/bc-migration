@@ -186,17 +186,17 @@ class PostType extends CLICommands {
 				continue;
 			}
 
-			$updated = wp_update_post( [
-				'ID'        => $post_id,
-				'post_type' => $to,
-			] );
+			// $updated = wp_update_post( [
+			// 	'ID'        => $post_id,
+			// 	'post_type' => $to,
+			// ] );
 
-			if (is_wp_error( $updated )) {
-				$this->log( "Failed to update post $post_id.", 'warning' );
-				$this->add_notice( "Failed to update post $post_id.", 'warning' );
+			// if (is_wp_error( $updated )) {
+			// 	$this->log( "Failed to update post $post_id.", 'warning' );
+			// 	$this->add_notice( "Failed to update post $post_id.", 'warning' );
 
-				continue;
-			}
+			// 	continue;
+			// }
 
 			if ( $copy_tax ) {				
 				$attached = $this->ensure_taxonomies_attached( $from, $to );
@@ -358,14 +358,22 @@ class PostType extends CLICommands {
             return;
         }
 
-        $from_term_obj = get_term_by( is_numeric( $term ) ? 'id' : 'slug', $term, $from_tax );
+		$from_term_obj = get_term_by( is_numeric( $term ) ? 'id' : 'slug', $term, $from_tax );
 
-        if ( ! $from_term_obj ) {
-			$this->log( "Term '{$term}' not found in taxonomy '{$from_tax}'." );
-			$this->add_notice( "Term '{$term}' not found in taxonomy '{$from_tax}'." );
-            
-            return;
-        }
+		if ( ! $from_term_obj ) {
+			$this->log( "Term '$term' not found in taxonomy '$from_tax'." );
+			$this->add_notice( "Term '$term' not found in taxonomy '$from_tax'." );
+
+			return;
+		}
+
+		if (term_exists( $term, $to_tax ) ) {
+			$this->log( "Term '$term' already exists in taxonomy '$to_tax'." );
+			$this->add_notice( "Term '$term' already exists in taxonomy '$to_tax'." );
+// do shit here
+			return;
+		}
+
 
 		// term_exists( $from_term_obj->name, $to_tax )
 		$to_term_obj = get_term_by( 'slug', $from_term_obj->slug, $to_tax );
@@ -375,10 +383,12 @@ class PostType extends CLICommands {
 			$this->add_notice( "Term '{$from_term_obj->name}' already exists in taxonomy '{$to_tax}'. Skipping." );
 			// $this->log( "Term '{$from_term_obj->name}' already exists in taxonomy '{$to_tax}'." );
 			// $this->add_notice( "Term '{$from_term_obj->name}' already exists in taxonomy '{$to_tax}'." );
-echo "term exists ($to_term_obj->term_id) - we need to update the post with the new term\n";
-			$result = wp_set_post_terms( $post_id, array( (int) $to_term_obj->term_id ), $to_term_obj->term_id, $to_tax );
+echo "term exists ($to_term_obj->term_id) - we need to update the post ($post_id) with the new term [$to_tax]\n";
+			// $result = wp_set_post_terms( $post_id, array( (int) $to_term_obj->term_id ), $to_tax );
+			// $result = wp_set_object_terms( $post_id, array($to_term_obj->term_id), $to_tax );
+			$result = wp_set_object_terms( $post_id, array(22574, 22575), $to_tax ); // this needs to happen in bulk
 // array, false, wp error
-print_r($result);
+// print_r($result);
 
 			return;
 		}
@@ -399,7 +409,13 @@ echo "insert term - we need to update the post with the new term\n";
 			$this->log( "Migrated term '{$term}' from '{$from_tax}' to '{$to_tax}'." );
 			$this->add_notice( "Migrated term '{$term}' from '{$from_tax}' to '{$to_tax}'." );
         }
-    }	
+    }
+	
+	private function taxonomy_term_exists( string $term, string $tax ) {
+		$term_obj = get_term_by( is_numeric( $term ) ? 'id' : 'slug', $term, $tax );
+
+		return ( $term_obj && ! is_wp_error( $term_obj ) ) ? $term_obj : false;
+	}
 
     /**
      * Validates that the given array of CSV headers contains all required fields.
