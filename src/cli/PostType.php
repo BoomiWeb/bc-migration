@@ -320,23 +320,30 @@ class PostType extends CLICommands {
 
 	private function tax_map( int $post_id, array $tax_map ) {			
 		$tax_mapper = new MapPostTaxonomies();
-
-		foreach ( $tax_map as $obj) {
-			$results = $tax_mapper->migrate( $obj->from, $obj->to, $post_id );
-		}
-return;
-		$tax_terms = [];
-
+		$tax_terms = array();
+		$term_taxonomy_ids = array();
+print_r($tax_map);
 		foreach ( $tax_map as $obj ) {
-			$term_id = $tax_mapper->get_mapped_term_id( $obj->from, $obj->to );
-			if ( $term_id ) {
+			$term_ids = $tax_mapper->get_mapped_term_ids( $obj->from, $obj->to, $post_id );
+echo "term_ids: \n"; print_r($term_ids);
+			if ( is_wp_error( $term_ids ) ) {
+				$this->log( $term_ids->get_error_message(), 'warning' );
+				$this->add_notice( $term_ids->get_error_message(), 'warning' );
+
+				continue;
+			}
+
+			foreach ( $term_ids as $term_id ) {
 				$tax_terms[ $obj->to ][] = $term_id;
 			}
 		}
-		
+echo "tax_terms: \n"; print_r($tax_terms);
 		foreach ( $tax_terms as $taxonomy => $term_ids ) {
-			wp_set_object_terms( $post_id, $term_ids, $taxonomy );
-		}		
+			$term_taxonomy_ids[$taxonomy] = wp_set_object_terms( $post_id, $term_ids, $taxonomy );
+		}	
+print_r($term_taxonomy_ids);		
+// 22569 > new
+		// otherwise we need to create new terms
 	}
 	
 	private function taxonomy_term_exists( string $term, string $tax ) {
