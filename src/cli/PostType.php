@@ -326,33 +326,6 @@ class PostType extends CLICommands {
 		}
 	}
 
-	private function migrate_post_terms( string $from, string $to, int $post_id ) {
-		if (!taxonomy_exists( $from ) ) {		
-			$this->log( "Taxonomy `$from` does not exist.", 'warning' );
-			$this->add_notice( "Taxonomy `$from` does not exist.", 'warning' );
-
-			return false;
-		} else if (!taxonomy_exists( $to ) ) {					
-			$this->log( "Taxonomy `$to` does not exist.", 'warning' );
-			$this->add_notice( "Taxonomy `$to` does not exist.", 'warning' );
-
-			return false;
-		}
-
-		$terms = wp_get_object_terms( $post_id, $from, [ 'fields' => 'ids' ] );
-
-		if ( is_wp_error( $terms ) ) {
-			$this->log( "Error getting terms: " . $terms->get_error_message(), 'warning' );
-			$this->add_notice( "Error getting terms: " . $terms->get_error_message(), 'warning' );
-
-			return false;
-		}
-
-		foreach ( $terms as $term ) {		
-			$this->migrate_term( $term, $from, $to, $post_id );
-		}
-	}
-
     private function migrate_term( string $term, string $from_tax, string $to_tax, int $post_id ) {
         if ( ! $term || ! $from_tax || ! $to_tax ) {
 			$this->log( "Invalid arguments for migrate_term(): term: $term, from_tax: $from_tax, to_tax: $to_tax" );

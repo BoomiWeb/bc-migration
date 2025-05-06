@@ -12,13 +12,13 @@
  class MigratePostTaxonomies {
  
      public function migrate( string $from, string $to, int $post_id ) {
-         $results = $this->migrate_post_terms( $from, $to, $post_id );
+         $result = $this->migrate_post_terms( $from, $to, $post_id );
 // echo "MigratePostTaxonomies::migrate\n";         
-// print_r($results);         
+// print_r($result);         
      }
  
      private function migrate_post_terms( string $from, string $to, int $post_id ) {
-echo "MigratePostTaxonomies::migrate_post_terms\n";
+// echo "MigratePostTaxonomies::migrate_post_terms\n";
         if ( ! taxonomy_exists( $from ) ) {
             return new \WP_Error( 'invalid_from_taxonomy', "Taxonomy `$from` does not exist." );
          }
@@ -40,6 +40,10 @@ echo "MigratePostTaxonomies::migrate_post_terms\n";
  
      private function migrate_term( int $term_id, string $from, string $to, int $post_id ) {
 echo "MigratePostTaxonomies::migrate_term\n";
+echo "term_id: $term_id\n";
+echo "from: $from\n";
+echo "to: $to\n";
+echo "post_id: $post_id\n";
          // Implement term migration logic.
      }
 }
