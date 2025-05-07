@@ -1,0 +1,17 @@
+{
+    "post_type": "event",
+    "meta_map": [
+        {
+            "from": "acf-card_description",
+            "to": "post_content"
+        },
+        {
+            "from": "acf-url",
+            "to": "acf-registration_url"
+        },
+        {
+            "from": "post_date",
+            "to": "acf-start_time"
+        }
+    ]
+}
