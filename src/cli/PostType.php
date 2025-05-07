@@ -281,7 +281,17 @@ class PostType extends CLICommands {
 		return $query->posts;		
 	}
 
-// TODO: more detailed output	
+	/**
+	 * Ensures that taxonomies from one post type are attached to another post type.
+	 *
+	 * Iterates through the taxonomies associated with the `from` post type and attaches
+	 * them to the `to` post type if they are not already associated.
+	 *
+	 * @param string $from The source post type to retrieve taxonomies from.
+	 * @param string $to   The target post type to attach taxonomies to.
+	 *
+	 * @return bool Returns false if no taxonomies are found for the `from` post type.
+	 */
 	private function ensure_taxonomies_attached( $from, $to ) {
 		$from_taxonomies = get_object_taxonomies( $from, 'objects' );
 
@@ -293,14 +303,29 @@ class PostType extends CLICommands {
 			if ( ! in_array( $to, $taxonomy_obj->object_type, true ) ) {
 				$taxonomy_obj->object_type[] = $to;
 
-				register_taxonomy( $taxonomy, $taxonomy_obj->object_type, (array) $taxonomy_obj );
+				$registered_taxonomy_object = register_taxonomy( $taxonomy, $taxonomy_obj->object_type, (array) $taxonomy_obj );
 		
-				$this->log( "Attached taxonomy `$taxonomy` to `$to`." );
-				$this->add_notice( "Attached taxonomy `$taxonomy` to `$to`." );
+				if ( is_wp_error( $registered_taxonomy_object ) ) {
+					$this->log( "Failed to attach `$taxonomy` to `$to`.", 'warning' );
+					$this->add_notice( "Failed to attach `$taxonomy` to `$to`.", 'warning' );
+
+					continue
+				}
+
+				$this->log( "Attached taxonomy `$taxonomy` to `$to`.", 'success' );
+				$this->add_notice( "Attached taxonomy `$taxonomy` to `$to`.", 'success' );
 			}
 		}
 	}
 
+	/**
+	 * Copies terms from one post type to another post type.
+	 *
+	 * @param int    $post_id The ID of the post to copy terms to.
+	 * @param string $from    The post type to copy terms from.
+	 *
+	 * @return void
+	 */
 	private function copy_tax(int $post_id, string $from) {
 		$taxonomies = get_object_taxonomies( $from );
 
@@ -308,13 +333,18 @@ class PostType extends CLICommands {
 			$terms = wp_get_object_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
 
 			if ( ! is_wp_error( $terms ) ) {
-				wp_set_object_terms( $post_id, $terms, $taxonomy );
+				$terms_set = wp_set_object_terms( $post_id, $terms, $taxonomy );
+
+				if ( is_wp_error( $terms_set ) ) {
+					$this->log( "Failed to copy terms from `$from`.", 'warning' );
+					$this->add_notice( "Failed to copy terms from `$from`.", 'warning' );
+
+					continue;
+				}
 
 				$this->log( "Copied terms from `$from`." );
 				$this->add_notice( "Copied terms from `$from`." );
 			}
-
-			// TODO: return error
 		}
 	}
 
