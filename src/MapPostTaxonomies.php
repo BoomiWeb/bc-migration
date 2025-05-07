@@ -10,8 +10,24 @@
  namespace erikdmitchell\bcmigration;
 
  class MapPostTaxonomies {
- 
-    public function get_mapped_term_ids( string $from = '', string $to = '', int $post_id = 0 ) {
+
+    private $mapped_term_ids = array();
+
+    private $unmapped_term_ids = array();
+
+    private $taxonomies = array();
+
+    private $post_id = 0;
+
+    private $from = '';
+
+    private $to = '';
+
+    public function __construct(string $from = '', string $to = '', int $post_id = 0) {
+        $this->from = $from;
+        $this->to = $to;
+        $this->post_id = $post_id;
+
         if ( ! $from || ! $to ) {
             return new \WP_Error( 'invalid_arguments', "Invalid arguments for get_mapped_term_id(): from: $from, to: $to" );
         }
@@ -26,26 +42,35 @@
 
          if ( ! $post_id ) {
              return new \WP_Error( 'invalid_post_id', "Invalid post ID: $post_id" );
-         }        
+         } 
 
-        $mapped_terms = array();
-        $terms = wp_get_object_terms( $post_id, $from, array( 'fields' => 'ids' ) );
+        $this->setup_term_ids();
+    }
+
+    public function get_mapped_term_ids() {
+        return $this->mapped_term_ids;
+    }
+
+    public function get_unmapped_term_ids() {
+        return $this->unmapped_term_ids;
+    }
+
+    private function setup_term_ids() {    
+        $terms = wp_get_object_terms( $this->post_id, $this->from, array( 'fields' => 'ids' ) );
 
         if ( is_wp_error( $terms ) ) {
             return $terms;
         }
 
-        foreach ( $terms as $term_id ) {          
-            $mapped_term_id = $this->mapped_term_exists( $term_id, $from, $to );
+        foreach ( $terms as $term_id ) {
+            $mapped_term_id = $this->mapped_term_exists( $term_id, $this->from, $this->to );
 
             if ( is_wp_error( $mapped_term_id ) ) {
-                continue;
+                $this->unmapped_term_ids[] = $term_id;
+            } else {
+                $this->mapped_term_ids[] = $mapped_term_id;
             }
-            
-            $mapped_terms[] = $mapped_term_id;
-        }
-
-        return $mapped_terms;
+        }      
     }
 
     private function mapped_term_exists( int $term_id, string $from, string $to ) {
