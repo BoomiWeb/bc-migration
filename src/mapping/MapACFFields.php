@@ -15,7 +15,7 @@ class MapACFFields {
 
     public static function get_field_value(int $post_id = 0, string $field_path = '', bool $first_only = false) {
         $parts = explode('/', $field_path);
-        
+
         if (empty($parts)) {
             return new WP_Error('invalid_field_path', 'Field path is empty or invalid.');
         }
@@ -83,6 +83,25 @@ class MapACFFields {
         $context = $is_flexible ? 'flexible layout' : 'repeater';
 
         return new WP_Error('no_matches', "No matching rows found in $context '$field'.");
+    }
+
+    public static function update_field_value(int $post_id = 0, string $field_name = '', $value) {
+        $field_object = get_field_object($field_name, $post_id);
+
+        if (isset($field_object['type']) && 'link' === $field_object['type']) {
+            $value = array(
+                'url' => $value
+            );
+        }
+   
+        $updated = update_field($field_name, $value, $post_id);
+
+        if (is_wp_error($updated)) {
+            return $updated;
+        }
+
+        // this will return an array in some cases like link
+        return get_field($field_name, $post_id);
     }
 
 }

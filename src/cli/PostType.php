@@ -432,9 +432,6 @@ class PostType extends CLICommands {
 		// $post_type = $meta_map['post_type']; NOT USED.
 		$meta_fields_map = $meta_map['meta_map'];
 
-// echo "PostType::meta_map()\n";
-// echo "post_id: $post_id\n";
-
 		foreach ( $meta_fields_map as $field ) {
 			$from_field_type = $field['from']['type'];		
 			$from_field_key = $field['from']['key'];			
@@ -447,14 +444,17 @@ class PostType extends CLICommands {
 				case 'acf':
 					// This either returns the value or a wp error
 					$from_field_value = MapACFFields::get_field_value( $post_id, $from_field_key, true );
+
 					break;
 				case 'wp':
 					$post = get_post( $post_id );
 
-					// if ( is_wp_error( $post ) ) {
-					// 	$this->log( $post->get_error_message(), 'warning' );
-					// 	$this->add_notice( $post->get_error_message(), 'warning' );
-					// }
+					if ( is_wp_error( $post ) ) {
+						$this->log( $post->get_error_message(), 'warning' );
+						$this->add_notice( $post->get_error_message(), 'warning' );
+
+						continue;
+					}
 
 					// check it exists
 					$from_field_value = $post->{$from_field_key};
@@ -462,8 +462,7 @@ class PostType extends CLICommands {
 				default:
 					$from_field_value = get_post_meta( $post_id, $from_field_key, true );
 			}
-// echo "$from_field_key: $from_field_value\n";
-// echo "$to_field_key: $to_field_key\n";
+
 			// make sure we have a value to set and it's not an error.
 			if ( empty($from_field_value) || is_wp_error( $from_field_value ) ) {
 				continue;
@@ -471,23 +470,32 @@ class PostType extends CLICommands {
 
 			switch ( $to_field_type ) {
 				case 'acf':
-					echo "acf to do\n";
-					// This either returns the value or a wp error
-					// $from_field_value = MapACFFields::get_field_value( $post_id, $from_field_key, true );
+					// This either returns the value or a wp error - the value can be an array
+					$to_field_value = MapACFFields::update_field_value( $post_id, $to_field_key, $from_field_value );
 					break;
 				case 'wp':
 					$post_id = wp_update_post( array( 'ID' => $post_id, $to_field_key => $from_field_value ) );
 
-					// if ( is_wp_error( $post_id ) ) {
-					// 	$this->log( $post_id->get_error_message(), 'warning' );
-					// 	$this->add_notice( $post_id->get_error_message(), 'warning' );
-					// }
+					if ( is_wp_error( $post_id ) ) {
+						$this->log( $post_id->get_error_message(), 'warning' );
+						$this->add_notice( $post_id->get_error_message(), 'warning' );
+
+						continue;
+					}
+
 					$to_field_value = $from_field_value;
 					break;
 				default:
 					$to_field_value = update_post_meta( $post_id, $to_field_key, $from_field_value );
 			}
-echo "$to_field_key: $to_field_value\n";						
+
+			if ( is_wp_error( $to_field_value ) ) {
+				$this->log( $to_field_value->get_error_message(), 'warning' );
+				$this->add_notice( $to_field_value->get_error_message(), 'warning' );
+			}
+
+			$this->log( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
+			$this->add_notice( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
 		};
 	}
 
