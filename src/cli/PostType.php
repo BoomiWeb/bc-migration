@@ -58,8 +58,11 @@ class PostType extends CLICommands {
 	 * 	   wp boomi migrate post-type --from=post --to=page --post_ids=188688 --copy-tax
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=188688 --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json
 	 *
-	 */    
-
+ 	 * @param string[]             $args       CLI positional arguments.
+ 	 * @param array<string, mixed> $assoc_args CLI associative arguments.
+ 	 *
+ 	 * @return void
+ 	 */
 	public function migrate( $args, $assoc_args ) {
 		$from          = $assoc_args['from'] ?? null;
 		$to            = $assoc_args['to'] ?? null;
@@ -154,6 +157,17 @@ class PostType extends CLICommands {
 		}
 	}	
 
+	/**
+	 * Change the post type for a given array of post IDs.
+	 *
+	 * Logs and adds notices for any errors or skipped posts.
+	 *
+	 * @param array $post_ids The post IDs to migrate.
+	 * @param string $from The current post type.
+	 * @param string $to The new post type.
+	 * @param bool $copy_tax Whether to copy taxonomies.
+	 * @param string|null $tax_map_file The path to a JSON file containing a taxonomy mapping.
+	 */
 	private function change_post_type(array $post_ids, string $from, string $to, $copy_tax, $tax_map_file = null) {
 		$count = 0;
 
@@ -309,7 +323,7 @@ class PostType extends CLICommands {
 					$this->log( "Failed to attach `$taxonomy` to `$to`.", 'warning' );
 					$this->add_notice( "Failed to attach `$taxonomy` to `$to`.", 'warning' );
 
-					continue
+					continue;
 				}
 
 				$this->log( "Attached taxonomy `$taxonomy` to `$to`.", 'success' );
