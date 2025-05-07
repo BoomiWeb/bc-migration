@@ -433,50 +433,37 @@ class PostType extends CLICommands {
 
 echo "PostType::meta_map()\n";
 echo "post_id: $post_id\n";
-// print_r( $meta_fields_map );
-
-// echo get_field( 'card_description', $post_id ) . "\n";
 
 		foreach ( $meta_fields_map as $field ) {
 			$from_field_type = $field['from']['type'];		
 			$from_field_key = $field['from']['key'];
-			
+			$from_field_value = '';
+		
 			switch ( $from_field_type ) {
 				case 'acf':
-					$from_field_value = MapACFFields::get_field_value( $post_id, $from_field_key );
+					// This either returns the value or a wp error
+					$from_field_value = MapACFFields::get_field_value( $post_id, $from_field_key, true );
 					break;
 				case 'wp':
-					// wp
+					$post = get_post( $post_id );
+
+					// if ( is_wp_error( $post ) ) {
+					// 	$this->log( $post->get_error_message(), 'warning' );
+					// 	$this->add_notice( $post->get_error_message(), 'warning' );
+					// }
+
+					// check it exists
+					$from_field_value = $post->{$from_field_key};
 					break;
 				default:
 					$from_field_value = get_post_meta( $post_id, $from_field_key, true );
 			}
-echo "value: $from_field_value\n";
+echo "$from_field_key: $from_field_value\n";
 			// $to_field_type = $field['to']['type'];
 			// $to_field_key = $field['to']['key'];		
 			// $meta_value = get_post_meta( $post_id, $field['from'], true );
 			// update_post_meta( $post_id, $field['to'], $meta_value );
-		};		
-
-
-
-// content_type/urls/external_url
-// $field = get_field('content_type', $post_id);
-
-// foreach ( $field as $arr ) {
-// 	if (isset( $arr['acf_fc_layout'] ) && $arr['acf_fc_layout'] === 'urls') {
-// 		$external_url = $arr['external_url'];
-// 	}
-// }
-
-// echo "external_url: $external_url\n";
-
-
-
-// if is wp, get post
-// if meta, get post meta
-
-
+		};
 	}
 
     /**
