@@ -187,17 +187,17 @@ class PostType extends CLICommands {
 				continue;
 			}
 
-			// $updated = wp_update_post( [
-			// 	'ID'        => $post_id,
-			// 	'post_type' => $to,
-			// ] );
+			$updated = wp_update_post( [
+				'ID'        => $post_id,
+				'post_type' => $to,
+			] );
 
-			// if (is_wp_error( $updated )) {
-			// 	$this->log( "Failed to update post $post_id.", 'warning' );
-			// 	$this->add_notice( "Failed to update post $post_id.", 'warning' );
+			if (is_wp_error( $updated )) {
+				$this->log( "Failed to update post $post_id.", 'warning' );
+				$this->add_notice( "Failed to update post $post_id.", 'warning' );
 
-			// 	continue;
-			// }
+				continue;
+			}
 
 			if ( $copy_tax ) {				
 				$attached = $this->ensure_taxonomies_attached( $from, $to );
@@ -320,7 +320,6 @@ class PostType extends CLICommands {
 
 	private function tax_map( int $post_id, array $tax_map ) {					
 		$tax_terms = array();
-		$term_taxonomy_ids = array();
 
 		foreach ( $tax_map as $obj ) {
 			$tax_mapper = new MapPostTaxonomies( $obj->from, $obj->to, $post_id );
@@ -348,7 +347,17 @@ class PostType extends CLICommands {
 			}
 		}			
 
-		wp_set_object_terms( $post_id, $tax_terms, $obj->to );
+		$set_term_ids = wp_set_object_terms( $post_id, $tax_terms, $obj->to );
+
+		// TODO: remove old terms
+
+		if ( is_wp_error( $set_term_ids ) ) {
+			$this->log( $set_term_ids->get_error_message(), 'warning' );
+			$this->add_notice( $set_term_ids->get_error_message(), 'warning' );
+		}
+
+		$this->log( "Copied terms from `$obj->from` to `$obj->to`." );
+		$this->add_notice( "Copied terms from `$obj->from` to `$obj->to`." );
 	}
 	
 	private function taxonomy_term_exists( string $term, string $tax ) {
