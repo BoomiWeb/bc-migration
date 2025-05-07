@@ -363,6 +363,9 @@ class PostType extends CLICommands {
 					$new_term_data = wp_insert_term( $term->name, $obj->to, array( 'slug' => $term->slug ) );
 
 					if ( is_wp_error( $new_term_data ) ) {
+						$this->log( $new_term_data->get_error_message(), 'warning' );
+						$this->add_notice( $new_term_data->get_error_message(), 'warning' );
+
 						continue;
 					}
 
@@ -386,14 +389,8 @@ class PostType extends CLICommands {
 			$this->add_notice( $set_term_ids->get_error_message(), 'warning' );
 		}
 
-		$this->log( "Copied terms from `$obj->from` to `$obj->to`." );
-		$this->add_notice( "Copied terms from `$obj->from` to `$obj->to`." );
-	}
-	
-	private function taxonomy_term_exists( string $term, string $tax ) {
-		$term_obj = get_term_by( is_numeric( $term ) ? 'id' : 'slug', $term, $tax );
-
-		return ( $term_obj && ! is_wp_error( $term_obj ) ) ? $term_obj : false;
+		$this->log( "Copied terms from `$obj->from` to `$obj->to`.", 'success' );
+		$this->add_notice( "Copied terms from `$obj->from` to `$obj->to`.", 'success' );
 	}
 
     /**
@@ -431,10 +428,8 @@ class PostType extends CLICommands {
         $missing_keys = array_diff_key( array_flip( $required ), $data );
 
         if ( ! empty( $missing_keys ) ) {
-            // TODO: add message.
+			$this->log( "Row $row_num: Skipped - one or more required fields missing." );
             $this->add_notice( "Row $row_num: Skipped - one or more required fields missing.", 'warning' );  // TODO: add check for row number.
-
-            $this->log( "Row $row_num: Skipped - one or more required fields missing." );
 
             return false;
         }
@@ -455,18 +450,5 @@ class PostType extends CLICommands {
 		}
 
 		return true;
-	}
-
-	private function get_existing_term( $term, $taxonomy ) {
-		if ( is_numeric( $term ) ) {
-			$term_obj = get_term_by( 'id', $term, $taxonomy );
-		} else {
-			$term_obj = get_term_by( 'slug', $term, $taxonomy );
-			if ( ! $term_obj ) {
-				$term_obj = get_term_by( 'name', $term, $taxonomy );
-			}
-		}
-	
-		return ( $term_obj && ! is_wp_error( $term_obj ) ) ? $term_obj : false;
 	}
 }
