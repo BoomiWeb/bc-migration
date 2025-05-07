@@ -201,17 +201,17 @@ class PostType extends CLICommands {
 				continue;
 			}
 
-			$updated = wp_update_post( [
-				'ID'        => $post_id,
-				'post_type' => $to,
-			] );
+			// $updated = wp_update_post( [
+			// 	'ID'        => $post_id,
+			// 	'post_type' => $to,
+			// ] );
 
-			if (is_wp_error( $updated )) {
-				$this->log( "Failed to update post $post_id.", 'warning' );
-				$this->add_notice( "Failed to update post $post_id.", 'warning' );
+			// if (is_wp_error( $updated )) {
+			// 	$this->log( "Failed to update post $post_id.", 'warning' );
+			// 	$this->add_notice( "Failed to update post $post_id.", 'warning' );
 
-				continue;
-			}
+			// 	continue;
+			// }
 
 			if ( $copy_tax ) {				
 				$attached = $this->ensure_taxonomies_attached( $from, $to );
