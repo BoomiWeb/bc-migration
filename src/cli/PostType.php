@@ -428,16 +428,20 @@ class PostType extends CLICommands {
 	}
 
 	private function meta_map( int $post_id, array $meta_map ) {
+		// TODO: do we remove old meta.
 		// $post_type = $meta_map['post_type']; NOT USED.
 		$meta_fields_map = $meta_map['meta_map'];
 
-echo "PostType::meta_map()\n";
-echo "post_id: $post_id\n";
+// echo "PostType::meta_map()\n";
+// echo "post_id: $post_id\n";
 
 		foreach ( $meta_fields_map as $field ) {
 			$from_field_type = $field['from']['type'];		
-			$from_field_key = $field['from']['key'];
+			$from_field_key = $field['from']['key'];			
 			$from_field_value = '';
+			$to_field_type = $field['to']['type'];		
+			$to_field_key = $field['to']['key'];			
+			$to_field_value = '';			
 		
 			switch ( $from_field_type ) {
 				case 'acf':
@@ -458,11 +462,32 @@ echo "post_id: $post_id\n";
 				default:
 					$from_field_value = get_post_meta( $post_id, $from_field_key, true );
 			}
-echo "$from_field_key: $from_field_value\n";
-			// $to_field_type = $field['to']['type'];
-			// $to_field_key = $field['to']['key'];		
-			// $meta_value = get_post_meta( $post_id, $field['from'], true );
-			// update_post_meta( $post_id, $field['to'], $meta_value );
+// echo "$from_field_key: $from_field_value\n";
+// echo "$to_field_key: $to_field_key\n";
+			// make sure we have a value to set and it's not an error.
+			if ( empty($from_field_value) || is_wp_error( $from_field_value ) ) {
+				continue;
+			}
+
+			switch ( $to_field_type ) {
+				case 'acf':
+					echo "acf to do\n";
+					// This either returns the value or a wp error
+					// $from_field_value = MapACFFields::get_field_value( $post_id, $from_field_key, true );
+					break;
+				case 'wp':
+					$post_id = wp_update_post( array( 'ID' => $post_id, $to_field_key => $from_field_value ) );
+
+					// if ( is_wp_error( $post_id ) ) {
+					// 	$this->log( $post_id->get_error_message(), 'warning' );
+					// 	$this->add_notice( $post_id->get_error_message(), 'warning' );
+					// }
+					$to_field_value = $from_field_value;
+					break;
+				default:
+					$to_field_value = update_post_meta( $post_id, $to_field_key, $from_field_value );
+			}
+echo "$to_field_key: $to_field_value\n";						
 		};
 	}
 
