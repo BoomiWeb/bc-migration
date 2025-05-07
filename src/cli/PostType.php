@@ -10,8 +10,8 @@
 namespace erikdmitchell\bcmigration\cli;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
+use erikdmitchell\bcmigration\MapPostTaxonomies;
 use erikdmitchell\bcmigration\traits\LoggerTrait;
-use WP_CLI;
 use WP_Query;
 
 class PostType extends CLICommands {
@@ -38,31 +38,39 @@ class PostType extends CLICommands {
 	 * [--taxonomy-type=<type>]
 	 * : The type of taxonomy to migrate.
 	 * 
-	 * [--copy-tax]
-	 * : Copy post taxonomies.
-	 * 
 	 * [--file=<file_path>]
 	 * : Path to a CSV file with post IDs to migrate.
 	 *
 	 * [--log=<name>]
      * : Name of the log file.
 	 * 
+	 * [--copy-tax]
+	 * : Copy all post taxonomies.
+	 * 
+	 * [--tax-map=<file_path>]
+	 * : Path to a JSON file with custom taxonomy mappings.
+	 * 
 	 * ## EXAMPLES
 	 *
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510
-	 *     wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510 --copy-tax
 	 *     wp boomi migrate post-type --from=post --to=page --taxonomy=api
 	 *     wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type.csv
+	 * 	   wp boomi migrate post-type --from=post --to=page --post_ids=188688 --copy-tax
+	 *     wp boomi migrate post-type --from=post --to=page --post_ids=188688 --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json
 	 *
-	 */    
-
+ 	 * @param string[]             $args       CLI positional arguments.
+ 	 * @param array<string, mixed> $assoc_args CLI associative arguments.
+ 	 *
+ 	 * @return void
+ 	 */
 	public function migrate( $args, $assoc_args ) {
 		$from          = $assoc_args['from'] ?? null;
 		$to            = $assoc_args['to'] ?? null;
 		$term_slug     = $assoc_args['taxonomy'] ?? null;
 		$taxonomy_type = $assoc_args['taxonomy-type'] ?? 'category';
-		$copy_tax      = isset( $assoc_args['copy-tax'] );
 		$log_name   = $assoc_args['log'] ?? 'migrate-post-type.log';
+		$copy_tax      = isset( $assoc_args['copy-tax'] );
+		$tax_map_file       = $assoc_args['tax-map'] ?? null;		
 
 		if ( $log_name ) {			
             $this->set_log_name( $log_name );
@@ -73,12 +81,13 @@ class PostType extends CLICommands {
 			$post_ids = array_map( 'intval', explode( ',', $assoc_args['post_ids'] ) );
 
 			if ( empty( $post_ids ) ) {
-				$this->log( 'No valid post IDs to migrate.' );
+				$this->log( 'No valid post IDs to migrate.', 'error' );
+				$this->add_notice( 'No valid post IDs to migrate.', 'error' );
 
-				WP_CLI::error( 'No valid post IDs to migrate.' );
+				return;
 			}
 
-			$this->change_post_type( $post_ids, $from, $to, $copy_tax );			
+			$this->change_post_type( $post_ids, $from, $to, $copy_tax, $tax_map_file );			
 		} elseif ( $term_slug ) {					
 			$post_ids = $this->get_post_ids_by_term( $from, $term_slug, $taxonomy_type );
 
@@ -88,7 +97,7 @@ class PostType extends CLICommands {
 				return;
 			}
 
-			$this->change_post_type( $post_ids, $from, $to, $copy_tax );
+			$this->change_post_type( $post_ids, $from, $to, $copy_tax, $tax_map_file );
 			
 			$this->log( "Migrated $term_slug posts", 'success' );
 			$this->add_notice( "Migrated $term_slug posts", 'success' );
@@ -96,7 +105,10 @@ class PostType extends CLICommands {
 			$file = $assoc_args['file'];
 
 			if ( ! file_exists( $file ) ) {
-				WP_CLI::error( "CSV file not found: $file" );
+				$this->log( "CSV file not found: $file", 'error' );
+				$this->add_notice( "CSV file not found: $file", 'error' );
+
+				return;
 			}
 
 			$this->process_csv_file( $file, $copy_tax );
@@ -113,8 +125,8 @@ class PostType extends CLICommands {
 		$headers = array_map( 'trim', array_shift( $rows ) );
 
 		if ( ! $this->validate_headers( $headers, array( 'from', 'to', 'post_ids' ) ) ) {	
-			$this->log( "Invalid CSV headers: $file", 'warning' );
-			$this->add_notice( "Invalid CSV headers: $file", 'warning' );
+			$this->log( "Invalid CSV headers: $file", 'error' );
+			$this->add_notice( "Invalid CSV headers: $file", 'error' );
 
 			return;
 		}
@@ -145,25 +157,36 @@ class PostType extends CLICommands {
 		}
 	}	
 
-	private function change_post_type(array $post_ids, string $from, string $to, $copy_tax) {
+	/**
+	 * Change the post type for a given array of post IDs.
+	 *
+	 * Logs and adds notices for any errors or skipped posts.
+	 *
+	 * @param array $post_ids The post IDs to migrate.
+	 * @param string $from The current post type.
+	 * @param string $to The new post type.
+	 * @param bool $copy_tax Whether to copy taxonomies.
+	 * @param string|null $tax_map_file The path to a JSON file containing a taxonomy mapping.
+	 */
+	private function change_post_type(array $post_ids, string $from, string $to, $copy_tax, $tax_map_file = null) {
 		$count = 0;
 
 		if ( empty( $post_ids ) ) {
-			$this->log( 'No valid post IDs to migrate.', 'warning' );
-			$this->add_notice( 'No valid post IDs to migrate.', 'warning' );
-
+			$this->log( 'No valid post IDs to migrate.', 'error' );
+			$this->add_notice( 'No valid post IDs to migrate.', 'error' );
+			
 			return;
 		}
 
 		// Check valid post types.
 		if ( ! $this->is_valid_post_type( $from ) ) {		
-			$this->log( "`$from` is not a valid post type.", 'warning' );
-			$this->add_notice( "`$from` is not a valid post type.", 'warning' );
+			$this->log( "`$from` is not a valid post type.", 'error' );
+			$this->add_notice( "`$from` is not a valid post type.", 'error' );
 
 			return;
 		} else if ( ! $this->is_valid_post_type( $to ) ) {
-			$this->log( "`$to` is not a valid post type.", 'warning' );
-			$this->add_notice( "`$to` is not a valid post type.", 'warning' );
+			$this->log( "`$to` is not a valid post type.", 'error' );
+			$this->add_notice( "`$to` is not a valid post type.", 'error' );
 
 			return;
 		}
@@ -201,6 +224,19 @@ class PostType extends CLICommands {
 				}
 
 				$this->copy_tax( $post_id, $from );
+			}
+
+			if ($tax_map_file) {
+				if ( ! file_exists( $tax_map_file ) ) {
+					$this->log( "Mapping file not found: $tax_map_file", 'warning' );
+					$this->add_notice( "Mapping file not found: $tax_map_file", 'warning' );
+				}
+
+				$tax_map = json_decode( file_get_contents( $tax_map_file ) );
+
+				$this->tax_map( $post_id, $tax_map );
+
+				continue;
 			}
 
 			$count++;
@@ -259,54 +295,118 @@ class PostType extends CLICommands {
 		return $query->posts;		
 	}
 
-    private function ensure_taxonomies_attached( $from, $to ) {
-        $from_taxonomies = get_object_taxonomies( $from, 'objects' );
+	/**
+	 * Ensures that taxonomies from one post type are attached to another post type.
+	 *
+	 * Iterates through the taxonomies associated with the `from` post type and attaches
+	 * them to the `to` post type if they are not already associated.
+	 *
+	 * @param string $from The source post type to retrieve taxonomies from.
+	 * @param string $to   The target post type to attach taxonomies to.
+	 *
+	 * @return bool Returns false if no taxonomies are found for the `from` post type.
+	 */
+	private function ensure_taxonomies_attached( $from, $to ) {
+		$from_taxonomies = get_object_taxonomies( $from, 'objects' );
 
-        if ( empty( $from_taxonomies ) ) {
-			$this->log( "No taxonomies attached to `$from`.", 'warning' );
-			$this->add_notice( "No taxonomies attached to `$from`.", 'warning' );
+		if ( empty( $from_taxonomies ) ) {
+			return false;
+		}
 
-            return false;
-        }
+		foreach ( $from_taxonomies as $taxonomy => $taxonomy_obj ) {
+			if ( ! in_array( $to, $taxonomy_obj->object_type, true ) ) {
+				$taxonomy_obj->object_type[] = $to;
 
-        foreach ( $from_taxonomies as $taxonomy => $taxonomy_obj ) {
-            if ( ! in_array( $to, $taxonomy_obj->object_type, true ) ) {
-                $taxonomy_obj->object_type[] = $to;
+				$registered_taxonomy_object = register_taxonomy( $taxonomy, $taxonomy_obj->object_type, (array) $taxonomy_obj );
+		
+				if ( is_wp_error( $registered_taxonomy_object ) ) {
+					$this->log( "Failed to attach `$taxonomy` to `$to`.", 'warning' );
+					$this->add_notice( "Failed to attach `$taxonomy` to `$to`.", 'warning' );
 
-                register_taxonomy( $taxonomy, $taxonomy_obj->object_type, (array) $taxonomy_obj );
-        
-                $this->log( "Attached taxonomy `$taxonomy` to `$to`." );
-                $this->add_notice( "Attached taxonomy `$taxonomy` to `$to`." );
-            }
-        }
-    }
+					continue;
+				}
 
-    private function copy_tax(int $post_id, string $from) {
-        $taxonomies = get_object_taxonomies( $from );
+				$this->log( "Attached taxonomy `$taxonomy` to `$to`.", 'success' );
+				$this->add_notice( "Attached taxonomy `$taxonomy` to `$to`.", 'success' );
+			}
+		}
+	}
 
-        foreach ( $taxonomies as $taxonomy ) {
-            $terms = wp_get_object_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
+	/**
+	 * Copies terms from one post type to another post type.
+	 *
+	 * @param int    $post_id The ID of the post to copy terms to.
+	 * @param string $from    The post type to copy terms from.
+	 *
+	 * @return void
+	 */
+	private function copy_tax(int $post_id, string $from) {
+		$taxonomies = get_object_taxonomies( $from );
 
-			if ( is_wp_error( $terms ) ) {
-				$this->log( "Failed to get terms for `$post_id`.", 'warning' );
-				$this->add_notice( "Failed to get terms for `$post_id`.", 'warning' );
+		foreach ( $taxonomies as $taxonomy ) {
+			$terms = wp_get_object_terms( $post_id, $taxonomy, [ 'fields' => 'ids' ] );
 
-				continue;
+			if ( ! is_wp_error( $terms ) ) {
+				$terms_set = wp_set_object_terms( $post_id, $terms, $taxonomy );
+
+				if ( is_wp_error( $terms_set ) ) {
+					$this->log( "Failed to copy terms from `$from`.", 'warning' );
+					$this->add_notice( "Failed to copy terms from `$from`.", 'warning' );
+
+					continue;
+				}
+
+				$this->log( "Copied terms from `$from`." );
+				$this->add_notice( "Copied terms from `$from`." );
+			}
+		}
+	}
+
+	private function tax_map( int $post_id, array $tax_map ) {					
+		$tax_terms = array();
+
+		foreach ( $tax_map as $obj ) {
+			$tax_mapper = new MapPostTaxonomies( $obj->from, $obj->to, $post_id );
+			$mapped_term_ids = $tax_mapper->get_mapped_term_ids();
+			$unmapped_term_ids = $tax_mapper->get_unmapped_term_ids();
+
+			if ( !empty($unmapped_term_ids) ) {
+				foreach ( $unmapped_term_ids as $term_id ) {
+					$term = get_term($term_id);
+
+					$new_term_data = wp_insert_term( $term->name, $obj->to, array( 'slug' => $term->slug ) );
+
+					if ( is_wp_error( $new_term_data ) ) {
+						$this->log( $new_term_data->get_error_message(), 'warning' );
+						$this->add_notice( $new_term_data->get_error_message(), 'warning' );
+
+						continue;
+					}
+
+					$tax_terms[] = $new_term_data['term_id'];
+				}
 			}
 
-			$terms_set = wp_set_object_terms( $post_id, $terms, $taxonomy );
-
-			if ( is_wp_error( $terms_set ) ) {
-				$this->log( "Failed to set terms for `$post_id`.", 'warning' );
-				$this->add_notice( "Failed to set terms for `$post_id`.", 'warning' );
-
-				continue;
+			if ( !empty($mapped_term_ids) ) {
+				foreach ( $mapped_term_ids as $term_id ) {
+					$tax_terms[] = $term_id;
+				}
 			}
+		}			
 
-			$this->log( "Copied terms from `$from`." );
-			$this->add_notice( "Copied terms from `$from`." );
-        }
-    }
+		$set_term_ids = wp_set_object_terms( $post_id, $tax_terms, $obj->to );
+
+		// TODO: remove old terms
+
+		if ( is_wp_error( $set_term_ids ) ) {
+			$this->log( $set_term_ids->get_error_message(), 'warning' );
+			$this->add_notice( $set_term_ids->get_error_message(), 'warning' );
+		}
+
+		$this->log( "Copied terms from `$obj->from` to `$obj->to`.", 'success' );
+		$this->add_notice( "Copied terms from `$obj->from` to `$obj->to`.", 'success' );
+	}
+
     /**
      * Validates that the given array of CSV headers contains all required fields.
      *
@@ -319,8 +419,9 @@ class PostType extends CLICommands {
         $missing = array_diff( $required, $headers );
 
         if ( ! empty( $missing ) ) {
-			$this->log( 'CSV is missing required columns: ' . implode( ', ', $missing ), 'warning' );
             $this->add_notice( 'CSV is missing required columns: ' . implode( ', ', $missing ), 'warning' );
+
+            $this->log( 'CSV is missing required columns: ' . implode( ', ', $missing ), 'warning' );
 
             return false;
         }
@@ -341,10 +442,8 @@ class PostType extends CLICommands {
         $missing_keys = array_diff_key( array_flip( $required ), $data );
 
         if ( ! empty( $missing_keys ) ) {
-            // TODO: add message.
+			$this->log( "Row $row_num: Skipped - one or more required fields missing." );
             $this->add_notice( "Row $row_num: Skipped - one or more required fields missing.", 'warning' );  // TODO: add check for row number.
-
-            $this->log( "Row $row_num: Skipped - one or more required fields missing." );
 
             return false;
         }
