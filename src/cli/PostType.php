@@ -318,32 +318,37 @@ class PostType extends CLICommands {
 		}
 	}
 
-	private function tax_map( int $post_id, array $tax_map ) {			
-		$tax_mapper = new MapPostTaxonomies();
+	private function tax_map( int $post_id, array $tax_map ) {					
 		$tax_terms = array();
 		$term_taxonomy_ids = array();
-print_r($tax_map);
+
 		foreach ( $tax_map as $obj ) {
-			$term_ids = $tax_mapper->get_mapped_term_ids( $obj->from, $obj->to, $post_id );
-echo "term_ids: \n"; print_r($term_ids);
-			if ( is_wp_error( $term_ids ) ) {
-				$this->log( $term_ids->get_error_message(), 'warning' );
-				$this->add_notice( $term_ids->get_error_message(), 'warning' );
+			$tax_mapper = new MapPostTaxonomies( $obj->from, $obj->to, $post_id );
+			$mapped_term_ids = $tax_mapper->get_mapped_term_ids();
+			$unmapped_term_ids = $tax_mapper->get_unmapped_term_ids();
 
-				continue;
+			if ( !empty($unmapped_term_ids) ) {
+				foreach ( $unmapped_term_ids as $term_id ) {
+					$term = get_term($term_id);
+
+					$new_term_data = wp_insert_term( $term->name, $obj->to, array( 'slug' => $term->slug ) );
+
+					if ( is_wp_error( $new_term_data ) ) {
+						continue;
+					}
+
+					$tax_terms[] = $new_term_data['term_id'];
+				}
 			}
 
-			foreach ( $term_ids as $term_id ) {
-				$tax_terms[ $obj->to ][] = $term_id;
+			if ( !empty($mapped_term_ids) ) {
+				foreach ( $mapped_term_ids as $term_id ) {
+					$tax_terms[] = $term_id;
+				}
 			}
-		}
-echo "tax_terms: \n"; print_r($tax_terms);
-		foreach ( $tax_terms as $taxonomy => $term_ids ) {
-			$term_taxonomy_ids[$taxonomy] = wp_set_object_terms( $post_id, $term_ids, $taxonomy );
-		}	
-print_r($term_taxonomy_ids);		
-// 22569 > new
-		// otherwise we need to create new terms
+		}			
+
+		wp_set_object_terms( $post_id, $tax_terms, $obj->to );
 	}
 	
 	private function taxonomy_term_exists( string $term, string $tax ) {
