@@ -10,6 +10,8 @@
 namespace erikdmitchell\bcmigration\cli;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
+use erikdmitchell\bcmigration\mapping\MapACFFields;
+use erikdmitchell\bcmigration\mapping\MapMetaFields;
 use erikdmitchell\bcmigration\MapPostTaxonomies;
 use erikdmitchell\bcmigration\traits\LoggerTrait;
 use WP_Query;
@@ -50,6 +52,8 @@ class PostType extends CLICommands {
 	 * [--tax-map=<file_path>]
 	 * : Path to a JSON file with custom taxonomy mappings.
 	 * 
+	 * [--meta-map=<file_path>]
+	 * : Path to a JSON file with custom meta mappings.
 	 * ## EXAMPLES
 	 *
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510
@@ -57,7 +61,8 @@ class PostType extends CLICommands {
 	 *     wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type.csv
 	 * 	   wp boomi migrate post-type --from=post --to=page --post_ids=188688 --copy-tax
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=188688 --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json
-	 *
+	 *     wp boomi migrate post-type --from=post --to=page --post_ids=188932 --meta-map=/Users/erikmitchell/bc-migration/examples/post-type-meta-map.json
+	 * 
  	 * @param string[]             $args       CLI positional arguments.
  	 * @param array<string, mixed> $assoc_args CLI associative arguments.
  	 *
@@ -70,7 +75,8 @@ class PostType extends CLICommands {
 		$taxonomy_type = $assoc_args['taxonomy-type'] ?? 'category';
 		$log_name   = $assoc_args['log'] ?? 'migrate-post-type.log';
 		$copy_tax      = isset( $assoc_args['copy-tax'] );
-		$tax_map_file       = $assoc_args['tax-map'] ?? null;		
+		$tax_map_file       = $assoc_args['tax-map'] ?? null;
+		$meta_map_file       = $assoc_args['meta-map'] ?? null;		
 
 		if ( $log_name ) {			
             $this->set_log_name( $log_name );
@@ -87,7 +93,7 @@ class PostType extends CLICommands {
 				return;
 			}
 
-			$this->change_post_type( $post_ids, $from, $to, $copy_tax, $tax_map_file );			
+			$this->change_post_type( $post_ids, $from, $to, $copy_tax, $tax_map_file, $meta_map_file );			
 		} elseif ( $term_slug ) {					
 			$post_ids = $this->get_post_ids_by_term( $from, $term_slug, $taxonomy_type );
 
@@ -97,7 +103,7 @@ class PostType extends CLICommands {
 				return;
 			}
 
-			$this->change_post_type( $post_ids, $from, $to, $copy_tax, $tax_map_file );
+			$this->change_post_type( $post_ids, $from, $to, $copy_tax, $tax_map_file, $meta_map_file );
 			
 			$this->log( "Migrated $term_slug posts", 'success' );
 			$this->add_notice( "Migrated $term_slug posts", 'success' );
@@ -167,8 +173,9 @@ class PostType extends CLICommands {
 	 * @param string $to The new post type.
 	 * @param bool $copy_tax Whether to copy taxonomies.
 	 * @param string|null $tax_map_file The path to a JSON file containing a taxonomy mapping.
+	 * @param string|null $meta_map_file The path to a JSON file containing a meta mapping.
 	 */
-	private function change_post_type(array $post_ids, string $from, string $to, $copy_tax, $tax_map_file = null) {
+	private function change_post_type(array $post_ids, string $from, string $to, $copy_tax, $tax_map_file = null, $meta_map_file = null) {
 		$count = 0;
 
 		if ( empty( $post_ids ) ) {
@@ -201,17 +208,17 @@ class PostType extends CLICommands {
 				continue;
 			}
 
-			$updated = wp_update_post( [
-				'ID'        => $post_id,
-				'post_type' => $to,
-			] );
+			// $updated = wp_update_post( [
+			// 	'ID'        => $post_id,
+			// 	'post_type' => $to,
+			// ] );
 
-			if (is_wp_error( $updated )) {
-				$this->log( "Failed to update post $post_id.", 'warning' );
-				$this->add_notice( "Failed to update post $post_id.", 'warning' );
+			// if (is_wp_error( $updated )) {
+			// 	$this->log( "Failed to update post $post_id.", 'warning' );
+			// 	$this->add_notice( "Failed to update post $post_id.", 'warning' );
 
-				continue;
-			}
+			// 	continue;
+			// }
 
 			if ( $copy_tax ) {				
 				$attached = $this->ensure_taxonomies_attached( $from, $to );
@@ -238,6 +245,19 @@ class PostType extends CLICommands {
 
 				continue;
 			}
+
+			if ($meta_map_file) {			
+				if ( ! file_exists( $meta_map_file ) ) {
+					$this->log( "Mapping file not found: $meta_map_file", 'warning' );
+					$this->add_notice( "Mapping file not found: $meta_map_file", 'warning' );
+				}
+
+				$meta_map = json_decode( file_get_contents( $meta_map_file ), true );
+
+				$this->meta_map( $post_id, $meta_map );
+
+				continue;
+			}			
 
 			$count++;
 		}
@@ -405,6 +425,78 @@ class PostType extends CLICommands {
 
 		$this->log( "Copied terms from `$obj->from` to `$obj->to`.", 'success' );
 		$this->add_notice( "Copied terms from `$obj->from` to `$obj->to`.", 'success' );
+	}
+
+	private function meta_map( int $post_id, array $meta_map ) {
+		// TODO: do we remove old meta.
+		// $post_type = $meta_map['post_type']; NOT USED.
+		$meta_fields_map = $meta_map['meta_map'];
+
+		foreach ( $meta_fields_map as $field ) {
+			$from_field_type = $field['from']['type'];		
+			$from_field_key = $field['from']['key'];			
+			$from_field_value = '';
+			$to_field_type = $field['to']['type'];		
+			$to_field_key = $field['to']['key'];			
+			$to_field_value = '';			
+		
+			switch ( $from_field_type ) {
+				case 'acf':
+					// This either returns the value or a wp error
+					$from_field_value = MapACFFields::get_field_value( $post_id, $from_field_key, true );
+
+					break;
+				case 'wp':
+					$post = get_post( $post_id );
+
+					if ( is_wp_error( $post ) ) {
+						$this->log( $post->get_error_message(), 'warning' );
+						$this->add_notice( $post->get_error_message(), 'warning' );
+
+						continue;
+					}
+
+					// check it exists
+					$from_field_value = $post->{$from_field_key};
+					break;
+				default:
+					$from_field_value = get_post_meta( $post_id, $from_field_key, true );
+			}
+
+			// make sure we have a value to set and it's not an error.
+			if ( empty($from_field_value) || is_wp_error( $from_field_value ) ) {
+				continue;
+			}
+
+			switch ( $to_field_type ) {
+				case 'acf':
+					// This either returns the value or a wp error - the value can be an array
+					$to_field_value = MapACFFields::update_field_value( $post_id, $to_field_key, $from_field_value );
+					break;
+				case 'wp':
+					$post_id = wp_update_post( array( 'ID' => $post_id, $to_field_key => $from_field_value ) );
+
+					if ( is_wp_error( $post_id ) ) {
+						$this->log( $post_id->get_error_message(), 'warning' );
+						$this->add_notice( $post_id->get_error_message(), 'warning' );
+
+						continue;
+					}
+
+					$to_field_value = $from_field_value;
+					break;
+				default:
+					$to_field_value = update_post_meta( $post_id, $to_field_key, $from_field_value );
+			}
+
+			if ( is_wp_error( $to_field_value ) ) {
+				$this->log( $to_field_value->get_error_message(), 'warning' );
+				$this->add_notice( $to_field_value->get_error_message(), 'warning' );
+			}
+
+			$this->log( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
+			$this->add_notice( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
+		};
 	}
 
     /**
