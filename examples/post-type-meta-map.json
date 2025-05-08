@@ -12,6 +12,10 @@
       {
         "from": { "type": "wp", "key": "post_date" },
         "to": { "type": "acf", "key": "start_date" }
-      }
+      },
+      {
+        "from": { "type": "wp", "key": "post_date" },
+        "to": { "type": "acf", "key": "end_date" }
+      }      
     ]
 }

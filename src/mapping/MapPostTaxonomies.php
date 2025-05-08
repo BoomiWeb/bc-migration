@@ -13,10 +13,10 @@ use erikdmitchell\bcmigration\abstracts\MapPostData;
 
 class MapPostTaxonomies extends MapPostData {
 
-    public function map( int $post_id, array $tax_map ) {					
+    public function map( int $post_id, array $tax_map ) {							
 		$tax_terms = array();
 
-		foreach ( $tax_map as $obj ) {
+		foreach ( $tax_map as $obj ) {		
             $tax_mapper = new PostTaxonomiesMappedTerms( $obj->from, $obj->to, $post_id );
 			$mapped_term_ids = $tax_mapper->get_mapped_term_ids();
 			$unmapped_term_ids = $tax_mapper->get_unmapped_term_ids();
@@ -43,19 +43,18 @@ class MapPostTaxonomies extends MapPostData {
 					$tax_terms[] = $term_id;
 				}
 			}
-		}			
 
-		$set_term_ids = wp_set_object_terms( $post_id, $tax_terms, $obj->to );
+			$set_term_ids = wp_set_object_terms( $post_id, $tax_terms, $obj->to );
 
-		// TODO: remove old terms
+			// TODO: remove old terms
 
-		if ( is_wp_error( $set_term_ids ) ) {
-			$this->log( $set_term_ids->get_error_message(), 'warning' );
-			$this->add_notice( $set_term_ids->get_error_message(), 'warning' );
+			if ( is_wp_error( $set_term_ids ) ) {
+				$this->log( $set_term_ids->get_error_message(), 'warning' );
+				$this->add_notice( $set_term_ids->get_error_message(), 'warning' );
+			}
+
+			$this->log( "Copied terms from `$obj->from` to `$obj->to`.", 'success' );
+			$this->add_notice( "Copied terms from `$obj->from` to `$obj->to`.", 'success' );
 		}
-
-		$this->log( "Copied terms from `$obj->from` to `$obj->to`.", 'success' );
-		$this->add_notice( "Copied terms from `$obj->from` to `$obj->to`.", 'success' );
 	}    
-
 }

@@ -1,6 +1,10 @@
 [
   {
-    "from": "category",
-    "to": "event-category"
-  }
+    "from": "language",
+    "to": "event-language"
+  },
+  {
+    "from": "content-type",
+    "to": "event-type"
+  }  
 ]
