@@ -13,7 +13,8 @@ class MapPostMeta {
 
     public static function init() {}
 
-    private function meta_map( int $post_id, array $meta_map ) {
+    public static function map( int $post_id, array $meta_map ) {
+// echo "MapPostMeta::map\n";        
 		// TODO: do we remove old meta.
 		// $post_type = $meta_map['post_type']; NOT USED.
 		$meta_fields_map = $meta_map['meta_map'];
@@ -36,10 +37,10 @@ class MapPostMeta {
 					$post = get_post( $post_id );
 
 					if ( is_wp_error( $post ) ) {
-						$this->log( $post->get_error_message(), 'warning' );
-						$this->add_notice( $post->get_error_message(), 'warning' );
+						// $this->log( $post->get_error_message(), 'warning' );
+						// $this->add_notice( $post->get_error_message(), 'warning' );
 
-						continue;
+						break;
 					}
 
 					// check it exists
@@ -63,10 +64,10 @@ class MapPostMeta {
 					$post_id = wp_update_post( array( 'ID' => $post_id, $to_field_key => $from_field_value ) );
 
 					if ( is_wp_error( $post_id ) ) {
-						$this->log( $post_id->get_error_message(), 'warning' );
-						$this->add_notice( $post_id->get_error_message(), 'warning' );
+						// $this->log( $post_id->get_error_message(), 'warning' );
+						// $this->add_notice( $post_id->get_error_message(), 'warning' );
 
-						continue;
+						break;
 					}
 
 					$to_field_value = $from_field_value;
@@ -76,12 +77,12 @@ class MapPostMeta {
 			}
 
 			if ( is_wp_error( $to_field_value ) ) {
-				$this->log( $to_field_value->get_error_message(), 'warning' );
-				$this->add_notice( $to_field_value->get_error_message(), 'warning' );
+				// $this->log( $to_field_value->get_error_message(), 'warning' );
+				// $this->add_notice( $to_field_value->get_error_message(), 'warning' );
 			}
 
-			$this->log( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
-			$this->add_notice( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
+			// $this->log( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
+			// $this->add_notice( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
 		};
 	}    
 

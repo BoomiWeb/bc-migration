@@ -12,6 +12,7 @@ namespace erikdmitchell\bcmigration\cli;
 use erikdmitchell\bcmigration\abstracts\CLICommands;
 use erikdmitchell\bcmigration\mapping\MapACFFields;
 use erikdmitchell\bcmigration\mapping\MapMetaFields;
+use erikdmitchell\bcmigration\mapping\MapPostMeta;
 use erikdmitchell\bcmigration\MapPostTaxonomies;
 use erikdmitchell\bcmigration\traits\LoggerTrait;
 use WP_Query;
@@ -255,9 +256,12 @@ class PostType extends CLICommands {
 
 				$meta_map = json_decode( file_get_contents( $meta_map_file ), true );
 
-				$this->meta_map( $post_id, $meta_map );
+				MapPostMeta::init(); // does nothing for now, see class.
+				$result = MapPostMeta::map( $post_id, $meta_map );
+				// $this->meta_map( $post_id, $meta_map );
 				// MOVED TO CLASS
-
+echo "ChangePostType::change_post_type() - MapPostMeta::map result: \n";
+print_r($result);
 				continue;
 			}			
 
