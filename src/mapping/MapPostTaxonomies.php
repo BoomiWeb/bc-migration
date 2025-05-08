@@ -9,7 +9,9 @@
 
 namespace erikdmitchell\bcmigration\mapping;
 
-class MapPostTaxonomies {
+use erikdmitchell\bcmigration\interfaces\MapPostDataInterface;
+
+class MapPostTaxonomies implements MapPostDataInterface {
 
     public static function init() {}
 

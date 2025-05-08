@@ -9,7 +9,9 @@
 
 namespace erikdmitchell\bcmigration\mapping;
 
-class MapPostMeta {
+use erikdmitchell\bcmigration\interfaces\MapPostDataInterface;
+
+class MapPostMeta implements MapPostDataInterface {
 
     public static function init() {}
 

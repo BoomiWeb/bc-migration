@@ -240,8 +240,6 @@ class PostType extends CLICommands {
 
 				$tax_map = json_decode( file_get_contents( $tax_map_file ) );
 
-				// $this->tax_map( $post_id, $tax_map );
-				// MOVED TO CLASS
 				MapPostTaxonomies::init(); // does nothing for now, see class.
 				$result = MapPostTaxonomies::map( $post_id, $tax_map );
 
