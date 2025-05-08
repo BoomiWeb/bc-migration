@@ -236,8 +236,7 @@ class PostType extends CLICommands {
 				$this->copy_tax( $post_id, $from );
 			}
 
-			if ($tax_map_file) {
-// echo "tax map file: $tax_map_file\n";				
+			if ($tax_map_file) {				
 				if ( ! file_exists( $tax_map_file ) ) {
 					$this->log( "Mapping file not found: $tax_map_file", 'warning' );
 					$this->add_notice( "Mapping file not found: $tax_map_file", 'warning' );
