@@ -197,6 +197,7 @@ class PostType extends CLICommands {
 			return;
 		}
 
+		// TODO: possibly split this out into a separate method and or functions.
 		foreach ( $post_ids as $post_id ) {		
 			$post = get_post( $post_id );
 		

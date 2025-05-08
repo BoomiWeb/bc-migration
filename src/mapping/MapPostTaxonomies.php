@@ -9,11 +9,11 @@
 
 namespace erikdmitchell\bcmigration\mapping;
 
-use erikdmitchell\bcmigration\interfaces\MapPostDataInterface;
+use erikdmitchell\bcmigration\abstracts\MapPostData;
 
-class MapPostTaxonomies implements MapPostDataInterface {
+class MapPostTaxonomies extends MapPostData {
 
-    public static function init() {}
+    // public static function init() {}
 
     public static function map( int $post_id, array $tax_map ) {					
 		$tax_terms = array();
