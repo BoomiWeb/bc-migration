@@ -241,11 +241,8 @@ class PostType extends CLICommands {
 
 				$tax_map = json_decode( file_get_contents( $tax_map_file ) );
 
-				MapPostTaxonomies::init(); // does nothing for now, see class.
-				$result = MapPostTaxonomies::map( $post_id, $tax_map );
-
-echo "ChangePostType::change_post_type() - MapPostTaxonomies::map result: \n";
-print_r($result);				
+				$mapper = new MapPostTaxonomies($this);
+				$mapper->map( $post_id, $tax_map );		
 
 				continue;
 			}
@@ -258,11 +255,9 @@ print_r($result);
 
 				$meta_map = json_decode( file_get_contents( $meta_map_file ), true );
 
-				MapPostMeta::init(); // does nothing for now, see class.
-				$result = MapPostMeta::map( $post_id, $meta_map );
+				$mapper = new MapPostMeta($this);
+				$mapper->map( $post_id, $meta_map );				
 
-echo "ChangePostType::change_post_type() - MapPostMeta::map result: \n";
-print_r($result);
 				continue;
 			}			
 
