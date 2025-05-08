@@ -116,7 +116,7 @@ class PostType extends CLICommands {
 				return;
 			}
 
-			$this->process_csv_file( $file, $copy_tax );
+			$this->process_csv_file( $file, $copy_tax, $tax_map_file, $meta_map_file );
 
 			$this->log( "Processed $file", 'success' );
 			$this->add_notice( "Processed $file", 'success' );
@@ -125,8 +125,11 @@ class PostType extends CLICommands {
 		$this->display_notices();
 	}
 
-	private function process_csv_file(string $file, $copy_tax) {
-		$rows    = array_map( 'str_getcsv', file( $file ) );
+	private function process_csv_file(string $file, $copy_tax, $tax_map_file, $meta_map_file) {
+		$rows = array_map(function($line) {
+			return str_getcsv($line, ",", "\"", "\\");
+		}, file($file));
+
 		$headers = array_map( 'trim', array_shift( $rows ) );
 
 		if ( ! $this->validate_headers( $headers, array( 'from', 'to', 'post_ids' ) ) ) {	
@@ -158,7 +161,7 @@ class PostType extends CLICommands {
 			$to = $data['to'];
 			$post_ids = explode('|', $data['post_ids']);
 
-			$this->change_post_type( $post_ids, $from, $to, $copy_tax );
+			$this->change_post_type( $post_ids, $from, $to, $copy_tax, $tax_map_file, $meta_map_file );
 		}
 	}	
 
@@ -208,17 +211,17 @@ class PostType extends CLICommands {
 				continue;
 			}
 
-			// $updated = wp_update_post( [
-			// 	'ID'        => $post_id,
-			// 	'post_type' => $to,
-			// ] );
+			$updated = wp_update_post( [
+				'ID'        => $post_id,
+				'post_type' => $to,
+			] );
 
-			// if (is_wp_error( $updated )) {
-			// 	$this->log( "Failed to update post $post_id.", 'warning' );
-			// 	$this->add_notice( "Failed to update post $post_id.", 'warning' );
+			if (is_wp_error( $updated )) {
+				$this->log( "Failed to update post $post_id.", 'warning' );
+				$this->add_notice( "Failed to update post $post_id.", 'warning' );
 
-			// 	continue;
-			// }
+				continue;
+			}
 
 			if ( $copy_tax ) {				
 				$attached = $this->ensure_taxonomies_attached( $from, $to );
@@ -234,6 +237,7 @@ class PostType extends CLICommands {
 			}
 
 			if ($tax_map_file) {
+// echo "tax map file: $tax_map_file\n";				
 				if ( ! file_exists( $tax_map_file ) ) {
 					$this->log( "Mapping file not found: $tax_map_file", 'warning' );
 					$this->add_notice( "Mapping file not found: $tax_map_file", 'warning' );
