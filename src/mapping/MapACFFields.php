@@ -85,7 +85,7 @@ class MapACFFields {
         return new WP_Error('no_matches', "No matching rows found in $context '$field'.");
     }
 
-    public static function update_field_value(int $post_id = 0, string $field_name = '', $value) {
+    public static function update_field_value(int $post_id = 0, string $field_name = '', $value = '') {
         $field_object = get_field_object($field_name, $post_id);
 
         if (isset($field_object['type']) && 'link' === $field_object['type']) {
