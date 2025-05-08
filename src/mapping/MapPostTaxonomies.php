@@ -13,11 +13,11 @@ class MapPostTaxonomies {
 
     public static function init() {}
 
-    private function tax_map( int $post_id, array $tax_map ) {					
+    public static function map( int $post_id, array $tax_map ) {					
 		$tax_terms = array();
 
 		foreach ( $tax_map as $obj ) {
-			$tax_mapper = new MapPostTaxonomies( $obj->from, $obj->to, $post_id );
+            $tax_mapper = new PostTaxonomies( $obj->from, $obj->to, $post_id );
 			$mapped_term_ids = $tax_mapper->get_mapped_term_ids();
 			$unmapped_term_ids = $tax_mapper->get_unmapped_term_ids();
 
@@ -28,8 +28,8 @@ class MapPostTaxonomies {
 					$new_term_data = wp_insert_term( $term->name, $obj->to, array( 'slug' => $term->slug ) );
 
 					if ( is_wp_error( $new_term_data ) ) {
-						$this->log( $new_term_data->get_error_message(), 'warning' );
-						$this->add_notice( $new_term_data->get_error_message(), 'warning' );
+						// $this->log( $new_term_data->get_error_message(), 'warning' );
+						// $this->add_notice( $new_term_data->get_error_message(), 'warning' );
 
 						continue;
 					}
@@ -50,12 +50,12 @@ class MapPostTaxonomies {
 		// TODO: remove old terms
 
 		if ( is_wp_error( $set_term_ids ) ) {
-			$this->log( $set_term_ids->get_error_message(), 'warning' );
-			$this->add_notice( $set_term_ids->get_error_message(), 'warning' );
+			// $this->log( $set_term_ids->get_error_message(), 'warning' );
+			// $this->add_notice( $set_term_ids->get_error_message(), 'warning' );
 		}
 
-		$this->log( "Copied terms from `$obj->from` to `$obj->to`.", 'success' );
-		$this->add_notice( "Copied terms from `$obj->from` to `$obj->to`.", 'success' );
+		// $this->log( "Copied terms from `$obj->from` to `$obj->to`.", 'success' );
+		// $this->add_notice( "Copied terms from `$obj->from` to `$obj->to`.", 'success' );
 	}    
 
 }

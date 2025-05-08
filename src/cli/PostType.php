@@ -10,10 +10,8 @@
 namespace erikdmitchell\bcmigration\cli;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
-use erikdmitchell\bcmigration\mapping\MapACFFields;
-use erikdmitchell\bcmigration\mapping\MapMetaFields;
 use erikdmitchell\bcmigration\mapping\MapPostMeta;
-use erikdmitchell\bcmigration\MapPostTaxonomies;
+use erikdmitchell\bcmigration\mapping\MapPostTaxonomies;
 use erikdmitchell\bcmigration\traits\LoggerTrait;
 use WP_Query;
 
@@ -242,8 +240,13 @@ class PostType extends CLICommands {
 
 				$tax_map = json_decode( file_get_contents( $tax_map_file ) );
 
-				$this->tax_map( $post_id, $tax_map );
+				// $this->tax_map( $post_id, $tax_map );
 				// MOVED TO CLASS
+				MapPostTaxonomies::init(); // does nothing for now, see class.
+				$result = MapPostTaxonomies::map( $post_id, $tax_map );
+
+echo "ChangePostType::change_post_type() - MapPostTaxonomies::map result: \n";
+print_r($result);				
 
 				continue;
 			}
@@ -258,8 +261,7 @@ class PostType extends CLICommands {
 
 				MapPostMeta::init(); // does nothing for now, see class.
 				$result = MapPostMeta::map( $post_id, $meta_map );
-				// $this->meta_map( $post_id, $meta_map );
-				// MOVED TO CLASS
+
 echo "ChangePostType::change_post_type() - MapPostMeta::map result: \n";
 print_r($result);
 				continue;

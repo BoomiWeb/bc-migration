@@ -1,15 +1,15 @@
 <?php
 /**
- * Map Post Taxonomies class
+ * Post Taxonomies mapped data class
  *
- * @package erikdmitchell\bcmigration
+ * @package erikdmitchell\bcmigration\mapping
  * @since   0.3.0
  * @version 0.1.0
  */
 
- namespace erikdmitchell\bcmigration;
+ namespace erikdmitchell\bcmigration\mapping;
 
- class MapPostTaxonomies {
+ class PostTaxonomies {
 
     private $mapped_term_ids = array();
 
