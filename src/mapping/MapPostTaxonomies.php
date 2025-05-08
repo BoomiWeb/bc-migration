@@ -17,7 +17,7 @@ class MapPostTaxonomies extends MapPostData {
 		$tax_terms = array();
 
 		foreach ( $tax_map as $obj ) {
-            $tax_mapper = new PostTaxonomies( $obj->from, $obj->to, $post_id );
+            $tax_mapper = new PostTaxonomiesMappedTerms( $obj->from, $obj->to, $post_id );
 			$mapped_term_ids = $tax_mapper->get_mapped_term_ids();
 			$unmapped_term_ids = $tax_mapper->get_unmapped_term_ids();
 

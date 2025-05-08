@@ -9,7 +9,7 @@
 
  namespace erikdmitchell\bcmigration\mapping;
 
- class PostTaxonomies {
+ class PostTaxonomiesMappedTerms {
 
     private $mapped_term_ids = array();
 
