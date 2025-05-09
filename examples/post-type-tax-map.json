@@ -1,0 +1,24 @@
+[
+  {
+    "from": "language",
+    "to": "event-language"
+  },
+  {
+    "from": "content-type",
+    "to": "event-type"
+  },
+  {
+    "from": "resource_tags",
+    "to": "region",
+    "map": [
+      {
+        "from": "apj",
+        "to": "asia-pacific"
+      },
+      {
+        "from": "emea",
+        "to": "europe"
+      }
+    ]
+  }    
+]

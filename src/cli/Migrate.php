@@ -48,6 +48,12 @@ class Migrate extends CLICommands {
 				'class'     => __NAMESPACE__ . '\APIIDA',
 				'shortdesc' => 'Migrate APIIDA Tool data',
 				'longdesc'  => 'Migrate APIIDA Tool data',
+                'method'    => 'migrate',
+            ),
+            'post-type'        => array(
+                'class'     => __NAMESPACE__ . '\PostType',
+                'shortdesc' => 'Migrate posts/pages to a different post type.',
+                'longdesc'  => 'Migrate posts/pages to a different post type.',
 				'method'    => 'migrate',
 			),
 		);
