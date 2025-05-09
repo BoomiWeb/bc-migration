@@ -9,9 +9,23 @@
 
 namespace erikdmitchell\bcmigration\admin;
 
+/**
+ * Files class
+ */
 class Files {
 
+	/**
+	 * The upload directory.
+	 *
+	 * @var string
+	 */
 	protected string $upload_dir;
+
+	/**
+	 * The upload directory URL.
+	 *
+	 * @var string
+	 */
 	protected string $upload_url;
 
 	/**
@@ -21,6 +35,13 @@ class Files {
 	 */
 	protected static ?Files $instance = null;
 
+	/**
+	 * Constructor.
+	 *
+	 * Initializes the upload directory and URL.
+	 *
+	 * @access private
+	 */
 	private function __construct() {
 		$this->upload_dir = trailingslashit( BCM_UPLOADS_PATH );
 		$this->upload_url = trailingslashit( BCM_UPLOADS_URL );
@@ -39,11 +60,18 @@ class Files {
 		return self::$instance;
 	}
 
+	/**
+	 * Uploads a CSV file.
+	 *
+	 * Handles the upload of a CSV file through the admin page.
+	 *
+	 * @return void
+	 */
 	public function upload() {
 		if ( isset( $_POST['bcm_upload_csv'] ) && check_admin_referer( 'bcm_upload_csv_action' ) ) {
 			if ( ! empty( $_FILES['bcm_csv_file']['tmp_name'] ) ) {
 				$result = $this->handle_csv_upload( $_FILES['bcm_csv_file'] );
-	
+
 				if ( is_wp_error( $result ) ) {
 					echo '<div class="notice notice-error"><p>' . esc_html( $result->get_error_message() ) . '</p></div>';
 				} else {
@@ -51,8 +79,16 @@ class Files {
 				}
 			}
 		}
-	}	
+	}
 
+	/**
+	 * Handles the deletion of a CSV file.
+	 *
+	 * Checks if the file deletion request is valid and if the user has the capabilities to delete the file.
+	 * If the file exists, it will be deleted and a success notice will be displayed.
+	 *
+	 * @return void
+	 */
 	public function delete() {
 		if ( isset( $_POST['bcm_delete_file'] ) && current_user_can( 'manage_options' ) ) {
 			check_admin_referer( 'bcm_delete_file_action' );
@@ -67,29 +103,39 @@ class Files {
 		}
 	}
 
+	/**
+	 * Handles the upload of a CSV file.
+	 *
+	 * Validates the uploaded file for correct type and mime type,
+	 * and moves it to the upload directory if valid.
+	 *
+	 * @param array $file The uploaded file array from $_FILES.
+	 *
+	 * @return string|WP_Error The path to the uploaded file on success, or a WP_Error object on failure.
+	 */
 	private function handle_csv_upload( $file ) {
 		if ( ! is_uploaded_file( $file['tmp_name'] ) || $file['error'] !== UPLOAD_ERR_OK ) {
 			return new WP_Error( 'upload_error', 'File upload failed or was invalid.' );
 		}
-	
+
 		$extension = strtolower( pathinfo( $file['name'], PATHINFO_EXTENSION ) );
 		if ( $extension !== 'csv' ) {
 			return new WP_Error( 'invalid_type', 'Only CSV files are allowed.' );
 		}
-	
-		$mime = mime_content_type( $file['tmp_name'] );
-		$allowed_mime = [ 'text/plain', 'text/csv', 'application/vnd.ms-excel' ];
+
+		$mime         = mime_content_type( $file['tmp_name'] );
+		$allowed_mime = array( 'text/plain', 'text/csv', 'application/vnd.ms-excel' );
 		if ( ! in_array( $mime, $allowed_mime, true ) ) {
 			return new WP_Error( 'invalid_mime', 'Uploaded file is not a valid CSV.' );
 		}
-	
+
 		$filename    = sanitize_file_name( $file['name'] );
 		$destination = trailingslashit( $this->upload_dir ) . $filename;
-	
+
 		if ( ! move_uploaded_file( $file['tmp_name'], $destination ) ) {
 			return new WP_Error( 'move_failed', 'Failed to move uploaded file.' );
 		}
-	
+
 		return $destination;
-	}	
+	}
 }

@@ -30,12 +30,15 @@
 	"scripts": {
 		"phpcs": "phpcs -s -p --standard=./phpcs.ruleset.xml",
 		"phpcbf": "phpcbf -p --standard=./phpcs.ruleset.xml",
-		"phpstan": "vendor/bin/phpstan analyse"
+		"phpstan": "vendor/bin/phpstan analyse",
+        "phpdocs": "phpDocumentor"
     },
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "phpstan/extension-installer": true
         }
-    }
+    },
+	"minimum-stability": "dev",
+	"prefer-stable": true
 }
