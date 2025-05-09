@@ -13,7 +13,9 @@
     <version number="0.3.0">
         <api>
             <source dsn=".">
-                <path>src,!vendor</path>
+                <paths>
+                    <path>src</path>
+                </paths>
             </source>
         </api>
     </version>
