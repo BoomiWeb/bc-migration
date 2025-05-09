@@ -23,7 +23,6 @@
 		"phpstan/phpstan": "^1.8",
 		"php-stubs/acf-pro-stubs": "^5.10",
 		"php-stubs/wp-cli-stubs": "^2.5",
-		"phpmd/phpmd": "@stable",
 		"szepeviktor/phpstan-wordpress": "^1.3",
 		"phpstan/extension-installer": "^1.4"
 	},    
