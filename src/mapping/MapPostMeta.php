@@ -11,8 +11,21 @@ namespace erikdmitchell\bcmigration\mapping;
 
 use erikdmitchell\bcmigration\abstracts\MapPostData;
 
+/**
+ * MapPostMeta class
+ */
 class MapPostMeta extends MapPostData {
 
+	/**
+	 * Map post meta from one type to another.
+	 *
+	 * Logs and adds notices for any errors or skipped posts.
+	 *
+	 * @param int   $post_id The post ID to migrate.
+	 * @param array $meta_map The custom meta mapping.
+	 *
+	 * @return void
+	 */
 	public function map( int $post_id, array $meta_map ) {
 		$meta_fields_map = $meta_map['meta_map'];
 

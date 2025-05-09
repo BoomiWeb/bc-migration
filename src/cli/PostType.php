@@ -15,6 +15,9 @@ use erikdmitchell\bcmigration\mapping\MapPostTaxonomies;
 use erikdmitchell\bcmigration\traits\LoggerTrait;
 use WP_Query;
 
+/**
+ * PostType class
+ */
 class PostType extends CLICommands {
 
 	use LoggerTrait;
@@ -125,6 +128,19 @@ class PostType extends CLICommands {
 		$this->display_notices();
 	}
 
+	/**
+	 * Processes a CSV file to change post types for specified post IDs.
+	 *
+	 * Reads a CSV file containing post IDs along with their current and target post types,
+	 * validates the headers, and performs post type migration for each valid row.
+	 *
+	 * @param string      $file         The path to the CSV file containing migration data.
+	 * @param bool        $copy_tax     Whether to copy taxonomies during migration.
+	 * @param string|null $tax_map_file The path to a JSON file containing a taxonomy mapping.
+	 * @param string|null $meta_map_file The path to a JSON file containing a meta mapping.
+	 *
+	 * @return void
+	 */
 	private function process_csv_file( string $file, $copy_tax, $tax_map_file, $meta_map_file ) {
 		$rows = array_map(
 			function ( $line ) {

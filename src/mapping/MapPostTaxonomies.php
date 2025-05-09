@@ -11,8 +11,17 @@ namespace erikdmitchell\bcmigration\mapping;
 
 use erikdmitchell\bcmigration\abstracts\MapPostData;
 
+/**
+ * MapPostTaxonomies Class
+ */
 class MapPostTaxonomies extends MapPostData {
 
+	/**
+	 * Map post taxonomies from one type to another.
+	 *
+	 * @param int   $post_id The post ID to migrate.
+	 * @param array $tax_map The custom taxonomy mapping.
+	 */
 	public function map( int $post_id, array $tax_map ) {
 		$tax_terms = array();
 
@@ -66,7 +75,7 @@ class MapPostTaxonomies extends MapPostData {
 
 			$set_term_ids = wp_set_object_terms( $post_id, $tax_terms, $obj->to );
 
-			// TODO: remove old terms
+			// TODO: remove old terms.
 
 			if ( is_wp_error( $set_term_ids ) ) {
 				$this->log( $set_term_ids->get_error_message(), 'warning' );
@@ -78,6 +87,14 @@ class MapPostTaxonomies extends MapPostData {
 		}
 	}
 
+	/**
+	 * Searches a mapping array for a matching from value.
+	 *
+	 * @param array  $map The mapping array.
+	 * @param string $search The value to search for.
+	 *
+	 * @return string|null The matching to value or null if no match is found.
+	 */
 	private function find_match( array $map, string $search ) {
 		foreach ( $map as $item ) {
 			if ( $item->from === $search ) {
