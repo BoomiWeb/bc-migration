@@ -11,17 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-
-      - name: Install dependencies
-        run: composer install --no-dev
-
-      - name: Generate PHPDocs
-        run: vendor/bin/phpdoc -d src -t docs
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
