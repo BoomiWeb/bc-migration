@@ -29,12 +29,14 @@
 	"scripts": {
 		"phpcs": "phpcs -s -p --standard=./phpcs.ruleset.xml",
 		"phpcbf": "phpcbf -p --standard=./phpcs.ruleset.xml",
-		"phpstan": "vendor/bin/phpstan analyse"
+		"phpstan": "vendor/bin/phpstan analyse",
+        "phpdoc": "php -d error_reporting=E_ALL^E_DEPRECATED $(which phpdoc) && open docs/index.html"
     },
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "symfony/flex": true
         }
     }
 }
