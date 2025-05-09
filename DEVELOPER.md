@@ -91,22 +91,13 @@ git push origin your-branch-name
 
 * On the right-hand side of the PR page, there will be a Labels section.
 * Choose the appropriate labels based on the type of change:
-	
-	PR Title
-Labels
-Resulting Changelog Section
-feat: add widget shortcode
-Semver-Minor, enhancement
-Exciting New Features 🎉
-fix: correct widget layout styles
-(none)
-Other Changes
-feat: remove deprecated getData() API
-Semver-Major, breaking-change
-Breaking Changes 🛠
-docs: update README with install steps
-ignore-for-release
-Not included in changelog
+
+| PR Title | Labels | Resulting Changelog Section |
+| -------- | ------ | --- |
+| feat: add widget shortcode | Semver-Minor, enhancement | Exciting New Features 🎉 |
+| fix: correct widget layout styles | (none) | Other Changes |
+| feat: remove deprecated getData() API | Semver-Major, breaking-change | Breaking Changes 🛠 |
+| docs: update README with install steps | ignore-for-release | Not included in changelog |
 
 ### Step 4: Merge PR and Trigger Changelog
 
