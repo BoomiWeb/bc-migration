@@ -10,79 +10,85 @@ This guide explains how to commit, label, and format your PRs to generate a clea
 
 When working with GitHub, commit messages should follow a specific format, and appropriate labels should be applied to each PR. These labels are used to categorize changes in the changelog.
 
-### **1. Adding a New Feature**
+### 1. Adding a New Feature
 
 **Commit Message:**
 
-```
-git commit -m "feat: add widget shortcode for better customizability"
-```
-Labels to Apply:
-	•	Semver-Minor (since this is a new feature)
-	•	enhancement (to indicate it’s an improvement)
+`git commit -m "feat: add widget shortcode for better customizability"`
 
-Changelog Result:
-	•	This commit will be categorized under Exciting New Features 🎉 in the changelog when merged into the main branch.
+**Labels to Apply:**
 
-⸻
-2. Fixing a Bug
+* Semver-Minor (since this is a new feature)
+* enhancement (to indicate it’s an improvement)
 
-Commit Message:
-git commit -m "fix: correct widget layout styles for mobile view"
+****Changelog Result:****
 
-Labels to Apply:
-	•	No labels required (unless you want to explicitly categorize it)
+* This commit will be categorized under Exciting New Features 🎉 in the changelog when merged into the main branch.
 
-Changelog Result:
-	•	This commit will be categorized under Other Changes in the changelog if labeled as chore, fix, or similar.
-	•	Note: Bug fixes typically don’t need changelog labels but will still appear if they are merged into the release.
+### 2. Fixing a Bug
 
-⸻
-3. Breaking Change
+**Commit Message:**
+
+`git commit -m "fix: correct widget layout styles for mobile view"`
+
+**Labels to Apply:**
+
+* No labels required (unless you want to explicitly categorize it)
+
+**Changelog Result:**
+
+* This commit will be categorized under Other Changes in the changelog if labeled as chore, fix, or similar.
+* Note: Bug fixes typically don’t need changelog labels but will still appear if they are merged into the release.
+
+### 3. Breaking Change
 
 If you’re removing an outdated API method or introducing a breaking change:
 
-Commit Message:
-git commit -m "feat: remove deprecated `getData()` method"
+**Commit Message:**
 
-Labels to Apply:
-	•	Semver-Major (since this is a breaking change)
-	•	breaking-change (alternative label to indicate a breaking change)
+`git commit -m "feat: remove deprecated `getData()` method"`
 
-Changelog Result:
-	•	This commit will trigger the workflow to show up under Breaking Changes 🛠 in the changelog when merged into main.
+**Labels to Apply:**
 
-⸻
+* Semver-Major (since this is a breaking change)
+* breaking-change (alternative label to indicate a breaking change)
 
-4. Documentation Update
+**Changelog Result:**
+
+* This commit will trigger the workflow to show up under Breaking Changes 🛠 in the changelog when merged into main.
+
+### 4. Documentation Update
 
 If you update the README, documentation, or any related content:
 
-Commit Message:
-git commit -m "docs: update README with new installation steps"
+**Commit Message:**
 
-Labels to Apply:
-	•	ignore-for-release (since this is just documentation)
+`git commit -m "docs: update README with new installation steps"`
 
-Changelog Result:
-	•	This commit will NOT appear in the changelog, as it is excluded from the release.
+**Labels to Apply:**
 
-⸻
+* ignore-for-release (since this is just documentation)
 
-How to Create a Pull Request (PR)
+**Changelog Result:**
 
-Step 1: Push Your Commit to GitHub
+* This commit will NOT appear in the changelog, as it is excluded from the release.
+
+## How to Create a Pull Request (PR)
+
+### Step 1: Push Your Commit to GitHub
 
 Once you’ve committed your changes, push them to your feature branch:
 git push origin your-branch-name
 
-Step 2: Open a Pull Request
-	•	Go to your GitHub repo and create a new Pull Request from your feature branch to main (or your primary release branch).
-	•	Add a title for your PR that reflects the changes made.
+### Step 2: Open a Pull Request
 
-Step 3: Apply Labels to the PR
-	•	On the right-hand side of the PR page, there will be a Labels section.
-	•	Choose the appropriate labels based on the type of change:
+* Go to your GitHub repo and create a new Pull Request from your feature branch to main (or your primary release branch).
+* Add a title for your PR that reflects the changes made.
+
+### Step 3: Apply Labels to the PR
+
+* On the right-hand side of the PR page, there will be a Labels section.
+* Choose the appropriate labels based on the type of change:
 	
 	PR Title
 Labels
@@ -100,44 +106,57 @@ docs: update README with install steps
 ignore-for-release
 Not included in changelog
 
+### Step 4: Merge PR and Trigger Changelog
 
-Step 4: Merge PR and Trigger Changelog
-	•	Once your PR is merged into main, the changelog will automatically update based on the labels.
-	•	The release-please GitHub Action will handle the version bump, changelog entry, and tagging of the release.
+* Once your PR is merged into main, the changelog will automatically update based on the labels.
+* The release-please GitHub Action will handle the version bump, changelog entry, and tagging of the release.
 
-⸻
-
-Changelog Example
+## Changelog Example
 
 📝 Changelog
 
-Breaking Changes 🛠
-	•	feat: remove deprecated getData() method
+**Breaking Changes 🛠**
+
+* feat: remove deprecated getData() method
+
 Breaking change: Removed getData() API method in favor of fetchData().
+
 (PR: #123)
 
-Exciting New Features 🎉
-	•	feat: add new widget shortcode
+**Exciting New Features 🎉**
+
+* feat: add new widget shortcode
+
 Added a new [my-widget] shortcode to render a custom widget on pages.
+
 (PR: #124)
-	•	enhancement: improve admin UI
+
+* enhancement: improve admin UI
+
 Refined the admin panel UI for better accessibility and responsiveness.
+
 (PR: #125)
 
-Other Changes
-	•	docs: update installation guide
+**Other Changes**
+
+* docs: update installation guide
+* 
 Updated README and installation instructions for the latest version of the plugin.
+
 (PR: #126)
-	•	chore: update dependencies
+
+* chore: update dependencies
+* 
 Updated composer.json to require latest version of phpunit.
+
 (PR: #127)
 
-📅 Release Version
-	•	v1.2.0
-	•	This release contains breaking changes (API removal), new features (widget shortcode), and improvements to the UI.
+**📅 Release Version**
 
-⸻
+* v1.2.0
+* This release contains breaking changes (API removal), new features (widget shortcode), and improvements to the UI.
 
-Additional Notes
-	•	Labels are essential for categorizing changes. Use the predefined labels consistently.
-	•	release-please will automatically generate the changelog and version bump when your PR is merged into main.
+**Additional Notes**
+
+* Labels are essential for categorizing changes. Use the predefined labels consistently.
+* release-please will automatically generate the changelog and version bump when your PR is merged into main.
