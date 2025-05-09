@@ -4,6 +4,9 @@ on:
   push:
     branches: [php-docs]
 
+permissions:
+  contents: write  # Required to push to gh-pages
+
 jobs:
   deploy-docs:
     runs-on: ubuntu-latest
