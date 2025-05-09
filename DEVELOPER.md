@@ -21,7 +21,7 @@ When working with GitHub, commit messages should follow a specific format, and a
 * Semver-Minor (since this is a new feature)
 * enhancement (to indicate it’s an improvement)
 
-****Changelog Result:****
+**Changelog Result:**
 
 * This commit will be categorized under Exciting New Features 🎉 in the changelog when merged into the main branch.
 
@@ -46,7 +46,9 @@ If you’re removing an outdated API method or introducing a breaking change:
 
 **Commit Message:**
 
-`git commit -m "feat: remove deprecated `getData()` method"`
+```
+git commit -m "feat: remove deprecated `getData()` method"
+```
 
 **Labels to Apply:**
 
