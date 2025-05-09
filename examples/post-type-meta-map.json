@@ -1,21 +1,45 @@
 {
-    "post_type": "event",
-    "meta_map": [
-      {
-        "from": { "type": "acf", "key": "card_description" },
-        "to": { "type": "wp", "key": "post_content" }
+  "post_type": "event",
+  "meta_map": [
+    {
+      "from": {
+        "type": "acf",
+        "key": "card_description"
       },
-      {
-        "from": { "type": "acf", "key": "content_type/urls/external_url" },
-        "to": { "type": "acf", "key": "registration_url" }
+      "to": {
+        "type": "wp",
+        "key": "post_content"
+      }
+    },
+    {
+      "from": {
+        "type": "acf",
+        "key": "content_type/urls/external_url"
       },
-      {
-        "from": { "type": "wp", "key": "post_date" },
-        "to": { "type": "acf", "key": "start_date" }
+      "to": {
+        "type": "acf",
+        "key": "registration_url"
+      }
+    },
+    {
+      "from": {
+        "type": "wp",
+        "key": "post_date"
       },
-      {
-        "from": { "type": "wp", "key": "post_date" },
-        "to": { "type": "acf", "key": "end_date" }
-      }      
-    ]
+      "to": {
+        "type": "acf",
+        "key": "start_date"
+      }
+    },
+    {
+      "from": {
+        "type": "wp",
+        "key": "post_date"
+      },
+      "to": {
+        "type": "acf",
+        "key": "end_date"
+      }
+    }
+  ]
 }

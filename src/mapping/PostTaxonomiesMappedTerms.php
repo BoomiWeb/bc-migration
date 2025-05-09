@@ -15,7 +15,7 @@
 
     private $unmapped_term_ids = array();
 
-    private $taxonomies = array();
+    private $custom_map = array();
 
     private $post_id = 0;
 
@@ -23,10 +23,11 @@
 
     private $to = '';
 
-    public function __construct(string $from = '', string $to = '', int $post_id = 0) {
+    public function __construct(string $from = '', string $to = '', int $post_id = 0, array $custom_map = array()) {
         $this->from = $from;
         $this->to = $to;
         $this->post_id = $post_id;
+        $this->custom_map = $custom_map;
 
         if ( ! $from || ! $to ) {
             return new \WP_Error( 'invalid_arguments', "Invalid arguments for get_mapped_term_id(): from: $from, to: $to" );
@@ -53,6 +54,10 @@
 
     public function get_unmapped_term_ids() {
         return $this->unmapped_term_ids;
+    }
+
+    public function get_custom_map() {
+        return $this->custom_map;
     }
 
     private function setup_term_ids() {    
