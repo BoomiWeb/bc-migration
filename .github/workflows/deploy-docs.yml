@@ -2,7 +2,7 @@ name: Deploy PHPDoc to GitHub Pages
 
 on:
   push:
-    branches: [dev]
+    branches: [php-docs]
 
 jobs:
   deploy-docs:
