@@ -7,90 +7,90 @@
  * @version 0.1.0
  */
 
- namespace erikdmitchell\bcmigration\mapping;
+namespace erikdmitchell\bcmigration\mapping;
 
- class PostTaxonomiesMappedTerms {
+class PostTaxonomiesMappedTerms {
 
-    private $mapped_term_ids = array();
+	private $mapped_term_ids = array();
 
-    private $unmapped_term_ids = array();
+	private $unmapped_term_ids = array();
 
-    private $custom_map = array();
+	private $custom_map = array();
 
-    private $post_id = 0;
+	private $post_id = 0;
 
-    private $from = '';
+	private $from = '';
 
-    private $to = '';
+	private $to = '';
 
-    public function __construct(string $from = '', string $to = '', int $post_id = 0, array $custom_map = array()) {
-        $this->from = $from;
-        $this->to = $to;
-        $this->post_id = $post_id;
-        $this->custom_map = $custom_map;
+	public function __construct( string $from = '', string $to = '', int $post_id = 0, array $custom_map = array() ) {
+		$this->from       = $from;
+		$this->to         = $to;
+		$this->post_id    = $post_id;
+		$this->custom_map = $custom_map;
 
-        if ( ! $from || ! $to ) {
-            return new \WP_Error( 'invalid_arguments', "Invalid arguments for get_mapped_term_id(): from: $from, to: $to" );
-        }
+		if ( ! $from || ! $to ) {
+			return new \WP_Error( 'invalid_arguments', "Invalid arguments for get_mapped_term_id(): from: $from, to: $to" );
+		}
 
-        if ( ! taxonomy_exists( $from ) ) {
-            return new \WP_Error( 'invalid_from_taxonomy', "Taxonomy `$from` does not exist." );
-         }
- 
-         if ( ! taxonomy_exists( $to ) ) {
-             return new \WP_Error( 'invalid_to_taxonomy', "Taxonomy `$to` does not exist." );
-         }
+		if ( ! taxonomy_exists( $from ) ) {
+			return new \WP_Error( 'invalid_from_taxonomy', "Taxonomy `$from` does not exist." );
+		}
 
-         if ( ! $post_id ) {
-             return new \WP_Error( 'invalid_post_id', "Invalid post ID: $post_id" );
-         } 
+		if ( ! taxonomy_exists( $to ) ) {
+			return new \WP_Error( 'invalid_to_taxonomy', "Taxonomy `$to` does not exist." );
+		}
 
-        $this->setup_term_ids();
-    }
+		if ( ! $post_id ) {
+			return new \WP_Error( 'invalid_post_id', "Invalid post ID: $post_id" );
+		}
 
-    public function get_mapped_term_ids() {
-        return $this->mapped_term_ids;
-    }
+		$this->setup_term_ids();
+	}
 
-    public function get_unmapped_term_ids() {
-        return $this->unmapped_term_ids;
-    }
+	public function get_mapped_term_ids() {
+		return $this->mapped_term_ids;
+	}
 
-    public function get_custom_map() {
-        return $this->custom_map;
-    }
+	public function get_unmapped_term_ids() {
+		return $this->unmapped_term_ids;
+	}
 
-    private function setup_term_ids() {    
-        $terms = wp_get_object_terms( $this->post_id, $this->from, array( 'fields' => 'ids' ) );
+	public function get_custom_map() {
+		return $this->custom_map;
+	}
 
-        if ( is_wp_error( $terms ) ) {
-            return $terms;
-        }
+	private function setup_term_ids() {
+		$terms = wp_get_object_terms( $this->post_id, $this->from, array( 'fields' => 'ids' ) );
 
-        foreach ( $terms as $term_id ) {
-            $mapped_term_id = $this->mapped_term_exists( $term_id, $this->from, $this->to );
+		if ( is_wp_error( $terms ) ) {
+			return $terms;
+		}
 
-            if ( is_wp_error( $mapped_term_id ) ) {
-                $this->unmapped_term_ids[] = $term_id;
-            } else {
-                $this->mapped_term_ids[] = $mapped_term_id;
-            }
-        }      
-    }
+		foreach ( $terms as $term_id ) {
+			$mapped_term_id = $this->mapped_term_exists( $term_id, $this->from, $this->to );
 
-    private function mapped_term_exists( int $term_id, string $from, string $to ) {
-        $from_term_obj = get_term_by( 'id', $term_id, $from );
+			if ( is_wp_error( $mapped_term_id ) ) {
+				$this->unmapped_term_ids[] = $term_id;
+			} else {
+				$this->mapped_term_ids[] = $mapped_term_id;
+			}
+		}
+	}
 
-        if ( is_wp_error( $from_term_obj ) ) {
-            return $from_term_obj;
-        }
+	private function mapped_term_exists( int $term_id, string $from, string $to ) {
+		$from_term_obj = get_term_by( 'id', $term_id, $from );
 
-        $to_term_obj = get_term_by( 'slug', $from_term_obj->slug, $to );
+		if ( is_wp_error( $from_term_obj ) ) {
+			return $from_term_obj;
+		}
 
-        if ( ! $to_term_obj ) {
-            return new \WP_Error( 'term_not_found', "Term '$term_id' not found in taxonomy '$to'." );
-        } else {
-            return $to_term_obj->term_id;
-        }
-    }
+		$to_term_obj = get_term_by( 'slug', $from_term_obj->slug, $to );
+
+		if ( ! $to_term_obj ) {
+			return new \WP_Error( 'term_not_found', "Term '$term_id' not found in taxonomy '$to'." );
+		} else {
+			return $to_term_obj->term_id;
+		}
+	}
 }

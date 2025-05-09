@@ -13,17 +13,17 @@ use erikdmitchell\bcmigration\abstracts\MapPostData;
 
 class MapPostMeta extends MapPostData {
 
-	public function map( int $post_id, array $meta_map ) {  	     
+	public function map( int $post_id, array $meta_map ) {
 		$meta_fields_map = $meta_map['meta_map'];
 
 		foreach ( $meta_fields_map as $field ) {
-			$from_field_type = $field['from']['type'];		
-			$from_field_key  = $field['from']['key'];			
+			$from_field_type  = $field['from']['type'];
+			$from_field_key   = $field['from']['key'];
 			$from_field_value = '';
-			$to_field_type   = $field['to']['type'];		
-			$to_field_key    = $field['to']['key'];			
-			$to_field_value  = '';			
-	
+			$to_field_type    = $field['to']['type'];
+			$to_field_key     = $field['to']['key'];
+			$to_field_value   = '';
+
 			switch ( $from_field_type ) {
 				case 'acf':
 					$from_field_value = MapACFFields::get_field_value( $post_id, $from_field_key, true );
@@ -58,7 +58,12 @@ class MapPostMeta extends MapPostData {
 					break;
 
 				case 'wp':
-					$result = wp_update_post( array( 'ID' => $post_id, $to_field_key => $from_field_value ) );
+					$result = wp_update_post(
+						array(
+							'ID'          => $post_id,
+							$to_field_key => $from_field_value,
+						)
+					);
 
 					if ( is_wp_error( $result ) ) {
 						$this->log( $result->get_error_message(), 'warning' );

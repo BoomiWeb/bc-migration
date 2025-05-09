@@ -17,8 +17,8 @@ abstract class MapPostData {
 		$this->caller = $caller;
 	}
 
-	protected function log( string $message, string $level = 'info' ) {       
-		if ( $this->caller && method_exists( $this->caller, 'log' ) ) {           
+	protected function log( string $message, string $level = 'info' ) {
+		if ( $this->caller && method_exists( $this->caller, 'log' ) ) {
 			$this->caller->log( $message, $level );
 		}
 	}
