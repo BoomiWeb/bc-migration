@@ -277,7 +277,24 @@ class PostType extends CLICommands {
 					$this->add_notice( "Mapping file not found: $meta_map_file", 'warning' );
 				}
 
-				$meta_map = json_decode( file_get_contents( $meta_map_file ), true );
+				// check the map for the post type.
+				$meta_map = array();
+				$post_type_to_find = $to;
+				$mappings = json_decode( file_get_contents( $meta_map_file ), true );
+
+				foreach ( $mappings as $mapping ) {
+    				if ( isset($mapping['post_type']) && $mapping['post_type'] === $post_type_to_find ) {
+        				$meta_map = $mapping['meta_map'];
+        				break; // Stop at the first match
+    				}
+				}
+
+				if ( empty( $meta_map ) ) {
+					$this->log( "Mapping not found for post type: $post_type_to_find", 'warning' );
+					$this->add_notice( "Mapping not found for post type: $post_type_to_find", 'warning' );
+
+					continue;
+				}
 
 				$mapper = new MapPostMeta( $this );
 				$mapper->map( $post_id, $meta_map );
