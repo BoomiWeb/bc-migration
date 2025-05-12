@@ -26,8 +26,7 @@ class MapPostMeta extends MapPostData {
 	 *
 	 * @return void
 	 */
-	public function map( int $post_id, array $meta_map ) {
-// echo "mapping meta - $post_id\n";		
+	public function map( int $post_id, array $meta_map ) {		
 		foreach ( $meta_map as $field ) {
 			$from_field_type  = $field['from']['type'];
 			$from_field_key   = $field['from']['key'];
@@ -35,7 +34,7 @@ class MapPostMeta extends MapPostData {
 			$to_field_type    = $field['to']['type'];
 			$to_field_key     = $field['to']['key'];
 			$to_field_value   = '';
-
+echo "$from_field_type $from_field_key $to_field_type $to_field_key\n";
 			switch ( $from_field_type ) {
 				case 'acf':				
 					$from_field_value = MapACFFields::get_field_value( $post_id, $from_field_key, true );

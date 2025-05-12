@@ -281,14 +281,13 @@ class PostType extends CLICommands {
 
 				// check the map for the post type.			
 				$meta_map = array();
-				// $post_type_to_find = $to;
 				$post_type_to_find = $from;
 				$mappings = json_decode( file_get_contents( $meta_map_file ), true );
 
 				foreach ( $mappings as $mapping ) {
     				if ( isset($mapping['post_type']) && $mapping['post_type'] === $post_type_to_find ) {
         				$meta_map = $mapping['meta_map'];
-        				break; // Stop at the first match
+        				break; // Stop at the first match.
     				}
 				}
 
