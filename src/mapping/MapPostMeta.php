@@ -27,6 +27,7 @@ class MapPostMeta extends MapPostData {
 	 * @return void
 	 */
 	public function map( int $post_id, array $meta_map ) {
+// echo "mapping meta - $post_id\n";		
 		foreach ( $meta_map as $field ) {
 			$from_field_type  = $field['from']['type'];
 			$from_field_key   = $field['from']['key'];
@@ -36,7 +37,7 @@ class MapPostMeta extends MapPostData {
 			$to_field_value   = '';
 
 			switch ( $from_field_type ) {
-				case 'acf':
+				case 'acf':				
 					$from_field_value = MapACFFields::get_field_value( $post_id, $from_field_key, true );
 					break;
 
@@ -69,12 +70,12 @@ class MapPostMeta extends MapPostData {
 					break;
 
 				case 'wp':
-					$result = wp_update_post(
-						array(
-							'ID'          => $post_id,
-							$to_field_key => $from_field_value,
-						)
-					);
+					switch ( $to_field_key ) {
+						case 'featured_image':
+							$result = MapWPData::update_featured_image( $post_id, $to_field_key, $from_field_value );
+						default:
+							$result = MapWPData::update_post_data( $post_id, $to_field_key, $from_field_value );
+					}
 
 					if ( is_wp_error( $result ) ) {
 						$this->log( $result->get_error_message(), 'warning' );
