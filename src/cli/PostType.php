@@ -225,6 +225,13 @@ class PostType extends CLICommands {
 		foreach ( $post_ids as $post_id ) {
 			$post = get_post( $post_id );
 
+			if ( is_wp_error( $post ) ) {
+				$this->log( "Failed to get post $post_id.", 'warning' );
+				$this->add_notice( "Failed to get post $post_id.", 'warning' );
+
+				continue;
+			}
+
 			if ( ! $post || $post->post_type !== $from ) {
 				$this->log( "Post $post_id is not a '$from' post type.", 'warning' );
 				$this->add_notice( "Post $post_id is not a '$from' post type.", 'warning' );
@@ -232,26 +239,19 @@ class PostType extends CLICommands {
 				continue;
 			}
 
-
-
-
+			$merge_meta_tax = false;
 			$to_post = $this->post_exists( $post->post_name, $to );
 			
-			
-echo "new post type: $to\n";			
-echo "$post->post_title | $post->post_name\n";
-
 if ($to_post) {
 	echo "exists\n"; 
+	$merge_meta_tax = true;
 	// $updated = $this->update_post_type( $post_id, $to, array(
 	// 	'post_status' => 'draft',
 	// ) );
 } else {
 	echo "does not exist\n";
 	// $updated = $this->update_post_type( $post_id, $to );
-}			
 
-			
 
 			if ( is_wp_error( $updated ) ) {
 				$this->log( "Failed to update post $post_id.", 'warning' );
@@ -263,7 +263,15 @@ if ($to_post) {
 echo "updated\n";
 continue;	
 
-			$this->handle_meta_and_tax( $copy_tax, $tax_map_file, $meta_map_file, $post_id, $from, $to );
+			$this->handle_meta_and_tax( array(
+				'copy_tax'      => $copy_tax,
+				'tax_map_file' => $tax_map_file,
+				'meta_map_file' => $meta_map_file,
+				'post_id'      => $post_id,
+				'from'         => $from,
+				'to'           => $to,
+				'merge'        => $merge_meta_tax,
+			) );
 
 			++$count;
 		}
@@ -323,7 +331,25 @@ continue;
 		return $query->posts;
 	}
 
-	private function handle_meta_and_tax(bool $copy_tax, string $tax_map_file, string $meta_map_file, int $post_id, string $from, string $to) {
+	private function handle_meta_and_tax(array $args) {
+		$defaults = array(
+			'copy_tax'      => false,
+			'tax_map_file' => '',
+			'meta_map_file' => '',
+			'post_id' => '',
+			'from' => '',
+			'to' => '',
+			'merge' => false,
+		);
+		$args = wp_parse_args( $args, $defaults );
+
+		$copy_tax      = $args['copy_tax'];
+		$tax_map_file  = $args['tax_map_file'];
+		$meta_map_file = $args['meta_map_file'];
+		$post_id       = $args['post_id'];
+		$from          = $args['from'];
+		$to            = $args['to'];
+
 		if ( $copy_tax ) {
 			$this->copy_tax( $post_id, $from, $to );
 		}
