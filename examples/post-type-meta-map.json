@@ -43,20 +43,5 @@
         }
       }
     ]
-  },
-  {
-    "post_type": "monkey",
-    "meta_map": [
-      {
-        "from": {
-          "type": "acf",
-          "key": "foo"
-        },
-        "to": {
-          "type": "wp",
-          "key": "bar"
-        }
-      }
-    ]
   }
 ]
