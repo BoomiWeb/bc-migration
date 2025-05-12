@@ -1,45 +1,64 @@
-{
-  "post_type": "bios",
-  "meta_map": [
-    {
-      "from": {
-        "type": "acf",
-        "key": "card_description"
+[
+  {
+    "post_type": "bio",
+    "meta_map": [
+      {
+        "from": {
+          "type": "acf",
+          "key": "bio"
+        },
+        "to": {
+          "type": "acf",
+          "key": "description"
+        }
       },
-      "to": {
-        "type": "wp",
-        "key": "post_content"
-      }
-    },
-    {
-      "from": {
-        "type": "acf",
-        "key": "content_type/urls/external_url"
+      {
+        "from": {
+          "type": "acf",
+          "key": "image"
+        },
+        "to": {
+          "type": "wp",
+          "key": "featured_image"
+        }
       },
-      "to": {
-        "type": "acf",
-        "key": "registration_url"
-      }
-    },
-    {
-      "from": {
-        "type": "wp",
-        "key": "post_date"
+      {
+        "from": {
+          "type": "acf",
+          "key": "social_media",
+		  "field_type": "repeater"
+        },
+        "to": {
+          "type": "acf",
+          "key": "social_link",
+		  "field_type": "url"
+        }
+      }	  
+    ]
+  },
+  {
+    "post_type": "content-author",
+    "meta_map": [
+      {
+        "from": {
+          "type": "acf",
+          "key": "bio"
+        },
+        "to": {
+          "type": "acf",
+          "key": "description"
+        }
       },
-      "to": {
-        "type": "acf",
-        "key": "start_date"
-      }
-    },
-    {
-      "from": {
-        "type": "wp",
-        "key": "post_date"
-      },
-      "to": {
-        "type": "acf",
-        "key": "end_date"
-      }
-    }
-  ]
-}
+      {
+        "from": {
+          "type": "acf",
+          "key": "image"
+        },
+        "to": {
+          "type": "wp",
+          "key": "featured_image"
+        }
+      }   
+    ]
+  }
+]

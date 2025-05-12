@@ -26,19 +26,18 @@ class MapPostMeta extends MapPostData {
 	 *
 	 * @return void
 	 */
-	public function map( int $post_id, array $meta_map ) {		
-		foreach ( $meta_map as $field ) {		
-			$from_field_type  = $field['from']['type'];
-			$from_field_key   = $field['from']['key'];
-			$from_acf_field_type = isset($field['from']['field_type']) ? $field['from']['field_type'] : '';
-			$from_field_value = '';
-			$to_field_type    = $field['to']['type'];
-			$to_field_key     = $field['to']['key'];
-			$to_acf_field_type = isset($field['to']['field_type']) ? $field['to']['field_type'] : '';
-			$to_field_value   = '';
-;
+	public function map( int $post_id, array $meta_map ) {
+		foreach ( $meta_map as $field ) {
+			$from_field_type     = $field['from']['type'];
+			$from_field_key      = $field['from']['key'];
+			$from_acf_field_type = isset( $field['from']['field_type'] ) ? $field['from']['field_type'] : '';
+			$from_field_value    = '';
+			$to_field_type       = $field['to']['type'];
+			$to_field_key        = $field['to']['key'];
+			$to_acf_field_type   = isset( $field['to']['field_type'] ) ? $field['to']['field_type'] : '';
+			$to_field_value      = '';
 			switch ( $from_field_type ) {
-				case 'acf':				
+				case 'acf':
 					$from_field_value = MapACFFields::get_field_value( $post_id, $from_field_key, true );
 					break;
 
@@ -77,10 +76,10 @@ class MapPostMeta extends MapPostData {
 				case 'wp':
 					switch ( $to_field_key ) {
 						case 'featured_image':
-							if (!is_array($from_field_value)) {
-								$from_field_value = array($from_field_value);
+							if ( ! is_array( $from_field_value ) ) {
+								$from_field_value = array( $from_field_value );
 							}
-					
+
 							$result = MapWPData::update_featured_image( $post_id, $to_field_key, $from_field_value );
 						default:
 							$result = MapWPData::update_post_data( $post_id, $to_field_key, $from_field_value );
@@ -123,7 +122,7 @@ class MapPostMeta extends MapPostData {
 	 *
 	 * @return void
 	 */
-	protected function delete_old_meta(int $post_id, string $field_key, string $field_type) {
+	protected function delete_old_meta( int $post_id, string $field_key, string $field_type ) {
 		switch ( $field_type ) {
 			case 'acf':
 				$result = MapACFFields::delete_field( $post_id, $field_key );
@@ -131,9 +130,9 @@ class MapPostMeta extends MapPostData {
 
 			default:
 				$result = delete_post_meta( $post_id, $field_key );
-		}	
-		
-		if (!$result) {
+		}
+
+		if ( ! $result ) {
 			$this->log( "Failed to delete `$field_key` from `$field_type`.", 'warning' );
 			$this->add_notice( "Failed to delete `$field_key` from `$field_type`.", 'warning' );
 		}

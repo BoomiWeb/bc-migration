@@ -28,11 +28,11 @@ class MapWPData {
 	public static function update_post_data( int $post_id = 0, string $key = '', $value = '' ) {
 		return wp_update_post(
 			array(
-				'ID'          => $post_id,
+				'ID' => $post_id,
 				$key => $value,
 			)
 		);
-	}	
+	}
 
 	/**
 	 * Updates the featured image of a post.
@@ -43,7 +43,7 @@ class MapWPData {
 	 *
 	 * @return int|WP_Error The ID of the attachment or a WP_Error on failure.
 	 */
-	public static function update_featured_image( int $post_id = 0, string $field_name = '', array $value = array() ) {		
+	public static function update_featured_image( int $post_id = 0, string $field_name = '', array $value = array() ) {
 		if ( empty( $value ) || empty( $value['id'] ) ) {
 			return new WP_Error( 'empty_value', 'Featured Image value is empty.' );
 		}

@@ -232,19 +232,19 @@ class PostType extends CLICommands {
 				continue;
 			}
 
-			// $updated = wp_update_post(
-			// 	array(
-			// 		'ID'        => $post_id,
-			// 		'post_type' => $to,
-			// 	)
-			// );
+			$updated = wp_update_post(
+				array(
+					'ID'        => $post_id,
+					'post_type' => $to,
+				)
+			);
 
-			// if ( is_wp_error( $updated ) ) {
-			// 	$this->log( "Failed to update post $post_id.", 'warning' );
-			// 	$this->add_notice( "Failed to update post $post_id.", 'warning' );
+			if ( is_wp_error( $updated ) ) {
+				$this->log( "Failed to update post $post_id.", 'warning' );
+				$this->add_notice( "Failed to update post $post_id.", 'warning' );
 
-			// 	continue;
-			// }
+				continue;
+			}
 
 			if ( $copy_tax ) {
 				$attached = $this->ensure_taxonomies_attached( $from, $to );
@@ -279,16 +279,16 @@ class PostType extends CLICommands {
 					$this->add_notice( "Mapping file not found: $meta_map_file", 'warning' );
 				}
 
-				// check the map for the post type.			
-				$meta_map = array();
+				// check the map for the post type.
+				$meta_map          = array();
 				$post_type_to_find = $from;
-				$mappings = json_decode( file_get_contents( $meta_map_file ), true );
+				$mappings          = json_decode( file_get_contents( $meta_map_file ), true );
 
 				foreach ( $mappings as $mapping ) {
-    				if ( isset($mapping['post_type']) && $mapping['post_type'] === $post_type_to_find ) {
-        				$meta_map = $mapping['meta_map'];
-        				break; // Stop at the first match.
-    				}
+					if ( isset( $mapping['post_type'] ) && $mapping['post_type'] === $post_type_to_find ) {
+						$meta_map = $mapping['meta_map'];
+						break; // Stop at the first match.
+					}
 				}
 
 				if ( empty( $meta_map ) ) {
