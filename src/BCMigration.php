@@ -79,6 +79,7 @@ class BCMigration {
 	 * @return void
 	 */
 	private function includes() {
+		include_once __DIR__ . '/author-migration-functions.php';
 		include_once __DIR__ . '/functions.php';
 
 		if ( is_admin() ) {
