@@ -27,14 +27,16 @@ class MapPostMeta extends MapPostData {
 	 * @return void
 	 */
 	public function map( int $post_id, array $meta_map ) {		
-		foreach ( $meta_map as $field ) {
+		foreach ( $meta_map as $field ) {		
 			$from_field_type  = $field['from']['type'];
 			$from_field_key   = $field['from']['key'];
+			$from_acf_field_type = isset($field['from']['field_type']) ? $field['from']['field_type'] : '';
 			$from_field_value = '';
 			$to_field_type    = $field['to']['type'];
 			$to_field_key     = $field['to']['key'];
+			$to_acf_field_type = isset($field['to']['field_type']) ? $field['to']['field_type'] : '';
 			$to_field_value   = '';
-echo "$from_field_type $from_field_key $to_field_type $to_field_key\n";
+;
 			switch ( $from_field_type ) {
 				case 'acf':				
 					$from_field_value = MapACFFields::get_field_value( $post_id, $from_field_key, true );
@@ -65,6 +67,10 @@ echo "$from_field_type $from_field_key $to_field_type $to_field_key\n";
 
 			switch ( $to_field_type ) {
 				case 'acf':
+					if ( $from_acf_field_type !== $to_acf_field_type ) {
+						$from_field_value = MapACFFields::change_field_type( $post_id, $from_acf_field_type, $to_acf_field_type, $from_field_value, $from_field_key );
+					}
+										
 					$to_field_value = MapACFFields::update_field_value( $post_id, $to_field_key, $from_field_value );
 					break;
 
