@@ -77,6 +77,10 @@ class MapPostMeta extends MapPostData {
 				case 'wp':
 					switch ( $to_field_key ) {
 						case 'featured_image':
+							if (!is_array($from_field_value)) {
+								$from_field_value = array($from_field_value);
+							}
+					
 							$result = MapWPData::update_featured_image( $post_id, $to_field_key, $from_field_value );
 						default:
 							$result = MapWPData::update_post_data( $post_id, $to_field_key, $from_field_value );
@@ -103,7 +107,7 @@ class MapPostMeta extends MapPostData {
 			}
 
 			// TODO: add param or flag
-			$this->delete_old_meta($post_id, $from_field_key, $from_field_type);
+			// $this->delete_old_meta($post_id, $from_field_key, $from_field_type);
 
 			$this->log( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
 			$this->add_notice( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
