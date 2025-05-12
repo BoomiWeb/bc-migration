@@ -263,20 +263,7 @@ if ($to_post) {
 echo "updated\n";
 continue;	
 
-
-
-
-			if ( $copy_tax ) {
-				$this->copy_tax( $post_id, $from, $to );
-			}
-
-			if ( $tax_map_file ) {
-				$this->update_taxonomies( $post_id, $tax_map_file );
-			}
-
-			if ( $meta_map_file ) {
-				$this->update_meta( $post_id, $meta_map_file, $from, $to );
-			}
+			$this->handle_meta_and_tax( $copy_tax, $tax_map_file, $meta_map_file, $post_id, $from, $to );
 
 			++$count;
 		}
@@ -334,6 +321,20 @@ continue;
 		);
 
 		return $query->posts;
+	}
+
+	private function handle_meta_and_tax(bool $copy_tax, string $tax_map_file, string $meta_map_file, int $post_id, string $from, string $to) {
+		if ( $copy_tax ) {
+			$this->copy_tax( $post_id, $from, $to );
+		}
+
+		if ( $tax_map_file ) {
+			$this->update_taxonomies( $post_id, $tax_map_file );
+		}
+
+		if ( $meta_map_file ) {
+			$this->update_meta( $post_id, $meta_map_file, $from, $to );
+		}
 	}
 
 	/**
