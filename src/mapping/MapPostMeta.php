@@ -70,7 +70,7 @@ class MapPostMeta extends MapPostData {
 					if ( $from_acf_field_type !== $to_acf_field_type ) {
 						$from_field_value = MapACFFields::change_field_type( $post_id, $from_acf_field_type, $to_acf_field_type, $from_field_value, $from_field_key );
 					}
-										
+
 					$to_field_value = MapACFFields::update_field_value( $post_id, $to_field_key, $from_field_value );
 					break;
 
@@ -98,11 +98,43 @@ class MapPostMeta extends MapPostData {
 			if ( is_wp_error( $to_field_value ) ) {
 				$this->log( $to_field_value->get_error_message(), 'warning' );
 				$this->add_notice( $to_field_value->get_error_message(), 'warning' );
+
 				continue;
 			}
+
+			// TODO: add param or flag
+			$this->delete_old_meta($post_id, $from_field_key, $from_field_type);
 
 			$this->log( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
 			$this->add_notice( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
 		}
+	}
+
+	/**
+	 * Delete the old field value from the old field type.
+	 *
+	 * @param int    $post_id     The post ID to delete the field value from.
+	 * @param string $field_key   The key of the field to delete.
+	 * @param string $field_type  The type of the field to delete. Can be 'wp' or 'acf'.
+	 *
+	 * @return void
+	 */
+	protected function delete_old_meta(int $post_id, string $field_key, string $field_type) {
+		switch ( $field_type ) {
+			case 'acf':
+				$result = MapACFFields::delete_field( $post_id, $field_key );
+				break;
+
+			default:
+				$result = delete_post_meta( $post_id, $field_key );
+		}	
+		
+		if (!$result) {
+			$this->log( "Failed to delete `$field_key` from `$field_type`.", 'warning' );
+			$this->add_notice( "Failed to delete `$field_key` from `$field_type`.", 'warning' );
+		}
+
+		$this->log( "Deleted `$field_key` from `$field_type`.", 'success' );
+		$this->add_notice( "Deleted `$field_key` from `$field_type`.", 'success' );
 	}
 }
