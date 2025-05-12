@@ -232,76 +232,50 @@ class PostType extends CLICommands {
 				continue;
 			}
 
-			$updated = wp_update_post(
-				array(
-					'ID'        => $post_id,
-					'post_type' => $to,
-				)
-			);
+
+
+
+			$to_post = $this->post_exists( $post->post_name, $to );
+			
+			
+echo "new post type: $to\n";			
+echo "$post->post_title | $post->post_name\n";
+
+if ($to_post) {
+	echo "exists\n"; 
+	// $updated = $this->update_post_type( $post_id, $to, array(
+	// 	'post_status' => 'draft',
+	// ) );
+} else {
+	echo "does not exist\n";
+	// $updated = $this->update_post_type( $post_id, $to );
+}			
+
+			
 
 			if ( is_wp_error( $updated ) ) {
 				$this->log( "Failed to update post $post_id.", 'warning' );
 				$this->add_notice( "Failed to update post $post_id.", 'warning' );
 
 				continue;
-			}
+			}			
+
+echo "updated\n";
+continue;	
+
+
+
 
 			if ( $copy_tax ) {
-				$attached = $this->ensure_taxonomies_attached( $from, $to );
-
-				if ( ! $attached ) {
-					$this->log( 'Taxonomies not attached.', 'warning' );
-					$this->add_notice( 'Taxonomies not attached.', 'warning' );
-
-					continue;
-				}
-
-				$this->copy_tax( $post_id, $from );
+				$this->copy_tax( $post_id, $from, $to );
 			}
 
 			if ( $tax_map_file ) {
-				if ( ! file_exists( $tax_map_file ) ) {
-					$this->log( "Mapping file not found: $tax_map_file", 'warning' );
-					$this->add_notice( "Mapping file not found: $tax_map_file", 'warning' );
-				}
-
-				$tax_map = json_decode( file_get_contents( $tax_map_file ) );
-
-				$mapper = new MapPostTaxonomies( $this );
-				$mapper->map( $post_id, $tax_map );
-
-				continue;
+				$this->update_taxonomies( $post_id, $tax_map_file );
 			}
 
 			if ( $meta_map_file ) {
-				if ( ! file_exists( $meta_map_file ) ) {
-					$this->log( "Mapping file not found: $meta_map_file", 'warning' );
-					$this->add_notice( "Mapping file not found: $meta_map_file", 'warning' );
-				}
-
-				// check the map for the post type.
-				$meta_map          = array();
-				$post_type_to_find = $from;
-				$mappings          = json_decode( file_get_contents( $meta_map_file ), true );
-
-				foreach ( $mappings as $mapping ) {
-					if ( isset( $mapping['post_type'] ) && $mapping['post_type'] === $post_type_to_find ) {
-						$meta_map = $mapping['meta_map'];
-						break; // Stop at the first match.
-					}
-				}
-
-				if ( empty( $meta_map ) ) {
-					$this->log( "Mapping not found for post type: $post_type_to_find", 'warning' );
-					$this->add_notice( "Mapping not found for post type: $post_type_to_find", 'warning' );
-
-					continue;
-				}
-
-				$mapper = new MapPostMeta( $this );
-				$mapper->map( $post_id, $meta_map );
-
-				continue;
+				$this->update_meta( $post_id, $meta_map_file, $from, $to );
 			}
 
 			++$count;
@@ -402,12 +376,28 @@ class PostType extends CLICommands {
 	/**
 	 * Copies terms from one post type to another post type.
 	 *
-	 * @param int    $post_id The ID of the post to copy terms to.
-	 * @param string $from    The post type to copy terms from.
+	 * Ensures that the taxonomies associated with the `from` post type are also
+	 * associated with the `to` post type. Then, copies the terms from the `from`
+	 * post type to the `to` post type.
+	 *
+	 * Logs and adds notices for any errors or skipped posts.
+	 *
+	 * @param int    $post_id The post ID to migrate.
+	 * @param string $from    The source post type to copy terms from.
+	 * @param string $to      The target post type to copy terms to.
 	 *
 	 * @return void
 	 */
-	private function copy_tax( int $post_id, string $from ) {
+	private function copy_tax( int $post_id, string $from, string $to ) {
+		$attached = $this->ensure_taxonomies_attached( $from, $to );
+
+		if ( ! $attached ) {
+			$this->log( 'Taxonomies not attached.', 'warning' );
+			$this->add_notice( 'Taxonomies not attached.', 'warning' );
+
+			return;
+		}
+
 		$taxonomies = get_object_taxonomies( $from );
 
 		foreach ( $taxonomies as $taxonomy ) {
@@ -427,6 +417,78 @@ class PostType extends CLICommands {
 				$this->add_notice( "Copied terms from `$from`." );
 			}
 		}
+	}
+
+/**
+ * Updates taxonomies for a given post using a mapping file.
+ *
+ * Reads a JSON mapping file to map and update taxonomies associated with a
+ * specific post ID. Logs and adds notices if the mapping file is not found.
+ *
+ * @param int    $post_id The post ID whose taxonomies are to be updated.
+ * @param string $file    Path to the JSON file containing taxonomy mappings.
+ *
+ * @return void
+ */
+
+	private function update_taxonomies( int $post_id, string $file ) {			
+		if ( ! file_exists( $file ) ) {
+			$this->log( "Mapping file not found: $file", 'warning' );
+			$this->add_notice( "Mapping file not found: $file", 'warning' );
+
+			return;
+		}
+
+		$tax_map = json_decode( file_get_contents( $file ) );
+
+		$mapper = new MapPostTaxonomies( $this );
+		$mapper->map( $post_id, $tax_map );		
+	}
+
+/**
+ * Updates post meta for a given post using a mapping file.
+ *
+ * Reads a JSON mapping file to map and update meta fields associated with a
+ * specific post ID. Logs and adds notices if the mapping file is not found or
+ * if a mapping for the specified post type is not found in the file.
+ *
+ * @param int    $post_id The post ID whose meta is to be updated.
+ * @param string $file    Path to the JSON file containing meta mappings.
+ * @param string $from    The source post type to find in the mapping.
+ * @param string $to      The target post type to map meta to.
+ *
+ * @return void
+ */
+
+	private function update_meta(int $post_id, string $file, string $from, string $to) {
+		if ( ! file_exists( $file ) ) {
+			$this->log( "Mapping file not found: $file", 'warning' );
+			$this->add_notice( "Mapping file not found: $file", 'warning' );
+
+			return;
+		}
+
+		// check the map for the post type.
+		$meta_map          = array();
+		$post_type_to_find = $from;
+		$mappings          = json_decode( file_get_contents( $file ), true );
+
+		foreach ( $mappings as $mapping ) {
+			if ( isset( $mapping['post_type'] ) && $mapping['post_type'] === $post_type_to_find ) {
+				$meta_map = $mapping['meta_map'];
+				break; // Stop at the first match.
+			}
+		}
+
+		if ( empty( $meta_map ) ) {
+			$this->log( "Mapping not found for post type: $post_type_to_find", 'warning' );
+			$this->add_notice( "Mapping not found for post type: $post_type_to_find", 'warning' );
+
+			return;
+		}
+
+		$mapper = new MapPostMeta( $this );
+		$mapper->map( $post_id, $meta_map );	
 	}
 
 	/**
@@ -486,5 +548,24 @@ class PostType extends CLICommands {
 		}
 
 		return true;
+	}
+
+	private function post_exists(string $slug, string $post_type) {
+		$post = get_page_by_path( $slug, 'OBJECT', $post_type );
+
+		return $post !== null;
+	}
+
+	private function update_post_type(int $post_id, string $post_type, array $args = []) {
+		$post_arr = array(
+			'ID'        => $post_id,
+			'post_type' => $post_type,
+		);
+
+		foreach ($args as $key => $value) {
+			$post_arr[$key] = $value;
+		}
+
+		return wp_update_post($post_arr);		
 	}
 }
