@@ -27,9 +27,7 @@ class MapPostMeta extends MapPostData {
 	 * @return void
 	 */
 	public function map( int $post_id, array $meta_map ) {
-		$meta_fields_map = $meta_map['meta_map'];
-
-		foreach ( $meta_fields_map as $field ) {
+		foreach ( $meta_map as $field ) {
 			$from_field_type  = $field['from']['type'];
 			$from_field_key   = $field['from']['key'];
 			$from_field_value = '';
