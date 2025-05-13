@@ -10,8 +10,6 @@
 namespace erikdmitchell\bcmigration\cli;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
-use erikdmitchell\bcmigration\mapping\MapPostMeta;
-use erikdmitchell\bcmigration\mapping\MapPostTaxonomies;
 use erikdmitchell\bcmigration\traits\LoggerTrait;
 use WP_Query;
 
@@ -79,9 +77,7 @@ class PostType extends CLICommands {
 		$copy_tax      = isset( $assoc_args['copy-tax'] );
 		$tax_map_file  = $assoc_args['tax-map'] ?? null;
 		$meta_map_file = $assoc_args['meta-map'] ?? null;
-
-
-return;		
+	
 		if ( $log_name ) {
 			$this->set_log_name( $log_name );
 		}
@@ -373,164 +369,6 @@ echo "tax_map_file\n";
 		if ( $meta_map_file ) {		
 			$this->update_meta( $post_id, $meta_map_file, $from, $to, $merge, $to_post_id );
 		}
-	}
-
-	/**
-	 * Ensures that taxonomies from one post type are attached to another post type.
-	 *
-	 * Iterates through the taxonomies associated with the `from` post type and attaches
-	 * them to the `to` post type if they are not already associated.
-	 *
-	 * @param string $from The source post type to retrieve taxonomies from.
-	 * @param string $to   The target post type to attach taxonomies to.
-	 *
-	 * @return bool Returns false if no taxonomies are found for the `from` post type.
-	 */
-	private function ensure_taxonomies_attached( $from, $to ) {
-		$from_taxonomies = get_object_taxonomies( $from, 'objects' );
-
-		if ( empty( $from_taxonomies ) ) {
-			return false;
-		}
-
-		foreach ( $from_taxonomies as $taxonomy => $taxonomy_obj ) {
-			if ( ! in_array( $to, $taxonomy_obj->object_type, true ) ) {
-				$taxonomy_obj->object_type[] = $to;
-
-				$registered_taxonomy_object = register_taxonomy( $taxonomy, $taxonomy_obj->object_type, (array) $taxonomy_obj );
-
-				if ( is_wp_error( $registered_taxonomy_object ) ) {
-					$this->log( "Failed to attach `$taxonomy` to `$to`.", 'warning' );
-					$this->add_notice( "Failed to attach `$taxonomy` to `$to`.", 'warning' );
-
-					continue;
-				}
-
-				$this->log( "Attached taxonomy `$taxonomy` to `$to`.", 'success' );
-				$this->add_notice( "Attached taxonomy `$taxonomy` to `$to`.", 'success' );
-			}
-		}
-	}
-
-	/**
-	 * Copies terms from one post type to another post type.
-	 *
-	 * Ensures that the taxonomies associated with the `from` post type are also
-	 * associated with the `to` post type. Then, copies the terms from the `from`
-	 * post type to the `to` post type.
-	 *
-	 * Logs and adds notices for any errors or skipped posts.
-	 *
-	 * @param int    $post_id The post ID to migrate.
-	 * @param string $from    The source post type to copy terms from.
-	 * @param string $to      The target post type to copy terms to.
-	 *
-	 * @return void
-	 */
-	private function copy_tax( int $post_id, string $from, string $to ) {
-		$attached = $this->ensure_taxonomies_attached( $from, $to );
-
-		if ( ! $attached ) {
-			$this->log( 'Taxonomies not attached.', 'warning' );
-			$this->add_notice( 'Taxonomies not attached.', 'warning' );
-
-			return;
-		}
-
-		$taxonomies = get_object_taxonomies( $from );
-
-		foreach ( $taxonomies as $taxonomy ) {
-			$terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'ids' ) );
-
-			if ( ! is_wp_error( $terms ) ) {
-				$terms_set = wp_set_object_terms( $post_id, $terms, $taxonomy );
-
-				if ( is_wp_error( $terms_set ) ) {
-					$this->log( "Failed to copy terms from `$from`.", 'warning' );
-					$this->add_notice( "Failed to copy terms from `$from`.", 'warning' );
-
-					continue;
-				}
-
-				$this->log( "Copied terms from `$from`." );
-				$this->add_notice( "Copied terms from `$from`." );
-			}
-		}
-	}
-
-	/**
-	 * Updates taxonomies for a given post using a mapping file.
-	 *
-	 * Reads a JSON mapping file to map and update taxonomies associated with a
-	 * specific post ID. Logs and adds notices if the mapping file is not found.
-	 *
-	 * @param int    $post_id The post ID whose taxonomies are to be updated.
-	 * @param string $file    Path to the JSON file containing taxonomy mappings.
-	 * @param bool   $merge   Optional. Whether to merge taxonomies. Default is false.
-	 *
-	 * @return void
-	 */
-	private function update_taxonomies( int $post_id, string $file, bool $merge = false, int $to_post_id = 0 ) {			
-		if ( ! file_exists( $file ) ) {
-			$this->log( "Mapping file not found: $file", 'warning' );
-			$this->add_notice( "Mapping file not found: $file", 'warning' );
-
-			return;
-		}
-
-		$tax_map = json_decode( file_get_contents( $file ) );
-
-// TODO setup and test merge		
-
-		$mapper = new MapPostTaxonomies( $this );
-		$mapper->map( $post_id, $tax_map );		
-	}
-
-	/**
-	 * Updates post meta for a given post using a mapping file.
-	 *
-	 * Reads a JSON mapping file to map and update meta fields associated with a
-	 * specific post ID. Logs and adds notices if the mapping file is not found or
-	 * if a mapping for the specified post type is not found in the file.
-	 *
-	 * @param int    $post_id The post ID whose meta is to be updated.
-	 * @param string $file    Path to the JSON file containing meta mappings.
-	 * @param string $from    The source post type to find in the mapping.
-	 * @param string $to      The target post type to map meta to.
-	 * @param bool   $merge   Whether to merge meta values. Default is false.
-	 * @param int    $to_post_id Optional. The post ID to map meta to. Default is 0.
-	 *
-	 * @return void
-	 */
-	private function update_meta(int $post_id, string $file, string $from, string $to, bool $merge = false, int $to_post_id = 0 ) {
-		if ( ! file_exists( $file ) ) {
-			$this->log( "Mapping file not found: $file", 'warning' );
-			$this->add_notice( "Mapping file not found: $file", 'warning' );
-
-			return;
-		}
-
-		// check the map for the post type.
-		$meta_map          = array();
-		$post_type_to_find = $from;
-		$mappings          = json_decode( file_get_contents( $file ), true );
-
-		foreach ( $mappings as $mapping ) {
-			if ( isset( $mapping['post_type'] ) && $mapping['post_type'] === $post_type_to_find ) {
-				$meta_map = $mapping['meta_map'];
-				break; // Stop at the first match.
-			}
-		}
-
-		if ( empty( $meta_map ) ) {
-			$this->log( "Mapping not found for post type: $post_type_to_find", 'warning' );
-			$this->add_notice( "Mapping not found for post type: $post_type_to_find", 'warning' );
-
-			return;
-		}
-
-		$mapper = new MapPostMeta( $this );
-		$mapper->map( $post_id, $meta_map, $merge, $to_post_id );	
 	}
 
 	/**
