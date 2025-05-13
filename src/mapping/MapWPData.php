@@ -47,7 +47,7 @@ class MapWPData {
 		if ( empty( $value ) || empty( $value['id'] ) ) {
 			return new WP_Error( 'empty_value', 'Featured Image value is empty.' );
 		}
-
+echo "$post_id | $value[id]\n";
 		return set_post_thumbnail( $post_id, $value['id'] );
 	}
 }

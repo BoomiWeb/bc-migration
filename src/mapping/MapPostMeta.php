@@ -66,28 +66,31 @@ class MapPostMeta extends MapPostData {
 				continue;
 			}
 // echo "post_id: $post_id\n";
-echo "from: $from_field_key to: $to_field_key\n";
-if ( $merge ) {
-	$to_field_value = $this->get_to_field_value( $to_field_type, $to_field_key, $to_post_id );
-}
+// echo "from: $from_field_key to: $to_field_key\n";
+			if ( $merge ) {
+// echo "merge\n";				
+				$to_field_value = $this->get_to_field_value( $to_field_type, $to_field_key, $to_post_id );
+			}
 
-if ('' !== $to_field_value) {
-	// echo "we have to_field_value\n";
-	echo "to_field_value: $to_field_value\n";
-} else {
-	echo "to_field_value is empty\n";
-	$this->update_field_value( array(
-		'post_id' => $post_id,
-		'field_type' => $to_field_type,
-		'from_acf_field_type' => $from_acf_field_type,
-		'to_acf_field_type' => $to_acf_field_type,
-		'from_field_key' => $from_field_key,
-		'from_field_value' => $from_field_value,
-		'to_field_key' => $to_field_key,
-	) );
-}
-
-
+			if ('' !== $to_field_value) {
+				// echo "we have to_field_value\n";
+				// echo "to_field_value: $to_field_value\n";
+			} else {
+				if ( $merge ) {
+					$post_id = $to_post_id;
+				}
+// echo "to_field_value is empty\n";
+// echo "to post_id: $to_post_id\n";
+				$this->update_field_value( array(
+					'post_id' => $post_id,
+					'field_type' => $to_field_type,
+					'from_acf_field_type' => $from_acf_field_type,
+					'to_acf_field_type' => $to_acf_field_type,
+					'from_field_key' => $from_field_key,
+					'from_field_value' => $from_field_value,
+					'to_field_key' => $to_field_key,
+				) );
+			}
 
 			// TODO: add param or flag
 			// $this->delete_old_meta($post_id, $from_field_key, $from_field_type);
@@ -166,8 +169,8 @@ if ('' !== $to_field_value) {
 			'to_field_key' => '',
 		);
 		$args = wp_parse_args( $args, $defaults );
-echo "update_field_value\n";
-print_r($args);
+// echo "update_field_value\n";
+// print_r($args);
 		$post_id         = $args['post_id'];
 		$field_type      = $args['field_type'];
 		$from_acf_field_type = $args['from_acf_field_type'];
@@ -175,7 +178,13 @@ print_r($args);
 		$from_field_value    = $args['from_field_value'];
 		$from_field_key      = $args['from_field_key'];
 		$to_field_key        = $args['to_field_key'];
-
+// echo "post_id: $post_id\n";
+// echo "field_type: $field_type\n";
+// echo "from_acf_field_type: $from_acf_field_type\n";
+// echo "to_acf_field_type: $to_acf_field_type\n";
+// echo "from_field_value: $from_field_value\n";
+// echo "from_field_key: $from_field_key\n";
+// echo "to_field_key: $to_field_key\n";
 		switch ( $field_type ) {
 			case 'acf':
 				if ( $from_acf_field_type !== $to_acf_field_type ) {
@@ -188,7 +197,9 @@ print_r($args);
 			case 'wp':
 				switch ( $to_field_key ) {
 					case 'featured_image':
+echo "update featured image\n";						
 						if ( ! is_array( $from_field_value ) ) {
+// echo "not array\n";							
 							$from_field_value = array( $from_field_value );
 						}
 
@@ -196,7 +207,8 @@ print_r($args);
 					default:
 						$result = MapWPData::update_post_data( $post_id, $to_field_key, $from_field_value );
 				}
-
+echo "result: \n";				
+print_r($result);
 				if ( is_wp_error( $result ) ) {
 					$this->log( $result->get_error_message(), 'warning' );
 					$this->add_notice( $result->get_error_message(), 'warning' );

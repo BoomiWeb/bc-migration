@@ -359,8 +359,7 @@ echo "tax_map_file\n";
 			$this->update_taxonomies( $post_id, $tax_map_file, $merge, $to_post_id );
 		}
 
-		if ( $meta_map_file ) {
-echo "meta_map_file\n";			
+		if ( $meta_map_file ) {		
 			$this->update_meta( $post_id, $meta_map_file, $from, $to, $merge, $to_post_id );
 		}
 	}
