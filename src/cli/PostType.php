@@ -263,20 +263,20 @@ class PostType extends CLICommands {
 				'post_id'      => $post_id,
 				'from'         => $from,
 				'to'           => $to,
-				'merge'        => $merge_meta_tax,
+				'merge'        => $merge_meta_tax, // FIXME: this should just be merge and thus it would merge meta/tax and delete post below
 				'to_post_id'   => $to_post_id,
 				'force'        => true // TODO add support for force.
 			) );
 
 			// TODO: true should be a param - so should delete or not.
-			if ($merge_meta_tax) {
-				$deleted = wp_delete_post( $post_id, true );
+			// if ($merge_meta_tax) {
+			// 	$deleted = wp_delete_post( $post_id, true );
 
-				if ( is_wp_error( $deleted ) ) {
-					$this->log( $deleted->get_error_message(), 'warning' );
-					$this->add_notice( $deleted->get_error_message(), 'warning' );
-				}
-			}			
+			// 	if ( is_wp_error( $deleted ) ) {
+			// 		$this->log( $deleted->get_error_message(), 'warning' );
+			// 		$this->add_notice( $deleted->get_error_message(), 'warning' );
+			// 	}
+			// }			
 
 			++$count;
 		}
