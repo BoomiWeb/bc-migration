@@ -17,6 +17,19 @@ use WP_Error;
 class MapACFFields {
 
 	/**
+	 * Retrieves a value from an ACF field.
+	 *
+	 * @param string $key      The field name.
+	 * @param int    $post_id  The post ID to retrieve the field value from.
+	 *
+	 * @return mixed The retrieved field value, or a WP_Error object if an error
+	 *               occurred.
+	 */
+	public static function get_value(string $key = '', int $post_id = 0) {
+		return get_field( $key, $post_id );
+	}
+
+	/**
 	 * Retrieve a value from a nested ACF field.
 	 *
 	 * @param int    $post_id    The post ID to retrieve the field value from.
@@ -28,7 +41,7 @@ class MapACFFields {
 	 * @return mixed The retrieved field value, or a WP_Error object if an error
 	 *               occurred.
 	 */
-	public static function get_field_value( int $post_id = 0, string $field_path = '', bool $first_only = false ) {
+	public static function get_nested_field_value( int $post_id = 0, string $field_path = '', bool $first_only = false ) {
 		$parts = explode( '/', $field_path );
 
 		if ( empty( $parts ) ) {
