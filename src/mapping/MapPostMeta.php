@@ -134,6 +134,15 @@ class MapPostMeta extends MapPostData {
 		$this->add_notice( "Deleted `$field_key` from `$field_type`.", 'success' );
 	}
 
+	/**
+	 * Retrieve the value of a field from its type and key.
+	 *
+	 * @param string $to_field_type The type of the field to retrieve. Can be 'wp' or 'acf'.
+	 * @param string $to_field_key   The key of the field to retrieve.
+	 * @param int    $to_post_id     The post ID to retrieve the field value from.
+	 *
+	 * @return mixed The retrieved field value.
+	 */
 	private function get_to_field_value(string $to_field_type, string $to_field_key, int $to_post_id) {
 		switch ( $to_field_type ) {
 			case 'acf':
@@ -162,6 +171,28 @@ class MapPostMeta extends MapPostData {
 
 		return $to_field_value;
 	}
+
+/**
+ * Updates a field value based on the provided arguments.
+ *
+ * This method handles updating ACF fields, WordPress post data, or post meta
+ * depending on the type specified. It also handles type conversion for ACF fields
+ * if necessary.
+ *
+ * @param array $args {
+ *     Optional. An array of arguments for the update operation.
+ *
+ *     @type int    $post_id            The post ID to update. Default 0.
+ *     @type string $field_type         The type of the field to update. Can be 'acf' or 'wp'.
+ *     @type string $from_acf_field_type The original ACF field type. Default empty string.
+ *     @type string $to_acf_field_type   The target ACF field type. Default empty string.
+ *     @type string $from_field_key     The key of the field to update. Default empty string.
+ *     @type mixed  $from_field_value   The value to update. Default empty string.
+ *     @type string $to_field_key       The key of the field to update to. Default empty string.
+ * }
+ *
+ * @return mixed The updated field value, or false on failure.
+ */
 
 	private function update_field_value( $args = [] ) {
 		$to_field_value = '';

@@ -246,8 +246,7 @@ class PostType extends CLICommands {
 				$merge_meta_tax = true;
 				$updated = $to_post_id;
 			} else {
-				echo "does not exist\n";
-				// $updated = $this->update_post_type( $post_id, $to );
+				$updated = $this->update_post_type( $post_id, $to );
 			}
 
 			if ( is_wp_error( $updated ) ) {
@@ -487,6 +486,7 @@ echo "tax_map_file\n";
 	 * @param string $from    The source post type to find in the mapping.
 	 * @param string $to      The target post type to map meta to.
 	 * @param bool   $merge   Whether to merge meta values. Default is false.
+	 * @param int    $to_post_id Optional. The post ID to map meta to. Default is 0.
 	 *
 	 * @return void
 	 */
@@ -580,6 +580,14 @@ echo "tax_map_file\n";
 		return true;
 	}
 
+	/**
+	 * Checks if a post exists by slug and post type.
+	 *
+	 * @param string $slug      The post slug to check.
+	 * @param string $post_type The post type to check.
+	 *
+	 * @return int|false Returns the post ID if the post exists, false otherwise.
+	 */
 	private function post_exists(string $slug, string $post_type) {
 		$post = get_page_by_path( $slug, 'OBJECT', $post_type );
 
@@ -590,6 +598,15 @@ echo "tax_map_file\n";
 		return false;
 	}
 
+	/**
+	 * Updates a post's type and optional additional fields.
+	 *
+	 * @param int    $post_id The post ID to update.
+	 * @param string $post_type The post type to set.
+	 * @param array  $args     Optional. Additional fields to update. Defaults to an empty array.
+	 *
+	 * @return int|WP_Error The post ID if successful, or a WP_Error on failure.
+	 */
 	private function update_post_type(int $post_id, string $post_type, array $args = []) {
 		$post_arr = array(
 			'ID'        => $post_id,
