@@ -31,33 +31,8 @@ class PostMetaManager {
 	 * @return void
 	 */
 	public static function update(int $post_id, string $file, string $from, string $to, bool $merge = false, int $to_post_id = 0 ) {
-		if ( ! file_exists( $file ) ) {
-			$this->log( "Mapping file not found: $file", 'warning' );
-			$this->add_notice( "Mapping file not found: $file", 'warning' );
 
-			return;
-		}
 
-		// check the map for the post type.
-		$meta_map          = array();
-		$post_type_to_find = $from;
-		$mappings          = json_decode( file_get_contents( $file ), true );
-
-		foreach ( $mappings as $mapping ) {
-			if ( isset( $mapping['post_type'] ) && $mapping['post_type'] === $post_type_to_find ) {
-				$meta_map = $mapping['meta_map'];
-				break; // Stop at the first match.
-			}
-		}
-
-		if ( empty( $meta_map ) ) {
-			$this->log( "Mapping not found for post type: $post_type_to_find", 'warning' );
-			$this->add_notice( "Mapping not found for post type: $post_type_to_find", 'warning' );
-
-			return;
-		}
-
-		$mapper = new MapPostMeta( $this );
-		$mapper->map( $post_id, $meta_map, $merge, $to_post_id );	
+	
 	}
 }

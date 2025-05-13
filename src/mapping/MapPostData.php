@@ -9,111 +9,59 @@
 
 namespace erikdmitchell\bcmigration\mapping;
 
-use erikdmitchell\bcmigration\abstracts\MapData;
 use erikdmitchell\bcmigration\managers\PostDataManager;
 
 /**
  * MapPostData class
  */
-class MapPostData extends MapData {
+class MapPostData {
 
-/**
-	 * Map post meta from one type to another.
-	 *
-	 * Logs and adds notices for any errors or skipped posts.
-	 *
-	 * @param int   $post_id The post ID to migrate.
-	 * @param array $meta_map The custom meta mapping.
-	 * @param bool  $merge   Whether to merge meta values. Default is false.
-	 *
-	 * @return void
-	 */
-	public function map( int $post_id, array $meta_map, bool $merge = false, int $to_post_id = 0 ) {		
-		foreach ( $meta_map as $field ) {
-			$from_field_type     = $field['from']['type'];
-			$from_field_key      = $field['from']['key'];
-			$from_acf_field_type = isset( $field['from']['field_type'] ) ? $field['from']['field_type'] : '';
-			$from_field_value    = '';
-			$to_field_type       = $field['to']['type'];
-			$to_field_key        = $field['to']['key'];
-			$to_acf_field_type   = isset( $field['to']['field_type'] ) ? $field['to']['field_type'] : '';
-			$to_field_value      = '';
 
-			switch ( $from_field_type ) {
-				case 'acf':
-					$from_field_value = MapACFFields::get_nested_field_value( $post_id, $from_field_key, true );
-					break;
-
-				case 'wp':
-					$from_field_value = PostDataManager::get_post_data( $post_id, $from_field_key );
-					break;
-
-				default:
-					$from_field_value = get_post_meta( $post_id, $from_field_key, true );
-			}
-
-			if ( is_wp_error( $from_field_value ) ) {
-				$this->log( $from_field_value->get_error_message(), 'warning' );
-				$this->add_notice( $from_field_value->get_error_message(), 'warning' );
-
-				continue;
-			}
-
-			if ( $merge ) {			
-				$to_field_value = $this->get_to_field_value( $to_field_type, $to_field_key, $to_post_id );
-			}
-// THIS IS NOT MAPPING
-			if ('' !== $to_field_value) {
-				// echo "we have to_field_value\n";
-				// echo "to_field_value: $to_field_value\n";
-			} else {
-				if ( $merge ) {
-					$post_id = $to_post_id;
-				}
-
-				$this->update_field_value( array(
-					'post_id' => $post_id,
-					'field_type' => $to_field_type,
-					'from_acf_field_type' => $from_acf_field_type,
-					'to_acf_field_type' => $to_acf_field_type,
-					'from_field_key' => $from_field_key,
-					'from_field_value' => $from_field_value,
-					'to_field_key' => $to_field_key,
-				) );
-			}
-
-			// TODO: add param or flag
-			PostDataManager::delete_field_value( $post_id, $from_field_key, $from_field_type );
-			// $this->delete_old_meta($post_id, $from_field_key, $from_field_type);
-// END NOT MAPPING
-			$this->log( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
-			$this->add_notice( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
+	public function map( int $post_id = 0, array $map = array(), int $to_post_id = 0 ) {
+		if (empty( $map ) || empty( $post_id )) {
+			return array();
 		}
+
+		foreach ( $map as $key => $field ) {
+			$from_field_type     = isset( $field['from']['type'] ) ? $field['from']['type'] : '';
+			$from_field_key      = isset( $field['from']['key'] ) ? $field['from']['key'] : '';
+			$from_field_value    = $this->get_field_value( $from_field_type, $from_field_key, $post_id );
+
+			if (is_wp_error( $from_field_value )) {
+				$from_field_value = '';
+			}
+
+			$map[$key]['from']['value'] = $from_field_value;
+
+			$to_field_type     = isset( $field['to']['type'] ) ? $field['to']['type'] : '';
+			$to_field_key      = isset( $field['to']['key'] ) ? $field['to']['key'] : '';
+			$to_field_value    = $this->get_field_value( $to_field_type, $to_field_key, $to_post_id );
+
+			if (is_wp_error( $to_field_value )) {
+				$to_field_value = '';
+			}
+
+			$map[$key]['to']['value'] = $to_field_value;			
+		}
+
+		return $map;
 	}
 
-	/**
-	 * Retrieve the value of a field from its type and key.
-	 *
-	 * @param string $to_field_type The type of the field to retrieve. Can be 'wp' or 'acf'.
-	 * @param string $to_field_key   The key of the field to retrieve.
-	 * @param int    $to_post_id     The post ID to retrieve the field value from.
-	 *
-	 * @return mixed The retrieved field value.
-	 */
-	private function get_to_field_value(string $to_field_type, string $to_field_key, int $to_post_id) {
-		switch ( $to_field_type ) {
+	protected function get_field_value(string $type, string $key, int $post_id) {
+		switch ( $type ) {
 			case 'acf':
-				$to_field_value = MapACFFields::get_value( $to_field_key, $to_post_id );
+				$value = MapACFFields::get_nested_field_value( $post_id, $key, true );
+				// $to_field_value = MapACFFields::get_value( $to_field_key, $to_post_id ); // used for to_field_value
 				break;
 
 			case 'wp':
-				$to_field_value = PostDataManager::get_post_data( $to_post_id, $to_field_key );
-
+				$value = PostDataManager::get_post_data( $post_id, $key );
 				break;
+
 			default:
-				$to_field_value = get_post_meta( $to_post_id, $to_field_key, true );
+				$value = get_post_meta( $post_id, $key, true );
 		}
 
-		return $to_field_value;
-	}
+		return $value;
+	}	
 }

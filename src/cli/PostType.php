@@ -10,8 +10,10 @@
 namespace erikdmitchell\bcmigration\cli;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
-use erikdmitchell\bcmigration\managers\PostMetaManager;
+use erikdmitchell\bcmigration\mapping\MapPostData;
 use erikdmitchell\bcmigration\traits\LoggerTrait;
+use erikdmitchell\bcmigration\managers\PostDataManager;
+use erikdmitchell\bcmigration\mapping\MapACFFields;
 use WP_Query;
 
 /**
@@ -238,14 +240,16 @@ class PostType extends CLICommands {
 				continue;
 			}
 
-			$merge_meta_tax = false;
+			$merge = false;
 			$to_post_id = $this->post_exists( $post->post_name, $to );
 			
 			if ($to_post_id) {
-				$merge_meta_tax = true; // FIXME: should be passed
+				echo "we have a match for $post_id to $to ($to_post_id)\n";
+				$merge = true; // FIXME: should be passed
 				$updated = $to_post_id;
 			} else {
-				$updated = $this->update_post_type( $post_id, $to );
+				echo "update post type for $post_id to $to\n";
+				// $updated = $this->update_post_type( $post_id, $to );
 			}
 
 			if ( is_wp_error( $updated ) ) {
@@ -254,7 +258,7 @@ class PostType extends CLICommands {
 
 				continue;
 			}
-
+// echo "to post id: $to_post_id\n";
 			$this->handle_meta_and_tax( array(
 				'copy_tax'      => $copy_tax,
 				'tax_map_file' => $tax_map_file,
@@ -262,7 +266,7 @@ class PostType extends CLICommands {
 				'post_id'      => $post_id,
 				'from'         => $from,
 				'to'           => $to,
-				'merge'        => $merge_meta_tax, // FIXME: this should just be merge and thus it would merge meta/tax and delete post below
+				'merge'        => $merge, // FIXME: this should just be merge and thus it would merge meta/tax and delete post below
 				'to_post_id'   => $to_post_id,
 				'force'        => true // TODO add support for force.
 			) );
@@ -347,7 +351,7 @@ class PostType extends CLICommands {
 			'to_post_id' => 0
 		);
 		$args = wp_parse_args( $args, $defaults );
-
+// print_r($args);
 		$copy_tax      = $args['copy_tax'];
 		$tax_map_file  = $args['tax_map_file'];
 		$meta_map_file = $args['meta_map_file'];
@@ -356,7 +360,7 @@ class PostType extends CLICommands {
 		$to            = $args['to'];
 		$merge         = $args['merge'];
 		$to_post_id    = $args['to_post_id'];
-
+// echo "handle_meta_and_tax::to_post_id: $to_post_id\n";
 		if ( $copy_tax ) {
 echo "copy_tax\n";			
 			$this->copy_tax( $post_id, $from, $to );
@@ -367,12 +371,87 @@ echo "tax_map_file\n";
 			$this->update_taxonomies( $post_id, $tax_map_file, $merge, $to_post_id );
 		}
 
-		if ( $meta_map_file ) {	
-			PostMetaManager::update( $post_id, $meta_map_file, $from, $to, $merge, $to_post_id );	
-
-			// Log
-			// Notices
+		if ( $meta_map_file ) {		
+// echo "Calling update_meta with to_post_id: $to_post_id (" . gettype($to_post_id) . ")\n";
+			$this->update_meta( $post_id, $meta_map_file, $from, $merge, $to_post_id );
 		}
+	}
+
+	protected function update_meta(int $post_id, string $file, string $from, bool $merge = false, int $to_post_id = 0 ) {
+		if ( ! file_exists( $file ) ) {
+			$this->log( "Mapping file not found: $file", 'warning' );
+			$this->add_notice( "Mapping file not found: $file", 'warning' );
+
+			return;
+		}
+// echo "Inside update_meta: to_post_id: $to_post_id (" . gettype($to_post_id) . ")\n";
+		// check the map for the post type.
+		$meta_map          = array();
+		$post_type_to_find = $from;
+		$mappings          = json_decode( file_get_contents( $file ), true );
+
+		foreach ( $mappings as $mapping ) {
+			if ( isset( $mapping['post_type'] ) && $mapping['post_type'] === $post_type_to_find ) {
+				$meta_map = $mapping['meta_map'];
+				break; // Stop at the first match.
+			}
+		}
+
+		if ( empty( $meta_map ) ) {
+			$this->log( "Mapping not found for post type: $post_type_to_find", 'warning' );
+			$this->add_notice( "Mapping not found for post type: $post_type_to_find", 'warning' );
+
+			return;
+		}
+echo "to post id: $to_post_id\n";
+		// Get the mapped values.
+		$mapper = new MapPostData( $this );
+		$mapped_data = $mapper->map( $post_id, $meta_map, $to_post_id );	
+// echo "mapped_data\n";		
+// print_r($mapped_data);
+return;
+
+			// $from_field_type     = $field['from']['type'];
+			// $from_field_key      = $field['from']['key'];
+			// $from_acf_field_type = isset( $field['from']['field_type'] ) ? $field['from']['field_type'] : '';
+			// $field_value    = '';
+			// $to_field_type       = $field['to']['type'];
+			// $to_field_key        = $field['to']['key'];
+			// $to_acf_field_type   = isset( $field['to']['field_type'] ) ? $field['to']['field_type'] : '';
+			// $to_field_value      = '';
+
+			if ( $merge ) {	
+echo "merge\n";						
+				$to_field_value = $this->get_to_field_value( $to_field_type, $to_field_key, $to_post_id );
+			}		
+// THIS IS NOT MAPPING
+			if ('' !== $to_field_value) {
+				echo "we have to_field_value\n";
+				// echo "to_field_value: $to_field_value\n";
+			} else {
+				echo "we don't have to_field_value\n";
+return;				
+				if ( $merge ) {
+					$post_id = $to_post_id;
+				}
+
+				$this->update_field_value( array(
+					'post_id' => $post_id,
+					'field_type' => $to_field_type,
+					'from_acf_field_type' => $from_acf_field_type,
+					'to_acf_field_type' => $to_acf_field_type,
+					'from_field_key' => $from_field_key,
+					'from_field_value' => $from_field_value,
+					'to_field_key' => $to_field_key,
+				) );
+			}
+
+			// TODO: add param or flag
+			// PostDataManager::delete_field_value( $post_id, $from_field_key, $from_field_type );
+			// $this->delete_old_meta($post_id, $from_field_key, $from_field_type);
+// END NOT MAPPING
+			$this->log( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
+			$this->add_notice( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );		
 	}
 
 	/**
