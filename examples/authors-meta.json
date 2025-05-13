@@ -1,6 +1,6 @@
 [
   {
-    "post_type": "bio",
+    "post_type": "blog-author",
     "meta_map": [
       {
         "from": {
@@ -58,7 +58,19 @@
           "type": "wp",
           "key": "featured_image"
         }
-      }   
+      },
+      {
+        "from": {
+          "type": "acf",
+          "key": "social_media",
+		      "field_type": "repeater"
+        },
+        "to": {
+          "type": "acf",
+          "key": "social_link",
+		      "field_type": "url"
+        }
+      }         
     ]
   }
 ]
