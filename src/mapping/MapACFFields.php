@@ -9,6 +9,8 @@
 
 namespace erikdmitchell\bcmigration\mapping;
 
+use WP_Error;
+
 /**
  * MapACFFields class
  */
@@ -96,115 +98,5 @@ class MapACFFields {
 		$context = $is_flexible ? 'flexible layout' : 'repeater';
 
 		return new WP_Error( 'no_matches', "No matching rows found in $context '$field'." );
-	}
-
-	/**
-	 * Updates an ACF field value.
-	 *
-	 * If the field type is a link, it will be updated as an array with a single key 'url'.
-	 *
-	 * @param int    $post_id   The post ID.
-	 * @param string $field_name The field name.
-	 * @param mixed  $value      The value to update.
-	 *
-	 * @return mixed The updated field value, or a WP_Error on failure.
-	 */
-	public static function update_field_value( int $post_id = 0, string $field_name = '', $value = '' ) {
-		$field_object = get_field_object( $field_name, $post_id );
-
-		if ( isset( $field_object['type'] ) && 'link' === $field_object['type'] ) {
-			$value = array(
-				'url' => $value,
-			);
-		}
-
-		$updated = update_field( $field_name, $value, $post_id );
-
-		if ( is_wp_error( $updated ) ) {
-			return $updated;
-		}
-
-		// this will return an array in some cases like link.
-		return get_field( $field_name, $post_id );
-	}
-
-	/**
-	 * Change the type of a field value.
-	 *
-	 * This method handles the complex process of converting a field value from one type to another.
-	 * It is intended to be used when migrating a field from one type to another, and is used
-	 * internally by the `bcmigration_update_field_type` command.
-	 *
-	 * @param int    $post_id     The post ID to update.
-	 * @param string $old_type    The old type of the field.
-	 * @param string $new_type    The new type of the field.
-	 * @param mixed  $value       The value to convert.
-	 * @param string $from_field_key The key of the field to convert.
-	 *
-	 * @return mixed The converted value, or a WP_Error on failure.
-	 */
-	public static function change_field_type( int $post_id = 0, string $old_type = '', string $new_type = '', $value = '', $from_field_key = '' ) {
-		$conversion_key = "$old_type:$new_type";
-
-		$conversions = array(
-			'repeater:url' => array( self::class, 'convert_repeater_to_url' ),
-			'text:number'  => array( self::class, 'convert_text_to_number' ),
-			// Add more conversion mappings here...
-		);
-
-		if ( isset( $conversions[ $conversion_key ] ) ) {
-			return call_user_func( $conversions[ $conversion_key ], $post_id, $value, $from_field_key );
-		}
-
-		// Default or fallback behavior.
-		return $value;
-	}
-
-	/**
-	 * Delete an ACF field value.
-	 *
-	 * @param int    $post_id     The post ID to delete the field value from.
-	 * @param string $field_name  The name of the field to delete.
-	 *
-	 * @return bool True on success, false on failure.
-	 */
-	public static function delete_field( int $post_id = 0, string $field_name = '' ) {
-		return delete_field( $field_name, $post_id );
-	}
-
-	/**
-	 * Example logic for converting a repeater to a url.
-	 *
-	 * In this example, the first subfield named 'url' is extracted from the repeater.
-	 *
-	 * @param int    $post_id     The post ID.
-	 * @param mixed  $value       The value to convert.
-	 * @param string $from_field_key The key of the field to convert.
-	 *
-	 * @return mixed The converted value, or the original value if not converted.
-	 */
-	protected static function convert_repeater_to_url( int $post_id, $value, $from_field_key ) {
-		// Example logic: extract a specific subfield from a repeater.
-		if ( is_array( $value ) && isset( $value[0]['url'] ) ) {
-			return $value[0]['url']; // Just an example.
-		}
-
-		// Default or fallback behavior.
-		return apply_filters( 'bcm_convert_repeater_to_url', $value, $from_field_key );
-	}
-
-		/**
-		 * Example logic for converting text to a number.
-		 *
-		 * In this example, any numeric string is converted to an integer.
-		 *
-		 * @param int    $post_id     The post ID.
-		 * @param mixed  $value       The value to convert.
-		 * @param string $from_field_key The key of the field to convert.
-		 *
-		 * @return int The converted value, or 0 if not converted.
-		 */
-	protected static function convert_text_to_number( int $post_id, $value, $from_field_key ) {
-		return is_numeric( $value ) ? (int) $value : 0;
 	}
 }

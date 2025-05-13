@@ -10,6 +10,8 @@
 namespace erikdmitchell\bcmigration\mapping;
 
 use erikdmitchell\bcmigration\abstracts\MapPostData;
+use erikdmitchell\bcmigration\managers\ACFFieldManager;
+use erikdmitchell\bcmigration\utilities\ACFFieldUtilities;
 
 /**
  * MapPostMeta class
@@ -109,7 +111,7 @@ class MapPostMeta extends MapPostData {
 	protected function delete_old_meta( int $post_id, string $field_key, string $field_type ) {
 		switch ( $field_type ) {
 			case 'acf':
-				$result = MapACFFields::delete_field( $post_id, $field_key );
+				$result = ACFFieldManager::delete_field( $post_id, $field_key );
 				break;
 
 			default:
@@ -209,10 +211,10 @@ class MapPostMeta extends MapPostData {
 		switch ( $field_type ) {
 			case 'acf':
 				if ( $from_acf_field_type !== $to_acf_field_type ) {
-					$from_field_value = MapACFFields::change_field_type( $post_id, $from_acf_field_type, $to_acf_field_type, $from_field_value, $from_field_key );
+					$from_field_value = ACFFieldUtilities::change_field_type( $post_id, $from_acf_field_type, $to_acf_field_type, $from_field_value, $from_field_key );
 				}
 
-				$to_field_value = MapACFFields::update_field_value( $post_id, $to_field_key, $from_field_value );
+				$to_field_value = ACFFieldManager::update_field_value( $post_id, $to_field_key, $from_field_value );
 				break;
 
 			case 'wp':
