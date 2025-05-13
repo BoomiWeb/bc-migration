@@ -92,15 +92,6 @@ class MapPostMeta extends MapPostData {
 			// TODO: add param or flag
 			// $this->delete_old_meta($post_id, $from_field_key, $from_field_type);
 
-			// TODO: if merge, delete original post
-			// true shoult be a param
-			// $deleted = wp_delete_post( $post_id, true );
-
-			// if ( is_wp_error( $deleted ) ) {
-			// 	$this->log( $deleted->get_error_message(), 'warning' );
-			// 	$this->add_notice( $deleted->get_error_message(), 'warning' );
-			// }
-
 			$this->log( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
 			$this->add_notice( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
 		}

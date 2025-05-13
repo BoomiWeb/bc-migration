@@ -268,6 +268,16 @@ class PostType extends CLICommands {
 				'force'        => true // TODO add support for force.
 			) );
 
+			// TODO: true should be a param - so should delete or not.
+			if ($merge_meta_tax) {
+				$deleted = wp_delete_post( $post_id, true );
+
+				if ( is_wp_error( $deleted ) ) {
+					$this->log( $deleted->get_error_message(), 'warning' );
+					$this->add_notice( $deleted->get_error_message(), 'warning' );
+				}
+			}			
+
 			++$count;
 		}
 
