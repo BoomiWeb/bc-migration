@@ -85,6 +85,7 @@ class MapPostData extends MapData {
 			}
 
 			// TODO: add param or flag
+			PostDataManager::delete_field_value( $post_id, $from_field_key, $from_field_type );
 			// $this->delete_old_meta($post_id, $from_field_key, $from_field_type);
 // END NOT MAPPING
 			$this->log( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
