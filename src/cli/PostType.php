@@ -80,6 +80,45 @@ class PostType extends CLICommands {
 		$tax_map_file  = $assoc_args['tax-map'] ?? null;
 		$meta_map_file = $assoc_args['meta-map'] ?? null;
 
+$args = [
+    'post_type' => 'blog',
+    'meta_key'  => 'authors',
+    'posts_per_page' => -1,
+];
+
+$query = new WP_Query( $args );
+
+$matching_posts = [];
+
+foreach ( $query->posts as $post ) {
+    $authors = get_post_meta( $post->ID, 'authors', true );
+
+    if ( is_array( $authors ) && in_array( '93391', $authors ) ) {
+        $matching_posts[] = $post->ID;
+    }
+}		
+print_r( $matching_posts );
+
+
+$args = [
+    'post_type' => 'resource-library',
+    'meta_key'  => 'authors',
+    'posts_per_page' => -1,
+];
+
+$query = new WP_Query( $args );
+
+$matching_posts = [];
+
+foreach ( $query->posts as $post ) {
+    $authors = get_post_meta( $post->ID, 'authors', true );
+
+    if ( is_array( $authors ) && in_array( '188204', $authors ) ) {
+        $matching_posts[] = $post->ID;
+    }
+}		
+print_r( $matching_posts );
+return;		
 		if ( $log_name ) {
 			$this->set_log_name( $log_name );
 		}
@@ -243,7 +282,7 @@ class PostType extends CLICommands {
 			$to_post_id = $this->post_exists( $post->post_name, $to );
 			
 			if ($to_post_id) {
-				$merge_meta_tax = true;
+				$merge_meta_tax = true; // FIXME: should be passed
 				$updated = $to_post_id;
 			} else {
 				$updated = $this->update_post_type( $post_id, $to );
