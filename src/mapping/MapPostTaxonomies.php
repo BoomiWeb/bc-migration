@@ -9,12 +9,12 @@
 
 namespace erikdmitchell\bcmigration\mapping;
 
-use erikdmitchell\bcmigration\abstracts\MapPostData;
+use erikdmitchell\bcmigration\abstracts\MapData;
 
 /**
  * MapPostTaxonomies Class
  */
-class MapPostTaxonomies extends MapPostData {
+class MapPostTaxonomies extends MapData {
 
 	/**
 	 * Map post taxonomies from one type to another.

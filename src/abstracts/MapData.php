@@ -1,6 +1,6 @@
 <?php
 /**
- * Map Post Data abstract class
+ * Map Data abstract class
  *
  * @package erikdmitchell\bcmigration\abstracts
  * @since   0.3.0
@@ -10,9 +10,9 @@
 namespace erikdmitchell\bcmigration\abstracts;
 
 /**
- * MapPostData class
+ * MapData class
  */
-abstract class MapPostData {
+abstract class MapData {
 
 	/**
 	 * Caller object

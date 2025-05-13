@@ -9,14 +9,14 @@
 
 namespace erikdmitchell\bcmigration\mapping;
 
-use erikdmitchell\bcmigration\abstracts\MapPostData;
+use erikdmitchell\bcmigration\abstracts\MapData;
 use erikdmitchell\bcmigration\managers\ACFFieldManager;
 use erikdmitchell\bcmigration\utilities\ACFFieldUtilities;
 
 /**
  * MapPostMeta class
  */
-class MapPostMeta extends MapPostData {
+class MapPostMeta extends MapData {
 
 	/**
 	 * Map post meta from one type to another.
@@ -224,9 +224,9 @@ class MapPostMeta extends MapPostData {
 							$from_field_value = array( $from_field_value );
 						}
 
-						$result = MapWPData::update_featured_image( $post_id, $to_field_key, $from_field_value );
+						$result = MapPostData::update_featured_image( $post_id, $to_field_key, $from_field_value );
 					default:
-						$result = MapWPData::update_post_data( $post_id, $to_field_key, $from_field_value );
+						$result = MapPostData::update_post_data( $post_id, $to_field_key, $from_field_value );
 				}
 
 				if ( is_wp_error( $result ) ) {
