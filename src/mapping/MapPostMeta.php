@@ -27,7 +27,7 @@ class MapPostMeta extends MapPostData {
 	 *
 	 * @return void
 	 */
-	public function map( int $post_id, array $meta_map, bool $merge = false, int $to_post_id = 0 ) {
+	public function map( int $post_id, array $meta_map, bool $merge = false, int $to_post_id = 0 ) {		
 		foreach ( $meta_map as $field ) {
 			$from_field_type     = $field['from']['type'];
 			$from_field_key      = $field['from']['key'];
@@ -175,8 +175,7 @@ class MapPostMeta extends MapPostData {
 			'to_field_key' => '',
 		);
 		$args = wp_parse_args( $args, $defaults );
-// echo "update_field_value\n";
-// print_r($args);
+
 		$post_id         = $args['post_id'];
 		$field_type      = $args['field_type'];
 		$from_acf_field_type = $args['from_acf_field_type'];
@@ -184,13 +183,7 @@ class MapPostMeta extends MapPostData {
 		$from_field_value    = $args['from_field_value'];
 		$from_field_key      = $args['from_field_key'];
 		$to_field_key        = $args['to_field_key'];
-// echo "post_id: $post_id\n";
-// echo "field_type: $field_type\n";
-// echo "from_acf_field_type: $from_acf_field_type\n";
-// echo "to_acf_field_type: $to_acf_field_type\n";
-// echo "from_field_value: $from_field_value\n";
-// echo "from_field_key: $from_field_key\n";
-// echo "to_field_key: $to_field_key\n";
+
 		switch ( $field_type ) {
 			case 'acf':
 				if ( $from_acf_field_type !== $to_acf_field_type ) {
@@ -202,10 +195,8 @@ class MapPostMeta extends MapPostData {
 
 			case 'wp':
 				switch ( $to_field_key ) {
-					case 'featured_image':
-echo "update featured image\n";						
-						if ( ! is_array( $from_field_value ) ) {
-// echo "not array\n";							
+					case 'featured_image':					
+						if ( ! is_array( $from_field_value ) ) {		
 							$from_field_value = array( $from_field_value );
 						}
 
@@ -213,8 +204,7 @@ echo "update featured image\n";
 					default:
 						$result = MapWPData::update_post_data( $post_id, $to_field_key, $from_field_value );
 				}
-echo "result: \n";				
-print_r($result);
+
 				if ( is_wp_error( $result ) ) {
 					$this->log( $result->get_error_message(), 'warning' );
 					$this->add_notice( $result->get_error_message(), 'warning' );
