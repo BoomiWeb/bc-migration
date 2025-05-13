@@ -240,28 +240,22 @@ class PostType extends CLICommands {
 			}
 
 			$merge_meta_tax = false;
-			$to_post = $this->post_exists( $post->post_name, $to );
+			$to_post_id = $this->post_exists( $post->post_name, $to );
 			
-if ($to_post) {
-	echo "exists\n"; 
-	$merge_meta_tax = true;
-	// $updated = $this->update_post_type( $post_id, $to, array(
-	// 	'post_status' => 'draft',
-	// ) );
-} else {
-	echo "does not exist\n";
-	// $updated = $this->update_post_type( $post_id, $to );
-
+			if ($to_post_id) {
+				$merge_meta_tax = true;
+				$updated = $to_post_id;
+			} else {
+				echo "does not exist\n";
+				// $updated = $this->update_post_type( $post_id, $to );
+			}
 
 			if ( is_wp_error( $updated ) ) {
 				$this->log( "Failed to update post $post_id.", 'warning' );
 				$this->add_notice( "Failed to update post $post_id.", 'warning' );
 
 				continue;
-			}			
-
-echo "updated\n";
-continue;	
+			}
 
 			$this->handle_meta_and_tax( array(
 				'copy_tax'      => $copy_tax,
@@ -271,6 +265,8 @@ continue;
 				'from'         => $from,
 				'to'           => $to,
 				'merge'        => $merge_meta_tax,
+				'to_post_id'   => $to_post_id,
+				'force'        => true // TODO add support for force.
 			) );
 
 			++$count;
@@ -336,10 +332,11 @@ continue;
 			'copy_tax'      => false,
 			'tax_map_file' => '',
 			'meta_map_file' => '',
-			'post_id' => '',
+			'post_id' => 0,
 			'from' => '',
 			'to' => '',
 			'merge' => false,
+			'to_post_id' => 0
 		);
 		$args = wp_parse_args( $args, $defaults );
 
@@ -349,17 +346,22 @@ continue;
 		$post_id       = $args['post_id'];
 		$from          = $args['from'];
 		$to            = $args['to'];
+		$merge         = $args['merge'];
+		$to_post_id    = $args['to_post_id'];
 
 		if ( $copy_tax ) {
+echo "copy_tax\n";			
 			$this->copy_tax( $post_id, $from, $to );
 		}
 
 		if ( $tax_map_file ) {
-			$this->update_taxonomies( $post_id, $tax_map_file );
+echo "tax_map_file\n";			
+			$this->update_taxonomies( $post_id, $tax_map_file, $merge, $to_post_id );
 		}
 
 		if ( $meta_map_file ) {
-			$this->update_meta( $post_id, $meta_map_file, $from, $to );
+echo "meta_map_file\n";			
+			$this->update_meta( $post_id, $meta_map_file, $from, $to, $merge, $to_post_id );
 		}
 	}
 
@@ -446,19 +448,19 @@ continue;
 		}
 	}
 
-/**
- * Updates taxonomies for a given post using a mapping file.
- *
- * Reads a JSON mapping file to map and update taxonomies associated with a
- * specific post ID. Logs and adds notices if the mapping file is not found.
- *
- * @param int    $post_id The post ID whose taxonomies are to be updated.
- * @param string $file    Path to the JSON file containing taxonomy mappings.
- *
- * @return void
- */
-
-	private function update_taxonomies( int $post_id, string $file ) {			
+	/**
+	 * Updates taxonomies for a given post using a mapping file.
+	 *
+	 * Reads a JSON mapping file to map and update taxonomies associated with a
+	 * specific post ID. Logs and adds notices if the mapping file is not found.
+	 *
+	 * @param int    $post_id The post ID whose taxonomies are to be updated.
+	 * @param string $file    Path to the JSON file containing taxonomy mappings.
+	 * @param bool   $merge   Optional. Whether to merge taxonomies. Default is false.
+	 *
+	 * @return void
+	 */
+	private function update_taxonomies( int $post_id, string $file, bool $merge = false, int $to_post_id = 0 ) {			
 		if ( ! file_exists( $file ) ) {
 			$this->log( "Mapping file not found: $file", 'warning' );
 			$this->add_notice( "Mapping file not found: $file", 'warning' );
@@ -468,26 +470,28 @@ continue;
 
 		$tax_map = json_decode( file_get_contents( $file ) );
 
+// TODO setup and test merge		
+
 		$mapper = new MapPostTaxonomies( $this );
 		$mapper->map( $post_id, $tax_map );		
 	}
 
-/**
- * Updates post meta for a given post using a mapping file.
- *
- * Reads a JSON mapping file to map and update meta fields associated with a
- * specific post ID. Logs and adds notices if the mapping file is not found or
- * if a mapping for the specified post type is not found in the file.
- *
- * @param int    $post_id The post ID whose meta is to be updated.
- * @param string $file    Path to the JSON file containing meta mappings.
- * @param string $from    The source post type to find in the mapping.
- * @param string $to      The target post type to map meta to.
- *
- * @return void
- */
-
-	private function update_meta(int $post_id, string $file, string $from, string $to) {
+	/**
+	 * Updates post meta for a given post using a mapping file.
+	 *
+	 * Reads a JSON mapping file to map and update meta fields associated with a
+	 * specific post ID. Logs and adds notices if the mapping file is not found or
+	 * if a mapping for the specified post type is not found in the file.
+	 *
+	 * @param int    $post_id The post ID whose meta is to be updated.
+	 * @param string $file    Path to the JSON file containing meta mappings.
+	 * @param string $from    The source post type to find in the mapping.
+	 * @param string $to      The target post type to map meta to.
+	 * @param bool   $merge   Whether to merge meta values. Default is false.
+	 *
+	 * @return void
+	 */
+	private function update_meta(int $post_id, string $file, string $from, string $to, bool $merge = false, int $to_post_id = 0 ) {
 		if ( ! file_exists( $file ) ) {
 			$this->log( "Mapping file not found: $file", 'warning' );
 			$this->add_notice( "Mapping file not found: $file", 'warning' );
@@ -515,7 +519,7 @@ continue;
 		}
 
 		$mapper = new MapPostMeta( $this );
-		$mapper->map( $post_id, $meta_map );	
+		$mapper->map( $post_id, $meta_map, $merge, $to_post_id );	
 	}
 
 	/**
@@ -580,7 +584,11 @@ continue;
 	private function post_exists(string $slug, string $post_type) {
 		$post = get_page_by_path( $slug, 'OBJECT', $post_type );
 
-		return $post !== null;
+		if ( $post instanceof \WP_Post ) {
+			return $post->ID;
+		}
+
+		return false;
 	}
 
 	private function update_post_type(int $post_id, string $post_type, array $args = []) {

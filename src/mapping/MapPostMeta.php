@@ -23,10 +23,11 @@ class MapPostMeta extends MapPostData {
 	 *
 	 * @param int   $post_id The post ID to migrate.
 	 * @param array $meta_map The custom meta mapping.
+	 * @param bool  $merge   Whether to merge meta values. Default is false.
 	 *
 	 * @return void
 	 */
-	public function map( int $post_id, array $meta_map ) {
+	public function map( int $post_id, array $meta_map, bool $merge = false, int $to_post_id = 0 ) {
 		foreach ( $meta_map as $field ) {
 			$from_field_type     = $field['from']['type'];
 			$from_field_key      = $field['from']['key'];
@@ -36,6 +37,7 @@ class MapPostMeta extends MapPostData {
 			$to_field_key        = $field['to']['key'];
 			$to_acf_field_type   = isset( $field['to']['field_type'] ) ? $field['to']['field_type'] : '';
 			$to_field_value      = '';
+
 			switch ( $from_field_type ) {
 				case 'acf':
 					$from_field_value = MapACFFields::get_field_value( $post_id, $from_field_key, true );
@@ -63,47 +65,29 @@ class MapPostMeta extends MapPostData {
 
 				continue;
 			}
+// echo "post_id: $post_id\n";
+echo "from: $from_field_key to: $to_field_key\n";
+if ( $merge ) {
+	$to_field_value = $this->get_to_field_value( $to_field_type, $to_field_key, $to_post_id );
+}
 
-			switch ( $to_field_type ) {
-				case 'acf':
-					if ( $from_acf_field_type !== $to_acf_field_type ) {
-						$from_field_value = MapACFFields::change_field_type( $post_id, $from_acf_field_type, $to_acf_field_type, $from_field_value, $from_field_key );
-					}
+if ('' !== $to_field_value) {
+	// echo "we have to_field_value\n";
+	echo "to_field_value: $to_field_value\n";
+} else {
+	echo "to_field_value is empty\n";
+	$this->update_field_value( array(
+		'post_id' => $post_id,
+		'field_type' => $to_field_type,
+		'from_acf_field_type' => $from_acf_field_type,
+		'to_acf_field_type' => $to_acf_field_type,
+		'from_field_key' => $from_field_key,
+		'from_field_value' => $from_field_value,
+		'to_field_key' => $to_field_key,
+	) );
+}
 
-					$to_field_value = MapACFFields::update_field_value( $post_id, $to_field_key, $from_field_value );
-					break;
 
-				case 'wp':
-					switch ( $to_field_key ) {
-						case 'featured_image':
-							if ( ! is_array( $from_field_value ) ) {
-								$from_field_value = array( $from_field_value );
-							}
-
-							$result = MapWPData::update_featured_image( $post_id, $to_field_key, $from_field_value );
-						default:
-							$result = MapWPData::update_post_data( $post_id, $to_field_key, $from_field_value );
-					}
-
-					if ( is_wp_error( $result ) ) {
-						$this->log( $result->get_error_message(), 'warning' );
-						$this->add_notice( $result->get_error_message(), 'warning' );
-						break;
-					}
-
-					$to_field_value = $from_field_value;
-					break;
-
-				default:
-					$to_field_value = update_post_meta( $post_id, $to_field_key, $from_field_value );
-			}
-
-			if ( is_wp_error( $to_field_value ) ) {
-				$this->log( $to_field_value->get_error_message(), 'warning' );
-				$this->add_notice( $to_field_value->get_error_message(), 'warning' );
-
-				continue;
-			}
 
 			// TODO: add param or flag
 			// $this->delete_old_meta($post_id, $from_field_key, $from_field_type);
@@ -139,5 +123,100 @@ class MapPostMeta extends MapPostData {
 
 		$this->log( "Deleted `$field_key` from `$field_type`.", 'success' );
 		$this->add_notice( "Deleted `$field_key` from `$field_type`.", 'success' );
+	}
+
+	private function get_to_field_value(string $to_field_type, string $to_field_key, int $to_post_id) {
+		switch ( $to_field_type ) {
+			case 'acf':
+				$to_field_value = get_field( $to_field_key, $to_post_id );
+				break;
+
+			case 'wp':
+				switch ( $to_field_key ) {
+					case 'featured_image':
+						$to_field_value = get_post_thumbnail_id( $to_post_id );
+
+						if (0 === $to_field_value) {
+							$to_field_value = '';
+						}
+
+						break;
+
+					default:
+						$to_field_value = get_post_meta( $to_post_id, $to_field_key, true );
+				}
+
+				break;
+			default:
+				$to_field_value = get_post_meta( $to_post_id, $to_field_key, true );
+		}
+
+		return $to_field_value;
+	}
+
+	private function update_field_value( $args = [] ) {
+		$to_field_value = '';
+		$defaults = array(
+			'post_id' => 0,
+			'field_type' => '',
+			'from_acf_field_type' => '',
+			'to_acf_field_type' => '',
+			'from_field_key' => '',
+			'from_field_value' => '',
+			'to_field_key' => '',
+		);
+		$args = wp_parse_args( $args, $defaults );
+echo "update_field_value\n";
+print_r($args);
+		$post_id         = $args['post_id'];
+		$field_type      = $args['field_type'];
+		$from_acf_field_type = $args['from_acf_field_type'];
+		$to_acf_field_type   = $args['to_acf_field_type'];
+		$from_field_value    = $args['from_field_value'];
+		$from_field_key      = $args['from_field_key'];
+		$to_field_key        = $args['to_field_key'];
+
+		switch ( $field_type ) {
+			case 'acf':
+				if ( $from_acf_field_type !== $to_acf_field_type ) {
+					$from_field_value = MapACFFields::change_field_type( $post_id, $from_acf_field_type, $to_acf_field_type, $from_field_value, $from_field_key );
+				}
+
+				$to_field_value = MapACFFields::update_field_value( $post_id, $to_field_key, $from_field_value );
+				break;
+
+			case 'wp':
+				switch ( $to_field_key ) {
+					case 'featured_image':
+						if ( ! is_array( $from_field_value ) ) {
+							$from_field_value = array( $from_field_value );
+						}
+
+						$result = MapWPData::update_featured_image( $post_id, $to_field_key, $from_field_value );
+					default:
+						$result = MapWPData::update_post_data( $post_id, $to_field_key, $from_field_value );
+				}
+
+				if ( is_wp_error( $result ) ) {
+					$this->log( $result->get_error_message(), 'warning' );
+					$this->add_notice( $result->get_error_message(), 'warning' );
+					break;
+				}
+
+				$to_field_value = $from_field_value;
+				break;
+
+			default:
+				$to_field_value = update_post_meta( $post_id, $to_field_key, $from_field_value );
+		}
+
+		if ( is_wp_error( $to_field_value ) ) {
+			$this->log( $to_field_value->get_error_message(), 'warning' );
+			$this->add_notice( $to_field_value->get_error_message(), 'warning' );
+
+			return false;
+		}
+
+		return $to_field_value;
 	}
 }

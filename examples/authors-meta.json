@@ -26,12 +26,12 @@
         "from": {
           "type": "acf",
           "key": "social_media",
-		  "field_type": "repeater"
+		      "field_type": "repeater"
         },
         "to": {
           "type": "acf",
           "key": "social_link",
-		  "field_type": "url"
+		      "field_type": "url"
         }
       }	  
     ]
