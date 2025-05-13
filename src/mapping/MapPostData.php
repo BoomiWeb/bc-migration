@@ -1,6 +1,6 @@
 <?php
 /**
- * Map WP Data class
+ * Map Post Data class
  *
  * @package erikdmitchell\bcmigration\mapping
  * @since   0.3.0
@@ -12,9 +12,9 @@ namespace erikdmitchell\bcmigration\mapping;
 use WP_Error;
 
 /**
- * MapWPData class
+ * MapPostData class
  */
-class MapWPData {
+class MapPostData {
 
 	/**
 	 * Updates a post meta value.
