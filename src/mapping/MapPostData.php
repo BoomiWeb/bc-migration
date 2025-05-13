@@ -10,9 +10,7 @@
 namespace erikdmitchell\bcmigration\mapping;
 
 use erikdmitchell\bcmigration\abstracts\MapData;
-use erikdmitchell\bcmigration\managers\ACFFieldManager;
 use erikdmitchell\bcmigration\managers\PostDataManager;
-use erikdmitchell\bcmigration\utilities\ACFFieldUtilities;
 
 /**
  * MapPostData class
