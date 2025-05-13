@@ -65,10 +65,8 @@ class MapPostMeta extends MapPostData {
 
 				continue;
 			}
-// echo "post_id: $post_id\n";
-// echo "from: $from_field_key to: $to_field_key\n";
-			if ( $merge ) {
-// echo "merge\n";				
+
+			if ( $merge ) {			
 				$to_field_value = $this->get_to_field_value( $to_field_type, $to_field_key, $to_post_id );
 			}
 
@@ -79,8 +77,7 @@ class MapPostMeta extends MapPostData {
 				if ( $merge ) {
 					$post_id = $to_post_id;
 				}
-// echo "to_field_value is empty\n";
-// echo "to post_id: $to_post_id\n";
+
 				$this->update_field_value( array(
 					'post_id' => $post_id,
 					'field_type' => $to_field_type,
@@ -94,6 +91,15 @@ class MapPostMeta extends MapPostData {
 
 			// TODO: add param or flag
 			// $this->delete_old_meta($post_id, $from_field_key, $from_field_type);
+
+			// TODO: if merge, delete original post
+			// true shoult be a param
+			// $deleted = wp_delete_post( $post_id, true );
+
+			// if ( is_wp_error( $deleted ) ) {
+			// 	$this->log( $deleted->get_error_message(), 'warning' );
+			// 	$this->add_notice( $deleted->get_error_message(), 'warning' );
+			// }
 
 			$this->log( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
 			$this->add_notice( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
