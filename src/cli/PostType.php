@@ -80,44 +80,7 @@ class PostType extends CLICommands {
 		$tax_map_file  = $assoc_args['tax-map'] ?? null;
 		$meta_map_file = $assoc_args['meta-map'] ?? null;
 
-$args = [
-    'post_type' => 'blog',
-    'meta_key'  => 'authors',
-    'posts_per_page' => -1,
-];
 
-$query = new WP_Query( $args );
-
-$matching_posts = [];
-
-foreach ( $query->posts as $post ) {
-    $authors = get_post_meta( $post->ID, 'authors', true );
-
-    if ( is_array( $authors ) && in_array( '93391', $authors ) ) {
-        $matching_posts[] = $post->ID;
-    }
-}		
-print_r( $matching_posts );
-
-
-$args = [
-    'post_type' => 'resource-library',
-    'meta_key'  => 'authors',
-    'posts_per_page' => -1,
-];
-
-$query = new WP_Query( $args );
-
-$matching_posts = [];
-
-foreach ( $query->posts as $post ) {
-    $authors = get_post_meta( $post->ID, 'authors', true );
-
-    if ( is_array( $authors ) && in_array( '188204', $authors ) ) {
-        $matching_posts[] = $post->ID;
-    }
-}		
-print_r( $matching_posts );
 return;		
 		if ( $log_name ) {
 			$this->set_log_name( $log_name );
