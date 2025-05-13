@@ -10,6 +10,7 @@
 namespace erikdmitchell\bcmigration\cli;
 
 use erikdmitchell\bcmigration\abstracts\CLICommands;
+use erikdmitchell\bcmigration\managers\PostMetaManager;
 use erikdmitchell\bcmigration\traits\LoggerTrait;
 use WP_Query;
 
@@ -366,8 +367,11 @@ echo "tax_map_file\n";
 			$this->update_taxonomies( $post_id, $tax_map_file, $merge, $to_post_id );
 		}
 
-		if ( $meta_map_file ) {		
-			$this->update_meta( $post_id, $meta_map_file, $from, $to, $merge, $to_post_id );
+		if ( $meta_map_file ) {	
+			PostMetaManager::update( $post_id, $meta_map_file, $from, $to, $merge, $to_post_id );	
+
+			// Log
+			// Notices
 		}
 	}
 
