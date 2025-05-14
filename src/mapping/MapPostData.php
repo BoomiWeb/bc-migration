@@ -9,6 +9,7 @@
 
 namespace erikdmitchell\bcmigration\mapping;
 
+use erikdmitchell\bcmigration\utilities\ACFFieldUtilities;
 use erikdmitchell\bcmigration\managers\PostDataManager;
 
 /**
@@ -28,6 +29,7 @@ class MapPostData {
 		}
 
 		foreach ( $map as $key => $field ) {
+			$field_data = array();
 			$from_field_type     = isset( $field['from']['type'] ) ? $field['from']['type'] : '';
 			$from_field_key      = isset( $field['from']['key'] ) ? $field['from']['key'] : '';
 			$from_field_value    = $this->get_field_value( $from_field_type, $from_field_key, $post_id );
@@ -48,14 +50,33 @@ class MapPostData {
 
 			// check merge and then return proper value.
 			if ( $merge && !empty( $to_field_value ) ) {				
-				$mapped_data[$to_field_key] = $to_field_value;
+				$field_value = $to_field_value;
 			} else {				
-				$mapped_data[$to_field_key] = $from_field_value;
+				// check acf field and maybe change.
+				if ('acf' === $from_field_type && 'acf' === $to_field_type) {
+					$from_acf_field_type = isset( $field['from']['field_type'] ) ? $field['from']['field_type'] : '';
+					$to_acf_field_type   = isset( $field['to']['field_type'] ) ? $field['to']['field_type'] : '';
+					
+					if ( $from_acf_field_type !== $to_acf_field_type ) {
+						$from_field_value = ACFFieldUtilities::change_field_type( $post_id, $from_acf_field_type, $to_acf_field_type, $from_field_value, $from_field_key );
+					}
+				}
+
+				$field_value = $from_field_value;
 			}
-			 
+			
+			$mapped_data[] = array(
+				'type' => $to_field_type,
+				'key' => $to_field_key,
+				'value' => $field_value,
+			);
+// print_r($field);			
+		
+
 			$map[$key]['to']['value'] = $to_field_value;			
 		}
-
+// print_r($mapped_data);		
+// print_r($map);
 		return $mapped_data;
 	}
 
