@@ -51,7 +51,7 @@ class MapPostData {
 		switch ( $type ) {
 			case 'acf':
 				$value = MapACFFields::get_nested_field_value( $post_id, $key, true );
-				// $to_field_value = MapACFFields::get_value( $to_field_key, $to_post_id ); // used for to_field_value
+				// $to_field_value = MapACFFields::get_value( $to_field_key, $to_post_id ); // TODO: used for to_field_value, not sure if needed
 				break;
 
 			case 'wp':

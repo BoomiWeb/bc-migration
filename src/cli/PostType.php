@@ -249,6 +249,7 @@ class PostType extends CLICommands {
 				$updated = $to_post_id;
 			} else {
 				echo "update post type for $post_id to $to\n";
+				$updated = 1; // tmp
 				// $updated = $this->update_post_type( $post_id, $to );
 			}
 
@@ -384,7 +385,7 @@ echo "tax_map_file\n";
 
 			return;
 		}
-// echo "Inside update_meta: to_post_id: $to_post_id (" . gettype($to_post_id) . ")\n";
+
 		// check the map for the post type.
 		$meta_map          = array();
 		$post_type_to_find = $from;
@@ -403,55 +404,37 @@ echo "tax_map_file\n";
 
 			return;
 		}
-echo "to post id: $to_post_id\n";
+
 		// Get the mapped values.
 		$mapper = new MapPostData( $this );
 		$mapped_data = $mapper->map( $post_id, $meta_map, $to_post_id );	
-// echo "mapped_data\n";		
-// print_r($mapped_data);
-return;
 
-			// $from_field_type     = $field['from']['type'];
-			// $from_field_key      = $field['from']['key'];
-			// $from_acf_field_type = isset( $field['from']['field_type'] ) ? $field['from']['field_type'] : '';
-			// $field_value    = '';
-			// $to_field_type       = $field['to']['type'];
-			// $to_field_key        = $field['to']['key'];
-			// $to_acf_field_type   = isset( $field['to']['field_type'] ) ? $field['to']['field_type'] : '';
-			// $to_field_value      = '';
-
-			if ( $merge ) {	
-echo "merge\n";						
-				$to_field_value = $this->get_to_field_value( $to_field_type, $to_field_key, $to_post_id );
-			}		
-// THIS IS NOT MAPPING
-			if ('' !== $to_field_value) {
-				echo "we have to_field_value\n";
-				// echo "to_field_value: $to_field_value\n";
+		// loop through the mapped data.
+		// if we are merging, the to_post_id gets priority. else, the post_id gets priority.
+		foreach ( $mapped_data as $map_arr ) {			
+			if ( $merge && '' !== $map_arr['to']['value'] ) {
+				// do nothing";				
 			} else {
-				echo "we don't have to_field_value\n";
-return;				
-				if ( $merge ) {
-					$post_id = $to_post_id;
-				}
-
-				$this->update_field_value( array(
+echo "update_meta - update_field_value\n";				
+				PostDataManager::update_field_value( array(
 					'post_id' => $post_id,
-					'field_type' => $to_field_type,
-					'from_acf_field_type' => $from_acf_field_type,
-					'to_acf_field_type' => $to_acf_field_type,
-					'from_field_key' => $from_field_key,
-					'from_field_value' => $from_field_value,
-					'to_field_key' => $to_field_key,
-				) );
+					'field_type' => $map_arr['to']['type'],
+					'from_acf_field_type' => isset( $map_arr['from']['field_type'] ) ? $map_arr['from']['field_type'] : '',
+					'to_acf_field_type' => isset( $map_arr['to']['field_type'] ) ? $map_arr['to']['field_type'] : '',
+					'from_field_key' => $map_arr['from']['key'],
+					'from_field_value' => $map_arr['from']['value'],
+					'to_field_key' => $map_arr['to']['key'],
+				) );				
 			}
+		}				
 
 			// TODO: add param or flag
+echo "delete old meta commented out\n";			
 			// PostDataManager::delete_field_value( $post_id, $from_field_key, $from_field_type );
 			// $this->delete_old_meta($post_id, $from_field_key, $from_field_type);
-// END NOT MAPPING
-			$this->log( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
-			$this->add_notice( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );		
+echo "update log and notice\n";
+			// $this->log( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
+			// $this->add_notice( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );		
 	}
 
 	/**
