@@ -408,33 +408,24 @@ echo "tax_map_file\n";
 		// Get the mapped values.
 		$mapper = new MapPostData( $this );
 		$mapped_data = $mapper->map( $post_id, $meta_map, $to_post_id );	
-echo "update_meta - mapped_data\n";
-		print_r( $mapped_data );
-return;
+
 		// loop through the mapped data.
-		// if we are merging, the to_post_id gets priority. else, the post_id gets priority.
-		foreach ( $mapped_data as $map_arr ) {			
-			if ( $merge && '' !== $map_arr['to']['value'] ) {
-				// do nothing";				
-			} else {
-echo "update_meta - update_field_value\n";				
-				PostDataManager::update_field_value( array(
-					'post_id' => $post_id,
-					'field_type' => $map_arr['to']['type'],
-					'from_acf_field_type' => isset( $map_arr['from']['field_type'] ) ? $map_arr['from']['field_type'] : '',
-					'to_acf_field_type' => isset( $map_arr['to']['field_type'] ) ? $map_arr['to']['field_type'] : '',
-					'from_field_key' => $map_arr['from']['key'],
-					'from_field_value' => $map_arr['from']['value'],
-					'to_field_key' => $map_arr['to']['key'],
-				) );				
-			}
+		foreach ( $mapped_data as $map_arr ) {						
+			$updated_value = PostDataManager::update_field_value( array(
+				'post_id' => $post_id,
+				'type' => $map_arr['type'],
+				'key' => $map_arr['key'],
+				'value' => $map_arr['value'],
+			) );
+echo "PostType::update_meta - ". $map_arr['key'] . ": updated_value\n";			
+print_r( $updated_value );			
 		}				
 
 			// TODO: add param or flag
-echo "delete old meta commented out\n";			
+// echo "delete old meta commented out\n";			
 			// PostDataManager::delete_field_value( $post_id, $from_field_key, $from_field_type );
 			// $this->delete_old_meta($post_id, $from_field_key, $from_field_type);
-echo "update log and notice\n";
+// echo "update log and notice\n";
 			// $this->log( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );
 			// $this->add_notice( "Copied `$from_field_key` from `$from_field_type` to `$to_field_key` in `$to_field_type`.", 'success' );		
 	}
