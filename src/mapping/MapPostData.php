@@ -45,28 +45,18 @@ class MapPostData {
 			if (is_wp_error( $to_field_value )) {
 				$to_field_value = '';
 			}
-// check merge and then return proper value
-// echo "to_field_value - merge: $to_field_value\n";
-// if ( empty( $to_field_value )) {
-// 	echo "to field value empty\n";
-// 	// echo "to field value not empty: $to_field_value\n";
-// }
-			if ( $merge && !empty( $to_field_value ) ) {
-echo "use to_field_value\n";				
+
+			// check merge and then return proper value.
+			if ( $merge && !empty( $to_field_value ) ) {				
 				$mapped_data[$to_field_key] = $to_field_value;
-			} else {
-echo "use from_field_value\n";				
-// print_r( $from_field_value );				
+			} else {				
 				$mapped_data[$to_field_key] = $from_field_value;
 			}
 			 
 			$map[$key]['to']['value'] = $to_field_value;			
 		}
-// $post_id, $to_field_key, $from_field_value
-echo "MapPostData - map\n";
-// print_r( $map );
-// print_r( $mapped_data );
-		return $map;
+
+		return $mapped_data;
 	}
 
 	protected function get_field_value(string $type, string $key, int $post_id) {

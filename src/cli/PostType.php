@@ -408,8 +408,8 @@ echo "tax_map_file\n";
 		// Get the mapped values.
 		$mapper = new MapPostData( $this );
 		$mapped_data = $mapper->map( $post_id, $meta_map, $to_post_id );	
-// echo "update_meta - mapped_data\n";
-		// print_r( $mapped_data );
+echo "update_meta - mapped_data\n";
+		print_r( $mapped_data );
 return;
 		// loop through the mapped data.
 		// if we are merging, the to_post_id gets priority. else, the post_id gets priority.
