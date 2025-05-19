@@ -2,7 +2,12 @@ parameters:
     level: 6
     paths:
         - src/
-    bootstrapFiles:       
+    bootstrapFiles:
+        - src/BCMigration.php
+    stubFiles:
+        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+        - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
+        - vendor/php-stubs/acf-pro-stubs/acf-pro-stubs.php
     scanDirectories:
     treatPhpDocTypesAsCertain: false
     parallel:
