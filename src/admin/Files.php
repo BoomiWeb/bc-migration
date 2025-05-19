@@ -70,10 +70,10 @@ class Files {
 	public function upload() {
 		if ( isset( $_POST['bcm_upload_csv'] ) && check_admin_referer( 'bcm_upload_csv_action' ) ) {
 			if ( isset( $_FILES['bcm_csv_file'] ) && is_array( $_FILES['bcm_csv_file'] ) ) {
-				$file = $_FILES['bcm_csv_file'];
+				$file = $_FILES['bcm_csv_file']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 				if ( isset( $file['tmp_name'] ) && ! empty( $file['tmp_name'] ) ) {
-					$result = $this->handle_csv_upload( $_FILES['bcm_csv_file'] );
+					$result = $this->handle_csv_upload( $_FILES['bcm_csv_file'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 					if ( is_wp_error( $result ) ) {
 						echo '<div class="notice notice-error"><p>' . esc_html( $result->get_error_message() ) . '</p></div>';
@@ -97,7 +97,7 @@ class Files {
 		if ( isset( $_POST['bcm_delete_file'] ) && current_user_can( 'manage_options' ) ) {
 			check_admin_referer( 'bcm_delete_file_action' );
 
-			$delete_file = basename( $_POST['bcm_delete_file'] ); // sanitize.
+			$delete_file = basename( sanitize_text_field( wp_unslash( $_POST['bcm_delete_file'] ) ) );
 			$file_path   = $this->upload_dir . $delete_file;
 
 			if ( file_exists( $file_path ) ) {
@@ -118,7 +118,7 @@ class Files {
 	 * @return string|WP_Error The path to the uploaded file on success, or a WP_Error object on failure.
 	 */
 	private function handle_csv_upload( $file ) {
-		if ( ! is_uploaded_file( $file['tmp_name'] ) || $file['error'] !== UPLOAD_ERR_OK ) {
+		if ( ! is_uploaded_file( $file['tmp_name'] ) || UPLOAD_ERR_OK !== $file['error'] ) {
 			return new WP_Error( 'upload_error', 'File upload failed or was invalid.' );
 		}
 
