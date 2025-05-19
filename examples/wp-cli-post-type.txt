@@ -1,0 +1,59 @@
+wp boomi migrate post-type --from=foo --to=page --post_ids=177509,177510
+wp boomi migrate post-type --from=post --to=bar --post_ids=177509,177510
+
+wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510 --copy-tax
+wp boomi migrate post-type --from=page --to=post --post_ids=177509,177510
+
+wp boomi migrate post-type --from=post --to=page --taxonomy=apis
+
+wp boomi migrate post-type --from=post --to=page --taxonomy=monkey --taxonomy-type=foobar
+
+wp boomi migrate post-type --from=post --to=page --post_ids=188688 --copy-meta 
+
+--copy-tax
+
+
+wp boomi migrate post-type --from=post --to=events --post_ids=188688 --copy-tax
+
+wp boomi migrate post-type --from=events --to=post --post_ids=188688 --copy-tax
+
+
+wp boomi migrate post-type --from=blog --to=resource-library --post_ids=187626 --copy-tax
+// will be the one to test only matches
+
+wp boomi migrate post-type --from=resource-library --to=blog --post_ids=187626 --copy-tax
+
+- cat migration:
+	tax: category > event-category
+
+wp boomi migrate post-type --from=events --to=events --post_ids=188688 --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json
+
+wp boomi migrate post-type --from=events --to=post --post_ids=188688
+
+Testing migration a resource webinar to an event with the meta/acf
+wp boomi migrate post-type --from=resource-library --to=events --post_ids=188932 --meta-map=/Users/erikmitchell/bc-migration/examples/post-type-meta-map.json
+
+wp boomi migrate post-type --from=events --to=events --post_ids=188932 --meta-map=/Users/erikmitchell/bc-migration/examples/post-type-meta-map.json
+
+
+Full Test 1
+
+wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type.csv --meta-map=/Users/erikmitchell/bc-migration/examples/post-type-meta-map.json --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json
+
+Full Test 1a - CSV file post types were changed
+
+Test 2a
+wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type.csv --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json
+
+Test 3a
+wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type.csv --meta-map=/Users/erikmitchell/bc-migration/examples/post-type-meta-map.json
+
+Authors Test
+wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/authors-bios-cpt.csv --meta-map=/Users/erikmitchell/bc-migration/examples/authors-meta.json
+
+
+Test: Adam Arrowsmith: blog > bio
+wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/adam-blog-bio.csv --meta-map=/Users/erikmitchell/bc-migration/examples/authors-meta.json
+
+
+ 
