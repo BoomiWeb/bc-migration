@@ -67,8 +67,8 @@ class PostTaxonomiesMappedTerms {
 	 * @param int    $post_id    The post ID to map terms for.
 	 * @param array  $custom_map Optional. Custom mapping for terms.
 	 *
-	 * @return void|\WP_Error Returns a WP_Error on invalid arguments or if the
-	 *                        specified taxonomies do not exist.
+	 * @throws \InvalidArgumentException If the arguments passed to the constructor are invalid.
+	 * @return void
 	 */
 	public function __construct( string $from = '', string $to = '', int $post_id = 0, array $custom_map = array() ) {
 		$this->from       = $from;
@@ -77,19 +77,19 @@ class PostTaxonomiesMappedTerms {
 		$this->custom_map = $custom_map;
 
 		if ( ! $from || ! $to ) {
-			return new \WP_Error( 'invalid_arguments', "Invalid arguments for get_mapped_term_id(): from: $from, to: $to" );
+			throw new \InvalidArgumentException( 'Invalid arguments for get_mapped_term_id(): from: ' . esc_attr( $from ) . ', to: ' . esc_attr( $to ) . '' );
 		}
 
 		if ( ! taxonomy_exists( $from ) ) {
-			return new \WP_Error( 'invalid_from_taxonomy', "Taxonomy `$from` does not exist." );
+			throw new \InvalidArgumentException( 'Taxonomy `' . esc_attr( $from ) . '` does not exist.' );
 		}
 
 		if ( ! taxonomy_exists( $to ) ) {
-			return new \WP_Error( 'invalid_to_taxonomy', "Taxonomy `$to` does not exist." );
+			throw new \InvalidArgumentException( 'Taxonomy `' . esc_attr( $to ) . '` does not exist.' );
 		}
 
 		if ( ! $post_id ) {
-			return new \WP_Error( 'invalid_post_id', "Invalid post ID: $post_id" );
+			throw new \InvalidArgumentException( 'Invalid post ID: ' . esc_attr( $post_id ) . '' );
 		}
 
 		$this->setup_term_ids();
@@ -130,8 +130,6 @@ class PostTaxonomiesMappedTerms {
 	 * Retrieves the term IDs of the current post and checks if they have a mapped
 	 * equivalent in the target taxonomy. If not, they are stored in the
 	 * unmapped_term_ids property.
-	 *
-	 * @return void
 	 */
 	private function setup_term_ids() {
 		$terms = wp_get_object_terms( $this->post_id, $this->from, array( 'fields' => 'ids' ) );

@@ -64,7 +64,7 @@ class PostType extends CLICommands {
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=188688 --copy-tax
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=188688 --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=188932 --meta-map=/Users/erikmitchell/bc-migration/examples/post-type-meta-map.json
-	 *     wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type-resources-events.csv --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json --meta-map=/Users/erikmitchell/bc-migration/examples/post-type-meta-map.json 
+	 *     wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type-resources-events.csv --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json --meta-map=/Users/erikmitchell/bc-migration/examples/post-type-meta-map.json
 	 *
 	 * @param string[]             $args       CLI positional arguments.
 	 * @param array<string, mixed> $assoc_args CLI associative arguments.
@@ -254,11 +254,9 @@ class PostType extends CLICommands {
 				} else {
 					$this->copy_tax( $post_id, $from );
 				}
-
-				
 			}
 
-			if ( $tax_map_file ) {			
+			if ( $tax_map_file ) {
 				if ( ! file_exists( $tax_map_file ) ) {
 					$this->log( "Mapping file not found: $tax_map_file", 'warning' );
 					$this->add_notice( "Mapping file not found: $tax_map_file", 'warning' );
@@ -270,7 +268,7 @@ class PostType extends CLICommands {
 				$mapper->map( $post_id, $tax_map );
 			}
 
-			if ( $meta_map_file ) {				
+			if ( $meta_map_file ) {
 				if ( ! file_exists( $meta_map_file ) ) {
 					$this->log( "Mapping file not found: $meta_map_file", 'warning' );
 					$this->add_notice( "Mapping file not found: $meta_map_file", 'warning' );
@@ -287,8 +285,6 @@ class PostType extends CLICommands {
 
 		$this->log( "Migrated $count posts.", 'success' );
 		$this->add_notice( "Migrated $count posts.", 'success' );
-
-		return;
 	}
 
 	/**

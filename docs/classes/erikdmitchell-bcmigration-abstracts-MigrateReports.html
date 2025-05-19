@@ -216,14 +216,14 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a href="classes/erikdmitchell-bcmigration-abstracts-MigrateReports.html#method_maybe_format_keys">maybe_format_keys()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array&lt;string, mixed&gt;    </span>
 </dt>
 <dd>Converts the keys of the given associative array from camel case to snake case.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a href="classes/erikdmitchell-bcmigration-abstracts-MigrateReports.html#method_migrate_reports">migrate_reports()</a>
     <span>
-                                &nbsp;: array&lt;int, int&gt;    </span>
+                                &nbsp;: array&lt;int, string&gt;    </span>
 </dt>
 <dd>Migrates the AI Tool reports from the JSON files to the database.</dd>
 
@@ -627,7 +627,7 @@ the failure. If successful, the ID of the inserted row is returned.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                <span class="phpdocumentor-signature__name">maybe_format_keys</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                <span class="phpdocumentor-signature__name">maybe_format_keys</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
 
         <section class="phpdocumentor-description"><p>Utilizes the <code class="prettyprint">camel_to_snake</code> function to transform each key in the array.</p>
 </section>
@@ -636,7 +636,7 @@ the failure. If successful, the ID of the inserted row is returned.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$data</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The associative array with camel case keys to be transformed.</p>
@@ -648,7 +648,7 @@ the failure. If successful, the ID of the inserted row is returned.</p>
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+    <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
             &mdash;
             <section class="phpdocumentor-description"><p>The array with keys converted to snake case.</p>
 </section>
@@ -676,7 +676,7 @@ the failure. If successful, the ID of the inserted row is returned.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                <span class="phpdocumentor-signature__name">migrate_reports</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$files</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, int&gt;</span></code>
+                <span class="phpdocumentor-signature__name">migrate_reports</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$files</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -695,7 +695,7 @@ the failure. If successful, the ID of the inserted row is returned.</p>
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">array&lt;int, int&gt;</span>
+    <span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span>
             &mdash;
             <section class="phpdocumentor-description"><p>Array of IDs of migrated reports.</p>
 </section>

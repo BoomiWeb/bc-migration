@@ -159,7 +159,7 @@
                     <dt class="phpdocumentor-table-of-contents__entry -property -public">
     <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#property_notices">$notices</a>
     <span>
-                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: mixed            </span>
 </dt>
 <dd>WP CLI notices.</dd>
 
@@ -388,12 +388,14 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">$notices</span>
      = <span class="phpdocumentor-signature__default-value">array()</span></code>
 
     
-    
+        <section class="phpdocumentor-description"><p>array&lt;array{type: string, message: string}&gt;</p>
+</section>
+
     
 
 </article>
@@ -804,7 +806,7 @@ If null, the default log file name is used.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/cli/PostType.php"><a href="files/src-cli-posttype.html"><abbr title="src/cli/PostType.php">PostType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">73</span>
+    <span class="phpdocumentor-element-found-in__line">74</span>
 
     </aside>
 
@@ -842,6 +844,7 @@ wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post
 wp boomi migrate post-type --from=post --to=page --post_ids=188688 --copy-tax
 wp boomi migrate post-type --from=post --to=page --post_ids=188688 --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json
 wp boomi migrate post-type --from=post --to=page --post_ids=188932 --meta-map=/Users/erikmitchell/bc-migration/examples/post-type-meta-map.json
+wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type-resources-events.csv --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json --meta-map=/Users/erikmitchell/bc-migration/examples/post-type-meta-map.json
 </code></pre>
 </section>
 
@@ -1066,7 +1069,7 @@ wp boomi migrate post-type --from=post --to=page --post_ids=188932 --meta-map=/U
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                <span class="phpdocumentor-signature__name">export_csv</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$filename</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$rows</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$headers</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">array()</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                <span class="phpdocumentor-signature__name">export_csv</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$filename</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;int|string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$rows</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;int|string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$headers</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">array()</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1082,7 +1085,7 @@ wp boomi migrate post-type --from=post --to=page --post_ids=188932 --meta-map=/U
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$rows</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;int|string, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>array of data.</p>
@@ -1091,7 +1094,7 @@ wp boomi migrate post-type --from=post --to=page --post_ids=188932 --meta-map=/U
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$headers</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;int|string, string&gt;</span>
                  = <span class="phpdocumentor-signature__argument__default-value">array()</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>(default: array()).</p>
@@ -1168,7 +1171,7 @@ wp boomi migrate post-type --from=post --to=page --post_ids=188932 --meta-map=/U
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/cli/PostType.php"><a href="files/src-cli-posttype.html"><abbr title="src/cli/PostType.php">PostType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">444</span>
+    <span class="phpdocumentor-element-found-in__line">437</span>
 
     </aside>
 
@@ -1233,7 +1236,7 @@ wp boomi migrate post-type --from=post --to=page --post_ids=188932 --meta-map=/U
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/cli/PostType.php"><a href="files/src-cli-posttype.html"><abbr title="src/cli/PostType.php">PostType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">421</span>
+    <span class="phpdocumentor-element-found-in__line">414</span>
 
     </aside>
 
@@ -1289,7 +1292,7 @@ wp boomi migrate post-type --from=post --to=page --post_ids=188932 --meta-map=/U
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/cli/PostType.php"><a href="files/src-cli-posttype.html"><abbr title="src/cli/PostType.php">PostType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">199</span>
+    <span class="phpdocumentor-element-found-in__line">200</span>
 
     </aside>
 
@@ -1381,7 +1384,7 @@ wp boomi migrate post-type --from=post --to=page --post_ids=188932 --meta-map=/U
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/cli/PostType.php"><a href="files/src-cli-posttype.html"><abbr title="src/cli/PostType.php">PostType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">391</span>
+    <span class="phpdocumentor-element-found-in__line">384</span>
 
     </aside>
 
@@ -1480,7 +1483,7 @@ wp boomi migrate post-type --from=post --to=page --post_ids=188932 --meta-map=/U
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/cli/PostType.php"><a href="files/src-cli-posttype.html"><abbr title="src/cli/PostType.php">PostType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">357</span>
+    <span class="phpdocumentor-element-found-in__line">350</span>
 
     </aside>
 
@@ -1539,7 +1542,7 @@ them to the <code class="prettyprint">to</code> post type if they are not alread
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/cli/PostType.php"><a href="files/src-cli-posttype.html"><abbr title="src/cli/PostType.php">PostType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">306</span>
+    <span class="phpdocumentor-element-found-in__line">299</span>
 
     </aside>
 
@@ -1604,7 +1607,7 @@ them to the <code class="prettyprint">to</code> post type if they are not alread
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/cli/PostType.php"><a href="files/src-cli-posttype.html"><abbr title="src/cli/PostType.php">PostType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">464</span>
+    <span class="phpdocumentor-element-found-in__line">457</span>
 
     </aside>
 
@@ -1707,7 +1710,7 @@ them to the <code class="prettyprint">to</code> post type if they are not alread
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/cli/PostType.php"><a href="files/src-cli-posttype.html"><abbr title="src/cli/PostType.php">PostType.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">144</span>
+    <span class="phpdocumentor-element-found-in__line">145</span>
 
     </aside>
 
