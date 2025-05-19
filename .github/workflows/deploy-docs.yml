@@ -14,6 +14,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # Set up PHP (adjust version as needed)
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'  # or your project's PHP version
+          extensions: mbstring, xml
+
+      # Install Composer dependencies
+      - name: Install dependencies
+        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+
+      # Run PHPDoc generation (adjust if your command differs)
+      - name: Generate PHPDocs
+        run: vendor/bin/phpdoc -d ./src -t ./docs
+
+      # Deploy generated docs to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
