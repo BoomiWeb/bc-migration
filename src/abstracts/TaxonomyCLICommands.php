@@ -25,7 +25,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
 	 * Checks if the provided post type is a string and if it exists.
 	 * Returns a WP_Error if the validation fails.
 	 *
-	 * @param string $post_type The post type to validate.
+	 * @param string   $post_type The post type to validate.
 	 * @param int|null $row_num The row number in the CSV file (optional).
 	 * @return string|WP_Error The post type if valid, or a WP_Error on failure.
 	 */
@@ -55,7 +55,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
 	 * Checks if the provided taxonomy is a string and if it exists.
 	 * Returns a WP_Error if the taxonomy is invalid.
 	 *
-	 * @param string $taxonomy The taxonomy to validate.
+	 * @param string   $taxonomy The taxonomy to validate.
 	 * @param int|null $row_num The row number in the CSV file (optional).
 	 * @return string|WP_Error Returns the taxonomy if valid, otherwise a WP_Error object.
 	 */
@@ -85,7 +85,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
 	 * Handles invalid taxonomy errors by logging and adding notices.
 	 *
 	 * @param WP_Taxonomy|WP_Error $taxonomy The taxonomy or error object.
-	 * @param int|null $row_num  Optional. The row number for logging purposes. Defaults to null.
+	 * @param int|null             $row_num  Optional. The row number for logging purposes. Defaults to null.
 	 *
 	 * @return void|false Returns false if row number is provided, otherwise void.
 	 */

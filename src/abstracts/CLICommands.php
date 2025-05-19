@@ -92,9 +92,9 @@ abstract class CLICommands {
 	/**
 	 * Create and write to a CSV file
 	 *
-	 * @param string $filename the full name of the file.
+	 * @param string                    $filename the full name of the file.
 	 * @param array<int|string, mixed>  $rows array of data.
-	 * @param array<int|string, string>  $headers (default: array()).
+	 * @param array<int|string, string> $headers (default: array()).
 	 * @return void
 	 */
 	protected function export_csv( $filename, $rows, $headers = array() ) {
@@ -107,6 +107,7 @@ abstract class CLICommands {
         $fp = fopen( $filename, 'w+' ); // @codingStandardsIgnoreLine WordPress.WP.AlternativeFunctions.file_system_read_fopen
 
 		if ( ! empty( $headers ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Outputting to CSV file, no escaping needed
 			fputcsv( $fp, $headers );
 		}
 
@@ -115,6 +116,7 @@ abstract class CLICommands {
 				$row = $this->pick_fields( $row, $headers );
 			}
 
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Outputting to CSV file, no escaping needed
 			fputcsv( $fp, array_values( $row ) );
 		}
 

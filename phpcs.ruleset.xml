@@ -2,34 +2,27 @@
 <ruleset name="BC Migration Ruleset">
     <description>BC Migration Ruleset</description>
 
-    <!-- Include paths -->
     <file>src</file>
 
-    <!-- Show progress, show error sources -->
     <arg value="ps" />
     <arg name="basepath" value="./" />
     <arg name="parallel" value="8" />
 
-    <!-- Compatibility settings -->
     <config name="minimum_supported_wp_version" value="6.7" />
-    <config name="testVersion" value="8.0-" />
 
-    <!-- PHP Compatibility -->
     <rule ref="PHPCompatibility">
         <properties>
             <property name="testVersion" value="8.0-" />
         </properties>
     </rule>
 
-    <!-- Universal Coding Standards -->
     <rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames.returnFound">
         <exclude-pattern>src/abstracts/wp-async-request.php</exclude-pattern>
-    </rule>    
+    </rule>
 
-    <!-- WordPress Coding Standards -->
-	<rule ref="WordPress">
-		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
-		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+    <rule ref="WordPress">
+        <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+        <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
         <exclude name="WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents" />
         <exclude name="WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents" />
         <exclude name="WordPress.WP.AlternativeFunctions.file_system_operations_mkdir" />
@@ -38,7 +31,7 @@
         <exclude name="WordPress.DB.PreparedSQL.InterpolatedNotPrepared" />
         <exclude name="WordPress.DB.DirectDatabaseQuery.NoCaching" />
         <exclude name="WordPress.DB.SlowDBQuery.slow_db_query_tax_query" />
-	</rule>
+    </rule>
 
     <rule ref="WordPress.WP.I18n.MissingArgDomain">
         <exclude-pattern>src/abstracts/wp-background-process.php</exclude-pattern>
@@ -46,16 +39,17 @@
 
     <rule ref="WordPress.WP.I18n.MissingTranslatorsComment">
         <exclude-pattern>src/abstracts/wp-background-process.php</exclude-pattern>
-    </rule> 
+    </rule>
 
     <rule ref="WordPress.WP.CronInterval.ChangeDetected">
         <exclude-pattern>src/abstracts/wp-background-process.php</exclude-pattern>
-    </rule>       
+    </rule>
 
-    <!-- I18n -->
     <rule ref="WordPress.WP.I18n">
         <properties>
-            <property name="text_domain" type="array" value="bc-migration" />
+            <property name="text_domain" type="array">
+                <element value="bc-migration"/>
+            </property>
         </properties>
     </rule>
 </ruleset>
