@@ -20,7 +20,7 @@ abstract class Taxonomies {
 	 * Retrieve terms from a taxonomy.
 	 *
 	 * @param string $term Optional. Term name or slug to search for.
-	 * @return array|WP_Error The terms data or WP_Error on failure.
+	 * @return array<string>|WP_Error The terms data or WP_Error on failure.
 	 */
 	public function get_terms( string $term = '' ) {
 		$terms = get_terms(
@@ -62,7 +62,7 @@ abstract class Taxonomies {
 			$term = get_term_by( 'name', $old_term, $taxonomy );
 		}
 
-		if ( ! $term || is_wp_error( $term ) ) {
+		if ( is_wp_error( $term ) || ! $term ) {
 			return new WP_Error( 'term_not_found', "Term '$old_term' not found in taxonomy '$taxonomy'." );
 		}
 

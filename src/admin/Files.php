@@ -9,6 +9,8 @@
 
 namespace erikdmitchell\bcmigration\admin;
 
+use WP_Error;
+
 /**
  * Files class
  */
@@ -113,8 +115,7 @@ class Files {
 	 * Validates the uploaded file for correct type and mime type,
 	 * and moves it to the upload directory if valid.
 	 *
-	 * @param array $file The uploaded file array from $_FILES.
-	 *
+	 * @param array<string|int, mixed> $file The uploaded file array from $_FILES.
 	 * @return string|WP_Error The path to the uploaded file on success, or a WP_Error object on failure.
 	 */
 	private function handle_csv_upload( $file ) {

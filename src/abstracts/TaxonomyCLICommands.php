@@ -84,7 +84,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
 	/**
 	 * Handles invalid taxonomy errors by logging and adding notices.
 	 *
-	 * @param WP_Error $taxonomy The taxonomy error object.
+	 * @param WP_Taxonomy|WP_Error $taxonomy The taxonomy or error object.
 	 * @param int|null $row_num  Optional. The row number for logging purposes. Defaults to null.
 	 *
 	 * @return void|false Returns false if row number is provided, otherwise void.

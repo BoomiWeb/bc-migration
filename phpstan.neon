@@ -8,7 +8,7 @@ parameters:
         - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
         - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
         - vendor/php-stubs/acf-pro-stubs/acf-pro-stubs.php
-    excludes_analyse:
+    excludePaths:
         - src/abstracts/wp-async-request.php
         - src/abstracts/wp-background-process.php
     scanDirectories:
