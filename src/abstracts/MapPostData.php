@@ -39,6 +39,7 @@ abstract class MapPostData {
 	 *
 	 * @param string $message The message to log.
 	 * @param string $level   Optional. The log level. Defaults to 'info'.
+	 * @return void
 	 */
 	protected function log( string $message, string $level = 'info' ) {
 		if ( $this->caller && method_exists( $this->caller, 'log' ) ) {
@@ -54,6 +55,7 @@ abstract class MapPostData {
 	 *
 	 * @param string $message The message to add as a notice.
 	 * @param string $level   Optional. The type of notice. Defaults to 'info'.
+	 * @return void
 	 */
 	protected function add_notice( string $message, string $level = 'info' ) {
 		if ( $this->caller && method_exists( $this->caller, 'add_notice' ) ) {

@@ -19,7 +19,7 @@ class BlogTaxonomies extends Taxonomies {
 	/**
 	 * The taxonomies associated with the 'blog' post type.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	public $taxonomies;
 
@@ -56,7 +56,7 @@ class BlogTaxonomies extends Taxonomies {
 	/**
 	 * Get the taxonomies associated with the 'blog' post type.
 	 *
-	 * @return array The taxonomies associated with the 'blog' post type.
+	 * @return string[] The taxonomies associated with the 'blog' post type.
 	 */
 	public function taxonomies() {
 		return $this->taxonomies;

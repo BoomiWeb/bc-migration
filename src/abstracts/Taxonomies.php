@@ -9,6 +9,8 @@
 
 namespace erikdmitchell\bcmigration\abstracts;
 
+use WP_Error;
+
 /**
  * Taxonomies Class
  */

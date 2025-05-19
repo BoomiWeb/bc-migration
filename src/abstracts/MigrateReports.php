@@ -98,7 +98,7 @@ class MigrateReports {
 	 * Migrates the AI Tool reports from the JSON files to the database.
 	 *
 	 * @param array<int, string> $files Array of JSON file paths to be migrated.
-	 * @return array<int, int> Array of IDs of migrated reports.
+	 * @return array<int, string> Array of IDs of migrated reports.
 	 */
 	protected function migrate_reports( array $files ) {
 		return $files;
@@ -109,8 +109,8 @@ class MigrateReports {
 	 *
 	 * Utilizes the `camel_to_snake` function to transform each key in the array.
 	 *
-	 * @param array $data The associative array with camel case keys to be transformed.
-	 * @return array The array with keys converted to snake case.
+	 * @param array<string, mixed> $data The associative array with camel case keys to be transformed.
+	 * @return array<string, mixed> The array with keys converted to snake case.
 	 */
 	protected function maybe_format_keys( array $data ) {
 		return array_combine(
