@@ -147,6 +147,19 @@ class UpdateTerms extends TaxonomyCLICommands {
 		}
 	}
 
+	/**
+	 * Processes a single taxonomy term update command.
+	 *
+	 * Validates the taxonomy and command arguments, then parses the input
+	 * for parent-child relationships to generate mappings. If the input
+	 * format is invalid, adds a notice and logs the error. If valid, it
+	 * processes the terms based on the mappings.
+	 *
+	 * @param string[] $args    CLI arguments including taxonomy and term relationships.
+	 * @param bool     $dry_run If true, simulates the update process without making changes.
+	 *
+	 * @return void
+	 */
 	private function process_single_term( array $args, bool $dry_run ) {
 		$taxonomy = $this->validate_taxonomy( $args[0] );
 

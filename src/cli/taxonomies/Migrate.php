@@ -79,6 +79,15 @@ class Migrate extends TaxonomyCLICommands {
 		$this->display_notices();
 	}
 
+	/**
+	 * Processes a CSV file of terms to migrate.
+	 *
+	 * @param string $file           Path to the CSV file.
+	 * @param bool   $delete_original If set, delete the original terms after migrating.
+	 * @param bool   $dry_run         If set, simulate actions without making changes.
+	 *
+	 * @return void
+	 */
 	private function process_csv( string $file, bool $delete_original = false, bool $dry_run = false ) {
 		$rows    = array_map( 'str_getcsv', file( $file ) );
 		$headers = array_map( 'trim', array_shift( $rows ) );
@@ -116,6 +125,15 @@ class Migrate extends TaxonomyCLICommands {
 		$this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
 	}
 
+	/**
+	 * Process a single term migration.
+	 *
+	 * @param string[] $args       CLI arguments.
+	 * @param bool     $dry_run    If set, no changes will be made.
+	 * @param bool     $delete_original  If set, the original term will be deleted after migration.
+	 *
+	 * @return void
+	 */
 	private function process_single_term( array $args, $dry_run, $delete_original ) {
 		if ( ! $this->validate_command_args( $args, 3, 3 ) ) {
 			$this->add_notice( 'Invalid arguments. Usage: wp taxonomy migrate <term_name> <from_taxonomy> <to_taxonomy>', 'error' );
@@ -135,6 +153,22 @@ class Migrate extends TaxonomyCLICommands {
 		}
 	}
 
+	/**
+	 * Migrate a term from one taxonomy to another.
+	 *
+	 * This function moves a term from a source taxonomy to a destination taxonomy,
+	 * updating all associated posts to reflect the change. Optionally, it can
+	 * delete the original term from the source taxonomy after migration.
+	 *
+	 * @param string   $term_name       The name of the term to migrate.
+	 * @param string   $from_tax        The source taxonomy to migrate from.
+	 * @param string   $to_tax          The destination taxonomy to migrate to.
+	 * @param bool     $delete_original Optional. Whether to delete the original term. Default false.
+	 * @param int|null $row_num       Optional. The row number for logging purposes.
+	 * @param bool     $dry_run         Optional. If true, simulates the migration without making changes. Default false.
+	 *
+	 * @return bool|WP_Error Returns true on success or WP_Error on failure.
+	 */
 	protected function migrate( string $term_name, string $from_tax, string $to_tax, bool $delete_original = false, $row_num = null, bool $dry_run = false ) {
 		$prefix = $row_num ? "Row $row_num: " : '';
 

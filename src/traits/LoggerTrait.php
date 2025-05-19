@@ -42,20 +42,22 @@ trait LoggerTrait {
 	 * Logs a message to a specified log file, creating the log directory if it does not exist.
 	 *
 	 * @param string      $message  The message to log.
+	 * @param string      $type     Optional. The type of log message. Default is 'info'.
 	 * @param string|null $log_name Optional. The name of the log file to write to.
 	 *                              If null, the default log file name is used.
 	 *
 	 * @return void
 	 */
-	public function log( string $message, ?string $log_name = null ): void {
+	public function log( string $message, string $type = 'info', ?string $log_name = null ): void {
 		$log_file = $this->get_log_file_path( $log_name ?? $this->log_name );
+		$type     = strtoupper( $type );
 
 		if ( ! is_dir( $this->log_dir ) ) {
 			mkdir( $this->log_dir, 0775, true );
 		}
 
 		$timestamp = gmdate( 'Y-m-d H:i:s' );
-		$formatted = "[{$timestamp}] {$message}" . PHP_EOL;
+		$formatted = "[{$timestamp}] [{$type}] {$message}" . PHP_EOL;
 
 		file_put_contents( $log_file, $formatted, FILE_APPEND );
 	}

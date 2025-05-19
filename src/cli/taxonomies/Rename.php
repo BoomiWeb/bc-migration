@@ -149,8 +149,8 @@ class Rename extends TaxonomyCLICommands {
 	/**
 	 * Processes the renaming of a single taxonomy term.
 	 *
-	 * @param string[]             $args       CLI arguments including taxonomy, old term name, and new term name.
-	 * @param bool                 $dry_run    If true, simulates the rename process without making changes.
+	 * @param string[] $args       CLI arguments including taxonomy, old term name, and new term name.
+	 * @param bool     $dry_run    If true, simulates the rename process without making changes.
 	 *
 	 * @return void
 	 */
