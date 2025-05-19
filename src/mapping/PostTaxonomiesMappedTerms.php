@@ -57,18 +57,14 @@ class PostTaxonomiesMappedTerms {
 	private $to = '';
 
 	/**
-	 * Constructor for the PostTaxonomiesMappedTerms class.
+	 * Constructor for PostTaxonomiesMappedTerms class
 	 *
-	 * Initializes the instance with the specified source and target taxonomies,
-	 * post ID, and custom mapping.
+	 * @param string $from       Source taxonomy slug
+	 * @param string $to         Target taxonomy slug
+	 * @param int    $post_id    Post ID
+	 * @param array  $custom_map Custom mapping for terms
 	 *
-	 * @param string $from       The source taxonomy slug.
-	 * @param string $to         The target taxonomy slug.
-	 * @param int    $post_id    The post ID to map terms for.
-	 * @param array  $custom_map Optional. Custom mapping for terms.
-	 *
-	 * @return void|\WP_Error Returns a WP_Error on invalid arguments or if the
-	 *                        specified taxonomies do not exist.
+	 * @throws \InvalidArgumentException If taxonomy slug or post ID is invalid
 	 */
 	public function __construct( string $from = '', string $to = '', int $post_id = 0, array $custom_map = array() ) {
 		$this->from       = $from;
@@ -77,19 +73,19 @@ class PostTaxonomiesMappedTerms {
 		$this->custom_map = $custom_map;
 
 		if ( ! $from || ! $to ) {
-			return new \WP_Error( 'invalid_arguments', "Invalid arguments for get_mapped_term_id(): from: $from, to: $to" );
+			throw new \InvalidArgumentException( "Invalid arguments for get_mapped_term_id(): from: $from, to: $to" );
 		}
 
 		if ( ! taxonomy_exists( $from ) ) {
-			return new \WP_Error( 'invalid_from_taxonomy', "Taxonomy `$from` does not exist." );
+			throw new \InvalidArgumentException( "Taxonomy `$from` does not exist." );
 		}
 
 		if ( ! taxonomy_exists( $to ) ) {
-			return new \WP_Error( 'invalid_to_taxonomy', "Taxonomy `$to` does not exist." );
+			throw new \InvalidArgumentException( "Taxonomy `$to` does not exist." );
 		}
 
 		if ( ! $post_id ) {
-			return new \WP_Error( 'invalid_post_id', "Invalid post ID: $post_id" );
+			throw new \InvalidArgumentException( "Invalid post ID: $post_id" );
 		}
 
 		$this->setup_term_ids();
