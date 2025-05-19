@@ -45,6 +45,7 @@ class PostDataManager {
     }
 
 	public static function update_post_data( int $post_id = 0, string $key = '', $value = '' ) {
+echo "update_post_data\n";		
 		return wp_update_post(
 			array(
 				'ID' => $post_id,
@@ -63,6 +64,7 @@ echo "update_featured_image\n";
 	}
 
 	public static function update_field_value( $args = [] ) {
+// echo "update_field_value\n";		
 		$updated_value = '';
 		$defaults = array(
 			'post_id' => 0,
@@ -71,7 +73,7 @@ echo "update_featured_image\n";
 			'value' => '',
 		);
 		$args = wp_parse_args( $args, $defaults );
-
+// print_r($args);
 		$post_id         = $args['post_id'];
 		$type = $args['type'];
 		$key = $args['key'];
@@ -83,6 +85,7 @@ echo "update_featured_image\n";
 				break;
 
 			case 'wp':
+// echo "update field value (wp): $key\n";				
 				switch ( $key ) {
 					case 'featured_image':										
 						if ( ! is_array( $value ) ) {		

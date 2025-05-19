@@ -21,7 +21,7 @@ class MapPostData {
 	public function map( int $post_id = 0, array $map = array(), int $to_post_id = 0 ) {
 		$mapped_data = array();
 
-		// tmp
+		// FIXME: tmp
 		$merge = true;
 
 		if (empty( $map ) || empty( $post_id )) {
@@ -69,14 +69,11 @@ class MapPostData {
 				'type' => $to_field_type,
 				'key' => $to_field_key,
 				'value' => $field_value,
-			);
-// print_r($field);			
+			);		
 		
-
 			$map[$key]['to']['value'] = $to_field_value;			
 		}
-// print_r($mapped_data);		
-// print_r($map);
+
 		return $mapped_data;
 	}
 
