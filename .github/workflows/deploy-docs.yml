@@ -3,6 +3,7 @@ name: Deploy PHPDoc to GitHub Pages
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write  # Required to push to gh-pages
