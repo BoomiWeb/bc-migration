@@ -123,7 +123,7 @@ class Files {
 		}
 
 		$extension = strtolower( pathinfo( $file['name'], PATHINFO_EXTENSION ) );
-		if ( $extension !== 'csv' ) {
+		if ( 'csv' !== $extension ) {
 			return new WP_Error( 'invalid_type', 'Only CSV files are allowed.' );
 		}
 

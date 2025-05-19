@@ -130,8 +130,6 @@ class PostTaxonomiesMappedTerms {
 	 * Retrieves the term IDs of the current post and checks if they have a mapped
 	 * equivalent in the target taxonomy. If not, they are stored in the
 	 * unmapped_term_ids property.
-	 *
-	 * @return void
 	 */
 	private function setup_term_ids() {
 		$terms = wp_get_object_terms( $this->post_id, $this->from, array( 'fields' => 'ids' ) );
