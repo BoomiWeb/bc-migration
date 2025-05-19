@@ -2,7 +2,7 @@ name: Deploy PHPDoc to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, composer-phpdocs]
   workflow_dispatch:
 
 permissions:
