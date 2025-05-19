@@ -25,20 +25,25 @@
         "php-stubs/wp-cli-stubs": "^2.5",
         "phpmd/phpmd": "@stable",
         "szepeviktor/phpstan-wordpress": "^2.0",
-        "phpstan/extension-installer": "^1.4"
+        "phpstan/extension-installer": "^1.4",
+        "phpdocumentor/phpdocumentor": "^3.3"
     },
     "scripts": {
         "phpcs": "vendor/bin/phpcs -s -p --standard=./phpcs.ruleset.xml",
         "phpcbf": "vendor/bin/phpcbf -p --standard=./phpcs.ruleset.xml",
         "phpstan": "vendor/bin/phpstan analyse --memory-limit=2G",
-        "phpdocs": "phpDocumentor"
+        "phpdocs": "vendor/bin/phpdoc"
     },
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "phpdocumentor/shim": true
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "require": {
+        "phpdocumentor/shim": "^3.7"
+    }
 }
