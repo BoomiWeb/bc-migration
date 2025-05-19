@@ -57,14 +57,18 @@ class PostTaxonomiesMappedTerms {
 	private $to = '';
 
 	/**
-	 * Constructor for PostTaxonomiesMappedTerms class
+	 * Constructor for the PostTaxonomiesMappedTerms class.
 	 *
-	 * @param string $from       Source taxonomy slug
-	 * @param string $to         Target taxonomy slug
-	 * @param int    $post_id    Post ID
-	 * @param array  $custom_map Custom mapping for terms
+	 * Initializes the instance with the specified source and target taxonomies,
+	 * post ID, and custom mapping.
 	 *
-	 * @throws \InvalidArgumentException If taxonomy slug or post ID is invalid
+	 * @param string $from       The source taxonomy slug.
+	 * @param string $to         The target taxonomy slug.
+	 * @param int    $post_id    The post ID to map terms for.
+	 * @param array  $custom_map Optional. Custom mapping for terms.
+	 *
+	 * @throws \InvalidArgumentException If the arguments passed to the constructor are invalid.
+	 * @return void
 	 */
 	public function __construct( string $from = '', string $to = '', int $post_id = 0, array $custom_map = array() ) {
 		$this->from       = $from;
@@ -73,19 +77,19 @@ class PostTaxonomiesMappedTerms {
 		$this->custom_map = $custom_map;
 
 		if ( ! $from || ! $to ) {
-			throw new \InvalidArgumentException( "Invalid arguments for get_mapped_term_id(): from: $from, to: $to" );
+			throw new \InvalidArgumentException( 'Invalid arguments for get_mapped_term_id(): from: ' . esc_attr( $from ) . ', to: ' . esc_attr( $to ) . '' );
 		}
 
 		if ( ! taxonomy_exists( $from ) ) {
-			throw new \InvalidArgumentException( "Taxonomy `$from` does not exist." );
+			throw new \InvalidArgumentException( 'Taxonomy `' . esc_attr( $from ) . '` does not exist.' );
 		}
 
 		if ( ! taxonomy_exists( $to ) ) {
-			throw new \InvalidArgumentException( "Taxonomy `$to` does not exist." );
+			throw new \InvalidArgumentException( 'Taxonomy `' . esc_attr( $to ) . '` does not exist.' );
 		}
 
 		if ( ! $post_id ) {
-			throw new \InvalidArgumentException( "Invalid post ID: $post_id" );
+			throw new \InvalidArgumentException( 'Invalid post ID: ' . esc_attr( $post_id ) . '' );
 		}
 
 		$this->setup_term_ids();
