@@ -244,13 +244,13 @@ class PostType extends CLICommands {
 			$to_post_id = $this->post_exists( $post->post_name, $to );
 			
 			if ($to_post_id) {
-				echo "we have a match for $post_id to $to ($to_post_id)\n";
+				// echo "we have a match for $post_id to $to ($to_post_id)\n";
 				$merge = true; // FIXME: should be passed
 				$updated = $to_post_id;
 			} else {
-				echo "update post type for $post_id to $to\n";
-				$updated = 1; // tmp
-				// $updated = $this->update_post_type( $post_id, $to );
+				// echo "update post type for $post_id to $to\n";
+				// $updated = 1; // tmp
+				$updated = $this->update_post_type( $post_id, $to );
 			}
 
 			if ( is_wp_error( $updated ) ) {
@@ -394,6 +394,7 @@ echo "tax_map_file\n";
 		foreach ( $mappings as $mapping ) {
 			if ( isset( $mapping['post_type'] ) && $mapping['post_type'] === $post_type_to_find ) {
 				$meta_map = $mapping['meta_map'];
+
 				break; // Stop at the first match.
 			}
 		}
@@ -407,8 +408,13 @@ echo "tax_map_file\n";
 
 		// Get the mapped values.
 		$mapper = new MapPostData( $this );
-		$mapped_data = $mapper->map( $post_id, $meta_map, $to_post_id );	
+		$mapped_data = $mapper->map( $post_id, $meta_map, $to_post_id ); // TODO: pass merge var
 
+		// Check $merge for correct post id.
+		if ( $merge ) {
+			$post_id = $to_post_id;
+		}
+// print_r( $mapped_data );
 		// loop through the mapped data.
 		foreach ( $mapped_data as $map_arr ) {						
 			$updated_value = PostDataManager::update_field_value( array(
@@ -417,8 +423,10 @@ echo "tax_map_file\n";
 				'key' => $map_arr['key'],
 				'value' => $map_arr['value'],
 			) );
-echo "PostType::update_meta - ". $map_arr['key'] . ": updated_value\n";			
-print_r( $updated_value );			
+
+			// TODO: add wp error check
+// echo $map_arr['key'] . " - updated_value\n";			
+// print_r( $updated_value );			
 		}				
 
 			// TODO: add param or flag
