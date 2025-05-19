@@ -13,3 +13,4 @@ parameters:
     parallel:
         maximumNumberOfProcesses: 1 
     ignoreErrors:
+        - '#Call to static method getInstance\(\) on an unknown class BoomiCMS\\BC_DB#'
