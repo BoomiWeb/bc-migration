@@ -64,7 +64,7 @@ class PostType extends CLICommands {
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=188688 --copy-tax
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=188688 --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json
 	 *     wp boomi migrate post-type --from=post --to=page --post_ids=188932 --meta-map=/Users/erikmitchell/bc-migration/examples/post-type-meta-map.json
-	 *     wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type.csv --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json --meta-map=/Users/erikmitchell/bc-migration/examples/post-type-meta-map.json 
+	 *     wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type-resources-events.csv --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json --meta-map=/Users/erikmitchell/bc-migration/examples/post-type-meta-map.json 
 	 *
 	 * @param string[]             $args       CLI positional arguments.
 	 * @param array<string, mixed> $assoc_args CLI associative arguments.
