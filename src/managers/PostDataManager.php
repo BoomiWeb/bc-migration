@@ -55,7 +55,6 @@ echo "update_post_data\n";
 	}
 
 	public static function update_featured_image( int $post_id = 0, string $field_name = '', array $value = array() ) {
-echo "update_featured_image\n";
 		if ( empty( $value ) || empty( $value['id'] ) ) {
 			return new WP_Error( 'empty_value', 'Featured Image value is empty.' );
 		}

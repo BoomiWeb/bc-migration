@@ -373,7 +373,6 @@ echo "tax_map_file\n";
 		}
 
 		if ( $meta_map_file ) {		
-// echo "Calling update_meta with to_post_id: $to_post_id (" . gettype($to_post_id) . ")\n";
 			$this->update_meta( $post_id, $meta_map_file, $from, $merge, $to_post_id );
 		}
 	}
@@ -414,7 +413,7 @@ echo "tax_map_file\n";
 		if ( $merge ) {
 			$post_id = $to_post_id;
 		}
-// print_r( $mapped_data );
+
 		// loop through the mapped data.
 		foreach ( $mapped_data as $map_arr ) {						
 			$updated_value = PostDataManager::update_field_value( array(
