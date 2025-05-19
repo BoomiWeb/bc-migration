@@ -154,7 +154,7 @@
                     <dt class="phpdocumentor-table-of-contents__entry -property -public">
     <a href="classes/erikdmitchell-bcmigration-BlogTaxonomies.html#property_taxonomies">$taxonomies</a>
     <span>
-                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: array&lt;string|int, string&gt;            </span>
 </dt>
 <dd>The taxonomies associated with the &#039;blog&#039; post type.</dd>
 
@@ -182,7 +182,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/erikdmitchell-bcmigration-abstracts-Taxonomies.html#method_get_terms">get_terms()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;|<abbr title="\erikdmitchell\bcmigration\abstracts\WP_Error">WP_Error</abbr>    </span>
+                                &nbsp;: array&lt;string|int, string&gt;|<abbr title="\WP_Error">WP_Error</abbr>    </span>
 </dt>
 <dd>Retrieve terms from a taxonomy.</dd>
 
@@ -203,7 +203,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/erikdmitchell-bcmigration-BlogTaxonomies.html#method_taxonomies">taxonomies()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array&lt;string|int, string&gt;    </span>
 </dt>
 <dd>Get the taxonomies associated with the &#039;blog&#039; post type.</dd>
 
@@ -243,7 +243,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, string&gt;</span>
     <span class="phpdocumentor-signature__name">$taxonomies</span>
     </code>
 
@@ -341,7 +341,7 @@ to the 'blog' post type and calling the parent constructor.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/Taxonomies.php"><a href="files/src-abstracts-taxonomies.html"><abbr title="src/abstracts/Taxonomies.php">Taxonomies.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -388,7 +388,7 @@ to the 'blog' post type and calling the parent constructor.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/Taxonomies.php"><a href="files/src-abstracts-taxonomies.html"><abbr title="src/abstracts/Taxonomies.php">Taxonomies.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">25</span>
 
     </aside>
 
@@ -396,7 +396,7 @@ to the 'blog' post type and calling the parent constructor.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">get_terms</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$term</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|<abbr title="\erikdmitchell\bcmigration\abstracts\WP_Error">WP_Error</abbr></span></code>
+                <span class="phpdocumentor-signature__name">get_terms</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$term</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;|<abbr title="\WP_Error">WP_Error</abbr></span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -415,7 +415,7 @@ to the 'blog' post type and calling the parent constructor.</p>
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|<abbr title="\erikdmitchell\bcmigration\abstracts\WP_Error">WP_Error</abbr></span>
+    <span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;|<abbr title="\WP_Error">WP_Error</abbr></span>
             &mdash;
             <section class="phpdocumentor-description"><p>The terms data or WP_Error on failure.</p>
 </section>
@@ -470,7 +470,7 @@ to the 'blog' post type and calling the parent constructor.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/Taxonomies.php"><a href="files/src-abstracts-taxonomies.html"><abbr title="src/abstracts/Taxonomies.php">Taxonomies.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">55</span>
+    <span class="phpdocumentor-element-found-in__line">57</span>
 
     </aside>
 
@@ -550,14 +550,14 @@ to the 'blog' post type and calling the parent constructor.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">taxonomies</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                <span class="phpdocumentor-signature__name">taxonomies</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span></code>
 
     
     
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+    <span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span>
             &mdash;
             <section class="phpdocumentor-description"><p>The taxonomies associated with the 'blog' post type.</p>
 </section>
