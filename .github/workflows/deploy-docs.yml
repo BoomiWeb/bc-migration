@@ -28,7 +28,7 @@ jobs:
 
       # Run PHPDoc generation (adjust if your command differs)
       - name: Generate PHPDocs
-        run: vendor/bin/phpdoc -d ./src -t ./docs
+        run: vendor/bin/phpdoc
 
       # Deploy generated docs to GitHub Pages
       - name: Deploy to GitHub Pages
