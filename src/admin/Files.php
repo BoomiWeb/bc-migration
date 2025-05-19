@@ -69,13 +69,17 @@ class Files {
 	 */
 	public function upload() {
 		if ( isset( $_POST['bcm_upload_csv'] ) && check_admin_referer( 'bcm_upload_csv_action' ) ) {
-			if ( ! empty( $_FILES['bcm_csv_file']['tmp_name'] ) ) {
-				$result = $this->handle_csv_upload( $_FILES['bcm_csv_file'] );
+			if ( isset( $_FILES['bcm_csv_file'] ) && is_array( $_FILES['bcm_csv_file'] ) ) {
+				$file = $_FILES['bcm_csv_file'];
 
-				if ( is_wp_error( $result ) ) {
-					echo '<div class="notice notice-error"><p>' . esc_html( $result->get_error_message() ) . '</p></div>';
-				} else {
-					echo '<div class="notice notice-success"><p>Uploaded: ' . esc_html( basename( $result ) ) . '</p></div>';
+				if ( isset( $file['tmp_name'] ) && ! empty( $file['tmp_name'] ) ) {
+					$result = $this->handle_csv_upload( $_FILES['bcm_csv_file'] );
+
+					if ( is_wp_error( $result ) ) {
+						echo '<div class="notice notice-error"><p>' . esc_html( $result->get_error_message() ) . '</p></div>';
+					} else {
+						echo '<div class="notice notice-success"><p>Uploaded: ' . esc_html( basename( $result ) ) . '</p></div>';
+					}
 				}
 			}
 		}
