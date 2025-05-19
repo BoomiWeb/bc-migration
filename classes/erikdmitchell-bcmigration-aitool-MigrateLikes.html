@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/base.css">
             <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;200;300;400;600;700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="css/template.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css" integrity="sha256-ybRkN9dBjhcS2qrW1z+hfCxq+1aBdwyQM5wlQoQVt/0=" crossorigin="anonymous" />
@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-highlight/prism-line-highlight.css">
                 <script src="https://cdn.jsdelivr.net/npm/fuse.js@3.4.6"></script>
         <script src="https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2"></script>
+        <script src="js/template.js"></script>
         <script src="js/search.js"></script>
         <script defer src="js/searchIndex.js"></script>
     </head>
@@ -52,8 +53,8 @@
 <label class="phpdocumentor-sidebar__menu-icon" for="sidebar-button">
     Menu
 </label>
-<aside class="phpdocumentor-column -four phpdocumentor-sidebar">
-                    <section class="phpdocumentor-sidebar__category">
+<aside class="phpdocumentor-column -three phpdocumentor-sidebar">
+                    <section class="phpdocumentor-sidebar__category -namespaces">
             <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="namespaces/erikdmitchell.html" class="">erikdmitchell</a>
@@ -66,7 +67,7 @@
             </ul>
 
                         </section>
-                <section class="phpdocumentor-sidebar__category">
+                <section class="phpdocumentor-sidebar__category -packages">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="packages/erikdmitchell.html" class="">erikdmitchell</a>
@@ -90,21 +91,22 @@
 
                         </section>
             
-    <section class="phpdocumentor-sidebar__category">
+    <section class="phpdocumentor-sidebar__category -reports">
         <h2 class="phpdocumentor-sidebar__category-header">Reports</h2>
                 <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/deprecated.html">Deprecated</a></h3>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/errors.html">Errors</a></h3>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/markers.html">Markers</a></h3>
     </section>
 
-    <section class="phpdocumentor-sidebar__category">
+    <section class="phpdocumentor-sidebar__category -indices">
         <h2 class="phpdocumentor-sidebar__category-header">Indices</h2>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="indices/files.html">Files</a></h3>
     </section>
 </aside>
 
-            <div class="phpdocumentor-column -eight phpdocumentor-content">
-                    <ul class="phpdocumentor-breadcrumbs">
+            <div class="phpdocumentor-column -nine phpdocumentor-content">
+                                <section>
+                                        <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/erikdmitchell.html">erikdmitchell</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/erikdmitchell-bcmigration.html">bcmigration</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/erikdmitchell-bcmigration-aitool.html">aitool</a></li>
@@ -127,6 +129,11 @@
     
     </h2>
 
+<div class="phpdocumentor-label-line">
+
+
+</div>
+
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/aitool/MigrateLikes.php"><a href="files/src-aitool-migratelikes.html"><abbr title="src/aitool/MigrateLikes.php">MigrateLikes.php</abbr></a></abbr>
     :
@@ -146,116 +153,138 @@
 
 <h3 id="toc">
     Table of Contents
-    <a href="#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+
 </h3>
 
+
+
+
+
+
+
+
+
+<h4 id="toc-properties">
+    Properties
+    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
 <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#property_instance">$instance</a>
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#property_instance">$instance</a>
     <span>
                         &nbsp;: <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html"><abbr title="\erikdmitchell\bcmigration\aitool\MigrateLikes">MigrateLikes</abbr></a>|null            </span>
 </dt>
 <dd>The single instance of the class.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#property_db">$db</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#property_db">$db</a>
     <span>
                         &nbsp;: object            </span>
 </dt>
 <dd>The database instance for report data.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#property_upload_dir_path">$upload_dir_path</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#property_upload_dir_path">$upload_dir_path</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>The path to the upload directory.</dd>
 
-                <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_init">init()</a>
+    </dl>
+
+<h4 id="toc-methods">
+    Methods
+    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_init">init()</a>
     <span>
                                 &nbsp;: <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html"><abbr title="\erikdmitchell\bcmigration\aitool\MigrateLikes">MigrateLikes</abbr></a>    </span>
 </dt>
 <dd>Gets the single instance of the class.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_migrate_data">migrate_data()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_migrate_data">migrate_data()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>Migrates AI Tool data.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method___construct">__construct()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method___construct">__construct()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>Constructor.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_clean_files">clean_files()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_clean_files">clean_files()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>Clean up the given files.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_db_entry_exists">db_entry_exists()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_db_entry_exists">db_entry_exists()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Checks if a db entry exists, given the first name, last name, and email.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_get_files">get_files()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_get_files">get_files()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>Get all the files in the bc-ai-tool-data directory.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_insert_or_update_db">insert_or_update_db()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_insert_or_update_db">insert_or_update_db()</a>
     <span>
                                 &nbsp;: int|<abbr title="\WP_Error">WP_Error</abbr>    </span>
 </dt>
 <dd>Inserts or updates the given data into the database.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_maybe_format_keys">maybe_format_keys()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_maybe_format_keys">maybe_format_keys()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>Converts the keys of the given associative array from camel case to snake case.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_migrate_likes">migrate_likes()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_migrate_likes">migrate_likes()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>Migrates AI Tool like data from a set of JSON files to the database.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_prepare_data_for_db">prepare_data_for_db()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_prepare_data_for_db">prepare_data_for_db()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>Prepares the given data for insertion into the database.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_prepare_item_for_db">prepare_item_for_db()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_prepare_item_for_db">prepare_item_for_db()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>Prepares the given item for insertion into the database.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_update_db">update_db()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_update_db">update_db()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Updates the like or not_like count in the database.</dd>
 
-        </dl>
+    </dl>
 
 
 
@@ -266,6 +295,7 @@
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
             <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+
         </h3>
                     <article
         class="
@@ -277,6 +307,7 @@
     <h4 class="phpdocumentor-element__name" id="property_instance">
         $instance
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#property_instance" class="headerlink"><i class="fas fa-link"></i></a>
+
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
@@ -289,6 +320,7 @@
 
         <p class="phpdocumentor-summary">The single instance of the class.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
     <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type"><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html"><abbr title="\erikdmitchell\bcmigration\aitool\MigrateLikes">MigrateLikes</abbr></a>|null</span>
@@ -297,6 +329,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -310,6 +344,7 @@
     <h4 class="phpdocumentor-element__name" id="property_db">
         $db
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#property_db" class="headerlink"><i class="fas fa-link"></i></a>
+
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
@@ -322,6 +357,7 @@
 
         <p class="phpdocumentor-summary">The database instance for report data.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">object</span>
@@ -330,6 +366,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -343,6 +381,7 @@
     <h4 class="phpdocumentor-element__name" id="property_upload_dir_path">
         $upload_dir_path
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#property_upload_dir_path" class="headerlink"><i class="fas fa-link"></i></a>
+
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
@@ -355,6 +394,7 @@
 
         <p class="phpdocumentor-summary">The path to the upload directory.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -365,6 +405,8 @@
     
     
 
+    
+
 </article>
             </section>
 
@@ -372,6 +414,7 @@
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
             <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+
         </h3>
                     <article
         class="phpdocumentor-element
@@ -382,6 +425,7 @@
     <h4 class="phpdocumentor-element__name" id="method_init">
         init()
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_init" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/aitool/MigrateLikes.php"><a href="files/src-aitool-migratelikes.html"><abbr title="src/aitool/MigrateLikes.php">MigrateLikes.php</abbr></a></abbr>
@@ -394,19 +438,26 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__name">init</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html"><abbr title="\erikdmitchell\bcmigration\aitool\MigrateLikes">MigrateLikes</abbr></a></span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">init</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html"><abbr title="\erikdmitchell\bcmigration\aitool\MigrateLikes">MigrateLikes</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
 
     
-    
-    
 
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html"><abbr title="\erikdmitchell\bcmigration\aitool\MigrateLikes">MigrateLikes</abbr></a></span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>Single instance of the class.</p>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html"><abbr title="\erikdmitchell\bcmigration\aitool\MigrateLikes">MigrateLikes</abbr></a></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Single instance of the class.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -417,6 +468,7 @@
     <h4 class="phpdocumentor-element__name" id="method_migrate_data">
         migrate_data()
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_migrate_data" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/aitool/MigrateLikes.php"><a href="files/src-aitool-migratelikes.html"><abbr title="src/aitool/MigrateLikes.php">MigrateLikes.php</abbr></a></abbr>
@@ -429,21 +481,28 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">migrate_data</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">migrate_data</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
         <section class="phpdocumentor-description"><p>Finds all the files in the bc-ai-tool-data directory and migrates them to the database.</p>
 </section>
 
     
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>An array of migrated data.</p>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>An array of migrated data.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -454,6 +513,7 @@
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/aitool/MigrateLikes.php"><a href="files/src-aitool-migratelikes.html"><abbr title="src/aitool/MigrateLikes.php">MigrateLikes.php</abbr></a></abbr>
@@ -466,8 +526,11 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
         <section class="phpdocumentor-description"><p>Initializes the MigrateReports class by setting up the upload directory path
 and database instance for report data.</p>
 </section>
@@ -476,7 +539,8 @@ and database instance for report data.</p>
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method___construct#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
@@ -488,12 +552,10 @@ and database instance for report data.</p>
 </section>
 
                                     </dd>
-                        </dl>
+                                            </dl>
 
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
-            &mdash;
-        
+    
+
     
 </article>
                     <article
@@ -505,6 +567,7 @@ and database instance for report data.</p>
     <h4 class="phpdocumentor-element__name" id="method_clean_files">
         clean_files()
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_clean_files" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/aitool/MigrateLikes.php"><a href="files/src-aitool-migratelikes.html"><abbr title="src/aitool/MigrateLikes.php">MigrateLikes.php</abbr></a></abbr>
@@ -517,8 +580,11 @@ and database instance for report data.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">clean_files</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$files</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">clean_files</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$files</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -535,13 +601,17 @@ and database instance for report data.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>The cleaned up files.</p>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The cleaned up files.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -552,6 +622,7 @@ and database instance for report data.</p>
     <h4 class="phpdocumentor-element__name" id="method_db_entry_exists">
         db_entry_exists()
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_db_entry_exists" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/aitool/MigrateLikes.php"><a href="files/src-aitool-migratelikes.html"><abbr title="src/aitool/MigrateLikes.php">MigrateLikes.php</abbr></a></abbr>
@@ -564,8 +635,11 @@ and database instance for report data.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">db_entry_exists</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+                    <span class="phpdocumentor-signature__name">db_entry_exists</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
         <section class="phpdocumentor-description"><p>If the data is not valid (e.g. empty or not set), this function will return true
 to indicate that the data should be skipped.</p>
 </section>
@@ -585,13 +659,17 @@ to indicate that the data should be skipped.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">bool</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>True if the database entry exists, false otherwise.</p>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if the database entry exists, false otherwise.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -602,6 +680,7 @@ to indicate that the data should be skipped.</p>
     <h4 class="phpdocumentor-element__name" id="method_get_files">
         get_files()
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_get_files" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/aitool/MigrateLikes.php"><a href="files/src-aitool-migratelikes.html"><abbr title="src/aitool/MigrateLikes.php">MigrateLikes.php</abbr></a></abbr>
@@ -614,8 +693,11 @@ to indicate that the data should be skipped.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">get_files</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">get_files</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
         <section class="phpdocumentor-description"><p>Finds all the files in the bc-ai-tool-data directory and returns them as an array.
 If the directory does not exist, or if there are no files with the name 'data-*', an empty array is returned.</p>
 </section>
@@ -623,11 +705,13 @@ If the directory does not exist, or if there are no files with the name 'data-*'
     
     
 
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
-            &mdash;
-        
     
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -638,6 +722,7 @@ If the directory does not exist, or if there are no files with the name 'data-*'
     <h4 class="phpdocumentor-element__name" id="method_insert_or_update_db">
         insert_or_update_db()
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_insert_or_update_db" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/aitool/MigrateLikes.php"><a href="files/src-aitool-migratelikes.html"><abbr title="src/aitool/MigrateLikes.php">MigrateLikes.php</abbr></a></abbr>
@@ -650,8 +735,11 @@ If the directory does not exist, or if there are no files with the name 'data-*'
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">insert_or_update_db</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int|<abbr title="\WP_Error">WP_Error</abbr></span></code>
+                    <span class="phpdocumentor-signature__name">insert_or_update_db</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int|<abbr title="\WP_Error">WP_Error</abbr></span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
         <section class="phpdocumentor-description"><p>If the data exists in the database, it is updated. Otherwise, it is inserted.</p>
 </section>
 
@@ -670,13 +758,17 @@ If the directory does not exist, or if there are no files with the name 'data-*'
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">int|<abbr title="\WP_Error">WP_Error</abbr></span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>The id of the created or updated row, or a WP_Error object on failure.</p>
+        <span class="phpdocumentor-signature__response_type">int|<abbr title="\WP_Error">WP_Error</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The id of the created or updated row, or a WP_Error object on failure.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -687,6 +779,7 @@ If the directory does not exist, or if there are no files with the name 'data-*'
     <h4 class="phpdocumentor-element__name" id="method_maybe_format_keys">
         maybe_format_keys()
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_maybe_format_keys" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/aitool/MigrateLikes.php"><a href="files/src-aitool-migratelikes.html"><abbr title="src/aitool/MigrateLikes.php">MigrateLikes.php</abbr></a></abbr>
@@ -699,8 +792,11 @@ If the directory does not exist, or if there are no files with the name 'data-*'
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">maybe_format_keys</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">maybe_format_keys</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
         <section class="phpdocumentor-description"><p>Utilizes the <code class="prettyprint">camel_to_snake</code> function to transform each key in the array.</p>
 </section>
 
@@ -719,13 +815,17 @@ If the directory does not exist, or if there are no files with the name 'data-*'
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>The array with keys converted to snake case.</p>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The array with keys converted to snake case.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -736,6 +836,7 @@ If the directory does not exist, or if there are no files with the name 'data-*'
     <h4 class="phpdocumentor-element__name" id="method_migrate_likes">
         migrate_likes()
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_migrate_likes" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/aitool/MigrateLikes.php"><a href="files/src-aitool-migratelikes.html"><abbr title="src/aitool/MigrateLikes.php">MigrateLikes.php</abbr></a></abbr>
@@ -748,8 +849,11 @@ If the directory does not exist, or if there are no files with the name 'data-*'
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">migrate_likes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$files</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">migrate_likes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$files</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
         <section class="phpdocumentor-description"><p>Takes an array of file paths and migrates the data in each file to the database.
 If the file does not exist, or if the data is not in the correct format, the function
 skips it and continues to the next file.</p>
@@ -770,13 +874,17 @@ skips it and continues to the next file.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>Array of migrated row IDs.</p>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Array of migrated row IDs.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -787,6 +895,7 @@ skips it and continues to the next file.</p>
     <h4 class="phpdocumentor-element__name" id="method_prepare_data_for_db">
         prepare_data_for_db()
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_prepare_data_for_db" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/aitool/MigrateLikes.php"><a href="files/src-aitool-migratelikes.html"><abbr title="src/aitool/MigrateLikes.php">MigrateLikes.php</abbr></a></abbr>
@@ -799,8 +908,11 @@ skips it and continues to the next file.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">prepare_data_for_db</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$file</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">prepare_data_for_db</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$file</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
         <section class="phpdocumentor-description"><p>Converts the json file to an array, formats the keys from camel case to snake case,
 prepares the item for the database by setting the created date to the current time if not provided,
 and then adds the app name to the data.</p>
@@ -821,13 +933,17 @@ and then adds the app name to the data.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>The prepared data.</p>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The prepared data.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -838,6 +954,7 @@ and then adds the app name to the data.</p>
     <h4 class="phpdocumentor-element__name" id="method_prepare_item_for_db">
         prepare_item_for_db()
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_prepare_item_for_db" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/aitool/MigrateLikes.php"><a href="files/src-aitool-migratelikes.html"><abbr title="src/aitool/MigrateLikes.php">MigrateLikes.php</abbr></a></abbr>
@@ -850,8 +967,11 @@ and then adds the app name to the data.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">prepare_item_for_db</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$item</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">prepare_item_for_db</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$item</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
         <section class="phpdocumentor-description"><p>Sets the created date to the current time if not provided.</p>
 </section>
 
@@ -870,13 +990,17 @@ and then adds the app name to the data.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>The prepared item.</p>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The prepared item.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -887,6 +1011,7 @@ and then adds the app name to the data.</p>
     <h4 class="phpdocumentor-element__name" id="method_update_db">
         update_db()
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_update_db" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/aitool/MigrateLikes.php"><a href="files/src-aitool-migratelikes.html"><abbr title="src/aitool/MigrateLikes.php">MigrateLikes.php</abbr></a></abbr>
@@ -899,8 +1024,11 @@ and then adds the app name to the data.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">update_db</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">object&nbsp;</span><span class="phpdocumentor-signature__argument__name">$db_data</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+                    <span class="phpdocumentor-signature__name">update_db</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">object&nbsp;</span><span class="phpdocumentor-signature__argument__name">$db_data</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -926,80 +1054,160 @@ and then adds the app name to the data.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">bool</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>True if the update is successful, false otherwise.</p>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if the update is successful, false otherwise.</p>
 </section>
 
-    
+            </section>
+
 </article>
             </section>
 
-        
+        <div class="phpdocumentor-modal" id="source-view">
+    <div class="phpdocumentor-modal-bg" data-exit-button></div>
+    <div class="phpdocumentor-modal-container">
+        <div class="phpdocumentor-modal-content">
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/aitool/MigrateLikes.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+        </div>
+        <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
+    </div>
+</div>
+
     <script type="text/javascript">
-        function loadExternalCodeSnippets(line) {
-            Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach((pre) => {
-                var src = pre.getAttribute('data-src').replace( /\\/g, '/');
-                var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
-                var language = 'php';
+        (function () {
+            function loadExternalCodeSnippet(el, url, line) {
+                Array.prototype.slice.call(el.querySelectorAll('pre[data-src]')).forEach((pre) => {
+                    const src = url || pre.getAttribute('data-src').replace(/\\/g, '/');
+                    const language = 'php';
 
-                var code = document.createElement('code');
-                code.className = 'language-' + language;
+                    const code = document.createElement('code');
+                    code.className = 'language-' + language;
+                    pre.textContent = '';
+                    pre.setAttribute('data-line', line)
+                    code.textContent = 'Loading…';
+                    pre.appendChild(code);
 
-                pre.textContent = '';
+                    var xhr = new XMLHttpRequest();
 
-                pre.setAttribute('data-line', line)
-                code.textContent = 'Loading…';
+                    xhr.open('GET', src, true);
 
-                pre.appendChild(code);
-
-                var xhr = new XMLHttpRequest();
-
-                xhr.open('GET', src, true);
-
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4) {
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState !== 4) {
+                            return;
+                        }
 
                         if (xhr.status < 400 && xhr.responseText) {
                             code.textContent = xhr.responseText;
-
                             Prism.highlightElement(code);
+                            return;
                         }
-                        else if (xhr.status >= 400) {
+
+                        if (xhr.status === 404) {
+                            code.textContent = '✖ Error: File could not be found';
+                            return;
+                        }
+
+                        if (xhr.status >= 400) {
                             code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                            return;
                         }
-                        else {
-                            code.textContent = '✖ Error: File does not exist, is empty or trying to view from localhost';
-                        }
+
+                        code.textContent = '✖ Error: An unknown error occurred';
+                    };
+
+                    xhr.send(null);
+                });
+            }
+
+            const modalButtons = document.querySelectorAll("[data-modal]");
+            const openedAsLocalFile = window.location.protocol === 'file:';
+            if (modalButtons.length > 0 && openedAsLocalFile) {
+                console.warn(
+                    'Viewing the source code is unavailable because you are opening this page from the file:// scheme; ' +
+                    'browsers block XHR requests when a page is opened this way'
+                );
+            }
+
+            modalButtons.forEach(function (trigger) {
+                if (openedAsLocalFile) {
+                    trigger.setAttribute("hidden", "hidden");
+                }
+
+                trigger.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    const modal = document.getElementById(trigger.dataset.modal);
+                    if (!modal) {
+                        console.error(`Modal with id "${trigger.dataset.modal}" could not be found`);
+                        return;
                     }
-                };
+                    modal.classList.add("phpdocumentor-modal__open");
 
-                xhr.send(null);
-            });
-        }
-
-        var modals = document.querySelectorAll("[data-modal]");
-
-        modals.forEach(function (trigger) {
-            trigger.addEventListener("click", function (event) {
-                //event.preventDefault();
-                const modal = document.getElementById(trigger.dataset.modal);
-                modal.classList.add("phpdocumentor-modal__open");
-                loadExternalCodeSnippets(trigger.dataset.line)
-                const exits = modal.querySelectorAll("[data-exit-button]");
-                exits.forEach(function (exit) {
-                    exit.addEventListener("click", function (event) {
-                        event.preventDefault();
-                        modal.classList.remove("phpdocumentor-modal__open");
+                    loadExternalCodeSnippet(modal, trigger.dataset.src || null, trigger.dataset.line)
+                    const exits = modal.querySelectorAll("[data-exit-button]");
+                    exits.forEach(function (exit) {
+                        exit.addEventListener("click", function (event) {
+                            event.preventDefault();
+                            modal.classList.remove("phpdocumentor-modal__open");
+                        });
                     });
                 });
             });
-        });
+        })();
     </script>
 
     </article>
-                <section data-search-results class="phpdocumentor-search-results phpdocumentor-search-results--hidden">
+                                </section>
+                <section class="phpdocumentor-on-this-page__sidebar">
+                                
+    <section class="phpdocumentor-on-this-page__content">
+        <strong class="phpdocumentor-on-this-page__title">On this page</strong>
+
+        <ul class="phpdocumentor-list -clean">
+            <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                                            <li><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#toc-methods">Methods</a></li>
+                                    </ul>
+            </li>
+            
+                            <li class="phpdocumentor-on-this-page-section__title">Properties</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#property_instance">$instance</a></li>
+                                                    <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#property_db">$db</a></li>
+                                                    <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#property_upload_dir_path">$upload_dir_path</a></li>
+                                            </ul>
+                </li>
+            
+                        <li class="phpdocumentor-on-this-page-section__title">Methods</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_init">init()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_migrate_data">migrate_data()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_clean_files">clean_files()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_db_entry_exists">db_entry_exists()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_get_files">get_files()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_insert_or_update_db">insert_or_update_db()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_maybe_format_keys">maybe_format_keys()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_migrate_likes">migrate_likes()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_prepare_data_for_db">prepare_data_for_db()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_prepare_item_for_db">prepare_item_for_db()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#method_update_db">update_db()</a></li>
+                                    </ul>
+            </li>
+                    </ul>
+    </section>
+
+                </section>
+                            </div>
+            <section data-search-results class="phpdocumentor-search-results phpdocumentor-search-results--hidden">
     <section class="phpdocumentor-search-results__dialog">
         <header class="phpdocumentor-search-results__header">
             <h2 class="phpdocumentor-search-results__title">Search results</h2>
@@ -1010,7 +1218,6 @@ and then adds the app name to the data.</p>
         </section>
     </section>
 </section>
-            </div>
         </div>
         <a href="classes/erikdmitchell-bcmigration-aitool-MigrateLikes.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 

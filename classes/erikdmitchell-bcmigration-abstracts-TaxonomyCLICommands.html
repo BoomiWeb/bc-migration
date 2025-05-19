@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/base.css">
             <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;200;300;400;600;700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="css/template.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css" integrity="sha256-ybRkN9dBjhcS2qrW1z+hfCxq+1aBdwyQM5wlQoQVt/0=" crossorigin="anonymous" />
@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-highlight/prism-line-highlight.css">
                 <script src="https://cdn.jsdelivr.net/npm/fuse.js@3.4.6"></script>
         <script src="https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2"></script>
+        <script src="js/template.js"></script>
         <script src="js/search.js"></script>
         <script defer src="js/searchIndex.js"></script>
     </head>
@@ -52,8 +53,8 @@
 <label class="phpdocumentor-sidebar__menu-icon" for="sidebar-button">
     Menu
 </label>
-<aside class="phpdocumentor-column -four phpdocumentor-sidebar">
-                    <section class="phpdocumentor-sidebar__category">
+<aside class="phpdocumentor-column -three phpdocumentor-sidebar">
+                    <section class="phpdocumentor-sidebar__category -namespaces">
             <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="namespaces/erikdmitchell.html" class="">erikdmitchell</a>
@@ -66,7 +67,7 @@
             </ul>
 
                         </section>
-                <section class="phpdocumentor-sidebar__category">
+                <section class="phpdocumentor-sidebar__category -packages">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="packages/erikdmitchell.html" class="">erikdmitchell</a>
@@ -90,21 +91,22 @@
 
                         </section>
             
-    <section class="phpdocumentor-sidebar__category">
+    <section class="phpdocumentor-sidebar__category -reports">
         <h2 class="phpdocumentor-sidebar__category-header">Reports</h2>
                 <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/deprecated.html">Deprecated</a></h3>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/errors.html">Errors</a></h3>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/markers.html">Markers</a></h3>
     </section>
 
-    <section class="phpdocumentor-sidebar__category">
+    <section class="phpdocumentor-sidebar__category -indices">
         <h2 class="phpdocumentor-sidebar__category-header">Indices</h2>
         <h3 class="phpdocumentor-sidebar__root-package"><a href="indices/files.html">Files</a></h3>
     </section>
 </aside>
 
-            <div class="phpdocumentor-column -eight phpdocumentor-content">
-                    <ul class="phpdocumentor-breadcrumbs">
+            <div class="phpdocumentor-column -nine phpdocumentor-content">
+                                <section>
+                                        <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/erikdmitchell.html">erikdmitchell</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/erikdmitchell-bcmigration.html">bcmigration</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/erikdmitchell-bcmigration-abstracts.html">abstracts</a></li>
@@ -129,9 +131,16 @@
     
     
             <span class="phpdocumentor-element__extends">
-            Uses
+            uses
                             <a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html"><abbr title="\erikdmitchell\bcmigration\traits\LoggerTrait">LoggerTrait</abbr></a>                    </span>
     </h2>
+
+<div class="phpdocumentor-label-line">
+
+
+    <div class="phpdocumentor-label phpdocumentor-label--success"><span>Abstract</span><span>Yes</span></div>
+
+</div>
 
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/TaxonomyCLICommands.php"><a href="files/src-abstracts-taxonomyclicommands.html"><abbr title="src/abstracts/TaxonomyCLICommands.php">TaxonomyCLICommands.php</abbr></a></abbr>
@@ -152,200 +161,222 @@
 
 <h3 id="toc">
     Table of Contents
-    <a href="#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+
 </h3>
 
+
+
+
+
+
+
+
+
+<h4 id="toc-properties">
+    Properties
+    <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
 <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#property_notices">$notices</a>
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#property_notices">$notices</a>
     <span>
-                        &nbsp;: mixed            </span>
+                        &nbsp;: array&lt;string|int, array{type: string, message: string}&gt;            </span>
 </dt>
 <dd>WP CLI notices.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#property_upload_path">$upload_path</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#property_upload_path">$upload_path</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>Upload path</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#property_upload_url">$upload_url</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#property_upload_url">$upload_url</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>Upload URL</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#property_log_dir">$log_dir</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#property_log_dir">$log_dir</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>The directory where the log file will be created.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#property_log_name">$log_name</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#property_log_name">$log_name</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
 <dd>The name of the log file to write to.</dd>
 
-                <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_add_notice">add_notice()</a>
+    </dl>
+
+<h4 id="toc-methods">
+    Methods
+    <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_add_notice">add_notice()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Adds a notice to be displayed at the end of the command.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_display_notices">display_notices()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_display_notices">display_notices()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Display the notices. The output is WP_CLI.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_notices">get_notices()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_notices">get_notices()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: array&lt;string|int, array{type: string, message: string}&gt;    </span>
 </dt>
 <dd>Get all notices.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_upload_path">get_upload_path()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_upload_path">get_upload_path()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Get the upload path.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_upload_url">get_upload_url()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_upload_url">get_upload_url()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Get the upload URL.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_invalid_taxonomy">invalid_taxonomy()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_invalid_taxonomy">invalid_taxonomy()</a>
     <span>
                                 &nbsp;: void|false    </span>
 </dt>
 <dd>Handles invalid taxonomy errors by logging and adding notices.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_log">log()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_log">log()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Logs a message to a specified log file, creating the log directory if it does not exist.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_reset_notices">reset_notices()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_reset_notices">reset_notices()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Reset all notices.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_set_log_name">set_log_name()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_set_log_name">set_log_name()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Sets the name of the log file to write to.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_set_upload_path">set_upload_path()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_set_upload_path">set_upload_path()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Set the upload path.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_set_upload_url">set_upload_url()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_set_upload_url">set_upload_url()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Set the upload URL.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_post_type">validate_post_type()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_post_type">validate_post_type()</a>
     <span>
                                 &nbsp;: string|<abbr title="\WP_Error">WP_Error</abbr>    </span>
 </dt>
 <dd>Validates the given post type.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_taxonomy">validate_taxonomy()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_taxonomy">validate_taxonomy()</a>
     <span>
                                 &nbsp;: string|<abbr title="\WP_Error">WP_Error</abbr>    </span>
 </dt>
 <dd>Validates the given taxonomy string.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_dry_run_result">dry_run_result()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_dry_run_result">dry_run_result()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Outputs a dry run message for a merge command.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_export_csv">export_csv()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_export_csv">export_csv()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Create and write to a CSV file</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_get_log_file_path">get_log_file_path()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_get_log_file_path">get_log_file_path()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Gets the full path to the log file.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_has_required_fields">has_required_fields()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_has_required_fields">has_required_fields()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Checks if the given data array contains all required fields.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_is_term_valid">is_term_valid()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_is_term_valid">is_term_valid()</a>
     <span>
                                 &nbsp;: <abbr title="\WP_Term">WP_Term</abbr>|false    </span>
 </dt>
 <dd>Validates a term by name or slug within a given taxonomy.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_command_args">validate_command_args()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_command_args">validate_command_args()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Validate the number of command arguments.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_headers">validate_headers()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_headers">validate_headers()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Validates that the given array of CSV headers contains all required fields.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_create_dir">create_dir()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_create_dir">create_dir()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Create dir if does not exist.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_pick_fields">pick_fields()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_pick_fields">pick_fields()</a>
     <span>
                                 &nbsp;: array&lt;string, mixed&gt;    </span>
 </dt>
 <dd>Pick fields from an associative array or object.</dd>
 
-        </dl>
+    </dl>
 
 
 
@@ -356,6 +387,7 @@
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
             <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+
         </h3>
                     <article
         class="
@@ -367,6 +399,7 @@
     <h4 class="phpdocumentor-element__name" id="property_notices">
         $notices
         <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#property_notices" class="headerlink"><i class="fas fa-link"></i></a>
+
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
@@ -379,15 +412,16 @@
 
         <p class="phpdocumentor-summary">WP CLI notices.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, array{type: string, message: string}&gt;</span>
     <span class="phpdocumentor-signature__name">$notices</span>
      = <span class="phpdocumentor-signature__default-value">array()</span></code>
 
     
-        <section class="phpdocumentor-description"><p>array&lt;array{type: string, message: string}&gt;</p>
-</section>
+    
+    
 
     
 
@@ -402,6 +436,7 @@
     <h4 class="phpdocumentor-element__name" id="property_upload_path">
         $upload_path
         <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#property_upload_path" class="headerlink"><i class="fas fa-link"></i></a>
+
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
@@ -414,6 +449,7 @@
 
         <p class="phpdocumentor-summary">Upload path</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -422,6 +458,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -435,6 +473,7 @@
     <h4 class="phpdocumentor-element__name" id="property_upload_url">
         $upload_url
         <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#property_upload_url" class="headerlink"><i class="fas fa-link"></i></a>
+
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
@@ -447,6 +486,7 @@
 
         <p class="phpdocumentor-summary">Upload URL</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -455,6 +495,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -468,6 +510,7 @@
     <h4 class="phpdocumentor-element__name" id="property_log_dir">
         $log_dir
         <a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#property_log_dir" class="headerlink"><i class="fas fa-link"></i></a>
+
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
@@ -480,6 +523,7 @@
 
         <p class="phpdocumentor-summary">The directory where the log file will be created.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -488,6 +532,8 @@
 
     
     
+    
+
     
 
 </article>
@@ -501,6 +547,7 @@
     <h4 class="phpdocumentor-element__name" id="property_log_name">
         $log_name
         <a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#property_log_name" class="headerlink"><i class="fas fa-link"></i></a>
+
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
@@ -513,6 +560,7 @@
 
         <p class="phpdocumentor-summary">The name of the log file to write to.</p>
 
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">string</span>
@@ -523,6 +571,8 @@
     
     
 
+    
+
 </article>
             </section>
 
@@ -530,6 +580,7 @@
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
             <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+
         </h3>
                     <article
         class="phpdocumentor-element
@@ -540,11 +591,12 @@
     <h4 class="phpdocumentor-element__name" id="method_add_notice">
         add_notice()
         <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_add_notice" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/CLICommands.php"><a href="files/src-abstracts-clicommands.html"><abbr title="src/abstracts/CLICommands.php">CLICommands.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">159</span>
+    <span class="phpdocumentor-element-found-in__line">161</span>
 
     </aside>
 
@@ -552,8 +604,11 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">add_notice</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$message</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;log&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">add_notice</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$message</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;log&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -580,10 +635,8 @@ Default is 'log'.</p>
 
     
 
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void</span>
-            &mdash;
-        
+    
+
     
 </article>
                     <article
@@ -595,11 +648,12 @@ Default is 'log'.</p>
     <h4 class="phpdocumentor-element__name" id="method_display_notices">
         display_notices()
         <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_display_notices" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/CLICommands.php"><a href="files/src-abstracts-clicommands.html"><abbr title="src/abstracts/CLICommands.php">CLICommands.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">188</span>
+    <span class="phpdocumentor-element-found-in__line">190</span>
 
     </aside>
 
@@ -607,16 +661,17 @@ Default is 'log'.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">display_notices</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">display_notices</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
 
     
-    
-    
 
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void</span>
-            &mdash;
-        
     
 </article>
                     <article
@@ -628,11 +683,12 @@ Default is 'log'.</p>
     <h4 class="phpdocumentor-element__name" id="method_get_notices">
         get_notices()
         <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_notices" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/CLICommands.php"><a href="files/src-abstracts-clicommands.html"><abbr title="src/abstracts/CLICommands.php">CLICommands.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">179</span>
+    <span class="phpdocumentor-element-found-in__line">181</span>
 
     </aside>
 
@@ -640,17 +696,26 @@ Default is 'log'.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">get_notices</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">get_notices</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, array{type: string, message: string}&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
 
     
-    
-    
 
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
-            &mdash;
-        
-    
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, array{type: string, message: string}&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The array of notices.</p>
+</section>
+
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -661,6 +726,7 @@ Default is 'log'.</p>
     <h4 class="phpdocumentor-element__name" id="method_get_upload_path">
         get_upload_path()
         <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_upload_path" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/CLICommands.php"><a href="files/src-abstracts-clicommands.html"><abbr title="src/abstracts/CLICommands.php">CLICommands.php</abbr></a></abbr>
@@ -673,19 +739,26 @@ Default is 'log'.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">get_upload_path</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">get_upload_path</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
 
     
-    
-    
 
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">string</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>The full path.</p>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The full path.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -696,6 +769,7 @@ Default is 'log'.</p>
     <h4 class="phpdocumentor-element__name" id="method_get_upload_url">
         get_upload_url()
         <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_upload_url" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/CLICommands.php"><a href="files/src-abstracts-clicommands.html"><abbr title="src/abstracts/CLICommands.php">CLICommands.php</abbr></a></abbr>
@@ -708,19 +782,26 @@ Default is 'log'.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">get_upload_url</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">get_upload_url</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
 
     
-    
-    
 
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">string</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>The full URL.</p>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The full URL.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -731,6 +812,7 @@ Default is 'log'.</p>
     <h4 class="phpdocumentor-element__name" id="method_invalid_taxonomy">
         invalid_taxonomy()
         <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_invalid_taxonomy" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/TaxonomyCLICommands.php"><a href="files/src-abstracts-taxonomyclicommands.html"><abbr title="src/abstracts/TaxonomyCLICommands.php">TaxonomyCLICommands.php</abbr></a></abbr>
@@ -743,8 +825,11 @@ Default is 'log'.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">invalid_taxonomy</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\erikdmitchell\bcmigration\abstracts\WP_Taxonomy">WP_Taxonomy</abbr>|<abbr title="\WP_Error">WP_Error</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void|false</span></code>
+                    <span class="phpdocumentor-signature__name">invalid_taxonomy</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\erikdmitchell\bcmigration\abstracts\WP_Taxonomy">WP_Taxonomy</abbr>|<abbr title="\WP_Error">WP_Error</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void|false</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -770,13 +855,17 @@ Default is 'log'.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void|false</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>Returns false if row number is provided, otherwise void.</p>
+        <span class="phpdocumentor-signature__response_type">void|false</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Returns false if row number is provided, otherwise void.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -787,6 +876,7 @@ Default is 'log'.</p>
     <h4 class="phpdocumentor-element__name" id="method_log">
         log()
         <a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_log" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/traits/LoggerTrait.php"><a href="files/src-traits-loggertrait.html"><abbr title="src/traits/LoggerTrait.php">LoggerTrait.php</abbr></a></abbr>
@@ -799,8 +889,11 @@ Default is 'log'.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">log</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$message</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;info&#039;</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$log_name</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">log</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$message</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;info&#039;</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$log_name</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -836,10 +929,8 @@ If null, the default log file name is used.</p>
 
     
 
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void</span>
-            &mdash;
-        
+    
+
     
 </article>
                     <article
@@ -851,11 +942,12 @@ If null, the default log file name is used.</p>
     <h4 class="phpdocumentor-element__name" id="method_reset_notices">
         reset_notices()
         <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_reset_notices" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/CLICommands.php"><a href="files/src-abstracts-clicommands.html"><abbr title="src/abstracts/CLICommands.php">CLICommands.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">203</span>
+    <span class="phpdocumentor-element-found-in__line">205</span>
 
     </aside>
 
@@ -863,16 +955,17 @@ If null, the default log file name is used.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">reset_notices</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">reset_notices</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
 
     
-    
-    
 
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void</span>
-            &mdash;
-        
     
 </article>
                     <article
@@ -884,6 +977,7 @@ If null, the default log file name is used.</p>
     <h4 class="phpdocumentor-element__name" id="method_set_log_name">
         set_log_name()
         <a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_set_log_name" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/traits/LoggerTrait.php"><a href="files/src-traits-loggertrait.html"><abbr title="src/traits/LoggerTrait.php">LoggerTrait.php</abbr></a></abbr>
@@ -896,8 +990,11 @@ If null, the default log file name is used.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">set_log_name</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">set_log_name</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -914,10 +1011,8 @@ If null, the default log file name is used.</p>
 
     
 
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void</span>
-            &mdash;
-        
+    
+
     
 </article>
                     <article
@@ -929,6 +1024,7 @@ If null, the default log file name is used.</p>
     <h4 class="phpdocumentor-element__name" id="method_set_upload_path">
         set_upload_path()
         <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_set_upload_path" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/CLICommands.php"><a href="files/src-abstracts-clicommands.html"><abbr title="src/abstracts/CLICommands.php">CLICommands.php</abbr></a></abbr>
@@ -941,8 +1037,11 @@ If null, the default log file name is used.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">set_upload_path</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">set_upload_path</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
         <section class="phpdocumentor-description"><p>If the path is a directory, it will create it if it does not exist.</p>
 </section>
 
@@ -961,10 +1060,8 @@ If null, the default log file name is used.</p>
 
     
 
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void</span>
-            &mdash;
-        
+    
+
     
 </article>
                     <article
@@ -976,6 +1073,7 @@ If null, the default log file name is used.</p>
     <h4 class="phpdocumentor-element__name" id="method_set_upload_url">
         set_upload_url()
         <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_set_upload_url" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/CLICommands.php"><a href="files/src-abstracts-clicommands.html"><abbr title="src/abstracts/CLICommands.php">CLICommands.php</abbr></a></abbr>
@@ -988,8 +1086,11 @@ If null, the default log file name is used.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">set_upload_url</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">set_upload_url</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -1006,10 +1107,8 @@ If null, the default log file name is used.</p>
 
     
 
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void</span>
-            &mdash;
-        
+    
+
     
 </article>
                     <article
@@ -1021,6 +1120,7 @@ If null, the default log file name is used.</p>
     <h4 class="phpdocumentor-element__name" id="method_validate_post_type">
         validate_post_type()
         <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_post_type" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/TaxonomyCLICommands.php"><a href="files/src-abstracts-taxonomyclicommands.html"><abbr title="src/abstracts/TaxonomyCLICommands.php">TaxonomyCLICommands.php</abbr></a></abbr>
@@ -1033,8 +1133,11 @@ If null, the default log file name is used.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">validate_post_type</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$post_type</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|<abbr title="\WP_Error">WP_Error</abbr></span></code>
+                    <span class="phpdocumentor-signature__name">validate_post_type</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$post_type</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|<abbr title="\WP_Error">WP_Error</abbr></span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
         <section class="phpdocumentor-description"><p>Checks if the provided post type is a string and if it exists.
 Returns a WP_Error if the validation fails.</p>
 </section>
@@ -1063,13 +1166,17 @@ Returns a WP_Error if the validation fails.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">string|<abbr title="\WP_Error">WP_Error</abbr></span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>The post type if valid, or a WP_Error on failure.</p>
+        <span class="phpdocumentor-signature__response_type">string|<abbr title="\WP_Error">WP_Error</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The post type if valid, or a WP_Error on failure.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -1080,6 +1187,7 @@ Returns a WP_Error if the validation fails.</p>
     <h4 class="phpdocumentor-element__name" id="method_validate_taxonomy">
         validate_taxonomy()
         <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_taxonomy" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/TaxonomyCLICommands.php"><a href="files/src-abstracts-taxonomyclicommands.html"><abbr title="src/abstracts/TaxonomyCLICommands.php">TaxonomyCLICommands.php</abbr></a></abbr>
@@ -1092,8 +1200,11 @@ Returns a WP_Error if the validation fails.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">validate_taxonomy</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|<abbr title="\WP_Error">WP_Error</abbr></span></code>
+                    <span class="phpdocumentor-signature__name">validate_taxonomy</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|<abbr title="\WP_Error">WP_Error</abbr></span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
         <section class="phpdocumentor-description"><p>Checks if the provided taxonomy is a string and if it exists.
 Returns a WP_Error if the taxonomy is invalid.</p>
 </section>
@@ -1122,13 +1233,17 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">string|<abbr title="\WP_Error">WP_Error</abbr></span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>Returns the taxonomy if valid, otherwise a WP_Error object.</p>
+        <span class="phpdocumentor-signature__response_type">string|<abbr title="\WP_Error">WP_Error</abbr></span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Returns the taxonomy if valid, otherwise a WP_Error object.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -1139,6 +1254,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
     <h4 class="phpdocumentor-element__name" id="method_dry_run_result">
         dry_run_result()
         <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_dry_run_result" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/TaxonomyCLICommands.php"><a href="files/src-abstracts-taxonomyclicommands.html"><abbr title="src/abstracts/TaxonomyCLICommands.php">TaxonomyCLICommands.php</abbr></a></abbr>
@@ -1151,8 +1267,11 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                <span class="phpdocumentor-signature__name">dry_run_result</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$from_terms</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$to_term</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">dry_run_result</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$from_terms</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$to_term</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -1196,10 +1315,8 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     
 
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void</span>
-            &mdash;
-        
+    
+
     
 </article>
                     <article
@@ -1211,6 +1328,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
     <h4 class="phpdocumentor-element__name" id="method_export_csv">
         export_csv()
         <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_export_csv" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/CLICommands.php"><a href="files/src-abstracts-clicommands.html"><abbr title="src/abstracts/CLICommands.php">CLICommands.php</abbr></a></abbr>
@@ -1223,8 +1341,11 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                <span class="phpdocumentor-signature__name">export_csv</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$filename</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;int|string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$rows</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;int|string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$headers</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">array()</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">export_csv</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$filename</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;int|string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$rows</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;int|string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$headers</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">array()</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -1259,10 +1380,8 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     
 
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void</span>
-            &mdash;
-        
+    
+
     
 </article>
                     <article
@@ -1274,6 +1393,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
     <h4 class="phpdocumentor-element__name" id="method_get_log_file_path">
         get_log_file_path()
         <a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_get_log_file_path" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/traits/LoggerTrait.php"><a href="files/src-traits-loggertrait.html"><abbr title="src/traits/LoggerTrait.php">LoggerTrait.php</abbr></a></abbr>
@@ -1286,8 +1406,11 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                <span class="phpdocumentor-signature__name">get_log_file_path</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$log_name</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">get_log_file_path</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$log_name</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -1304,13 +1427,17 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">string</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>The full path to the log file.</p>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The full path to the log file.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -1321,6 +1448,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
     <h4 class="phpdocumentor-element__name" id="method_has_required_fields">
         has_required_fields()
         <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_has_required_fields" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/TaxonomyCLICommands.php"><a href="files/src-abstracts-taxonomyclicommands.html"><abbr title="src/abstracts/TaxonomyCLICommands.php">TaxonomyCLICommands.php</abbr></a></abbr>
@@ -1333,8 +1461,11 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                <span class="phpdocumentor-signature__name">has_required_fields</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$required</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+                    <span class="phpdocumentor-signature__name">has_required_fields</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$required</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">0</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -1359,7 +1490,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$row_num</span>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
-                            </dt>
+                 = <span class="phpdocumentor-signature__argument__default-value">0</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The row number for logging purposes. Defaults to 0.</p>
 </section>
@@ -1369,13 +1500,17 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">bool</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>Returns true if all required fields are present, false otherwise.</p>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Returns true if all required fields are present, false otherwise.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -1386,6 +1521,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
     <h4 class="phpdocumentor-element__name" id="method_is_term_valid">
         is_term_valid()
         <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_is_term_valid" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/TaxonomyCLICommands.php"><a href="files/src-abstracts-taxonomyclicommands.html"><abbr title="src/abstracts/TaxonomyCLICommands.php">TaxonomyCLICommands.php</abbr></a></abbr>
@@ -1398,8 +1534,11 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                <span class="phpdocumentor-signature__name">is_term_valid</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$term_name</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\WP_Term">WP_Term</abbr>|false</span></code>
+                    <span class="phpdocumentor-signature__name">is_term_valid</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$term_name</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">0</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\WP_Term">WP_Term</abbr>|false</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -1424,7 +1563,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$row_num</span>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
-                            </dt>
+                 = <span class="phpdocumentor-signature__argument__default-value">0</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The row number in the CSV file.</p>
 </section>
@@ -1434,13 +1573,17 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><abbr title="\WP_Term">WP_Term</abbr>|false</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>If the term is valid, returns the term object. Otherwise, returns false.</p>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\WP_Term">WP_Term</abbr>|false</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>If the term is valid, returns the term object. Otherwise, returns false.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -1451,6 +1594,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
     <h4 class="phpdocumentor-element__name" id="method_validate_command_args">
         validate_command_args()
         <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_command_args" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/TaxonomyCLICommands.php"><a href="files/src-abstracts-taxonomyclicommands.html"><abbr title="src/abstracts/TaxonomyCLICommands.php">TaxonomyCLICommands.php</abbr></a></abbr>
@@ -1463,8 +1607,11 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                <span class="phpdocumentor-signature__name">validate_command_args</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$min_args</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$max_args</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+                    <span class="phpdocumentor-signature__name">validate_command_args</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$min_args</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">0</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$max_args</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">0</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -1480,7 +1627,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$min_args</span>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
-                            </dt>
+                 = <span class="phpdocumentor-signature__argument__default-value">0</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The minimum number of arguments allowed. Default 0.</p>
 </section>
@@ -1489,7 +1636,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$max_args</span>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
-                            </dt>
+                 = <span class="phpdocumentor-signature__argument__default-value">0</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The maximum number of arguments allowed. Default 0.</p>
 </section>
@@ -1499,13 +1646,17 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">bool</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>True if valid, false otherwise.</p>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if valid, false otherwise.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -1516,6 +1667,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
     <h4 class="phpdocumentor-element__name" id="method_validate_headers">
         validate_headers()
         <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_headers" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/TaxonomyCLICommands.php"><a href="files/src-abstracts-taxonomyclicommands.html"><abbr title="src/abstracts/TaxonomyCLICommands.php">TaxonomyCLICommands.php</abbr></a></abbr>
@@ -1528,8 +1680,11 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                <span class="phpdocumentor-signature__name">validate_headers</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$headers</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$required</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+                    <span class="phpdocumentor-signature__name">validate_headers</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$headers</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$required</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -1555,13 +1710,17 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">bool</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>Returns true if all required fields are present, false otherwise.</p>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Returns true if all required fields are present, false otherwise.</p>
 </section>
 
-    
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -1572,6 +1731,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
     <h4 class="phpdocumentor-element__name" id="method_create_dir">
         create_dir()
         <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_create_dir" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/CLICommands.php"><a href="files/src-abstracts-clicommands.html"><abbr title="src/abstracts/CLICommands.php">CLICommands.php</abbr></a></abbr>
@@ -1584,8 +1744,11 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">create_dir</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">create_dir</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -1602,10 +1765,8 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     
 
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void</span>
-            &mdash;
-        
+    
+
     
 </article>
                     <article
@@ -1617,11 +1778,12 @@ Returns a WP_Error if the taxonomy is invalid.</p>
     <h4 class="phpdocumentor-element__name" id="method_pick_fields">
         pick_fields()
         <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_pick_fields" class="headerlink"><i class="fas fa-link"></i></a>
+
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/abstracts/CLICommands.php"><a href="files/src-abstracts-clicommands.html"><abbr title="src/abstracts/CLICommands.php">CLICommands.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">134</span>
+    <span class="phpdocumentor-element-found-in__line">136</span>
 
     </aside>
 
@@ -1629,8 +1791,11 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">pick_fields</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;|object&nbsp;</span><span class="phpdocumentor-signature__argument__name">$item</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$fields</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">pick_fields</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;|object&nbsp;</span><span class="phpdocumentor-signature__argument__name">$item</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$fields</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
 
+    <div class="phpdocumentor-label-line">
+        </div>
+    
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
@@ -1656,80 +1821,172 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     
 
+    
+
+            <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
-            &mdash;
-            <section class="phpdocumentor-description"><p>The picked fields as an associative array.</p>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The picked fields as an associative array.</p>
 </section>
 
-    
+            </section>
+
 </article>
             </section>
 
-        
+        <div class="phpdocumentor-modal" id="source-view">
+    <div class="phpdocumentor-modal-bg" data-exit-button></div>
+    <div class="phpdocumentor-modal-container">
+        <div class="phpdocumentor-modal-content">
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/abstracts/TaxonomyCLICommands.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+        </div>
+        <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
+    </div>
+</div>
+
     <script type="text/javascript">
-        function loadExternalCodeSnippets(line) {
-            Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach((pre) => {
-                var src = pre.getAttribute('data-src').replace( /\\/g, '/');
-                var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
-                var language = 'php';
+        (function () {
+            function loadExternalCodeSnippet(el, url, line) {
+                Array.prototype.slice.call(el.querySelectorAll('pre[data-src]')).forEach((pre) => {
+                    const src = url || pre.getAttribute('data-src').replace(/\\/g, '/');
+                    const language = 'php';
 
-                var code = document.createElement('code');
-                code.className = 'language-' + language;
+                    const code = document.createElement('code');
+                    code.className = 'language-' + language;
+                    pre.textContent = '';
+                    pre.setAttribute('data-line', line)
+                    code.textContent = 'Loading…';
+                    pre.appendChild(code);
 
-                pre.textContent = '';
+                    var xhr = new XMLHttpRequest();
 
-                pre.setAttribute('data-line', line)
-                code.textContent = 'Loading…';
+                    xhr.open('GET', src, true);
 
-                pre.appendChild(code);
-
-                var xhr = new XMLHttpRequest();
-
-                xhr.open('GET', src, true);
-
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4) {
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState !== 4) {
+                            return;
+                        }
 
                         if (xhr.status < 400 && xhr.responseText) {
                             code.textContent = xhr.responseText;
-
                             Prism.highlightElement(code);
+                            return;
                         }
-                        else if (xhr.status >= 400) {
+
+                        if (xhr.status === 404) {
+                            code.textContent = '✖ Error: File could not be found';
+                            return;
+                        }
+
+                        if (xhr.status >= 400) {
                             code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                            return;
                         }
-                        else {
-                            code.textContent = '✖ Error: File does not exist, is empty or trying to view from localhost';
-                        }
+
+                        code.textContent = '✖ Error: An unknown error occurred';
+                    };
+
+                    xhr.send(null);
+                });
+            }
+
+            const modalButtons = document.querySelectorAll("[data-modal]");
+            const openedAsLocalFile = window.location.protocol === 'file:';
+            if (modalButtons.length > 0 && openedAsLocalFile) {
+                console.warn(
+                    'Viewing the source code is unavailable because you are opening this page from the file:// scheme; ' +
+                    'browsers block XHR requests when a page is opened this way'
+                );
+            }
+
+            modalButtons.forEach(function (trigger) {
+                if (openedAsLocalFile) {
+                    trigger.setAttribute("hidden", "hidden");
+                }
+
+                trigger.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    const modal = document.getElementById(trigger.dataset.modal);
+                    if (!modal) {
+                        console.error(`Modal with id "${trigger.dataset.modal}" could not be found`);
+                        return;
                     }
-                };
+                    modal.classList.add("phpdocumentor-modal__open");
 
-                xhr.send(null);
-            });
-        }
-
-        var modals = document.querySelectorAll("[data-modal]");
-
-        modals.forEach(function (trigger) {
-            trigger.addEventListener("click", function (event) {
-                //event.preventDefault();
-                const modal = document.getElementById(trigger.dataset.modal);
-                modal.classList.add("phpdocumentor-modal__open");
-                loadExternalCodeSnippets(trigger.dataset.line)
-                const exits = modal.querySelectorAll("[data-exit-button]");
-                exits.forEach(function (exit) {
-                    exit.addEventListener("click", function (event) {
-                        event.preventDefault();
-                        modal.classList.remove("phpdocumentor-modal__open");
+                    loadExternalCodeSnippet(modal, trigger.dataset.src || null, trigger.dataset.line)
+                    const exits = modal.querySelectorAll("[data-exit-button]");
+                    exits.forEach(function (exit) {
+                        exit.addEventListener("click", function (event) {
+                            event.preventDefault();
+                            modal.classList.remove("phpdocumentor-modal__open");
+                        });
                     });
                 });
             });
-        });
+        })();
     </script>
 
     </article>
-                <section data-search-results class="phpdocumentor-search-results phpdocumentor-search-results--hidden">
+                                </section>
+                <section class="phpdocumentor-on-this-page__sidebar">
+                                
+    <section class="phpdocumentor-on-this-page__content">
+        <strong class="phpdocumentor-on-this-page__title">On this page</strong>
+
+        <ul class="phpdocumentor-list -clean">
+            <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                                            <li><a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#toc-methods">Methods</a></li>
+                                    </ul>
+            </li>
+            
+                            <li class="phpdocumentor-on-this-page-section__title">Properties</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#property_notices">$notices</a></li>
+                                                    <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#property_upload_path">$upload_path</a></li>
+                                                    <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#property_upload_url">$upload_url</a></li>
+                                                    <li class=""><a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#property_log_dir">$log_dir</a></li>
+                                                    <li class=""><a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#property_log_name">$log_name</a></li>
+                                            </ul>
+                </li>
+            
+                        <li class="phpdocumentor-on-this-page-section__title">Methods</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_add_notice">add_notice()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_display_notices">display_notices()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_notices">get_notices()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_upload_path">get_upload_path()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_upload_url">get_upload_url()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_invalid_taxonomy">invalid_taxonomy()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_log">log()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_reset_notices">reset_notices()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_set_log_name">set_log_name()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_set_upload_path">set_upload_path()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_set_upload_url">set_upload_url()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_post_type">validate_post_type()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_taxonomy">validate_taxonomy()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_dry_run_result">dry_run_result()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_export_csv">export_csv()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_get_log_file_path">get_log_file_path()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_has_required_fields">has_required_fields()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_is_term_valid">is_term_valid()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_command_args">validate_command_args()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_headers">validate_headers()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_create_dir">create_dir()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_pick_fields">pick_fields()</a></li>
+                                    </ul>
+            </li>
+                    </ul>
+    </section>
+
+                </section>
+                            </div>
+            <section data-search-results class="phpdocumentor-search-results phpdocumentor-search-results--hidden">
     <section class="phpdocumentor-search-results__dialog">
         <header class="phpdocumentor-search-results__header">
             <h2 class="phpdocumentor-search-results__title">Search results</h2>
@@ -1740,7 +1997,6 @@ Returns a WP_Error if the taxonomy is invalid.</p>
         </section>
     </section>
 </section>
-            </div>
         </div>
         <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
