@@ -1,3 +1,3 @@
-# BC Migration Wiki
+# Wiki
 
 Welcome to the BC Migration Wiki
