@@ -1,3 +1,5 @@
-# Wiki
+# 🏠 Home Page
 
-Welcome to the BC Migration Wiki
+This is the latest version — synced via GitHub Action.
+
+- [Test Page](Test-Page)
