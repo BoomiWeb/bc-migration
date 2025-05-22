@@ -39,16 +39,32 @@ jobs:
           echo "=== Wiki Home.md content ==="
           cat wiki/Home.md || echo "Home.md not found"        
 
-      - name: Commit and push changes
+      - name: Debug Git Remote and Branch
         run: |
           cd wiki
+          git remote -v
+          git branch
+          git status          
+
+      - name: Commit and Push Wiki Changes
+        run: |
+          cd wiki
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
           git add .
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "Automated wiki update from docs/wiki"
-            git push
-          fi
+          git commit -m "Update wiki content [skip ci]" || echo "No changes to commit"
+          git push origin HEAD:master          
+
+      # - name: Commit and push changes
+      #   run: |
+      #     cd wiki
+      #     git add .
+      #     if git diff --cached --quiet; then
+      #       echo "No changes to commit."
+      #     else
+      #       git commit -m "Automated wiki update from docs/wiki"
+      #       git push
+      #     fi
 
       - name: Verify wiki repo files after push
         run: |
