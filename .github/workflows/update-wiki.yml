@@ -42,3 +42,13 @@ jobs:
             git commit -m "Automated wiki update from docs/wiki"
             git push
           fi
+
+      - name: Verify wiki repo files after push
+        run: |
+          cd wiki
+          echo "=== Git status ==="
+          git status
+          echo "=== Wiki files ==="
+          ls -l
+          echo "=== Wiki Home.md content ==="
+          cat Home.md || echo "Home.md not found"          
