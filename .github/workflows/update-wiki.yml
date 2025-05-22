@@ -5,6 +5,9 @@ on:
     branches: ["main", "test", "wiki"]
   workflow_dispatch:
 
+permissions:
+  contents: write  
+
 jobs:
   update-wiki:
     runs-on: ubuntu-latest
