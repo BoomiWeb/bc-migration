@@ -2,9 +2,7 @@
 
 ## Resources
 
-Order:
-
-1. Setup parent > child (types)
+1. Update (types)
 2. Rename (topics)
 3. Merge (types, topics)
 4. Remove (all)
