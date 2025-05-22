@@ -5,7 +5,6 @@ Order:
 1. Rename
 2. Merge
 3. Remove
-4. Check*
 
 ### Industries
 

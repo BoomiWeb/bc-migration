@@ -6,7 +6,6 @@ Order:
 2. Migrate
 3. Merge
 4. Remove
-5. Check*
 
 ### Rename
 
