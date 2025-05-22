@@ -7,9 +7,7 @@ Order:
 3. Merge (types, topics)
 4. Remove (all)
 
-### Types
-
-#### Setup parent > child
+### Setup parent > child
 
 ```
 content-type,"News & Updates > Press Release, News"
@@ -19,41 +17,7 @@ content-type,"eBooks & Reports > eBook, Whitepaper, Article, Analyst Report, Inf
 content-type,"Video > Demo, Product/Service Overview, Industry, Interview"
 ```
 
-### Merge
-
-```
-taxonomy,from_terms,to_term
-content-type,Report,Analyst Report
-```
-
-#### Remove
-
-Delete terms
-
-```
-taxonomy,term
-content-type,Other
-content-type,Podcast
-content-type,Blog
-content-type,Webinar
-```
-
-### Products
-
-#### Remove
-
-Delete terms
-
-```
-taxonomy,term
-products,Boomi MCS
-products,Partner Solutions
-products,Spaces
-```
-
-### Topics
-
-#### Rename
+### Rename
 
 ```
 taxonomy,old_term,new_name
@@ -61,18 +25,25 @@ topics,Cloud migration,Cloud
 topics,Profile/Q&A,Industry Expert Interviews
 ```
 
-#### Merge
+### Merge
 
 ```
 taxonomy,from_terms,to_term
 topics,AI Governance,Artificial Intelligence (AI)
+content-type,Report,Analyst Report
 ```
 
-#### Remove
-
-Delete terms
+### Remove
 
 ```
+taxonomy,term
+content-type,Other
+content-type,Podcast
+content-type,Blog
+content-type,Webinar
+products,Boomi MCS
+products,Partner Solutions
+products,Spaces
 taxonomy,term
 topics,API management
 topics,APJ
