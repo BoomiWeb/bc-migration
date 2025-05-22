@@ -24,9 +24,10 @@ jobs:
       - name: Remove existing wiki directory if present
         run: rm -rf wiki          
 
-      - name: Clone the Wiki repo
+      - name: Clone the Wiki Repo
         run: |
-          git clone "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git" wiki
+          set -e  # Stop execution if any command fails
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki          
 
       - name: Sync content to Wiki repo
         run: |
