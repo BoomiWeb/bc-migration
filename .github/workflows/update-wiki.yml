@@ -29,9 +29,15 @@ jobs:
           set -e  # Stop execution if any command fails
           git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki          
 
-      - name: Sync content to Wiki repo
+      - name: Copy updated wiki files
+        run: rsync -av --delete --progress docs/wiki/ wiki/
+
+      - name: Show wiki directory contents
         run: |
-          rsync -av --delete docs/wiki/ wiki/
+          echo "=== Wiki files ==="
+          ls -l wiki/
+          echo "=== Wiki Home.md content ==="
+          cat wiki/Home.md || echo "Home.md not found"        
 
       - name: Commit and push changes
         run: |
