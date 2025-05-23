@@ -29,6 +29,11 @@ jobs:
           set -e  # Stop execution if any command fails
           git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki          
 
+      - name: Confirm Correct Wiki Remote
+        run: |
+          cd wiki
+          git remote -v          
+
       - name: Copy updated wiki files
         run: rsync -av --delete --progress docs/wiki/ wiki/
 
