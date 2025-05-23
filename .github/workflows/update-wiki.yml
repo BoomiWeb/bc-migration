@@ -1,55 +1,27 @@
-name: Update Wiki from /docs/wiki
+name: Sync Wiki
 
 on:
   push:
-    branches: ["main", "test", "wiki-test"]
-  workflow_dispatch:
-
-permissions:
-  contents: write  
+    paths:
+      - 'docs/wiki/**'
+    branches:
+      - wiki-test  # or whatever your main branch is
 
 jobs:
-  update-wiki:
+  sync-wiki:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout main repo
+      - name: Checkout Main Repo
         uses: actions/checkout@v3
 
-      - name: Set up Git user
+      - name: Clone Wiki Repo
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki
 
-      - name: Remove existing wiki directory if present
-        run: rm -rf wiki          
-
-      - name: Clone the Wiki Repo
+      - name: Copy Wiki Files
         run: |
-          set -e  # Stop execution if any command fails
-          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki          
-
-      - name: Confirm Correct Wiki Remote
-        run: |
-          cd wiki
-          git remote -v          
-
-      - name: Copy updated wiki files
-        run: rsync -av --delete --progress docs/wiki/ wiki/
-
-      - name: Show wiki directory contents
-        run: |
-          echo "=== Wiki files ==="
-          ls -l wiki/
-          echo "=== Wiki Home.md content ==="
-          cat wiki/Home.md || echo "Home.md not found"        
-
-      - name: Debug Git Remote and Branch
-        run: |
-          cd wiki
-          git remote -v
-          git branch
-          git status          
+          rsync -av --delete docs/wiki/ wiki/
 
       - name: Commit and Push Wiki Changes
         run: |
@@ -58,25 +30,4 @@ jobs:
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           git add .
           git commit -m "Update wiki content [skip ci]" || echo "No changes to commit"
-          git push origin HEAD:master          
-
-      # - name: Commit and push changes
-      #   run: |
-      #     cd wiki
-      #     git add .
-      #     if git diff --cached --quiet; then
-      #       echo "No changes to commit."
-      #     else
-      #       git commit -m "Automated wiki update from docs/wiki"
-      #       git push
-      #     fi
-
-      - name: Verify wiki repo files after push
-        run: |
-          cd wiki
-          echo "=== Git status ==="
-          git status
-          echo "=== Wiki files ==="
-          ls -l
-          echo "=== Wiki Home.md content ==="
-          cat Home.md || echo "Home.md not found"          
+          git push origin HEAD:master
