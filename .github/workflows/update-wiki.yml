@@ -2,7 +2,7 @@ name: Update Wiki from /docs/wiki
 
 on:
   push:
-    branches: ["main", "test", "wiki"]
+    branches: ["main", "test", "wiki-test"]
   workflow_dispatch:
 
 permissions:
