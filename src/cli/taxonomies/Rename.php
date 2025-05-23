@@ -87,9 +87,12 @@ class Rename extends TaxonomyCLICommands {
 	 * @return void
 	 */
 	private function process_csv( string $file, bool $dry_run = false ) {
-		$rows = array_map( function ( $line ) {
-        	return str_getcsv( $line, ',', '"', '\\' );
-    	}, file( $file ) );
+		$rows    = array_map(
+			function ( $line ) {
+				return str_getcsv( $line, ',', '"', '\\' );
+			},
+			file( $file )
+		);
 		$headers = array_map( 'trim', array_shift( $rows ) );
 
 		if ( ! $this->validate_headers( $headers, array( 'taxonomy', 'old_term', 'new_name' ) ) ) {
@@ -185,6 +188,7 @@ class Rename extends TaxonomyCLICommands {
 	 * @param string $old_term The old term name or slug.
 	 * @param string $new_name The new name for the term.
 	 * @param string $new_slug Optional new slug for the term.
+	 * @param int    $row_num  The row number in the CSV file.
 	 *
 	 * @return array{term_id: int, term_taxonomy_id: int}|WP_Error The updated term data or a WP_Error on failure.
 	 */

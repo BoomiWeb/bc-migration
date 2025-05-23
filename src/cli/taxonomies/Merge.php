@@ -88,13 +88,17 @@ class Merge extends TaxonomyCLICommands {
 	 * @param string $file        Path to the CSV file.
 	 * @param bool   $delete_old  If set, delete the old terms after merging.
 	 * @param bool   $dry_run     If set, simulate actions without making changes.
+	 * @param string $post_type   Post type to migrate.
 	 *
 	 * @return void
 	 */
 	private function process_csv( string $file, bool $delete_old = false, bool $dry_run = false, string $post_type = 'any' ) {
-		$rows = array_map( function ( $line ) {
-        	return str_getcsv( $line, ',', '"', '\\' );
-    	}, file( $file ) );
+		$rows    = array_map(
+			function ( $line ) {
+				return str_getcsv( $line, ',', '"', '\\' );
+			},
+			file( $file )
+		);
 		$headers = array_map( 'trim', array_shift( $rows ) );
 
 		if ( ! $this->validate_headers( $headers, array( 'taxonomy', 'from_terms', 'to_term' ) ) ) {
@@ -150,6 +154,7 @@ class Merge extends TaxonomyCLICommands {
 	 * @param string[] $args     CLI arguments.
 	 * @param bool     $dry_run  If set, simulate actions without making changes.
 	 * @param bool     $delete_old  If set, delete the old terms after merging.
+	 * @param string   $post_type  Post type to migrate.
 	 *
 	 * @return void
 	 */
@@ -198,6 +203,7 @@ class Merge extends TaxonomyCLICommands {
 	 * @param string[] $from_terms   Array of term names to merge.
 	 * @param string   $to_term_name The term to merge into.
 	 * @param bool     $delete_old   If true, delete the old terms after merging.
+	 * @param string   $post_type    Post type to migrate.
 	 * @param int      $row_num      The row number (for logging purposes).
 	 *
 	 * @return bool If the merge was successful.

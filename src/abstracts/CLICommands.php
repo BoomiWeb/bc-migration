@@ -107,7 +107,7 @@ abstract class CLICommands {
         $fp = fopen( $filename, 'w+' ); // @codingStandardsIgnoreLine WordPress.WP.AlternativeFunctions.file_system_read_fopen
 
 		if ( ! empty( $headers ) ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Outputting to CSV file, no escaping needed
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped,PHPCompatibility.ParameterValues.RemovedProprietaryCSVEscaping.DeprecatedParamNotPassed
 			fputcsv( $fp, $headers );
 		}
 
@@ -116,7 +116,7 @@ abstract class CLICommands {
 				$row = $this->pick_fields( $row, $headers );
 			}
 
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Outputting to CSV file, no escaping needed
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped,PHPCompatibility.ParameterValues.RemovedProprietaryCSVEscaping.DeprecatedParamNotPassed
 			fputcsv( $fp, array_values( $row ) );
 		}
 
