@@ -177,10 +177,10 @@ class Migrate extends TaxonomyCLICommands {
 		if ( ! $source_term ) {
 			$message = "{$prefix}Term '$term_name' not found in taxonomy '$from_tax'.";
 
-			$this->add_notice( $message, 'error' );
-			$this->log( $message, 'error' );
+			$this->add_notice( $message, 'warning' );
+			$this->log( $message, 'warning' );
 
-			return new WP_Error( 'term_not_found', $message );
+			return;
 		}
 
 		// Check or create destination term.

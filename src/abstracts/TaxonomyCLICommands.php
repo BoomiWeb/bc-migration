@@ -206,10 +206,9 @@ abstract class TaxonomyCLICommands extends CLICommands {
 		}
 
 		if ( ! $term || is_wp_error( $term ) ) {
-			$message = "Row $row_num: Skipped - term '$term_name' not found in taxonomy '$taxonomy'."; // TODO: add check for row number.
+			$message = ( $row_num ? "Row $row_num: " : '' ) . "Skipped - term '$term_name' not found in taxonomy '$taxonomy'.";
 
 			$this->log( $message );
-
 			$this->add_notice( $message, 'warning' );
 
 			return false;
