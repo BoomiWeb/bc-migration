@@ -1,2 +1,7 @@
 taxonomy,from_terms,to_term
 blog_posts,Pharmaceuticals,Life Sciences
+blog_posts,Data Catalog and Preparation|Data & Application Integration|Master Data Management (MDM),Data Management
+blog_posts,EDI (Electronic Data Interchange),B2B/EDI Management
+blog_posts,B2B Integration|CRM Integration|ERP Integration|Enterprise Integration|On-Premises Application Integration,Integration
+blog_posts,OEM,Embedded
+blog_posts,Automation,Workflow automation
