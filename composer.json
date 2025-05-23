@@ -22,7 +22,7 @@
         "phpcompatibility/php-compatibility": "^10.1",
         "phpstan/phpstan": "^2.1",
         "php-stubs/acf-pro-stubs": "^6.3",
-        "php-stubs/wp-cli-stubs": "^2.5",
+        "php-stubs/wp-cli-stubs": "^2.11",
         "phpmd/phpmd": "@stable",
         "szepeviktor/phpstan-wordpress": "^2.0",
         "phpstan/extension-installer": "^1.4",
@@ -31,7 +31,7 @@
     "scripts": {
         "phpcs": "vendor/bin/phpcs -s -p --standard=./phpcs.ruleset.xml",
         "phpcbf": "vendor/bin/phpcbf -p --standard=./phpcs.ruleset.xml",
-        "phpstan": "vendor/bin/phpstan analyse --memory-limit=2G",
+        "phpstan": "vendor/bin/phpstan analyse --configuration=phpstan.neon --memory-limit=2G",
         "phpdocs": "vendor/bin/phpdoc"
     },
     "config": {

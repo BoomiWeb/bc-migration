@@ -40,7 +40,6 @@ class Subprocessors extends CLICommands {
 	 *
 	 * @param string[]             $args       CLI positional arguments.
 	 * @param array<string, mixed> $assoc_args CLI associative arguments.
-	 *
 	 * @return void
 	 */
 	public function migrate( $args, $assoc_args ) {
@@ -64,6 +63,7 @@ class Subprocessors extends CLICommands {
 	 * Migrates subscribe data for a given post ID, and removes the legacy email DB table.
 	 *
 	 * @param int $post_id The ID of the post whose subscribe data should be migrated.
+	 * @return void
 	 */
 	private function migrate_subscribe_data( int $post_id ) {
 		WP_CLI::log( 'Migrating subscribe data...' );

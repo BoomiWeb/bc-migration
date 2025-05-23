@@ -30,7 +30,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
 	 * @return string|WP_Error The post type if valid, or a WP_Error on failure.
 	 */
 	public function validate_post_type( string $post_type, $row_num = null ) {
-		if ( ! is_string( $post_type ) ) {
+		if ( ! $post_type ) {
 			$message = isset( $row_num )
 				? "Row {$row_num}: Post type must be a string. Skipping."
 				: 'Post type must be a string.';
@@ -60,7 +60,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
 	 * @return string|WP_Error Returns the taxonomy if valid, otherwise a WP_Error object.
 	 */
 	public function validate_taxonomy( string $taxonomy, $row_num = null ) {
-		if ( ! is_string( $taxonomy ) ) {
+		if ( ! $taxonomy ) {
 			$message = isset( $row_num )
 				? "Row {$row_num}: Taxonomy must be a string. Skipping."
 				: 'Taxonomy must be a string.';
@@ -84,7 +84,7 @@ abstract class TaxonomyCLICommands extends CLICommands {
 	/**
 	 * Handles invalid taxonomy errors by logging and adding notices.
 	 *
-	 * @param WP_Taxonomy|WP_Error $taxonomy The taxonomy or error object.
+	 * @param \WP_Taxonomy|WP_Error $taxonomy The taxonomy or error object.
 	 * @param int|null             $row_num  Optional. The row number for logging purposes. Defaults to null.
 	 *
 	 * @return void|false Returns false if row number is provided, otherwise void.

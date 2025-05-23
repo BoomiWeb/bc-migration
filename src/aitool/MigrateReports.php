@@ -70,7 +70,7 @@ class MigrateReports {
 	 *
 	 * Finds all the files in the bc-ai-tool-data directory and migrates them to the database.
 	 *
-	 * @return array An array of migrated data.
+	 * @return array<int, mixed> An array of migrated data.
 	 */
 	public function migrate_data() {
 		$files = $this->get_files();
@@ -88,7 +88,7 @@ class MigrateReports {
 	 * Finds all the files in the bc-ai-tool-data directory and returns them as an array.
 	 * If the directory does not exist, or if there are no files with the name 'data-*', an empty array is returned.
 	 *
-	 * @return array
+	 * @return array<string> An array of file paths.
 	 */
 	private function get_files() {
 		$data_files = array();
@@ -116,9 +116,8 @@ class MigrateReports {
 	/**
 	 * Migrates the AI Tool reports from the JSON files to the database.
 	 *
-	 * @param array $files Array of JSON files to be migrated.
-	 *
-	 * @return array Array of IDs of migrated reports.
+	 * @param array<int, string> $files Array of JSON files to be migrated.
+	 * @return array<int, string>|list<int>|false Array of IDs of migrated reports.
 	 */
 	private function migrate_reports( array $files ) {
 		$migrated_reports = array();
@@ -161,8 +160,7 @@ class MigrateReports {
 	 *
 	 * @param string $file The json file to read.
 	 * @param string $app  The app name.
-	 *
-	 * @return array The prepared report item.
+	 * @return array<string> The prepared report item.
 	 */
 	private function prepare_report_for_db( string $file, string $app ) {
 		$data               = (array) json_decode( file_get_contents( $file ) );
@@ -184,8 +182,8 @@ class MigrateReports {
 	/**
 	 * Converts the keys of the given array from camel case to snake case.
 	 *
-	 * @param array $data The array with camel case keys.
-	 * @return array The array with keys converted to snake case.
+	 * @param array<string, mixed> $data The array with camel case keys.
+	 * @return array<string, mixed> The array with keys converted to snake case.
 	 */
 	private function maybe_format_keys( array $data ) {
 		return array_combine(
@@ -201,9 +199,8 @@ class MigrateReports {
 	 * Converts the integrationCampaign2 key to report_url.
 	 * Serializes the data if it isn't already.
 	 *
-	 * @param array $item The report item to prepare.
-	 *
-	 * @return array The prepared report item.
+	 * @param array<string, mixed> $item The report item to prepare.
+	 * @return array<string, mixed> The prepared report item.
 	 */
 	private function prepare_item_for_db( array $item ) {
 		if ( ! isset( $item['created'] ) || empty( $item['created'] ) ) {
@@ -227,8 +224,7 @@ class MigrateReports {
 	 * If the data is not valid (e.g. empty or not set), this function will return true
 	 * to indicate that the data should be skipped.
 	 *
-	 * @param array $data The data to check for.
-	 *
+	 * @param array<string, mixed> $data The data to check for.
 	 * @return bool True if the database entry exists, false otherwise.
 	 */
 	private function db_entry_exists( array $data ) {
@@ -263,8 +259,7 @@ class MigrateReports {
 	 * If the insertion fails, a WP_Error object is returned indicating
 	 * the failure. If successful, the ID of the inserted row is returned.
 	 *
-	 * @param array $data The data to insert.
-	 *
+	 * @param array<string, mixed> $data The data to insert.
 	 * @return int|WP_Error The ID of the inserted row, or a WP_Error object on failure.
 	 */
 	private function insert_into_db( array $data ) {
@@ -283,9 +278,8 @@ class MigrateReports {
 	/**
 	 * Clean up the given files.
 	 *
-	 * @param array $files The files to clean up.
-	 *
-	 * @return array The cleaned up files.
+	 * @param array<string> $files The files to clean up.
+	 * @return array<string> The cleaned up files.
 	 */
 	private function clean_files( array $files ) {
 		foreach ( $files as $key => $file ) {

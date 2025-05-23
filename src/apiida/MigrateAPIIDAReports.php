@@ -18,13 +18,6 @@ use WP_Error;
 class MigrateAPIIDAReports extends MigrateReports {
 
 	/**
-	 * The single instance of the class.
-	 *
-	 * @var MigrateAPIIDAReports|null
-	 */
-	protected static ?MigrateAPIIDAReports $instance = null;
-
-	/**
 	 * Gets the single instance of the class.
 	 *
 	 * @return MigrateAPIIDAReports Single instance of the class.
@@ -43,7 +36,7 @@ class MigrateAPIIDAReports extends MigrateReports {
 	 * Finds all the files in the bc-apiida/results directory and returns them as an array.
 	 * If the directory does not exist, or if there are no files with the name 'data-*', an empty array is returned.
 	 *
-	 * @return array Array of file paths.
+	 * @return array<string> Array of file paths.
 	 */
 	protected function get_files() {
 		$data_files = array();
@@ -73,9 +66,8 @@ class MigrateAPIIDAReports extends MigrateReports {
 	 * it does not already exist in the database. If an error occurs during insertion, the
 	 * file is skipped. Only successfully inserted report IDs are returned.
 	 *
-	 * @param array $files Array of JSON files to be migrated.
-	 *
-	 * @return array|false Array of IDs of migrated reports, or false if no files are provided.
+	 * @param array<int, string> $files Array of JSON files to be migrated.
+	 * @return array<int, string>|list<int>|false Array of IDs of migrated reports, or false if no files are provided.
 	 */
 	protected function migrate_reports( array $files ) {
 		$migrated_reports = array();
@@ -117,8 +109,7 @@ class MigrateAPIIDAReports extends MigrateReports {
 	 *
 	 * @param string $file The path to the JSON file to read.
 	 * @param string $app  The application name to associate with the report.
-	 *
-	 * @return array The prepared report data ready for database insertion.
+	 * @return array<string> The prepared report data ready for database insertion.
 	 */
 	private function prepare_report_for_db( string $file, string $app ) {
 		$data = (array) json_decode( file_get_contents( $file ) );
@@ -142,9 +133,8 @@ class MigrateAPIIDAReports extends MigrateReports {
 	 * Converts the integrationCampaign2 key to report_url.
 	 * Serializes the data if it isn't already.
 	 *
-	 * @param array $item The report item to prepare.
-	 *
-	 * @return array The prepared report item.
+	 * @param array<string, mixed> $item The report item to prepare.
+	 * @return array<string, mixed> The prepared report item.
 	 */
 	private function prepare_item_for_db( array $item ) {
 		if ( ! isset( $item['created'] ) || empty( $item['created'] ) ) {
@@ -170,9 +160,8 @@ class MigrateAPIIDAReports extends MigrateReports {
 	 * to the data in the file by prepending the site URL and '#report-' to the filename.
 	 * The modified data is then encoded back to JSON and saved to the file.
 	 *
-	 * @param array $files The files to clean up.
-	 *
-	 * @return array The cleaned up files.
+	 * @param array<string> $files The files to clean up.
+	 * @return array<string> The cleaned up files.
 	 */
 	protected function clean_files( array $files ) {
 		foreach ( $files as $key => $file ) {
