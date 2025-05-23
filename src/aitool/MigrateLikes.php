@@ -122,7 +122,7 @@ class MigrateLikes {
 	 *
 	 * @param array<string> $files Array of file paths to migrate.
 	 *
-	 * @return array<int> Array of migrated row IDs.
+	 * @return array<int>|false Array of migrated row IDs.
 	 */
 	private function migrate_likes( array $files ) {
 		$migrated_likes = array();
@@ -216,7 +216,7 @@ class MigrateLikes {
 			$updated = $this->update_db( $db_entry, $data );
 
 			if ( false === $updated ) {
-				return new WP_Error( 'aitool_rlikes_insert_or_update_db', 'Unable to update likes data to the db.', $data );
+				return new WP_Error( 'aitool_likes_insert_or_update_db', 'Unable to update likes data to the db.', $data );
 			}
 
 			return $db_entry->id;
@@ -226,11 +226,11 @@ class MigrateLikes {
 
 		if ( ! $db_id ) {
 			return new WP_Error(
-				'aitool_rlikes_insert_or_update_db',
+				'aitool_likes_insert_or_update_db',
 				'Failed to insert data',
 				array(
 					'data' => $data,
-					'db'   => $db,
+					'db'   => $this->db,
 				)
 			);
 		}

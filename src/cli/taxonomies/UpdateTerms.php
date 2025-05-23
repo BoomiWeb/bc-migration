@@ -145,10 +145,6 @@ class UpdateTerms extends TaxonomyCLICommands {
 			}
 
 			$this->process_terms( $mappings, $taxonomy, $dry_run );
-
-			if ( is_wp_error( $result ) ) {
-				$this->add_notice( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
-			}
 		}
 	}
 
@@ -194,13 +190,6 @@ class UpdateTerms extends TaxonomyCLICommands {
 		} else {
 			$this->add_notice( 'Invalid input format. Use: Parent > Child1, Child2', 'error' );
 			$this->log( 'Invalid input format. Use: Parent > Child1, Child2' );
-
-			return;
-		}
-
-		if ( empty( $mappings ) ) {
-			$this->add_notice( 'No valid mappings found in input.', 'error' );
-			$this->log( 'No valid mappings found in input.' );
 
 			return;
 		}

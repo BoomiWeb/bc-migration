@@ -117,7 +117,7 @@ class MigrateReports {
 	 * Migrates the AI Tool reports from the JSON files to the database.
 	 *
 	 * @param array<int, string> $files Array of JSON files to be migrated.
-	 * @return array<int, string> Array of IDs of migrated reports.
+	 * @return array<int, string>|list<int>|false Array of IDs of migrated reports.
 	 */
 	private function migrate_reports( array $files ) {
 		$migrated_reports = array();
