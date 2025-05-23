@@ -92,7 +92,9 @@ class Merge extends TaxonomyCLICommands {
 	 * @return void
 	 */
 	private function process_csv( string $file, bool $delete_old = false, bool $dry_run = false, string $post_type = 'any' ) {
-		$rows    = array_map( 'str_getcsv', file( $file ) );
+		$rows = array_map( function ( $line ) {
+        	return str_getcsv( $line, ',', '"', '\\' );
+    	}, file( $file ) );
 		$headers = array_map( 'trim', array_shift( $rows ) );
 
 		if ( ! $this->validate_headers( $headers, array( 'taxonomy', 'from_terms', 'to_term' ) ) ) {
