@@ -181,7 +181,7 @@ class Delete extends TaxonomyCLICommands {
 		foreach ( $term_names as $term_name ) {
 			$term = $this->is_term_valid( $term_name, $taxonomy, $row_num );
 
-			if ( ! $term ) {				
+			if ( ! $term ) {
 				continue;
 			}
 

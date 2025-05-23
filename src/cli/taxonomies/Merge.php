@@ -29,10 +29,10 @@ class Merge extends TaxonomyCLICommands {
 	 *
 	 * [<to_term>]
 	 * : Term to merge into.
-	 * 
+	 *
 	 * [--post-type=<post_type>]
 	 * : Post type to migrate.
-	 * 
+	 *
 	 * [--file=<file>]
 	 * : Path to CSV file for batch merge.
 	 *
