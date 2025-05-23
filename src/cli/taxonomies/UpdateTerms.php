@@ -144,7 +144,7 @@ class UpdateTerms extends TaxonomyCLICommands {
 				continue;
 			}
 
-			$result = $this->process_terms( $mappings, $taxonomy, $dry_run );
+			$this->process_terms( $mappings, $taxonomy, $dry_run );
 
 			if ( is_wp_error( $result ) ) {
 				$this->add_notice( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
@@ -166,6 +166,7 @@ class UpdateTerms extends TaxonomyCLICommands {
 	 * @return void
 	 */
 	private function process_single_term( array $args, bool $dry_run ) {
+		$mappings = array();
 		$taxonomy = $this->validate_taxonomy( $args[0] );
 
 		if ( is_wp_error( $taxonomy ) ) {

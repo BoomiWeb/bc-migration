@@ -166,7 +166,9 @@ class Rename extends TaxonomyCLICommands {
 		}
 
 		list($taxonomy, $old_term, $new_name) = $args;
-		$new_slug                             = $assoc_args['new-slug'] ?? null;
+		
+		/** @var array<string, mixed> $assoc_args */
+		$new_slug = $assoc_args['new-slug'] ?? null;
 
 		if ( $dry_run ) {
 			$message = "[DRY RUN] Would rename '$old_term' to '$new_name' in taxonomy '$taxonomy'";
