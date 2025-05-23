@@ -1,6 +1,6 @@
 {
     "name": "erikdmitchell/bc-migration",
-    "version": "0.3.0",
+    "version": "0.2.2",
     "description": "Custom migration tooling for WP",
     "type": "boomi-cms-plugin",
     "license": "GPL-3.0-or-later",
