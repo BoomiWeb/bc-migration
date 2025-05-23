@@ -1,29 +1,30 @@
-name: Sync Wiki
+name: Sync GitHub Wiki
 
 on:
   push:
+    branches:
+      - wiki-test
     paths:
-      - 'docs/wiki/**'
-    branches: ["main", "wiki-test"]
-  workflow_dispatch:
+      - 'docs/wiki/**'  # adjust this if your files are elsewhere
 
 jobs:
   sync-wiki:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Main Repo
+      - name: Checkout the repo
         uses: actions/checkout@v3
 
-      - name: Clone Wiki Repo
+      - name: Clone the Wiki Repo
         run: |
+          rm -rf wiki
           git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki
 
-      - name: Copy Wiki Files
+      - name: Copy Markdown Files to Wiki
         run: |
           rsync -av --delete docs/wiki/ wiki/
 
-      - name: Commit and Push Wiki Changes
+      - name: Commit and Push Changes to Wiki
         run: |
           cd wiki
           git config user.name "${{ github.actor }}"
