@@ -17,3 +17,8 @@ parameters:
         maximumNumberOfProcesses: 1 
     ignoreErrors:
         - '#Call to static method getInstance\(\) on an unknown class BoomiCMS\\BC_DB#'
+        - '#Call to static method error\(\) on an unknown class WP_CLI#'
+        - '#Call to static method add_command\(\) on an unknown class WP_CLI#'
+        - '#Call to static method log\(\) on an unknown class WP_CLI#'
+        - '#Call to static method warning\(\) on an unknown class WP_CLI#'
+        - '#Call to static method success\(\) on an unknown class WP_CLI#'
