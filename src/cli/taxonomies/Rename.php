@@ -131,16 +131,7 @@ class Rename extends TaxonomyCLICommands {
 				continue;
 			}
 
-			$result = $this->rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug );
-
-			if ( is_wp_error( $result ) ) {
-				$this->add_notice( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
-			} else {
-				$message = "Row $row_num: Renamed '$old_term' to '$new_name' in taxonomy '$taxonomy'";
-
-				$this->add_notice( $message, 'success' );
-				$this->log( $message );
-			}
+			$this->rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug, $row_num );
 		}
 
 		$this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
@@ -182,16 +173,7 @@ class Rename extends TaxonomyCLICommands {
 			return;
 		}
 
-		$result = $this->rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug );
-
-		if ( is_wp_error( $result ) ) {
-			$this->add_notice( 'Error - ' . $result->get_error_message(), 'warning' );
-		} else {
-			$message = "Renamed term '$old_term' to '$new_name' in taxonomy '$taxonomy'.";
-
-			$this->add_notice( $message, 'success' );
-			$this->log( $message );
-		}
+		$this->rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug );
 	}
 
 	/**
@@ -204,8 +186,8 @@ class Rename extends TaxonomyCLICommands {
 	 *
 	 * @return array{term_id: int, term_taxonomy_id: int}|WP_Error The updated term data or a WP_Error on failure.
 	 */
-	private function rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug = null ) {
-		$term = $this->is_term_valid( $old_term, $taxonomy );
+	private function rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug = null, $row_num = 0 ) {
+		$term = $this->is_term_valid( $old_term, $taxonomy, $row_num );
 
 		if ( ! $term ) {
 			return;
