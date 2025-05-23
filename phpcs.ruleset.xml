@@ -10,7 +10,6 @@
     <arg name="basepath" value="./" />
     <arg name="parallel" value="8" />
 
-    <!-- Compatibility settings -->
     <config name="minimum_supported_wp_version" value="6.7" />
     <config name="testVersion" value="8.0-" />
 
@@ -24,12 +23,12 @@
     <!-- Universal Coding Standards -->
     <rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames.returnFound">
         <exclude-pattern>src/abstracts/wp-async-request.php</exclude-pattern>
-    </rule>    
+    </rule>
 
     <!-- WordPress Coding Standards -->
-	<rule ref="WordPress">
-		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
-		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+    <rule ref="WordPress">
+        <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+        <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
         <exclude name="WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents" />
         <exclude name="WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents" />
         <exclude name="WordPress.WP.AlternativeFunctions.file_system_operations_mkdir" />
@@ -46,16 +45,17 @@
 
     <rule ref="WordPress.WP.I18n.MissingTranslatorsComment">
         <exclude-pattern>src/abstracts/wp-background-process.php</exclude-pattern>
-    </rule> 
+    </rule>
 
     <rule ref="WordPress.WP.CronInterval.ChangeDetected">
         <exclude-pattern>src/abstracts/wp-background-process.php</exclude-pattern>
-    </rule>       
+    </rule>
 
-    <!-- I18n -->
     <rule ref="WordPress.WP.I18n">
         <properties>
-            <property name="text_domain" type="array" value="bc-migration" />
+            <property name="text_domain" type="array">
+                <element value="bc-migration"/>
+            </property>
         </properties>
     </rule>
 </ruleset>
