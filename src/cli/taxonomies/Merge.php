@@ -132,7 +132,7 @@ class Merge extends TaxonomyCLICommands {
 				continue;
 			}
 
-			$result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $row_num );
+			$result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $post_type, $row_num );
 
 			if ( is_wp_error( $result ) ) {
 				$this->add_notice( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
@@ -177,7 +177,7 @@ class Merge extends TaxonomyCLICommands {
 			return;
 		}
 
-		$result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, null, $post_type );
+		$result = $this->merge( $taxonomy, $from_terms, $to_term, $delete_old, $post_type );
 
 		if ( is_wp_error( $result ) ) {
 			$this->add_notice( 'Error - ' . $result->get_error_message(), 'warning' );
@@ -200,7 +200,7 @@ class Merge extends TaxonomyCLICommands {
 	 *
 	 * @return bool If the merge was successful.
 	 */
-	protected function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $row_num = null, $post_type ) {
+	protected function merge( $taxonomy, $from_terms, $to_term_name, $delete_old, $post_type, $row_num = null ) {
 		$to_term = get_term_by( 'name', $to_term_name, $taxonomy );
 
 		if ( ! $to_term || is_wp_error( $to_term ) ) {
@@ -229,9 +229,7 @@ class Merge extends TaxonomyCLICommands {
 
 				continue;
 			}
-echo "taxonomy: {$taxonomy}\n";			
-echo "{$from_term->name} => {$to_term->name}\n";
-echo "{$from_term->term_id} => {$to_term->term_id}\n";
+
 			// Get all posts with this term.
 			$posts = get_posts(
 				array(
@@ -248,8 +246,7 @@ echo "{$from_term->term_id} => {$to_term->term_id}\n";
 					'fields'         => 'ids',
 				)
 			);
-print_r( $posts );
-return;
+
 			if ( empty( $posts ) ) {
 				$message = ( $row_num ? "Row $row_num: " : '' ) . "No posts found for '$from_name' in '$taxonomy'";
 
