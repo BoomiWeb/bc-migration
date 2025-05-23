@@ -167,8 +167,7 @@ class Rename extends TaxonomyCLICommands {
 
 		list($taxonomy, $old_term, $new_name) = $args;
 		
-		/** @var array<string, mixed> $assoc_args */
-		$new_slug = $assoc_args['new-slug'] ?? null;
+		$new_slug = $assoc_args['new-slug'] ?? null; // @phpstan-ignore-line
 
 		if ( $dry_run ) {
 			$message = "[DRY RUN] Would rename '$old_term' to '$new_name' in taxonomy '$taxonomy'";
@@ -191,8 +190,7 @@ class Rename extends TaxonomyCLICommands {
 	 * @param string $new_name The new name for the term.
 	 * @param string $new_slug Optional new slug for the term.
 	 * @param int    $row_num  The row number in the CSV file.
-	 *
-	 * @return array{term_id: int, term_taxonomy_id: int}|WP_Error The updated term data or a WP_Error on failure.
+	 * @return array{term_id: int, term_taxonomy_id: int}|WP_Error|void The updated term data or a WP_Error on failure.
 	 */
 	private function rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug = null, $row_num = 0 ) {
 		$term = $this->is_term_valid( $old_term, $taxonomy, $row_num );

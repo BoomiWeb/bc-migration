@@ -22,3 +22,4 @@ parameters:
         - '#Call to static method log\(\) on an unknown class WP_CLI#'
         - '#Call to static method warning\(\) on an unknown class WP_CLI#'
         - '#Call to static method success\(\) on an unknown class WP_CLI#'
+        - '#Call to static method add_hook\(\) on an unknown class WP_CLI#'

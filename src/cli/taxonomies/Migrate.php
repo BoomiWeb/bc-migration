@@ -172,7 +172,7 @@ class Migrate extends TaxonomyCLICommands {
 	 * @param int|null $row_num       Optional. The row number for logging purposes.
 	 * @param bool     $dry_run         Optional. If true, simulates the migration without making changes. Default false.
 	 *
-	 * @return bool|WP_Error Returns true on success or WP_Error on failure.
+	 * @return bool|WP_Error|void Returns true on success or WP_Error on failure.
 	 */
 	protected function migrate( string $term_name, string $from_tax, string $to_tax, bool $delete_original = false, $row_num = null, bool $dry_run = false ) {
 		$prefix = $row_num ? "Row $row_num: " : '';
