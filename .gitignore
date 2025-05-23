@@ -1,3 +1,5 @@
 /bc-migration.code-workspace
 /vendor/*
 /composer.lock
+/.phpdoc
+wiki/

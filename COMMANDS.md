@@ -205,6 +205,73 @@ wp boomi taxonomies update_terms --csv=/Users/erikmitchell/bc-migration/src/exam
 
 ---
 
+## Change Post Type(s) w/ Data Migration
+
+Changes a post from one post type to another and has options to migrate custom taxonomies and post meta.
+
+### Command Options
+
+```
+[--from=<post_type>]	The current post type.
+[--to=<post_type>]	The new post type to migrate to.
+[--post_ids=<ids>]	A comma-separated list of post IDs to migrate.
+[--taxonomy=<slug>]	A taxonomy term slug to migrate all matching posts.
+[--taxonomy-type=<type>]	The type of taxonomy to migrate.
+[--file=<file_path>]	Path to a CSV file with post IDs to migrate.
+[--log=<name>]	Name of the log file.
+[--copy-tax]	Copy all post taxonomies.
+[--tax-map=<file_path>]		Path to a JSON file with custom taxonomy mappings.
+[--meta-map=<file_path>]	Path to a JSON file with custom meta mappings.
+```
+
+### CSV Format
+
+```
+from,to,post_ids
+resource-library,events,188931|188930|188916|188906|188904
+```
+
+### Examples
+
+```
+wp boomi migrate post-type --from=post --to=page --post_ids=177509,177510
+```
+
+> Changes post(s) from the post type "post" to "page".
+
+```
+wp boomi migrate post-type --from=post --to=page --taxonomy=api
+```
+
+> Changes all posts from the post type "post" to "page" with the "api" taxonomy.
+
+```
+wp boomi migrate post-type --file=/Users/erikmitchell/bc-migration/examples/post-type.csv
+```
+
+> Change posts types via a CSV file.
+
+```
+wp boomi migrate post-type --from=post --to=page --post_ids=188688 --copy-tax
+```
+
+> Changes post(s) from the post type "post" to "page" and copies all the taxonomies.
+
+```
+wp boomi migrate post-type --from=post --to=page --post_ids=188688 --tax-map=/Users/erikmitchell/bc-migration/examples/post-type-tax-map.json
+```
+
+> Changes post(s) from the post type "post" to "page" and migrates taxonomies via a custom file.
+
+```
+wp boomi migrate post-type --from=post --to=page --post_ids=188932 --meta-map=/Users/erikmitchell/bc-migration/examples/post-type-meta-map.json
+
+```
+
+> Changes post(s) from the post type "post" to "page" and migrates meta via a custom file.
+
+---
+
 ## Terminus Example
 
 ```

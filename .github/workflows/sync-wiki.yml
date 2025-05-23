@@ -1,0 +1,36 @@
+name: Sync GitHub Wiki
+
+on:
+  push:
+    branches:
+      - wiki-test
+    paths:
+      - 'docs/wiki/**'  # adjust this if your files are elsewhere
+  workflow_dispatch:
+
+jobs:
+  sync-wiki:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+
+      - name: Clone the Wiki Repo
+        run: |
+          rm -rf wiki
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki
+
+      - name: Copy Markdown Files to Wiki
+        run: |
+          rsync -av --delete docs/wiki/ wiki/
+
+      - name: Commit and Push Changes to Wiki
+        run: |
+          cd wiki
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git config core.excludesFile /dev/null  # ✅ Ignore parent .gitignore
+          git add .
+          git commit -m "Update wiki content [skip ci]" || echo "No changes to commit"
+          git push origin HEAD:master

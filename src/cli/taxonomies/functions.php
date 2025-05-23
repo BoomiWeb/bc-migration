@@ -20,17 +20,17 @@ use WP_CLI;
  * @return bool True if the file is valid, false otherwise.
  */
 function is_valid_file( string $file = '' ) {
-    if ( ! file_exists( $file ) ) {
-        WP_CLI::error( "File not found: $file" );
-    }
+	if ( ! file_exists( $file ) ) {
+		WP_CLI::error( "File not found: $file" );
+	}
 
-    if ( ! is_readable( $file ) ) {
-        WP_CLI::error( "File is not readable: $file" );
-    }
+	if ( ! is_readable( $file ) ) {
+		WP_CLI::error( "File is not readable: $file" );
+	}
 
-    if ( pathinfo( $file, PATHINFO_EXTENSION ) !== 'csv' ) {
-        WP_CLI::error( "File is not a CSV: $file" );
-    }
+	if ( pathinfo( $file, PATHINFO_EXTENSION ) !== 'csv' ) {
+		WP_CLI::error( "File is not a CSV: $file" );
+	}
 
-    return true;
+	return true;
 }

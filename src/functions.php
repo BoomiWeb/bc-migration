@@ -16,5 +16,5 @@ namespace erikdmitchell\bcmigration;
  * @return string A string in snake case.
  */
 function camel_to_snake( $input = '' ) {
-    return strtolower( preg_replace( '/(?<!^)[A-Z]/', '_$0', $input ) );
+	return strtolower( preg_replace( '/(?<!^)[A-Z]/', '_$0', $input ) );
 }

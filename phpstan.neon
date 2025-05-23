@@ -1,12 +1,19 @@
-includes:
-    - phpstan-baseline.neon
 parameters:
     level: 6
     paths:
         - src/
-    bootstrapFiles:       
+    bootstrapFiles:
+        - src/BCMigration.php
+    stubFiles:
+        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+        - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
+        - vendor/php-stubs/acf-pro-stubs/acf-pro-stubs.php
+    excludePaths:
+        - src/abstracts/wp-async-request.php
+        - src/abstracts/wp-background-process.php
     scanDirectories:
     treatPhpDocTypesAsCertain: false
     parallel:
         maximumNumberOfProcesses: 1 
     ignoreErrors:
+        - '#Call to static method getInstance\(\) on an unknown class BoomiCMS\\BC_DB#'

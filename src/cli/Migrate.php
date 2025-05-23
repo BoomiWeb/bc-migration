@@ -17,50 +17,56 @@ use WP_CLI;
  */
 class Migrate extends CLICommands {
 
-    /**
-     * Construct
-     */
-    public function __construct() {}
+	/**
+	 * Construct
+	 */
+	public function __construct() {}
 
-    /**
-     * Register the commands.
-     *
-     * @return void
-     */
-    public static function register_commands() {
-        $parent = 'boomi migrate';
+	/**
+	 * Register the commands.
+	 *
+	 * @return void
+	 */
+	public static function register_commands() {
+		$parent = 'boomi migrate';
 
-        // Define mapping of commands to their respective classes.
-        $commands = array(
-            'subprocessors' => array(
-                'class'     => __NAMESPACE__ . '\Subprocessors',
-                'shortdesc' => 'Migrate subprocessors data',
-                'longdesc'  => 'Migrate subprocessors data',
-                'method'    => 'migrate',
-            ),
-            'aitool'        => array(
-                'class'     => __NAMESPACE__ . '\AITool',
-                'shortdesc' => 'Migrate AI Tool data',
-                'longdesc'  => 'Migrate AI Tool data',
-                'method'    => 'migrate',
-            ),
-            'apiida'        => array(
-                'class'     => __NAMESPACE__ . '\APIIDA',
-                'shortdesc' => 'Migrate APIIDA Tool data',
-                'longdesc'  => 'Migrate APIIDA Tool data',
-                'method'    => 'migrate',
-            ),
-        );
+		// Define mapping of commands to their respective classes.
+		$commands = array(
+			'subprocessors' => array(
+				'class'     => __NAMESPACE__ . '\Subprocessors',
+				'shortdesc' => 'Migrate subprocessors data',
+				'longdesc'  => 'Migrate subprocessors data',
+				'method'    => 'migrate',
+			),
+			'aitool'        => array(
+				'class'     => __NAMESPACE__ . '\AITool',
+				'shortdesc' => 'Migrate AI Tool data',
+				'longdesc'  => 'Migrate AI Tool data',
+				'method'    => 'migrate',
+			),
+			'apiida'        => array(
+				'class'     => __NAMESPACE__ . '\APIIDA',
+				'shortdesc' => 'Migrate APIIDA Tool data',
+				'longdesc'  => 'Migrate APIIDA Tool data',
+				'method'    => 'migrate',
+			),
+			'post-type'     => array(
+				'class'     => __NAMESPACE__ . '\PostType',
+				'shortdesc' => 'Migrate posts/pages to a different post type.',
+				'longdesc'  => 'Migrate posts/pages to a different post type.',
+				'method'    => 'migrate',
+			),
+		);
 
-        foreach ( $commands as $command => $config ) {
-            WP_CLI::add_command(
-                "{$parent} {$command}",
-                array( $config['class'], $config['method'] ),
-                array(
-                    'shortdesc' => $config['shortdesc'],
-                    'longdesc'  => $config['longdesc'],
-                )
-            );
-        }
-    }
+		foreach ( $commands as $command => $config ) {
+			WP_CLI::add_command(
+				"{$parent} {$command}",
+				array( $config['class'], $config['method'] ),
+				array(
+					'shortdesc' => $config['shortdesc'],
+					'longdesc'  => $config['longdesc'],
+				)
+			);
+		}
+	}
 }
