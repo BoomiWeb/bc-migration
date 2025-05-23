@@ -78,6 +78,8 @@ $files = glob( $upload_dir . '*.{csv,log}', GLOB_BRACE );
 			?>
 		</tbody>
 	</table>
+
+	<p>Version: <?php echo esc_html( BCM_VERSION ); ?></p>
 </div>
 
 <script>
