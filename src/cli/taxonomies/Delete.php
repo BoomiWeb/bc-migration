@@ -119,16 +119,7 @@ class Delete extends TaxonomyCLICommands {
 				continue;
 			}
 
-			$result = $this->delete_taxonomy_term( $taxonomy, $term_names, $row_num );
-
-			if ( is_wp_error( $result ) ) {
-				$this->add_notice( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
-			} else {
-				$message = "Row $row_num: Deleted term(s) '" . implode( ', ', $term_names ) . "' in taxonomy '$taxonomy'.";
-
-				$this->add_notice( $message, 'success' );
-				$this->log( $message );
-			}
+			$this->delete_taxonomy_term( $taxonomy, $term_names, $row_num );
 		}
 
 		$this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
@@ -172,16 +163,7 @@ class Delete extends TaxonomyCLICommands {
 			return;
 		}
 
-		$result = $this->delete_taxonomy_term( $taxonomy, $term_names );
-
-		if ( is_wp_error( $result ) ) {
-			$this->add_notice( 'Error - ' . $result->get_error_message(), 'warning' );
-		} else {
-			$message = "Deleted term(s) '" . implode( ', ', $term_names ) . "' in taxonomy '$taxonomy'.";
-
-			$this->add_notice( $message, 'success' );
-			$this->log( $message );
-		}
+		$this->delete_taxonomy_term( $taxonomy, $term_names );
 
 		$this->display_notices();
 	}
@@ -197,16 +179,18 @@ class Delete extends TaxonomyCLICommands {
 	 */
 	private function delete_taxonomy_term( $taxonomy, $term_names, $row_num = null ) {
 		foreach ( $term_names as $term_name ) {
-			$term = $this->is_term_valid( $term_name, $taxonomy );
+			$term = $this->is_term_valid( $term_name, $taxonomy, $row_num );
 
-			if ( ! $term ) {
+			if ( ! $term ) {				
 				continue;
 			}
 
 			if ( ! is_wp_error( wp_delete_term( $term->term_id, $taxonomy ) ) ) {
 				$this->log( ( $row_num ? "Row $row_num: " : '' ) . "Deleted term '$term_name'" );
+				$this->add_notice( ( $row_num ? "Row $row_num: " : '' ) . "Deleted term '$term_name'", 'success' );
 			} else {
 				$this->log( ( $row_num ? "Row $row_num: " : '' ) . "Failed to delete term '$term_name'" );
+				$this->add_notice( ( $row_num ? "Row $row_num: " : '' ) . "Failed to delete term '$term_name'", 'warning' );
 			}
 		}
 	}

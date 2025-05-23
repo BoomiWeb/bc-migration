@@ -209,7 +209,6 @@ abstract class TaxonomyCLICommands extends CLICommands {
 			$message = "Row $row_num: Skipped - term '$term_name' not found in taxonomy '$taxonomy'."; // TODO: add check for row number.
 
 			$this->log( $message );
-
 			$this->add_notice( $message, 'warning' );
 
 			return false;
