@@ -89,7 +89,12 @@ class Migrate extends TaxonomyCLICommands {
 	 * @return void
 	 */
 	private function process_csv( string $file, bool $delete_original = false, bool $dry_run = false ) {
-		$rows    = array_map( 'str_getcsv', file( $file ) );
+		$rows    = array_map(
+			function ( $line ) {
+				return str_getcsv( $line, ',', '"', '\\' );
+			},
+			file( $file )
+		);
 		$headers = array_map( 'trim', array_shift( $rows ) );
 
 		if ( ! $this->validate_headers( $headers, array( 'term_name', 'from_taxonomy', 'to_taxonomy' ) ) ) {
@@ -167,7 +172,7 @@ class Migrate extends TaxonomyCLICommands {
 	 * @param int|null $row_num       Optional. The row number for logging purposes.
 	 * @param bool     $dry_run         Optional. If true, simulates the migration without making changes. Default false.
 	 *
-	 * @return bool|WP_Error Returns true on success or WP_Error on failure.
+	 * @return bool|WP_Error|void Returns true on success or WP_Error on failure.
 	 */
 	protected function migrate( string $term_name, string $from_tax, string $to_tax, bool $delete_original = false, $row_num = null, bool $dry_run = false ) {
 		$prefix = $row_num ? "Row $row_num: " : '';
@@ -177,10 +182,10 @@ class Migrate extends TaxonomyCLICommands {
 		if ( ! $source_term ) {
 			$message = "{$prefix}Term '$term_name' not found in taxonomy '$from_tax'.";
 
-			$this->add_notice( $message, 'error' );
-			$this->log( $message, 'error' );
+			$this->add_notice( $message, 'warning' );
+			$this->log( $message, 'warning' );
 
-			return new WP_Error( 'term_not_found', $message );
+			return;
 		}
 
 		// Check or create destination term.
