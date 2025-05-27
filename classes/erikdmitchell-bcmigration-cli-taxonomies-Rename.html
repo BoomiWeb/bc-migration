@@ -397,7 +397,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/erikdmitchell-bcmigration-cli-taxonomies-Rename.html#method_rename_taxonomy_term">rename_taxonomy_term()</a>
     <span>
-                                &nbsp;: array{term_id: int, term_taxonomy_id: int}|<abbr title="\WP_Error">WP_Error</abbr>    </span>
+                                &nbsp;: array{term_id: int, term_taxonomy_id: int}|<abbr title="\WP_Error">WP_Error</abbr>|void    </span>
 </dt>
 <dd>Rename a taxonomy term.</dd>
 
@@ -850,7 +850,7 @@ Default is 'log'.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">invalid_taxonomy</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\erikdmitchell\bcmigration\abstracts\WP_Taxonomy">WP_Taxonomy</abbr>|<abbr title="\WP_Error">WP_Error</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void|false</span></code>
+                    <span class="phpdocumentor-signature__name">invalid_taxonomy</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\WP_Taxonomy">WP_Taxonomy</abbr>|<abbr title="\WP_Error">WP_Error</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void|false</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -860,7 +860,7 @@ Default is 'log'.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$taxonomy</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\erikdmitchell\bcmigration\abstracts\WP_Taxonomy">WP_Taxonomy</abbr>|<abbr title="\WP_Error">WP_Error</abbr></span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\WP_Taxonomy">WP_Taxonomy</abbr>|<abbr title="\WP_Error">WP_Error</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The taxonomy or error object.</p>
@@ -2004,7 +2004,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/Rename.php"><a href="files/src-cli-taxonomies-rename.html"><abbr title="src/cli/taxonomies/Rename.php">Rename.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">157</span>
+    <span class="phpdocumentor-element-found-in__line">153</span>
 
     </aside>
 
@@ -2060,7 +2060,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/Rename.php"><a href="files/src-cli-taxonomies-rename.html"><abbr title="src/cli/taxonomies/Rename.php">Rename.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">207</span>
+    <span class="phpdocumentor-element-found-in__line">195</span>
 
     </aside>
 
@@ -2068,7 +2068,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">rename_taxonomy_term</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$old_term</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$new_name</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$new_slug</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{term_id: int, term_taxonomy_id: int}|<abbr title="\WP_Error">WP_Error</abbr></span></code>
+                    <span class="phpdocumentor-signature__name">rename_taxonomy_term</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$old_term</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$new_name</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$new_slug</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">0</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{term_id: int, term_taxonomy_id: int}|<abbr title="\WP_Error">WP_Error</abbr>|void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2112,6 +2112,15 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 </section>
 
             </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$row_num</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">0</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The row number in the CSV file.</p>
+</section>
+
+            </dd>
             </dl>
 
     
@@ -2120,7 +2129,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array{term_id: int, term_taxonomy_id: int}|<abbr title="\WP_Error">WP_Error</abbr></span>
+        <span class="phpdocumentor-signature__response_type">array{term_id: int, term_taxonomy_id: int}|<abbr title="\WP_Error">WP_Error</abbr>|void</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>The updated term data or a WP_Error on failure.</p>
 </section>

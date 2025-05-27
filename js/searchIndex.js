@@ -76,31 +76,6 @@ Search.appendIndex(
             "summary": "WP\u0020CLI\u0020notices.",
             "url": "classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#property_notices"
         },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\abstracts\\MapPostData",
-            "name": "MapPostData",
-            "summary": "MapPostData\u0020class",
-            "url": "classes/erikdmitchell-bcmigration-abstracts-MapPostData.html"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\abstracts\\MapPostData\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "Constructor\u0020for\u0020MapPostData\u0020class.",
-            "url": "classes/erikdmitchell-bcmigration-abstracts-MapPostData.html#method___construct"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\abstracts\\MapPostData\u003A\u003Alog\u0028\u0029",
-            "name": "log",
-            "summary": "Log\u0020a\u0020message.",
-            "url": "classes/erikdmitchell-bcmigration-abstracts-MapPostData.html#method_log"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\abstracts\\MapPostData\u003A\u003Aadd_notice\u0028\u0029",
-            "name": "add_notice",
-            "summary": "Add\u0020a\u0020notice\u0020to\u0020the\u0020caller\u0020object.",
-            "url": "classes/erikdmitchell-bcmigration-abstracts-MapPostData.html#method_add_notice"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\abstracts\\MapPostData\u003A\u003A\u0024caller",
-            "name": "caller",
-            "summary": "Caller\u0020object",
-            "url": "classes/erikdmitchell-bcmigration-abstracts-MapPostData.html#property_caller"
-        },                {
             "fqsen": "\\erikdmitchell\\bcmigration\\abstracts\\MigrateReports",
             "name": "MigrateReports",
             "summary": "MigrateReports\u0020class.",
@@ -796,11 +771,6 @@ Search.appendIndex(
             "summary": "Cleans\u0020up\u0020the\u0020given\u0020files.",
             "url": "classes/erikdmitchell-bcmigration-apiida-MigrateAPIIDAReports.html#method_clean_files"
         },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\apiida\\MigrateAPIIDAReports\u003A\u003A\u0024instance",
-            "name": "instance",
-            "summary": "The\u0020single\u0020instance\u0020of\u0020the\u0020class.",
-            "url": "classes/erikdmitchell-bcmigration-apiida-MigrateAPIIDAReports.html#property_instance"
-        },                {
             "fqsen": "\\BCM_PATH",
             "name": "BCM_PATH",
             "summary": "",
@@ -980,56 +950,6 @@ Search.appendIndex(
             "name": "register_commands",
             "summary": "Register\u0020the\u0020commands.",
             "url": "classes/erikdmitchell-bcmigration-cli-Migrate.html#method_register_commands"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\PostType",
-            "name": "PostType",
-            "summary": "PostType\u0020class",
-            "url": "classes/erikdmitchell-bcmigration-cli-PostType.html"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\PostType\u003A\u003Amigrate\u0028\u0029",
-            "name": "migrate",
-            "summary": "Migrate\u0020posts\u0020from\u0020one\u0020custom\u0020post\u0020type\u0020to\u0020another.",
-            "url": "classes/erikdmitchell-bcmigration-cli-PostType.html#method_migrate"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\PostType\u003A\u003Aprocess_csv_file\u0028\u0029",
-            "name": "process_csv_file",
-            "summary": "Processes\u0020a\u0020CSV\u0020file\u0020to\u0020change\u0020post\u0020types\u0020for\u0020specified\u0020post\u0020IDs.",
-            "url": "classes/erikdmitchell-bcmigration-cli-PostType.html#method_process_csv_file"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\PostType\u003A\u003Achange_post_type\u0028\u0029",
-            "name": "change_post_type",
-            "summary": "Change\u0020the\u0020post\u0020type\u0020for\u0020a\u0020given\u0020array\u0020of\u0020post\u0020IDs.",
-            "url": "classes/erikdmitchell-bcmigration-cli-PostType.html#method_change_post_type"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\PostType\u003A\u003Aget_post_ids_by_term\u0028\u0029",
-            "name": "get_post_ids_by_term",
-            "summary": "Get\u0020post\u0020IDs\u0020by\u0020term.",
-            "url": "classes/erikdmitchell-bcmigration-cli-PostType.html#method_get_post_ids_by_term"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\PostType\u003A\u003Aensure_taxonomies_attached\u0028\u0029",
-            "name": "ensure_taxonomies_attached",
-            "summary": "Ensures\u0020that\u0020taxonomies\u0020from\u0020one\u0020post\u0020type\u0020are\u0020attached\u0020to\u0020another\u0020post\u0020type.",
-            "url": "classes/erikdmitchell-bcmigration-cli-PostType.html#method_ensure_taxonomies_attached"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\PostType\u003A\u003Acopy_tax\u0028\u0029",
-            "name": "copy_tax",
-            "summary": "Copies\u0020terms\u0020from\u0020one\u0020post\u0020type\u0020to\u0020another\u0020post\u0020type.",
-            "url": "classes/erikdmitchell-bcmigration-cli-PostType.html#method_copy_tax"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\PostType\u003A\u003Avalidate_headers\u0028\u0029",
-            "name": "validate_headers",
-            "summary": "Validates\u0020that\u0020the\u0020given\u0020array\u0020of\u0020CSV\u0020headers\u0020contains\u0020all\u0020required\u0020fields.",
-            "url": "classes/erikdmitchell-bcmigration-cli-PostType.html#method_validate_headers"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\PostType\u003A\u003Ahas_required_fields\u0028\u0029",
-            "name": "has_required_fields",
-            "summary": "Checks\u0020if\u0020the\u0020given\u0020data\u0020array\u0020contains\u0020all\u0020required\u0020fields.",
-            "url": "classes/erikdmitchell-bcmigration-cli-PostType.html#method_has_required_fields"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\PostType\u003A\u003Ais_valid_post_type\u0028\u0029",
-            "name": "is_valid_post_type",
-            "summary": "Checks\u0020if\u0020the\u0020given\u0020post\u0020type\u0020exists.",
-            "url": "classes/erikdmitchell-bcmigration-cli-PostType.html#method_is_valid_post_type"
         },                {
             "fqsen": "\\erikdmitchell\\bcmigration\\cli\\Subprocessors",
             "name": "Subprocessors",
@@ -1211,111 +1131,6 @@ Search.appendIndex(
             "summary": "Convert\u0020a\u0020camel\u0020case\u0020string\u0020to\u0020snake\u0020case.",
             "url": "namespaces/erikdmitchell-bcmigration.html#function_camel_to_snake"
         },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\MapACFFields",
-            "name": "MapACFFields",
-            "summary": "MapACFFields\u0020class",
-            "url": "classes/erikdmitchell-bcmigration-mapping-MapACFFields.html"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\MapACFFields\u003A\u003Aget_field_value\u0028\u0029",
-            "name": "get_field_value",
-            "summary": "Retrieve\u0020a\u0020value\u0020from\u0020a\u0020nested\u0020ACF\u0020field.",
-            "url": "classes/erikdmitchell-bcmigration-mapping-MapACFFields.html#method_get_field_value"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\MapACFFields\u003A\u003Aupdate_field_value\u0028\u0029",
-            "name": "update_field_value",
-            "summary": "Updates\u0020an\u0020ACF\u0020field\u0020value.",
-            "url": "classes/erikdmitchell-bcmigration-mapping-MapACFFields.html#method_update_field_value"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\MapPostMeta",
-            "name": "MapPostMeta",
-            "summary": "MapPostMeta\u0020class",
-            "url": "classes/erikdmitchell-bcmigration-mapping-MapPostMeta.html"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\MapPostMeta\u003A\u003Amap\u0028\u0029",
-            "name": "map",
-            "summary": "Map\u0020post\u0020meta\u0020from\u0020one\u0020type\u0020to\u0020another.",
-            "url": "classes/erikdmitchell-bcmigration-mapping-MapPostMeta.html#method_map"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\MapPostTaxonomies",
-            "name": "MapPostTaxonomies",
-            "summary": "MapPostTaxonomies\u0020Class",
-            "url": "classes/erikdmitchell-bcmigration-mapping-MapPostTaxonomies.html"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\MapPostTaxonomies\u003A\u003Amap\u0028\u0029",
-            "name": "map",
-            "summary": "Map\u0020post\u0020taxonomies\u0020from\u0020one\u0020type\u0020to\u0020another.",
-            "url": "classes/erikdmitchell-bcmigration-mapping-MapPostTaxonomies.html#method_map"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\MapPostTaxonomies\u003A\u003Afind_match\u0028\u0029",
-            "name": "find_match",
-            "summary": "Searches\u0020a\u0020mapping\u0020array\u0020for\u0020a\u0020matching\u0020from\u0020value.",
-            "url": "classes/erikdmitchell-bcmigration-mapping-MapPostTaxonomies.html#method_find_match"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\PostTaxonomiesMappedTerms",
-            "name": "PostTaxonomiesMappedTerms",
-            "summary": "PostTaxonomiesMappedTerms\u0020class",
-            "url": "classes/erikdmitchell-bcmigration-mapping-PostTaxonomiesMappedTerms.html"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\PostTaxonomiesMappedTerms\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "Constructor\u0020for\u0020the\u0020PostTaxonomiesMappedTerms\u0020class.",
-            "url": "classes/erikdmitchell-bcmigration-mapping-PostTaxonomiesMappedTerms.html#method___construct"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\PostTaxonomiesMappedTerms\u003A\u003Aget_mapped_term_ids\u0028\u0029",
-            "name": "get_mapped_term_ids",
-            "summary": "Retrieves\u0020the\u0020term\u0020IDs\u0020that\u0020have\u0020been\u0020successfully\u0020mapped\u0020to\u0020the\u0020target\u0020taxonomy.",
-            "url": "classes/erikdmitchell-bcmigration-mapping-PostTaxonomiesMappedTerms.html#method_get_mapped_term_ids"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\PostTaxonomiesMappedTerms\u003A\u003Aget_unmapped_term_ids\u0028\u0029",
-            "name": "get_unmapped_term_ids",
-            "summary": "Retrieves\u0020the\u0020term\u0020IDs\u0020of\u0020the\u0020current\u0020post\u0020that\u0020were\u0020not\u0020mapped\u0020to\u0020the\ntarget\u0020taxonomy.",
-            "url": "classes/erikdmitchell-bcmigration-mapping-PostTaxonomiesMappedTerms.html#method_get_unmapped_term_ids"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\PostTaxonomiesMappedTerms\u003A\u003Aget_custom_map\u0028\u0029",
-            "name": "get_custom_map",
-            "summary": "Returns\u0020the\u0020custom\u0020mapping\u0020of\u0020terms\u0020between\u0020the\u0020from\u0020and\u0020to\u0020taxonomies.",
-            "url": "classes/erikdmitchell-bcmigration-mapping-PostTaxonomiesMappedTerms.html#method_get_custom_map"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\PostTaxonomiesMappedTerms\u003A\u003Asetup_term_ids\u0028\u0029",
-            "name": "setup_term_ids",
-            "summary": "Retrieves\u0020the\u0020term\u0020IDs\u0020of\u0020the\u0020current\u0020post\u0020and\u0020checks\u0020if\u0020they\u0020have\u0020a\u0020mapped\nequivalent\u0020in\u0020the\u0020target\u0020taxonomy.\u0020If\u0020not,\u0020they\u0020are\u0020stored\u0020in\u0020the\nunmapped_term_ids\u0020property.",
-            "url": "classes/erikdmitchell-bcmigration-mapping-PostTaxonomiesMappedTerms.html#method_setup_term_ids"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\PostTaxonomiesMappedTerms\u003A\u003Amapped_term_exists\u0028\u0029",
-            "name": "mapped_term_exists",
-            "summary": "Checks\u0020if\u0020a\u0020term\u0020exists\u0020in\u0020the\u0020mapped\u0020taxonomy.",
-            "url": "classes/erikdmitchell-bcmigration-mapping-PostTaxonomiesMappedTerms.html#method_mapped_term_exists"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\PostTaxonomiesMappedTerms\u003A\u003A\u0024mapped_term_ids",
-            "name": "mapped_term_ids",
-            "summary": "Mapped\u0020term\u0020IDs",
-            "url": "classes/erikdmitchell-bcmigration-mapping-PostTaxonomiesMappedTerms.html#property_mapped_term_ids"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\PostTaxonomiesMappedTerms\u003A\u003A\u0024unmapped_term_ids",
-            "name": "unmapped_term_ids",
-            "summary": "Unmapped\u0020term\u0020IDs",
-            "url": "classes/erikdmitchell-bcmigration-mapping-PostTaxonomiesMappedTerms.html#property_unmapped_term_ids"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\PostTaxonomiesMappedTerms\u003A\u003A\u0024custom_map",
-            "name": "custom_map",
-            "summary": "Custom\u0020mapping\u0020for\u0020terms",
-            "url": "classes/erikdmitchell-bcmigration-mapping-PostTaxonomiesMappedTerms.html#property_custom_map"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\PostTaxonomiesMappedTerms\u003A\u003A\u0024post_id",
-            "name": "post_id",
-            "summary": "Post\u0020ID",
-            "url": "classes/erikdmitchell-bcmigration-mapping-PostTaxonomiesMappedTerms.html#property_post_id"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\PostTaxonomiesMappedTerms\u003A\u003A\u0024from",
-            "name": "from",
-            "summary": "Source\u0020taxonomy\u0020slug",
-            "url": "classes/erikdmitchell-bcmigration-mapping-PostTaxonomiesMappedTerms.html#property_from"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping\\PostTaxonomiesMappedTerms\u003A\u003A\u0024to",
-            "name": "to",
-            "summary": "Target\u0020taxonomy\u0020slug",
-            "url": "classes/erikdmitchell-bcmigration-mapping-PostTaxonomiesMappedTerms.html#property_to"
-        },                {
             "fqsen": "\\erikdmitchell\\bcmigration\\subprocessor\\MigrateSubscribeData",
             "name": "MigrateSubscribeData",
             "summary": "MigrateSubscribeData\u0020class.",
@@ -1440,11 +1255,6 @@ Search.appendIndex(
             "name": "taxonomies",
             "summary": "",
             "url": "namespaces/erikdmitchell-bcmigration-cli-taxonomies.html"
-        },                {
-            "fqsen": "\\erikdmitchell\\bcmigration\\mapping",
-            "name": "mapping",
-            "summary": "",
-            "url": "namespaces/erikdmitchell-bcmigration-mapping.html"
         },                {
             "fqsen": "\\erikdmitchell\\bcmigration\\subprocessor",
             "name": "subprocessor",
