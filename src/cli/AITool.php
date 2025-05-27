@@ -84,7 +84,7 @@ class AITool extends CLICommands {
 	 *
 	 * This method will log messages to the user about the migration process and
 	 * report the number of migrated records.
-	 * 
+	 *
 	 * @return void
 	 */
 	private function migrate_reports() {
@@ -106,7 +106,7 @@ class AITool extends CLICommands {
 	 *
 	 * This method will log messages to the user about the migration process and
 	 * report the number of migrated records.
-	 * 
+	 *
 	 * @return void
 	 */
 	private function migrate_likes() {
