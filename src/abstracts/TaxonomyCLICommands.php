@@ -25,12 +25,12 @@ abstract class TaxonomyCLICommands extends CLICommands {
 	 * Checks if the provided post type is a string and if it exists.
 	 * Returns a WP_Error if the validation fails.
 	 *
-	 * @param string $post_type The post type to validate.
+	 * @param string   $post_type The post type to validate.
 	 * @param int|null $row_num The row number in the CSV file (optional).
 	 * @return string|WP_Error The post type if valid, or a WP_Error on failure.
 	 */
 	public function validate_post_type( string $post_type, $row_num = null ) {
-		if ( ! is_string( $post_type ) ) {
+		if ( ! $post_type ) {
 			$message = isset( $row_num )
 				? "Row {$row_num}: Post type must be a string. Skipping."
 				: 'Post type must be a string.';
@@ -55,12 +55,12 @@ abstract class TaxonomyCLICommands extends CLICommands {
 	 * Checks if the provided taxonomy is a string and if it exists.
 	 * Returns a WP_Error if the taxonomy is invalid.
 	 *
-	 * @param string $taxonomy The taxonomy to validate.
+	 * @param string   $taxonomy The taxonomy to validate.
 	 * @param int|null $row_num The row number in the CSV file (optional).
 	 * @return string|WP_Error Returns the taxonomy if valid, otherwise a WP_Error object.
 	 */
 	public function validate_taxonomy( string $taxonomy, $row_num = null ) {
-		if ( ! is_string( $taxonomy ) ) {
+		if ( ! $taxonomy ) {
 			$message = isset( $row_num )
 				? "Row {$row_num}: Taxonomy must be a string. Skipping."
 				: 'Taxonomy must be a string.';
@@ -84,8 +84,8 @@ abstract class TaxonomyCLICommands extends CLICommands {
 	/**
 	 * Handles invalid taxonomy errors by logging and adding notices.
 	 *
-	 * @param WP_Taxonomy|WP_Error $taxonomy The taxonomy or error object.
-	 * @param int|null $row_num  Optional. The row number for logging purposes. Defaults to null.
+	 * @param \WP_Taxonomy|WP_Error $taxonomy The taxonomy or error object.
+	 * @param int|null              $row_num  Optional. The row number for logging purposes. Defaults to null.
 	 *
 	 * @return void|false Returns false if row number is provided, otherwise void.
 	 */
@@ -206,10 +206,9 @@ abstract class TaxonomyCLICommands extends CLICommands {
 		}
 
 		if ( ! $term || is_wp_error( $term ) ) {
-			$message = "Row $row_num: Skipped - term '$term_name' not found in taxonomy '$taxonomy'."; // TODO: add check for row number.
+			$message = ( $row_num ? "Row $row_num: " : '' ) . "Skipped - term '$term_name' not found in taxonomy '$taxonomy'.";
 
 			$this->log( $message );
-
 			$this->add_notice( $message, 'warning' );
 
 			return false;

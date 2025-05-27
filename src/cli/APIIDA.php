@@ -43,7 +43,6 @@ class APIIDA extends CLICommands {
 	 *
 	 * @param string[]             $args       CLI positional arguments.
 	 * @param array<string, mixed> $assoc_args CLI associative arguments.
-	 *
 	 * @return void
 	 */
 	public function migrate( $args, $assoc_args ) {
@@ -75,6 +74,8 @@ class APIIDA extends CLICommands {
 	 *
 	 * This method will log messages to the user about the migration process and
 	 * report the number of migrated records.
+	 *
+	 * @return void
 	 */
 	private function migrate_reports() {
 		WP_CLI::log( 'Migrating APIIDA reports...' );
@@ -94,6 +95,8 @@ class APIIDA extends CLICommands {
 	 * Removes the APIIDA uploads folder.
 	 *
 	 * This method will log messages to the user about the deletion process.
+	 *
+	 * @return void
 	 */
 	private function remove_folder() {
 		$upload_dir = wp_upload_dir( null, false );
@@ -110,7 +113,6 @@ class APIIDA extends CLICommands {
 	 * Removes a directory recursively.
 	 *
 	 * @param string $dir The path to the directory to be deleted.
-	 *
 	 * @return bool True if the directory was deleted successfully, false otherwise.
 	 */
 	private function remove_directory( string $dir ) {

@@ -33,9 +33,9 @@ class MigrateReports {
 	/**
 	 * The single instance of the class.
 	 *
-	 * @var MigrateReports|null
+	 * @var object
 	 */
-	protected static ?MigrateReports $instance = null;
+	protected static $instance;
 
 	/**
 	 * Constructor.

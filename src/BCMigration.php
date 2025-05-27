@@ -4,7 +4,6 @@
  *
  * @package erikdmitchell\bcmigration
  * @since   0.1.0
- * @version 0.1.0
  */
 
 namespace erikdmitchell\bcmigration;
@@ -14,8 +13,8 @@ use erikdmitchell\bcmigration\cli\CLI;
 // Setup our uploads path and url.
 $wp_uploads_dir     = wp_upload_dir();
 $bcm_dirname        = 'bc-migration';
-$wp_uploads_path    = $wp_uploads_dir['basedir'] . '/' . $bcm_dirname;
-$wp_uploads_url     = $wp_uploads_dir['baseurl'] . '/' . $bcm_dirname;
+$wp_uploads_path    = isset( $wp_uploads_dir['basedir'] ) ? $wp_uploads_dir['basedir'] . '/' . $bcm_dirname : '';
+$wp_uploads_url     = isset( $wp_uploads_dir['baseurl'] ) ? $wp_uploads_dir['baseurl'] . '/' . $bcm_dirname : '';
 $example_files_path = __DIR__ . '/examples';
 
 // Define constants for the plugin.
@@ -25,7 +24,7 @@ define( 'BCM_DIRNAME', $bcm_dirname );
 define( 'BCM_UPLOADS_PATH', $wp_uploads_path );
 define( 'BCM_UPLOADS_URL', $wp_uploads_url );
 define( 'BCM_EXAMPLE_FILES_PATH', $example_files_path );
-define( 'BCM_VERSION', '0.1.0' );
+define( 'BCM_VERSION', '0.2.2' );
 
 /**
  * BC Migration class.
@@ -37,7 +36,7 @@ class BCMigration {
 	 *
 	 * @var string
 	 */
-	public $version = '0.3.0';
+	public $version = '0.3.1';
 
 	/**
 	 * The single instance of the class.

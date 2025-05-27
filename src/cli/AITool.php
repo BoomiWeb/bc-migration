@@ -49,7 +49,6 @@ class AITool extends CLICommands {
 	 *
 	 * @param string[]             $args       CLI positional arguments.
 	 * @param array<string, mixed> $assoc_args CLI associative arguments.
-	 *
 	 * @return void
 	 */
 	public function migrate( $args, $assoc_args ) {
@@ -85,6 +84,8 @@ class AITool extends CLICommands {
 	 *
 	 * This method will log messages to the user about the migration process and
 	 * report the number of migrated records.
+	 *
+	 * @return void
 	 */
 	private function migrate_reports() {
 		WP_CLI::log( 'Migrating AI Tool reports...' );
@@ -105,6 +106,8 @@ class AITool extends CLICommands {
 	 *
 	 * This method will log messages to the user about the migration process and
 	 * report the number of migrated records.
+	 *
+	 * @return void
 	 */
 	private function migrate_likes() {
 		WP_CLI::log( 'Migrating AI Tool likes...' );
@@ -125,7 +128,7 @@ class AITool extends CLICommands {
 	 *
 	 * This method will log messages to the user about the deletion process.
 	 *
-	 * @since 0.1.0
+	 * @return void
 	 */
 	private function remove_folder() {
 		$upload_dir = wp_upload_dir( null, false );
@@ -144,7 +147,6 @@ class AITool extends CLICommands {
 	 * Removes a directory recursively.
 	 *
 	 * @param string $dir The path to the directory to be deleted.
-	 *
 	 * @return bool True if the directory was deleted successfully, false otherwise.
 	 */
 	private function remove_directory( string $dir ) {

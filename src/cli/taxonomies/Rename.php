@@ -4,7 +4,7 @@
  *
  * @package erikdmitchell\bcmigration\cli\taxonomies
  * @since   0.2.0
- * @version 0.1.0
+ * @version 0.2.0
  */
 
 namespace erikdmitchell\bcmigration\cli\taxonomies;
@@ -87,7 +87,12 @@ class Rename extends TaxonomyCLICommands {
 	 * @return void
 	 */
 	private function process_csv( string $file, bool $dry_run = false ) {
-		$rows    = array_map( 'str_getcsv', file( $file ) );
+		$rows    = array_map(
+			function ( $line ) {
+				return str_getcsv( $line, ',', '"', '\\' );
+			},
+			file( $file )
+		);
 		$headers = array_map( 'trim', array_shift( $rows ) );
 
 		if ( ! $this->validate_headers( $headers, array( 'taxonomy', 'old_term', 'new_name' ) ) ) {
@@ -131,16 +136,7 @@ class Rename extends TaxonomyCLICommands {
 				continue;
 			}
 
-			$result = $this->rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug );
-
-			if ( is_wp_error( $result ) ) {
-				$this->add_notice( "Row $row_num: Error - " . $result->get_error_message(), 'warning' );
-			} else {
-				$message = "Row $row_num: Renamed '$old_term' to '$new_name' in taxonomy '$taxonomy'";
-
-				$this->add_notice( $message, 'success' );
-				$this->log( $message );
-			}
+			$this->rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug, $row_num );
 		}
 
 		$this->add_notice( $dry_run ? 'Dry run complete.' : 'Batch merge complete.', 'success' );
@@ -170,7 +166,8 @@ class Rename extends TaxonomyCLICommands {
 		}
 
 		list($taxonomy, $old_term, $new_name) = $args;
-		$new_slug                             = $assoc_args['new-slug'] ?? null;
+
+		$new_slug = $assoc_args['new-slug'] ?? null; // @phpstan-ignore-line
 
 		if ( $dry_run ) {
 			$message = "[DRY RUN] Would rename '$old_term' to '$new_name' in taxonomy '$taxonomy'";
@@ -182,16 +179,7 @@ class Rename extends TaxonomyCLICommands {
 			return;
 		}
 
-		$result = $this->rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug );
-
-		if ( is_wp_error( $result ) ) {
-			$this->add_notice( 'Error - ' . $result->get_error_message(), 'warning' );
-		} else {
-			$message = "Renamed term '$old_term' to '$new_name' in taxonomy '$taxonomy'.";
-
-			$this->add_notice( $message, 'success' );
-			$this->log( $message );
-		}
+		$this->rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug );
 	}
 
 	/**
@@ -201,11 +189,11 @@ class Rename extends TaxonomyCLICommands {
 	 * @param string $old_term The old term name or slug.
 	 * @param string $new_name The new name for the term.
 	 * @param string $new_slug Optional new slug for the term.
-	 *
-	 * @return array{term_id: int, term_taxonomy_id: int}|WP_Error The updated term data or a WP_Error on failure.
+	 * @param int    $row_num  The row number in the CSV file.
+	 * @return array{term_id: int, term_taxonomy_id: int}|WP_Error|void The updated term data or a WP_Error on failure.
 	 */
-	private function rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug = null ) {
-		$term = $this->is_term_valid( $old_term, $taxonomy );
+	private function rename_taxonomy_term( $taxonomy, $old_term, $new_name, $new_slug = null, $row_num = 0 ) {
+		$term = $this->is_term_valid( $old_term, $taxonomy, $row_num );
 
 		if ( ! $term ) {
 			return;
