@@ -1,6 +1,6 @@
 # Boomi CMS Migration
 
-version: 0.2.2
+version: 0.3.1
 
 Tools for helping with various Boomi CMS migrations
 

@@ -4,7 +4,6 @@
  *
  * @package erikdmitchell\bcmigration
  * @since   0.1.0
- * @version 0.1.0
  */
 
 namespace erikdmitchell\bcmigration;
@@ -37,7 +36,7 @@ class BCMigration {
 	 *
 	 * @var string
 	 */
-	public $version = '0.3.0';
+	public $version = '0.3.1';
 
 	/**
 	 * The single instance of the class.
