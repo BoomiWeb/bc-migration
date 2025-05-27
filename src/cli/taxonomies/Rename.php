@@ -166,7 +166,7 @@ class Rename extends TaxonomyCLICommands {
 		}
 
 		list($taxonomy, $old_term, $new_name) = $args;
-		
+
 		$new_slug = $assoc_args['new-slug'] ?? null; // @phpstan-ignore-line
 
 		if ( $dry_run ) {

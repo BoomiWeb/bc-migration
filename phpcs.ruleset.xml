@@ -2,6 +2,7 @@
 <ruleset name="BC Migration Ruleset">
     <description>BC Migration Ruleset</description>
 
+    <!-- Include paths -->
     <file>src</file>
 
     <arg value="ps" />

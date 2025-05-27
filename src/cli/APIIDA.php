@@ -74,7 +74,7 @@ class APIIDA extends CLICommands {
 	 *
 	 * This method will log messages to the user about the migration process and
 	 * report the number of migrated records.
-	 * 
+	 *
 	 * @return void
 	 */
 	private function migrate_reports() {
@@ -95,7 +95,7 @@ class APIIDA extends CLICommands {
 	 * Removes the APIIDA uploads folder.
 	 *
 	 * This method will log messages to the user about the deletion process.
-	 * 
+	 *
 	 * @return void
 	 */
 	private function remove_folder() {

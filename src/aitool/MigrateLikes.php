@@ -245,7 +245,7 @@ class MigrateLikes {
 	 * to indicate that the data should be skipped.
 	 *
 	 * @param array<string, mixed> $data The data to check for.
-	 * @return bool True if the database entry exists, false otherwise.
+	 * @return object|false Database query result or false on failure.
 	 */
 	private function db_entry_exists( array $data ) {
 		$db_data = $this->db->get(
@@ -267,8 +267,8 @@ class MigrateLikes {
 	/**
 	 * Updates the like or not_like count in the database.
 	 *
-	 * @param object $db_data The existing database row data.
-	 * @param array<string, mixed>  $data    The data indicating whether it's a like or not like.
+	 * @param object               $db_data The existing database row data.
+	 * @param array<string, mixed> $data    The data indicating whether it's a like or not like.
 	 * @return bool True if the update is successful, false otherwise.
 	 */
 	private function update_db( $db_data, array $data ) {
