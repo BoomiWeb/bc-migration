@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write  
+  contents: write
 
 jobs:
   update-wiki:
@@ -20,70 +20,25 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-      - name: Remove existing wiki directory if present
-        run: rm -rf wiki          
 
-      - name: Clone the Wiki Repo
+      - name: Clone the Wiki Repo (clean)
         run: |
-          set -e  # Stop execution if any command fails
-          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki     
-          
-      # - name: Confirm Correct Wiki Remote
-      #   run: |
-      #     cd wiki
-      #     git remote -v       
+          rm -rf wiki
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki
 
-      - name: Clean wiki repo contents
-        run: |
-          find wiki -mindepth 1 -not -name '.git' -exec rm -rf {} +
-          
-      - name: Copy updated wiki files
-        working-directory: ${{ github.workspace }}
-        run: |
-          rsync -av --delete --progress docs/wiki/ wiki/
-
-      - name: Show files to be committed to wiki
+      - name: Clean all existing wiki files
         run: |
           cd wiki
-          echo "=== Contents of wiki repo ==="
-          find . -type f          
-        
-      # - name: Show wiki directory contents
-      #   run: |
-      #     echo "=== Wiki files ==="
-      #     ls -l wiki/
-      #     echo "=== Wiki Home.md content ==="
-      #     cat wiki/Home.md || echo "Home.md not found"        
-          
-      # - name: Debug Git Remote and Branch
-      #   run: |
-      #     cd wiki
-      #     git remote -v
-      #     git branch
-      #     git status          
-          
+          git rm -rf . || true
+          git clean -fdx
+
+      - name: Copy updated wiki files
+        run: |
+          rsync -av --delete --include='*.md' --exclude='*' docs/wiki/ wiki/
+
       - name: Commit and Push Changes to Wiki
         run: |
           cd wiki
-          echo "" > .gitignore
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-      
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git
-          git checkout master || git checkout -b master
-      
-          git pull origin master --rebase || echo "Nothing to pull"
-      
-          git add -A
+          git add .
           git commit -m "Update wiki content [skip ci]" || echo "No changes to commit"
           git push origin master
-          
-      - name: Verify wiki repo files after push
-        run: |
-          cd wiki
-          echo "=== Git status ==="
-          git status
-          echo "=== Wiki files ==="
-          ls -l
-          echo "=== Wiki Home.md content ==="
-          cat Home.md || echo "Home.md not found" 
