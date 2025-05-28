@@ -38,7 +38,15 @@ jobs:
           find wiki -mindepth 1 -not -name '.git' -exec rm -rf {} +
           
       - name: Copy updated wiki files
-        run: rsync -av --delete --progress docs/wiki/ wiki/
+        working-directory: ${{ github.workspace }}
+        run: |
+          rsync -av --delete --progress docs/wiki/ wiki/
+
+      - name: Show files to be committed to wiki
+        run: |
+          cd wiki
+          echo "=== Contents of wiki repo ==="
+          find . -type f          
         
       # - name: Show wiki directory contents
       #   run: |
@@ -47,12 +55,12 @@ jobs:
       #     echo "=== Wiki Home.md content ==="
       #     cat wiki/Home.md || echo "Home.md not found"        
           
-      - name: Debug Git Remote and Branch
-        run: |
-          cd wiki
-          git remote -v
-          git branch
-          git status          
+      # - name: Debug Git Remote and Branch
+      #   run: |
+      #     cd wiki
+      #     git remote -v
+      #     git branch
+      #     git status          
           
       - name: Commit and Push Changes to Wiki
         run: |
