@@ -1,36 +1,44 @@
-name: Sync GitHub Wiki
+name: Update Wiki from /docs/wiki
 
 on:
   push:
-    branches:
-      - wiki-test
-    paths:
-      - 'docs/wiki/**'  # adjust this if your files are elsewhere
+    branches: ["main", "test", "wiki-test"]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
-  sync-wiki:
+  update-wiki:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the repo
+      - name: Checkout main repo
         uses: actions/checkout@v3
 
-      - name: Clone the Wiki Repo
+      - name: Set up Git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Clone the Wiki Repo (clean)
         run: |
           rm -rf wiki
           git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki
 
-      - name: Copy Markdown Files to Wiki
+      - name: Clean all existing wiki files
         run: |
-          rsync -av --delete docs/wiki/ wiki/
+          cd wiki
+          git rm -rf . || true
+          git clean -fdx
+
+      - name: Copy updated wiki files
+        run: |
+          rsync -av --delete --include='*.md' --exclude='*' docs/wiki/ wiki/
 
       - name: Commit and Push Changes to Wiki
         run: |
           cd wiki
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git config core.excludesFile /dev/null  # ✅ Ignore parent .gitignore
           git add .
           git commit -m "Update wiki content [skip ci]" || echo "No changes to commit"
-          git push origin HEAD:master
+          git push origin master
