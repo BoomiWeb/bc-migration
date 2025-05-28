@@ -26,11 +26,17 @@ jobs:
       - name: Clone the Wiki Repo
         run: |
           set -e  # Stop execution if any command fails
-          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki          
-      - name: Confirm Correct Wiki Remote
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki     
+          
+      # - name: Confirm Correct Wiki Remote
+      #   run: |
+      #     cd wiki
+      #     git remote -v       
+
+      - name: Clean wiki repo contents
         run: |
-          cd wiki
-          git remote -v          
+          find wiki -mindepth 1 -not -name '.git' -exec rm -rf {} +
+          
       - name: Copy updated wiki files
         run: rsync -av --delete --progress docs/wiki/ wiki/
         
@@ -51,12 +57,13 @@ jobs:
       - name: Commit and Push Changes to Wiki
         run: |
           cd wiki
-          echo "" > .gitignore  # Overwrite .gitignore inside the wiki repo
+          echo "" > .gitignore
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git checkout master || git checkout -b master
           git add -A
           git commit -m "Update wiki content [skip ci]" || echo "No changes to commit"
-          git push origin HEAD:master  
+          git push origin master
           
       - name: Verify wiki repo files after push
         run: |
