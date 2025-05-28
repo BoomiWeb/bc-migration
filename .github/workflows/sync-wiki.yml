@@ -33,19 +33,21 @@ jobs:
           git remote -v          
       - name: Copy updated wiki files
         run: rsync -av --delete --progress docs/wiki/ wiki/
-
-      - name: Show wiki directory contents
-        run: |
-          echo "=== Wiki files ==="
-          ls -l wiki/
-          echo "=== Wiki Home.md content ==="
-          cat wiki/Home.md || echo "Home.md not found"        
+        
+      # - name: Show wiki directory contents
+      #   run: |
+      #     echo "=== Wiki files ==="
+      #     ls -l wiki/
+      #     echo "=== Wiki Home.md content ==="
+      #     cat wiki/Home.md || echo "Home.md not found"        
+          
       - name: Debug Git Remote and Branch
         run: |
           cd wiki
           git remote -v
           git branch
           git status          
+          
       - name: Commit and Push Changes to Wiki
         run: |
           cd wiki
@@ -54,7 +56,8 @@ jobs:
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           git add -A
           git commit -m "Update wiki content [skip ci]" || echo "No changes to commit"
-          git push origin HEAD:master         
+          git push origin HEAD:master  
+          
       - name: Verify wiki repo files after push
         run: |
           cd wiki
