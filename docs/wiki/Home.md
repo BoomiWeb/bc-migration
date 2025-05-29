@@ -1,9 +1,8 @@
-# 🏠 Home Page
+# BC Migration Wiki
 
-This is the latest version — synced via GitHub Action.
+Welcome to the BC Migration wiki!
 
-Wiki Sync!
+You can find the [BC Migration](https://github.com/BoomiWeb/bc-migration) repository [here](https://github.com/BoomiWeb/bc-migration)
 
-:( Trying one last time :( 
-
-- [Test Page](Test-Page)
+<!-- VERSION-FOOTER -->
+<p align="center"><sub><em>Documentation Version: v0.1.0</em></sub></p>
