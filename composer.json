@@ -1,4 +1,11 @@
 {
+  "name" : "erikdmitchell/bc-migration",
+  "description" : "Custom migration tooling for WP",
+  "version" : "0.3.2",
+  "type" : "boomi-cms-plugin",
+  "license" : "GPL-3.0-or-later",
+  "minimum-stability" : "dev",
+  "prefer-stable" : true,  
   "authors" : [
     {
       "email" : "erikdmitchell@gmail.com",
@@ -17,11 +24,6 @@
       "phpstan/extension-installer" : true
     }
   },
-  "description" : "Custom migration tooling for WP",
-  "license" : "GPL-3.0-or-later",
-  "minimum-stability" : "dev",
-  "name" : "erikdmitchell/bc-migration",
-  "prefer-stable" : true,
   "require" : {
     "phpdocumentor/shim" : "^3.7"
   },
@@ -43,7 +45,5 @@
     "phpcs" : "vendor/bin/phpcs -s -p --standard=./phpcs.ruleset.xml",
     "phpdocs" : "vendor/bin/phpdoc",
     "phpstan" : "vendor/bin/phpstan analyse --configuration=phpstan.neon --memory-limit=2G"
-  },
-  "type" : "boomi-cms-plugin",
-  "version" : "0.3.0"
+  }
 }
