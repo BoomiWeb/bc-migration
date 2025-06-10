@@ -1,49 +1,49 @@
 {
-  "name" : "erikdmitchell/bc-migration",
-  "description" : "Custom migration tooling for WP",
-  "version" : "0.3.2",
-  "type" : "boomi-cms-plugin",
-  "license" : "GPL-3.0-or-later",
-  "minimum-stability" : "dev",
-  "prefer-stable" : true,  
-  "authors" : [
+  "name": "erikdmitchell/bc-migration",
+  "description": "Custom migration tooling for WP",
+  "version": "0.4.0",
+  "type": "boomi-cms-plugin",
+  "license": "GPL-3.0-or-later",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "authors": [
     {
-      "email" : "erikdmitchell@gmail.com",
-      "name" : "Erik Mitchell"
+      "email": "erikdmitchell@gmail.com",
+      "name": "Erik Mitchell"
     }
   ],
-  "autoload" : {
-    "psr-4" : {
-      "erikdmitchell\\bcmigration\\" : "src/"
+  "autoload": {
+    "psr-4": {
+      "erikdmitchell\\bcmigration\\": "src/"
     }
   },
-  "config" : {
-    "allow-plugins" : {
-      "dealerdirect/phpcodesniffer-composer-installer" : true,
-      "phpdocumentor/shim" : true,
-      "phpstan/extension-installer" : true
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "phpdocumentor/shim": true,
+      "phpstan/extension-installer": true
     }
   },
-  "require" : {
-    "phpdocumentor/shim" : "^3.7"
+  "require": {
+    "phpdocumentor/shim": "^3.7"
   },
-  "require-dev" : {
-    "dealerdirect/phpcodesniffer-composer-installer" : "^1.0",
-    "php-stubs/acf-pro-stubs" : "^6.3",
-    "php-stubs/wp-cli-stubs" : "^2.11",
-    "phpcompatibility/php-compatibility" : "^10.1",
-    "phpdocumentor/phpdocumentor" : "^3.3",
-    "phpmd/phpmd" : "@stable",
-    "phpstan/extension-installer" : "^1.4",
-    "phpstan/phpstan" : "^2.1",
-    "squizlabs/php_codesniffer" : "3.*",
-    "szepeviktor/phpstan-wordpress" : "^2.0",
-    "wp-coding-standards/wpcs" : "^3.1"
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "php-stubs/acf-pro-stubs": "^6.3",
+    "php-stubs/wp-cli-stubs": "^2.11",
+    "phpcompatibility/php-compatibility": "^10.1",
+    "phpdocumentor/phpdocumentor": "^3.3",
+    "phpmd/phpmd": "@stable",
+    "phpstan/extension-installer": "^1.4",
+    "phpstan/phpstan": "^2.1",
+    "squizlabs/php_codesniffer": "3.*",
+    "szepeviktor/phpstan-wordpress": "^2.0",
+    "wp-coding-standards/wpcs": "^3.1"
   },
-  "scripts" : {
-    "phpcbf" : "vendor/bin/phpcbf -p --standard=./phpcs.ruleset.xml",
-    "phpcs" : "vendor/bin/phpcs -s -p --standard=./phpcs.ruleset.xml",
-    "phpdocs" : "vendor/bin/phpdoc",
-    "phpstan" : "vendor/bin/phpstan analyse --configuration=phpstan.neon --memory-limit=2G"
+  "scripts": {
+    "phpcbf": "vendor/bin/phpcbf -p --standard=./phpcs.ruleset.xml",
+    "phpcs": "vendor/bin/phpcs -s -p --standard=./phpcs.ruleset.xml",
+    "phpdocs": "vendor/bin/phpdoc",
+    "phpstan": "vendor/bin/phpstan analyse --configuration=phpstan.neon --memory-limit=2G"
   }
 }
