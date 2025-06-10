@@ -10,7 +10,7 @@
 
     <title>BC Migration Documentation</title>
 
-    <version number="0.3.1">
+    <version number="0.3.2">
         <api>
             <source dsn=".">
                 <paths>
