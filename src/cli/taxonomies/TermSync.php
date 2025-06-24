@@ -1,9 +1,9 @@
 <?php
 /**
- * Migrate Taxonomies CLI class
+ * Term Sync CLI class
  *
  * @package erikdmitchell\bcmigration\cli\taxonomies
- * @since   0.2.1
+ * @since   0.3.3
  * @version 0.1.0
  */
 
@@ -11,6 +11,7 @@ namespace erikdmitchell\bcmigration\cli\taxonomies;
 
 use erikdmitchell\bcmigration\abstracts\TaxonomyCLICommands;
 use WP_Error;
+use WP_CLI;
 
 /**
  * Migrate Class
@@ -26,9 +27,23 @@ use WP_Error;
  * wp taxonomy-sync bulk --csv-file=path/to/file.csv --post-type=post
  */
 
-
+// wp boomi taxonomies term-sync --source=blog_posts --target=products --post-type=blog
 
 class TermSync extends TaxonomyCLICommands {
+/**
+ * WP-CLI command to sync taxonomy terms across different taxonomies
+ * 
+ * Usage examples:
+ * wp taxonomy-sync match --source=blog_posts --target=products --post-type=post
+ * wp taxonomy-sync match --source=blog_posts --target=products,topics --post-type=custom_post --term="API Management"
+ * wp taxonomy-sync bulk --csv-file=path/to/file.csv --post-type=post
+ */
+
+// if (defined('WP_CLI') && WP_CLI) {
+//     WP_CLI::add_command('taxonomy-sync', 'Taxonomy_Sync_Command');
+// }
+
+// class Taxonomy_Sync_Command extends WP_CLI_Command {
 
     /**
      * Match and sync terms between taxonomies
@@ -129,14 +144,15 @@ class TermSync extends TaxonomyCLICommands {
             foreach ($target_taxonomies as $target_taxonomy) {
                 $target_taxonomy = trim($target_taxonomy);
                 
-                // Find or create matching term in target taxonomy
-                $target_term = $this->find_or_create_term($source_term->name, $target_taxonomy, $dry_run);
+                // Find existing term in target taxonomy (do not create new terms)
+                $target_term = $this->find_existing_term($source_term->name, $target_taxonomy);
                 
                 if (!$target_term) {
-                    WP_CLI::warning("  Could not find/create term '{$source_term->name}' in taxonomy '{$target_taxonomy}'");
-                    $errors++;
+                    WP_CLI::log("  Term '{$source_term->name}' does not exist in taxonomy '{$target_taxonomy}' - skipping");
                     continue;
                 }
+
+                WP_CLI::log("  Found matching term '{$target_term['name']}' in taxonomy '{$target_taxonomy}'");
 
                 // Add term to posts
                 foreach ($posts as $post) {
@@ -254,11 +270,11 @@ class TermSync extends TaxonomyCLICommands {
                     continue;
                 }
 
-                // Find or create term in target taxonomy
-                $target_term = $this->find_or_create_term($term_name, $target_taxonomy, $dry_run);
+                // Find existing term in target taxonomy (do not create new terms)
+                $target_term = $this->find_existing_term($term_name, $target_taxonomy);
                 
                 if (!$target_term) {
-                    WP_CLI::warning("  Could not find/create term '{$term_name}' in taxonomy '{$target_taxonomy}'");
+                    WP_CLI::warning("  Term '{$term_name}' does not exist in taxonomy '{$target_taxonomy}' - skipping");
                     $errors++;
                     continue;
                 }
@@ -375,40 +391,21 @@ class TermSync extends TaxonomyCLICommands {
     }
 
     /**
-     * Find or create a term in target taxonomy
+     * Find existing term in target taxonomy (does not create new terms)
      */
-    private function find_or_create_term($term_name, $taxonomy, $dry_run = false) {
-        // First try to find existing term
+    private function find_existing_term($term_name, $taxonomy) {
+        // Only find existing terms, do not create new ones
         $existing_term = get_term_by('name', $term_name, $taxonomy);
         
         if ($existing_term) {
             return array(
                 'term_id' => $existing_term->term_id,
                 'name' => $existing_term->name,
-                'created' => false
+                'exists' => true
             );
         }
 
-        // Create new term if not found
-        if ($dry_run) {
-            return array(
-                'term_id' => 0,
-                'name' => $term_name,
-                'created' => true
-            );
-        }
-
-        $result = wp_insert_term($term_name, $taxonomy);
-        
-        if (is_wp_error($result)) {
-            return false;
-        }
-
-        return array(
-            'term_id' => $result['term_id'],
-            'name' => $term_name,
-            'created' => true
-        );
+        return false;
     }
 
     /**
