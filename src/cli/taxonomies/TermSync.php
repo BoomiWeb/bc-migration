@@ -343,7 +343,6 @@ class TermSync extends TaxonomyCLICommands {
         return get_terms($args);
     }
 
-
     private function get_posts_with_term($post_type, $taxonomy, $term_id, $batch_size) {
         return get_posts(array(
             'post_type' => $post_type,
