@@ -53,12 +53,6 @@ class Taxonomies extends CLICommands {
 				'longdesc'  => 'Delete Taxonomies (terms)',
 				'method'    => 'delete_terms',
 			),
-			'term-sync' => array(
-				'class'     => __NAMESPACE__ . '\TermSync',
-				'shortdesc' => 'Taxonomy term syncing',
-				'longdesc'  => 'Taxonomy term syncing',
-				'method'    => 'match',
-			),
 			'term-validator' => array(
 				'class'     => __NAMESPACE__ . '\TermValidator',
 				'shortdesc' => 'Validate Taxonomies (terms)',
