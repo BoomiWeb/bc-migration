@@ -38,7 +38,7 @@ class TermSyncCommands extends CLICommands {
 				'longdesc'  => 'Taxonomy term syncing',
 				'method'    => 'match',
 			),
-			'bulk'        => array(
+			'bulk'  => array(
 				'class'     => __NAMESPACE__ . '\TermSync',
 				'shortdesc' => 'Bulk taxonomy term syncing',
 				'longdesc'  => 'Bulk taxonomy term syncing',
