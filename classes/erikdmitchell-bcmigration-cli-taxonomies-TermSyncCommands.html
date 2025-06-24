@@ -110,11 +110,12 @@
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/erikdmitchell.html">erikdmitchell</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/erikdmitchell-bcmigration.html">bcmigration</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/erikdmitchell-bcmigration-cli.html">cli</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/erikdmitchell-bcmigration-cli-taxonomies.html">taxonomies</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    APIIDA
+    TermSyncCommands
 
         <span class="phpdocumentor-element__extends">
         extends <a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html"><abbr title="\erikdmitchell\bcmigration\abstracts\CLICommands">CLICommands</abbr></a>
@@ -126,6 +127,7 @@
                                     <li class="phpdocumentor-breadcrumb"><a href="packages/erikdmitchell.html">erikdmitchell</a></li>
                                     <li class="phpdocumentor-breadcrumb"><a href="packages/erikdmitchell-bcmigration.html">bcmigration</a></li>
                                     <li class="phpdocumentor-breadcrumb"><a href="packages/erikdmitchell-bcmigration-cli.html">cli</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/erikdmitchell-bcmigration-cli-taxonomies.html">taxonomies</a></li>
                             </ul>
         </div>
     
@@ -138,13 +140,13 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/APIIDA.php"><a href="files/src-cli-apiida.html"><abbr title="src/cli/APIIDA.php">APIIDA.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/TermSyncCommands.php"><a href="files/src-cli-taxonomies-termsynccommands.html"><abbr title="src/cli/taxonomies/TermSyncCommands.php">TermSyncCommands.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">18</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">APIIDA CLI class.</p>
+            <p class="phpdocumentor-summary">Migrate CLI class.</p>
 
 
 
@@ -156,7 +158,7 @@
 
 <h3 id="toc">
     Table of Contents
-    <a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -170,7 +172,7 @@
 
 <h4 id="toc-properties">
     Properties
-    <a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
@@ -199,10 +201,17 @@
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#method___construct">__construct()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Construct</dd>
+
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_add_notice">add_notice()</a>
     <span>
@@ -239,11 +248,11 @@
 <dd>Get the upload URL.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#method_migrate">migrate()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#method_register_commands">register_commands()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Migrates APIIDA data.</dd>
+<dd>Register the commands.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_reset_notices">reset_notices()</a>
@@ -273,27 +282,6 @@
 </dt>
 <dd>Create and write to a CSV file</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#method_migrate_reports">migrate_reports()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Migrates APIIDA reports to the database.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#method_remove_directory">remove_directory()</a>
-    <span>
-                                &nbsp;: bool    </span>
-</dt>
-<dd>Removes a directory recursively.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#method_remove_folder">remove_folder()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Removes the APIIDA uploads folder.</dd>
-
     </dl>
 
 
@@ -304,7 +292,7 @@
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -429,9 +417,44 @@
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method___construct">
+        __construct()
+        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/TermSyncCommands.php"><a href="files/src-cli-taxonomies-termsynccommands.html"><abbr title="src/cli/taxonomies/TermSyncCommands.php">TermSyncCommands.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">23</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Construct</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+    
+
+    
+</article>
                     <article
         class="phpdocumentor-element
             -method
@@ -657,70 +680,31 @@ Default is 'log'.</p>
         class="phpdocumentor-element
             -method
             -public
-                                                        "
+                                    -static                    "
 >
-    <h4 class="phpdocumentor-element__name" id="method_migrate">
-        migrate()
-        <a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#method_migrate" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_register_commands">
+        register_commands()
+        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#method_register_commands" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/APIIDA.php"><a href="files/src-cli-apiida.html"><abbr title="src/cli/APIIDA.php">APIIDA.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/TermSyncCommands.php"><a href="files/src-cli-taxonomies-termsynccommands.html"><abbr title="src/cli/taxonomies/TermSyncCommands.php">TermSyncCommands.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">48</span>
+    <span class="phpdocumentor-element-found-in__line">30</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Migrates APIIDA data.</p>
+        <p class="phpdocumentor-summary">Register the commands.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">migrate</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$assoc_args</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">register_commands</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><h2>OPTIONS</h2>
-<action>
-: The action to perform. Currently only `reports` and `remove-folder` are supported.
-<h2>EXAMPLES</h2>
-<pre class="prettyprint"><code class="prettyprint"># Migrate all APIIDA data.
-$ wp boomi migrate apiida all
-Success: Migrated 13 reports.
-Success: Removed the APIIDA uploads folder.
-
-# Migrate APIIDA reports.
-$ wp boomi migrate apiida reports
-Success: Migrated 13 reports.
-
-# Remove the APIIDA uploads folder.
-$ wp boomi migrate apiida remove-folder
-Success: Removed the APIIDA uploads folder.
-</code></pre>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$args</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>CLI positional arguments.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$assoc_args</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>CLI associative arguments.</p>
-</section>
-
-            </dd>
-            </dl>
-
+    
+    
     
 
     
@@ -923,143 +907,13 @@ Success: Removed the APIIDA uploads folder.
 
     
 </article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_migrate_reports">
-        migrate_reports()
-        <a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#method_migrate_reports" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/APIIDA.php"><a href="files/src-cli-apiida.html"><abbr title="src/cli/APIIDA.php">APIIDA.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">80</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Migrates APIIDA reports to the database.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">migrate_reports</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>This method will log messages to the user about the migration process and
-report the number of migrated records.</p>
-</section>
-
-    
-    
-
-    
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_remove_directory">
-        remove_directory()
-        <a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#method_remove_directory" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/APIIDA.php"><a href="files/src-cli-apiida.html"><abbr title="src/cli/APIIDA.php">APIIDA.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">118</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Removes a directory recursively.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">remove_directory</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$dir</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$dir</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The path to the directory to be deleted.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">bool</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>True if the directory was deleted successfully, false otherwise.</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_remove_folder">
-        remove_folder()
-        <a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#method_remove_folder" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/APIIDA.php"><a href="files/src-cli-apiida.html"><abbr title="src/cli/APIIDA.php">APIIDA.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">101</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Removes the APIIDA uploads folder.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">remove_folder</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-        <section class="phpdocumentor-description"><p>This method will log messages to the user about the deletion process.</p>
-</section>
-
-    
-    
-
-    
-
-    
-</article>
             </section>
 
         <div class="phpdocumentor-modal" id="source-view">
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/cli/APIIDA.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/cli/taxonomies/TermSyncCommands.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -1158,8 +1012,8 @@ report the number of migrated records.</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                            <li><a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#toc-methods">Methods</a></li>
+                                                            <li><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
@@ -1175,19 +1029,17 @@ report the number of migrated records.</p>
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_add_notice">add_notice()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_display_notices">display_notices()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_notices">get_notices()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_upload_path">get_upload_path()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_upload_url">get_upload_url()</a></li>
-                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#method_migrate">migrate()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#method_register_commands">register_commands()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_reset_notices">reset_notices()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_set_upload_path">set_upload_path()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_set_upload_url">set_upload_url()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_export_csv">export_csv()</a></li>
-                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#method_migrate_reports">migrate_reports()</a></li>
-                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#method_remove_directory">remove_directory()</a></li>
-                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#method_remove_folder">remove_folder()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -1207,7 +1059,7 @@ report the number of migrated records.</p>
     </section>
 </section>
         </div>
-        <a href="classes/erikdmitchell-bcmigration-cli-APIIDA.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

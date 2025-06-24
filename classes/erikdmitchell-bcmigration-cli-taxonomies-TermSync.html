@@ -115,7 +115,7 @@
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    Delete
+    TermSync
 
         <span class="phpdocumentor-element__extends">
         extends <a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html"><abbr title="\erikdmitchell\bcmigration\abstracts\TaxonomyCLICommands">TaxonomyCLICommands</abbr></a>
@@ -140,13 +140,13 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/Delete.php"><a href="files/src-cli-taxonomies-delete.html"><abbr title="src/cli/taxonomies/Delete.php">Delete.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/TermSync.php"><a href="files/src-cli-taxonomies-termsync.html"><abbr title="src/cli/taxonomies/TermSync.php">TermSync.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">17</span>
+    <span class="phpdocumentor-element-found-in__line">19</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Delete Class</p>
+            <p class="phpdocumentor-summary">TermSync class.</p>
 
 
 
@@ -158,7 +158,7 @@
 
 <h3 id="toc">
     Table of Contents
-    <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -172,7 +172,7 @@
 
 <h4 id="toc-properties">
     Properties
-    <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
@@ -215,7 +215,7 @@
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
@@ -227,11 +227,11 @@
 <dd>Adds a notice to be displayed at the end of the command.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#method_delete_terms">delete_terms()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_bulk">bulk()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: mixed    </span>
 </dt>
-<dd>Delete a single term or bulk terms via a CSV file.</dd>
+<dd>Bulk sync terms using CSV file</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_display_notices">display_notices()</a>
@@ -269,11 +269,25 @@
 <dd>Handles invalid taxonomy errors by logging and adding notices.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_list_terms">list_terms()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>List terms in a taxonomy for reference</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_log">log()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Logs a message to a specified log file, creating the log directory if it does not exist.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_match">match()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Match and sync terms between taxonomies</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_reset_notices">reset_notices()</a>
@@ -367,25 +381,28 @@
 <dd>Validates that the given array of CSV headers contains all required fields.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#method_delete_taxonomy_term">delete_taxonomy_term()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_add_term_to_post">add_term_to_post()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: mixed    </span>
 </dt>
-<dd>Deletes specified taxonomy terms.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#method_process_csv">process_csv()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_find_existing_term">find_existing_term()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: mixed    </span>
 </dt>
-<dd>Process a CSV file of terms to delete.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#method_process_single_term">process_single_term()</a>
+    <a class="" href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_get_posts_with_term">get_posts_with_term()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: mixed    </span>
 </dt>
-<dd>Process a single term deletion.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_get_terms_to_process">get_terms_to_process()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
 
     </dl>
 
@@ -397,7 +414,7 @@
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -600,7 +617,7 @@
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -666,39 +683,36 @@ Default is 'log'.</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_delete_terms">
-        delete_terms()
-        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#method_delete_terms" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_bulk">
+        bulk()
+        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_bulk" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/Delete.php"><a href="files/src-cli-taxonomies-delete.html"><abbr title="src/cli/taxonomies/Delete.php">Delete.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/TermSync.php"><a href="files/src-cli-taxonomies-termsync.html"><abbr title="src/cli/taxonomies/TermSync.php">TermSync.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">178</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Delete a single term or bulk terms via a CSV file.</p>
+        <p class="phpdocumentor-summary">Bulk sync terms using CSV file</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">delete_terms</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$assoc_args</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">bulk</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$assoc_args</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
         <section class="phpdocumentor-description"><h2>OPTIONS</h2>
-<p>[<taxonomy> <term>]
-: Taxonomy and term to delete.</p>
-<p>[--file=<file>]
-: Path to CSV file for bulk delete.</p>
+<p>--csv-file=<path>
+: Path to CSV file with columns: post_id, source_taxonomy, target_taxonomy, term_name</p>
+<p>--post-type=&lt;post_type&gt;
+: Post type to process</p>
 <p>[--dry-run]
-: Only simulate the changes; no actual updates.</p>
-<p>[--log=<logfile>]
-: File to write logs to.</p>
+: Show what would be done without making changes</p>
 <h2>EXAMPLES</h2>
-<pre class="prettyprint"><code class="prettyprint">wp boomi taxonomies delete industries &quot;M&amp;A&quot; &quot;Mergers. &amp; Acquisitions&quot;
-wp boomi taxonomies delete --file=terms.csv --dry-run --log=delete-log.txt
+<pre class="prettyprint"><code class="prettyprint">wp boomi taxonomies term-sync bulk --csv-file=sync.csv --post-type=post
 </code></pre>
 </section>
 
@@ -706,21 +720,17 @@ wp boomi taxonomies delete --file=terms.csv --dry-run --log=delete-log.txt
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$args</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>CLI positional arguments.</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$assoc_args</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>CLI associative arguments.</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -964,6 +974,68 @@ wp boomi taxonomies delete --file=terms.csv --dry-run --log=delete-log.txt
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_list_terms">
+        list_terms()
+        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_list_terms" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/TermSync.php"><a href="files/src-cli-taxonomies-termsync.html"><abbr title="src/cli/taxonomies/TermSync.php">TermSync.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">302</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">List terms in a taxonomy for reference</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">list_terms</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$assoc_args</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><h2>OPTIONS</h2>
+<p>--taxonomy=<taxonomy>
+: Taxonomy to list terms from</p>
+<p>[--search=<term>]
+: Search for specific term</p>
+<h2>EXAMPLES</h2>
+<pre class="prettyprint"><code class="prettyprint">wp boomi taxonomies term-sync list-terms --taxonomy=blog_posts
+wp boomi taxonomies term-sync list-terms --taxonomy=products --search=&quot;API&quot;
+</code></pre>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$args</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$assoc_args</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_log">
         log()
         <a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_log" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1015,6 +1087,76 @@ wp boomi taxonomies delete --file=terms.csv --dry-run --log=delete-log.txt
 If null, the default log file name is used.</p>
 </section>
 
+            </dd>
+            </dl>
+
+    
+
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_match">
+        match()
+        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_match" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/TermSync.php"><a href="files/src-cli-taxonomies-termsync.html"><abbr title="src/cli/taxonomies/TermSync.php">TermSync.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">52</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Match and sync terms between taxonomies</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">match</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$assoc_args</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><h2>OPTIONS</h2>
+<p>--source=<taxonomy>
+: Source taxonomy to match terms from</p>
+<p>--target=<taxonomies>
+: Target taxonomy/taxonomies to sync to (comma-separated for multiple)</p>
+<p>--post-type=&lt;post_type&gt;
+: Post type to process</p>
+<p>[--term=&lt;term_name&gt;]
+: Specific term to match (optional, if not provided will match all terms)</p>
+<p>[--dry-run]
+: Show what would be done without making changes</p>
+<p>[--batch-size=<number>]
+: Number of posts to process at once (default: 100)</p>
+<h2>EXAMPLES</h2>
+<pre class="prettyprint"><code class="prettyprint">wp boomi taxonomies term-sync match --source=blog_posts --target=products --post-type=post
+wp boomi taxonomies term-sync match --source=blog_posts --target=products,topics --post-type=custom_post --term=&quot;API Management&quot;
+</code></pre>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$args</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$assoc_args</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
             </dd>
             </dl>
 
@@ -1819,23 +1961,203 @@ Returns a WP_Error if the taxonomy is invalid.</p>
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_delete_taxonomy_term">
-        delete_taxonomy_term()
-        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#method_delete_taxonomy_term" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_add_term_to_post">
+        add_term_to_post()
+        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_add_term_to_post" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/Delete.php"><a href="files/src-cli-taxonomies-delete.html"><abbr title="src/cli/taxonomies/Delete.php">Delete.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/TermSync.php"><a href="files/src-cli-taxonomies-termsync.html"><abbr title="src/cli/taxonomies/TermSync.php">TermSync.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">186</span>
+    <span class="phpdocumentor-element-found-in__line">377</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Deletes specified taxonomy terms.</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">delete_taxonomy_term</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$term_names</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$row_num</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">add_term_to_post</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$post_id</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$term_id</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$dry_run</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$post_id</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$term_id</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$taxonomy</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$dry_run</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">false</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_find_existing_term">
+        find_existing_term()
+        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_find_existing_term" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/TermSync.php"><a href="files/src-cli-taxonomies-termsync.html"><abbr title="src/cli/taxonomies/TermSync.php">TermSync.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">362</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">find_existing_term</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$term_name</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$term_name</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$taxonomy</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_get_posts_with_term">
+        get_posts_with_term()
+        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_get_posts_with_term" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/TermSync.php"><a href="files/src-cli-taxonomies-termsync.html"><abbr title="src/cli/taxonomies/TermSync.php">TermSync.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">345</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">get_posts_with_term</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$post_type</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$term_id</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$batch_size</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$post_type</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$taxonomy</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$term_id</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$batch_size</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_get_terms_to_process">
+        get_terms_to_process()
+        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_get_terms_to_process" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/TermSync.php"><a href="files/src-cli-taxonomies-termsync.html"><abbr title="src/cli/taxonomies/TermSync.php">TermSync.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">332</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">get_terms_to_process</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomy</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$specific_term</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1845,142 +2167,17 @@ Returns a WP_Error if the taxonomy is invalid.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$taxonomy</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The taxonomy from which to delete terms.</p>
-</section>
-
+                
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$term_names</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>An array of term names to be deleted.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$row_num</span>
-                : <span class="phpdocumentor-signature__argument__return-type">int|null</span>
+                <span class="phpdocumentor-signature__argument__name">$specific_term</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Optional row number for logging purposes.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-    
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_process_csv">
-        process_csv()
-        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#method_process_csv" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/Delete.php"><a href="files/src-cli-taxonomies-delete.html"><abbr title="src/cli/taxonomies/Delete.php">Delete.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">79</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Process a CSV file of terms to delete.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">process_csv</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$file</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$dry_run</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$file</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The path to the CSV file.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$dry_run</span>
-                : <span class="phpdocumentor-signature__argument__return-type">bool</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">false</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Whether to perform a dry run.</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-    
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_process_single_term">
-        process_single_term()
-        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#method_process_single_term" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/cli/taxonomies/Delete.php"><a href="files/src-cli-taxonomies-delete.html"><abbr title="src/cli/taxonomies/Delete.php">Delete.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">142</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Process a single term deletion.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">process_single_term</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$args</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$dry_run</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$args</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>CLI arguments.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$dry_run</span>
-                : <span class="phpdocumentor-signature__argument__return-type">bool</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>If set, no changes will be made.</p>
-</section>
-
+                
             </dd>
             </dl>
 
@@ -1996,7 +2193,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/cli/taxonomies/Delete.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/cli/taxonomies/TermSync.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -2095,8 +2292,8 @@ Returns a WP_Error if the taxonomy is invalid.</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                            <li><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#toc-methods">Methods</a></li>
+                                                            <li><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
@@ -2115,13 +2312,15 @@ Returns a WP_Error if the taxonomy is invalid.</p>
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_add_notice">add_notice()</a></li>
-                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#method_delete_terms">delete_terms()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_bulk">bulk()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_display_notices">display_notices()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_notices">get_notices()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_upload_path">get_upload_path()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_get_upload_url">get_upload_url()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_invalid_taxonomy">invalid_taxonomy()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_list_terms">list_terms()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_log">log()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_match">match()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_reset_notices">reset_notices()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-traits-LoggerTrait.html#method_set_log_name">set_log_name()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-CLICommands.html#method_set_upload_path">set_upload_path()</a></li>
@@ -2135,9 +2334,10 @@ Returns a WP_Error if the taxonomy is invalid.</p>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_is_term_valid">is_term_valid()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_command_args">validate_command_args()</a></li>
                                             <li class=""><a href="classes/erikdmitchell-bcmigration-abstracts-TaxonomyCLICommands.html#method_validate_headers">validate_headers()</a></li>
-                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#method_delete_taxonomy_term">delete_taxonomy_term()</a></li>
-                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#method_process_csv">process_csv()</a></li>
-                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#method_process_single_term">process_single_term()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_add_term_to_post">add_term_to_post()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_find_existing_term">find_existing_term()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_get_posts_with_term">get_posts_with_term()</a></li>
+                                            <li class=""><a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_get_terms_to_process">get_terms_to_process()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -2157,7 +2357,7 @@ Returns a WP_Error if the taxonomy is invalid.</p>
     </section>
 </section>
         </div>
-        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-Delete.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

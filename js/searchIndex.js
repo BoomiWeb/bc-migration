@@ -1086,6 +1086,61 @@ Search.appendIndex(
             "summary": "Register\u0020the\u0020commands.",
             "url": "classes/erikdmitchell-bcmigration-cli-taxonomies-Taxonomies.html#method_register_commands"
         },                {
+            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\taxonomies\\TermSync",
+            "name": "TermSync",
+            "summary": "TermSync\u0020class.",
+            "url": "classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html"
+        },                {
+            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\taxonomies\\TermSync\u003A\u003Amatch\u0028\u0029",
+            "name": "match",
+            "summary": "Match\u0020and\u0020sync\u0020terms\u0020between\u0020taxonomies",
+            "url": "classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_match"
+        },                {
+            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\taxonomies\\TermSync\u003A\u003Abulk\u0028\u0029",
+            "name": "bulk",
+            "summary": "Bulk\u0020sync\u0020terms\u0020using\u0020CSV\u0020file",
+            "url": "classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_bulk"
+        },                {
+            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\taxonomies\\TermSync\u003A\u003Alist_terms\u0028\u0029",
+            "name": "list_terms",
+            "summary": "List\u0020terms\u0020in\u0020a\u0020taxonomy\u0020for\u0020reference",
+            "url": "classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_list_terms"
+        },                {
+            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\taxonomies\\TermSync\u003A\u003Aget_terms_to_process\u0028\u0029",
+            "name": "get_terms_to_process",
+            "summary": "",
+            "url": "classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_get_terms_to_process"
+        },                {
+            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\taxonomies\\TermSync\u003A\u003Aget_posts_with_term\u0028\u0029",
+            "name": "get_posts_with_term",
+            "summary": "",
+            "url": "classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_get_posts_with_term"
+        },                {
+            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\taxonomies\\TermSync\u003A\u003Afind_existing_term\u0028\u0029",
+            "name": "find_existing_term",
+            "summary": "",
+            "url": "classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_find_existing_term"
+        },                {
+            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\taxonomies\\TermSync\u003A\u003Aadd_term_to_post\u0028\u0029",
+            "name": "add_term_to_post",
+            "summary": "",
+            "url": "classes/erikdmitchell-bcmigration-cli-taxonomies-TermSync.html#method_add_term_to_post"
+        },                {
+            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\taxonomies\\TermSyncCommands",
+            "name": "TermSyncCommands",
+            "summary": "Migrate\u0020CLI\u0020class.",
+            "url": "classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html"
+        },                {
+            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\taxonomies\\TermSyncCommands\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Construct",
+            "url": "classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#method___construct"
+        },                {
+            "fqsen": "\\erikdmitchell\\bcmigration\\cli\\taxonomies\\TermSyncCommands\u003A\u003Aregister_commands\u0028\u0029",
+            "name": "register_commands",
+            "summary": "Register\u0020the\u0020commands.",
+            "url": "classes/erikdmitchell-bcmigration-cli-taxonomies-TermSyncCommands.html#method_register_commands"
+        },                {
             "fqsen": "\\erikdmitchell\\bcmigration\\cli\\taxonomies\\TermValidator",
             "name": "TermValidator",
             "summary": "TermValidator\u0020Class",
