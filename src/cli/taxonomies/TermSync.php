@@ -14,36 +14,9 @@ use WP_Error;
 use WP_CLI;
 
 /**
- * Migrate Class
+ * TermSync class.
  */
-// class Migrate extends TaxonomyCLICommands {
-
-/**
- * WP-CLI command to sync taxonomy terms across different taxonomies
- * 
- * Usage examples:
- * wp taxonomy-sync match --source=blog_posts --target=products --post-type=post
- * wp taxonomy-sync match --source=blog_posts --target=products,topics --post-type=custom_post --term="API Management"
- * wp taxonomy-sync bulk --csv-file=path/to/file.csv --post-type=post
- */
-
-// wp boomi taxonomies term-sync --source=blog_posts --target=products --post-type=blog
-
 class TermSync extends TaxonomyCLICommands {
-/**
- * WP-CLI command to sync taxonomy terms across different taxonomies
- * 
- * Usage examples:
- * wp taxonomy-sync match --source=blog_posts --target=products --post-type=post
- * wp taxonomy-sync match --source=blog_posts --target=products,topics --post-type=custom_post --term="API Management"
- * wp taxonomy-sync bulk --csv-file=path/to/file.csv --post-type=post
- */
-
-// if (defined('WP_CLI') && WP_CLI) {
-//     WP_CLI::add_command('taxonomy-sync', 'Taxonomy_Sync_Command');
-// }
-
-// class Taxonomy_Sync_Command extends WP_CLI_Command {
 
     /**
      * Match and sync terms between taxonomies
@@ -70,8 +43,8 @@ class TermSync extends TaxonomyCLICommands {
      *
      * ## EXAMPLES
      *
-     *     wp taxonomy-sync match --source=blog_posts --target=products --post-type=post
-     *     wp taxonomy-sync match --source=blog_posts --target=products,topics --post-type=custom_post --term="API Management"
+     *     wp boomi taxonomies term-sync match --source=blog_posts --target=products --post-type=post
+     *     wp boomi taxonomies term-sync match --source=blog_posts --target=products,topics --post-type=custom_post --term="API Management"
      *
      * @param array $args
      * @param array $assoc_args
@@ -84,7 +57,7 @@ class TermSync extends TaxonomyCLICommands {
         $dry_run = isset($assoc_args['dry-run']);
         $batch_size = isset($assoc_args['batch-size']) ? intval($assoc_args['batch-size']) : 100;
 
-        // Validate taxonomies
+        // Validate taxonomies.
         if (!taxonomy_exists($source_taxonomy)) {
             WP_CLI::error("Source taxonomy '{$source_taxonomy}' does not exist.");
         }
@@ -96,7 +69,7 @@ class TermSync extends TaxonomyCLICommands {
             }
         }
 
-        // Validate post type
+        // Validate post type.
         if (!post_type_exists($post_type)) {
             WP_CLI::error("Post type '{$post_type}' does not exist.");
         }
@@ -118,7 +91,7 @@ class TermSync extends TaxonomyCLICommands {
         $updated = 0;
         $errors = 0;
 
-        // Get terms to process
+        // Get terms to process.
         $terms_to_process = $this->get_terms_to_process($source_taxonomy, $specific_term);
         
         if (empty($terms_to_process)) {
@@ -131,7 +104,7 @@ class TermSync extends TaxonomyCLICommands {
         foreach ($terms_to_process as $source_term) {
             WP_CLI::log("Processing term: {$source_term->name}");
             
-            // Get posts tagged with this term in source taxonomy
+            // Get posts tagged with this term in source taxonomy.
             $posts = $this->get_posts_with_term($post_type, $source_taxonomy, $source_term->term_id, $batch_size);
             
             if (empty($posts)) {
@@ -144,7 +117,7 @@ class TermSync extends TaxonomyCLICommands {
             foreach ($target_taxonomies as $target_taxonomy) {
                 $target_taxonomy = trim($target_taxonomy);
                 
-                // Find existing term in target taxonomy (do not create new terms)
+                // Find existing term in target taxonomy (do not create new terms).
                 $target_term = $this->find_existing_term($source_term->name, $target_taxonomy);
                 
                 if (!$target_term) {
@@ -154,7 +127,7 @@ class TermSync extends TaxonomyCLICommands {
 
                 WP_CLI::log("  Found matching term '{$target_term['name']}' in taxonomy '{$target_taxonomy}'");
 
-                // Add term to posts
+                // Add term to posts.
                 foreach ($posts as $post) {
                     $result = $this->add_term_to_post($post->ID, $target_term['term_id'], $target_taxonomy, $dry_run);
                     
@@ -197,7 +170,7 @@ class TermSync extends TaxonomyCLICommands {
      *
      * ## EXAMPLES
      *
-     *     wp taxonomy-sync bulk --csv-file=sync.csv --post-type=post
+     *     wp boomi taxonomies term-sync bulk --csv-file=sync.csv --post-type=post
      *
      * @param array $args
      * @param array $assoc_args
@@ -230,7 +203,7 @@ class TermSync extends TaxonomyCLICommands {
         if (($handle = fopen($csv_file, "r")) !== FALSE) {
             $header = fgetcsv($handle, 1000, ",");
             
-            // Validate CSV headers
+            // Validate CSV headers.
             $required_headers = ['post_id', 'source_taxonomy', 'target_taxonomy', 'term_name'];
             foreach ($required_headers as $required_header) {
                 if (!in_array($required_header, $header)) {
@@ -248,7 +221,7 @@ class TermSync extends TaxonomyCLICommands {
 
                 WP_CLI::log("Processing: Post {$post_id}, Term '{$term_name}', {$source_taxonomy} -> {$target_taxonomy}");
 
-                // Validate post exists and is correct type
+                // Validate post exists and is correct type.
                 $post = get_post($post_id);
                 if (!$post || $post->post_type !== $post_type) {
                     WP_CLI::warning("  Post {$post_id} not found or wrong post type");
@@ -256,21 +229,21 @@ class TermSync extends TaxonomyCLICommands {
                     continue;
                 }
 
-                // Validate taxonomies
+                // Validate taxonomies.
                 if (!taxonomy_exists($source_taxonomy) || !taxonomy_exists($target_taxonomy)) {
                     WP_CLI::warning("  Invalid taxonomy");
                     $errors++;
                     continue;
                 }
 
-                // Check if post has the source term
+                // Check if post has the source term.
                 if (!has_term($term_name, $source_taxonomy, $post_id)) {
                     WP_CLI::warning("  Post {$post_id} does not have term '{$term_name}' in taxonomy '{$source_taxonomy}'");
                     $errors++;
                     continue;
                 }
 
-                // Find existing term in target taxonomy (do not create new terms)
+                // Find existing term in target taxonomy (do not create new terms).
                 $target_term = $this->find_existing_term($term_name, $target_taxonomy);
                 
                 if (!$target_term) {
@@ -279,7 +252,7 @@ class TermSync extends TaxonomyCLICommands {
                     continue;
                 }
 
-                // Add term to post
+                // Add term to post.
                 $result = $this->add_term_to_post($post_id, $target_term['term_id'], $target_taxonomy, $dry_run);
                 
                 if ($result['success']) {
@@ -320,8 +293,8 @@ class TermSync extends TaxonomyCLICommands {
      *
      * ## EXAMPLES
      *
-     *     wp taxonomy-sync list-terms --taxonomy=blog_posts
-     *     wp taxonomy-sync list-terms --taxonomy=products --search="API"
+     *     wp boomi taxonomies term-sync list-terms --taxonomy=blog_posts
+     *     wp boomi taxonomies term-sync list-terms --taxonomy=products --search="API"
      *
      * @param array $args
      * @param array $assoc_args
@@ -355,10 +328,8 @@ class TermSync extends TaxonomyCLICommands {
             WP_CLI::log("  {$term->name} (ID: {$term->term_id}, Count: {$term->count})");
         }
     }
+    
 
-    /**
-     * Get terms to process based on criteria
-     */
     private function get_terms_to_process($taxonomy, $specific_term = null) {
         $args = array(
             'taxonomy' => $taxonomy,
@@ -372,9 +343,7 @@ class TermSync extends TaxonomyCLICommands {
         return get_terms($args);
     }
 
-    /**
-     * Get posts that have a specific term
-     */
+
     private function get_posts_with_term($post_type, $taxonomy, $term_id, $batch_size) {
         return get_posts(array(
             'post_type' => $post_type,
@@ -390,11 +359,8 @@ class TermSync extends TaxonomyCLICommands {
         ));
     }
 
-    /**
-     * Find existing term in target taxonomy (does not create new terms)
-     */
     private function find_existing_term($term_name, $taxonomy) {
-        // Only find existing terms, do not create new ones
+        // Only find existing terms, do not create new ones.
         $existing_term = get_term_by('name', $term_name, $taxonomy);
         
         if ($existing_term) {
@@ -408,11 +374,8 @@ class TermSync extends TaxonomyCLICommands {
         return false;
     }
 
-    /**
-     * Add term to post
-     */
     private function add_term_to_post($post_id, $term_id, $taxonomy, $dry_run = false) {
-        // Check if post already has this term
+        // Check if post already has this term.
         if (has_term($term_id, $taxonomy, $post_id)) {
             return array(
                 'success' => true,
@@ -429,7 +392,7 @@ class TermSync extends TaxonomyCLICommands {
             );
         }
 
-        // Add term to post (append, don't replace)
+        // Add term to post (append, don't replace).
         $result = wp_set_object_terms($post_id, $term_id, $taxonomy, true);
 
         if (is_wp_error($result)) {
