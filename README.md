@@ -1,7 +1,11 @@
 # Boomi CMS Migration
 
-version: 0.3.2
+version: 0.3.3
 
-Tools for helping with various Boomi CMS migrations
+Tools for helping with various WP migrations
 
-PHPDocs: [https://erikdmitchell.github.io/bc-migration/](https://erikdmitchell.github.io/bc-migration/)
+## Resources
+
+Wiki: [Wiki](https://github.com/BoomiWeb/bc-migration/wiki)
+
+PHP Docs: [PHP Docs](https://boomiweb.github.io/bc-migration/)
