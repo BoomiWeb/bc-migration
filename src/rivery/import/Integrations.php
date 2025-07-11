@@ -41,7 +41,7 @@ class Integrations {
 
     public function get_integrations() {
         $response = Rivery::init()->api->request('integrations', 'GET', array(
-            'per_page' => 2,
+            'per_page' => 50,
         ));
 
         if ( is_wp_error( $response ) ) {
@@ -93,12 +93,6 @@ class Integrations {
         $body = json_decode( $response['body'], true );
 
         return $body['link'] ?? '';
-    }
-
-    public function get_integration_categories(int $integration_id) {
-        $response = Rivery::init()->api->request('taxonomies/integration_category');
-// print_r($response);
-        // return get_post_taxonomy_slug_array( $integration['id'], 'integration_category' );
     }
 
     private function format_integration_for_import( $integration ) {    
