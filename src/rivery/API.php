@@ -13,7 +13,12 @@ use WP_Error;
 
 class API {
 
-    private $settings;
+    /**
+     * The Rivery API settings.
+     *
+     * @var AdminSettings
+     */
+    private AdminSettings $settings;
 
     /**
      * The single instance of the class.
@@ -64,6 +69,14 @@ class API {
         return self::$instance;
     }
 
+    /**
+     * Makes a request to the Rivery API.
+     *
+     * @param string $endpoint The API endpoint to request.
+     * @param string $method   The HTTP method to use (GET, POST, etc.).
+     * @param array  $data     The data to send with the request (for POST/PUT).
+     * @return array|WP_Error The response from the API or an error object.
+     */
     public function request($endpoint, $method = 'GET', $data = array()) {
         if (!$this->settings->has_credentials()) {
             return new WP_Error('no_credentials', 'API credentials not configured');
@@ -87,5 +100,5 @@ class API {
         
         return wp_remote_request($url, $args);  
     }    
-    
+
 }

@@ -52,6 +52,11 @@ class Rivery {
         return self::$instance;
     }
 
+    /**
+     * Initializes the Rivery API.
+     *
+     * @throws \RuntimeException If credentials are missing.
+     */
     private function init_api() {
         try {
             $this->api = API::init();
@@ -62,6 +67,11 @@ class Rivery {
         }
     }
 
+    /**
+     * Initializes the admin settings.
+     *
+     * @return AdminSettings
+     */
     private function init_admin_settings() {     
         $admin_settings = new AdminSettings();
 
