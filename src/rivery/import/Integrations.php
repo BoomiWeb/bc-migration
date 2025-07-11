@@ -39,7 +39,7 @@ class Integrations {
 
     public function get_integrations() {
         $response = Rivery::init()->api->request('integrations', 'GET', array(
-            'per_page' => 2, // TODO: check as this may not work
+            'per_page' => 100,
         ));
 
         if ( is_wp_error( $response ) ) {
