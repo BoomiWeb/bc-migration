@@ -301,35 +301,6 @@ class AdminSettings {
         return !empty($creds['api_url']) && !empty($creds['username']) && !empty($creds['password']);
     }
     
-    // FIXME: This is in the API class, not here.
-    /**
-     * Make authenticated API request
-     * 
-     */
-    public function api_request($endpoint, $method = 'GET', $data = array()) {
-        if (!$this->has_credentials()) {
-            return new WP_Error('no_credentials', 'API credentials not configured');
-        }
-        
-        $creds = $this->get_credentials();
-        $url = trailingslashit($creds['api_url']) . ltrim($endpoint, '/');
-        
-        $args = array(
-            'method' => $method,
-            'headers' => array(
-                'Authorization' => 'Basic ' . base64_encode($creds['username'] . ':' . $creds['password']),
-                'Content-Type' => 'application/json'
-            ),
-            'timeout' => 30
-        );
-        
-        if (!empty($data) && in_array($method, array('POST', 'PUT', 'PATCH'))) {
-            $args['body'] = wp_json_encode($data);
-        }
-        
-        return wp_remote_request($url, $args);  
-    }
-    
     /**
      * Test API connection (AJAX handler)
      */
