@@ -31,6 +31,7 @@ class MigrateIntegrations {
         WP_CLI::log('This should run a bg process to migrate Rivery integrations.');
 
         $this->import_integration_categories();
+
         $integrations = Integrations::init()->get_integrations();
 
         if ( is_wp_error( $integrations ) ) {
@@ -45,10 +46,6 @@ class MigrateIntegrations {
 // TODO: add progress bar
 // https://make.wordpress.org/cli/handbook/references/internal-api/wp-cli-utils-make-progress-bar/
         $formatted_integrations = Integrations::init()->format_integrations( $integrations );
-print_r($formatted_integrations);
-
-return;
-
 
         foreach ( $formatted_integrations as $integration ) {
             $post_id = wp_insert_post(
@@ -66,7 +63,7 @@ return;
 
             $post = get_post( $post_id );
         
-            WP_CLI::log( 'Migrating integration: ' . $integration['name'] );
+            WP_CLI::log( 'Migrating integration: ' . $integration['name'] . ' (ID: ' . $post_id . ')' );
 
             // Import the icon and update the post.
             $attachment_id = \BoomiCMS\Connectors\Import\ConnectorIcons::get_instance()->update_post_icon(
@@ -84,7 +81,10 @@ return;
             update_post_meta( $post_id, '_bcm_rivery_post_id', $integration['post_id'] );
             update_post_meta( $post_id, '_bcm_rivery_parent_post_id', $integration['parent_id'] );
 
-            // handle taxonomies
+            // update the taxonomies.
+            if ( ! empty( $integration['integration_category'] ) ) {
+                $cats = $this->update_post_category( $post_id, $integration['integration_category'] );
+            }
 
             // update the post parent ID.
             if ( ! empty( $integration['parent_id'] ) ) {
@@ -109,26 +109,41 @@ return;
         }
 
         foreach ( $cats as $cat ) {
-            $term = wp_insert_term(
-                $cat['name'],
-                'business-function',
-                array(
-                    'description' => $cat['description'] ?? '',
-                    'slug'        => $cat['slug'] ?? '',
-                )
-            );
+            $term_id = 0;
 
-            if ( is_wp_error( $term ) ) {
-                // WP_CLI::warning( 'Failed to insert integration category ' . $cat['name'] . ': ' . $term->get_error_message() );
+            // Check if the term exists by name in the 'business-function' taxonomy.
+            $existing_term = get_term_by( 'name', $cat['name'], 'business-function' );
 
-                continue;
+            // Term exists, use $existing_term->term_id as needed.
+            if ( $existing_term && ! is_wp_error( $existing_term ) ) {
+                $term_id = $existing_term->term_id;
+            } else {
+                // Term does not exist, create it.
+                $term = wp_insert_term(
+                    $cat['name'],
+                    'business-function',
+                    array(
+                        'description' => $cat['description'] ?? '',
+                        'slug'        => $cat['slug'] ?? '',
+                    )
+                );
+
+                if ( is_wp_error( $term ) ) {
+                    // WP_CLI::warning( 'Failed to insert integration category ' . $cat['name'] . ': ' . $term->get_error_message() );
+
+                    continue;
+                }
+
+                $term_id = is_array( $term ) ? $term['term_id'] : $term;
             }
 
-            // WP_CLI::log( 'Migrated integration category: ' . $cat['name'] );
+            update_term_meta( $term_id, '_bcm_rivery_integration_category_id', $cat['term_id'] );
         }
     }
     
     private function update_post_parent($post_id) {
+        global $wpdb;
+
         $parent_id = get_post_meta( $post_id, '_bcm_rivery_parent_post_id', true );
     
         if ( ! empty( $parent_id ) ) {
@@ -149,4 +164,37 @@ return;
         delete_post_meta( $post_id, '_bcm_rivery_post_id' );
         delete_post_meta( $post_id, '_bcm_rivery_parent_post_id' );
     }
+
+    private function update_post_category($post_id, $cat_ids) {
+        $categories = array();
+
+        foreach ( $cat_ids as $cat_id ) {
+            // Check if the term exists by ID in the 'business-function' taxonomy.
+            $term_id = $this->get_term_id_by_meta( '_bcm_rivery_integration_category_id', $cat_id, 'business-function' );
+
+            if ( $term_id ) {
+                $categories[] = (int) $term_id;
+            }
+        }
+
+        wp_set_object_terms( $post_id, $categories, 'business-function' );
+
+        return $categories;
+    }
+
+    private function get_term_id_by_meta($meta_key, $meta_value, $taxonomy) {
+        global $wpdb;
+
+        return $wpdb->get_var( $wpdb->prepare(
+            "SELECT tm.term_id
+            FROM $wpdb->termmeta tm
+            INNER JOIN $wpdb->term_taxonomy tt ON tm.term_id = tt.term_id
+            WHERE tm.meta_key = %s AND tm.meta_value = %s AND tt.taxonomy = %s
+            LIMIT 1",
+            $meta_key,
+            $meta_value,
+            $taxonomy
+        ) );
+    }
+
 }

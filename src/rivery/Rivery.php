@@ -9,6 +9,9 @@
 
 namespace erikdmitchell\bcmigration\rivery;
 
+/**
+ * Rivery main class.
+ */
 class Rivery {
 
     /**
