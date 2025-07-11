@@ -9,6 +9,7 @@
 
 namespace erikdmitchell\bcmigration\cli\rivery;
 
+use erikdmitchell\bcmigration\rivery\import\IntegrationCategoryTax;
 use erikdmitchell\bcmigration\rivery\import\Integrations;
 use erikdmitchell\bcmigration\rivery\Rivery;
 use WP_CLI;
@@ -29,6 +30,7 @@ class MigrateIntegrations {
         WP_CLI::log( 'Starting Rivery integrations migration...' );
         WP_CLI::log('This should run a bg process to migrate Rivery integrations.');
 
+        $this->import_integration_categories();
         $integrations = Integrations::init()->get_integrations();
 
         if ( is_wp_error( $integrations ) ) {
@@ -43,8 +45,9 @@ class MigrateIntegrations {
 // TODO: add progress bar
 // https://make.wordpress.org/cli/handbook/references/internal-api/wp-cli-utils-make-progress-bar/
         $formatted_integrations = Integrations::init()->format_integrations( $integrations );
-// print_r($formatted_integrations);
-// return;
+print_r($formatted_integrations);
+
+return;
 
 
         foreach ( $formatted_integrations as $integration ) {
@@ -87,6 +90,41 @@ class MigrateIntegrations {
             if ( ! empty( $integration['parent_id'] ) ) {
                 $this->update_post_parent( $post_id );
             }
+        }
+    }
+
+    public function import_integration_categories() {
+        $cats = IntegrationCategoryTax::init()->get();
+
+        if ( is_wp_error( $cats ) ) {
+            // WP_CLI::error( 'Failed to fetch Rivery integration categories: ' . $cats->get_error_message() );
+            
+            return;
+        }
+
+        if (empty($cats)) {
+            // WP_CLI::success( 'No integration categories found to migrate.' );
+
+            return;
+        }
+
+        foreach ( $cats as $cat ) {
+            $term = wp_insert_term(
+                $cat['name'],
+                'business-function',
+                array(
+                    'description' => $cat['description'] ?? '',
+                    'slug'        => $cat['slug'] ?? '',
+                )
+            );
+
+            if ( is_wp_error( $term ) ) {
+                // WP_CLI::warning( 'Failed to insert integration category ' . $cat['name'] . ': ' . $term->get_error_message() );
+
+                continue;
+            }
+
+            // WP_CLI::log( 'Migrated integration category: ' . $cat['name'] );
         }
     }
     

@@ -12,6 +12,8 @@ namespace erikdmitchell\bcmigration\rivery\import;
 use erikdmitchell\bcmigration\rivery\Rivery;
 use WP_Error;
 
+use function erikdmitchell\bcmigration\get_post_taxonomy_slug_array;
+
 /**
  * Integrations import class.
  */
@@ -39,7 +41,7 @@ class Integrations {
 
     public function get_integrations() {
         $response = Rivery::init()->api->request('integrations', 'GET', array(
-            'per_page' => 100,
+            'per_page' => 2,
         ));
 
         if ( is_wp_error( $response ) ) {
@@ -93,7 +95,13 @@ class Integrations {
         return $body['link'] ?? '';
     }
 
-    private function format_integration_for_import( $integration ) {      
+    public function get_integration_categories(int $integration_id) {
+        $response = Rivery::init()->api->request('taxonomies/integration_category');
+// print_r($response);
+        // return get_post_taxonomy_slug_array( $integration['id'], 'integration_category' );
+    }
+
+    private function format_integration_for_import( $integration ) {    
         return array(
             'post_id'          => $integration['id'],
             'name'        => $integration['title']['rendered'] ?? '',
@@ -102,6 +110,7 @@ class Integrations {
             'slug'        => $integration['slug'] ?? '',
             'description' => $integration['content']['rendered'] ?? '',
             'parent_id' => $integration['parent'] ?? 0,
+            'integration_category' => $integration['integration_category'] ?? array(),
         );
     }
 
