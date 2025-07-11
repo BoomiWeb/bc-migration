@@ -38,7 +38,9 @@ class Integrations {
     }
 
     public function get_integrations() {
-        $response = Rivery::init()->api->request('integrations');
+        $response = Rivery::init()->api->request('integrations', 'GET', array(
+            'per_page' => 2, // TODO: check as this may not work
+        ));
 
         if ( is_wp_error( $response ) ) {
             return new WP_Error( 'rivery_integration_error', 'Failed to fetch Rivery integrations: ' . $response->get_error_message() );
@@ -91,7 +93,7 @@ class Integrations {
         return $body['link'] ?? '';
     }
 
-    private function format_integration_for_import( $integration ) {
+    private function format_integration_for_import( $integration ) {      
         return array(
             'post_id'          => $integration['id'],
             'name'        => $integration['title']['rendered'] ?? '',
@@ -99,6 +101,7 @@ class Integrations {
             'icon_url' => $this->get_icon($integration['featured_media']) ?? '',
             'slug'        => $integration['slug'] ?? '',
             'description' => $integration['content']['rendered'] ?? '',
+            'parent_id' => $integration['parent'] ?? 0,
         );
     }
 
