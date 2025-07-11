@@ -71,7 +71,7 @@ class API {
         
         $creds = $this->settings->get_credentials();
         $url = trailingslashit($creds['api_url']) . ltrim($endpoint, '/');
-// error_log('Rivery API request: ' . $url);        
+       
         $args = array(
             'method' => $method,
             'headers' => array(
@@ -80,36 +80,12 @@ class API {
             ),
             'timeout' => 30
         );
-// error_log(print_r($args, true));        
+
         if (!empty($data) && in_array($method, array('POST', 'PUT', 'PATCH'))) {
             $args['body'] = wp_json_encode($data);
         }
         
         return wp_remote_request($url, $args);  
     }    
+    
 }
-
-
-// // Get posts
-// $response = $api_settings->api_request('posts');
-
-// // Create a post
-// $response = $api_settings->api_request('posts', 'POST', array(
-//     'title' => 'My Post',
-//     'content' => 'Post content',
-//     'status' => 'publish'
-// ));
-
-
-// // Check credaentials
-// if ($api_settings->has_credentials()) {
-//     // Make API calls
-// }
-
-
-// try {
-//     $api = \erikdmitchell\bcmigration\rivery\API::init();
-//     // Safe to use $api here
-// } catch (\RuntimeException $e) {
-//     // Handle missing credentials
-// }

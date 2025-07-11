@@ -55,16 +55,13 @@ class Rivery {
 
             return;
         }
-
-        // temp
-        $response = $this->api->request('integrations');
-error_log(print_r($response, true));
     }
 
     private function init_admin_settings() {     
         $admin_settings = new AdminSettings();
 
         // Add AJAX handler for connection test.
+        // FIXME: this does not belong here.
         add_action('wp_ajax_bcm_test_api_connection', array($admin_settings, 'test_connection'));
 
        return $admin_settings;
