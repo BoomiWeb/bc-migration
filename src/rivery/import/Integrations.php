@@ -75,11 +75,30 @@ class Integrations {
         return $formatted;
     }
 
+    public function get_icon(int $icon_id) {
+        $response = Rivery::init()->api->request('media/' . $icon_id);
+
+        if ( is_wp_error( $response ) ) {
+            return new WP_Error( 'rivery_icon_error', 'Failed to fetch Rivery icon: ' . $response->get_error_message() );
+        }
+
+        if ( empty( $response['body'] ) ) {
+            return new WP_Error( 'rivery_icon_error', 'No icon data found in the response.' );
+        }
+
+        $body = json_decode( $response['body'], true );
+
+        return $body['link'] ?? '';
+    }
+
     private function format_integration_for_import( $integration ) {
         return array(
             'post_id'          => $integration['id'],
             'name'        => $integration['title']['rendered'] ?? '',
             'icon_id'    => $integration['featured_media'] ?? 0,
+            'icon_url' => $this->get_icon($integration['featured_media']) ?? '',
+            'slug'        => $integration['slug'] ?? '',
+            'description' => $integration['content']['rendered'] ?? '',
         );
     }
 
