@@ -9,16 +9,18 @@
 
 namespace erikdmitchell\bcmigration\rivery;
 
-class Rivery {
+use WP_Error;
 
-    public $api_url;
+class API {
+
+    private $settings;
 
     /**
      * The single instance of the class.
      *
-     * @var Rivery|null
+     * @var API|null
      */
-    protected static ?Rivery $instance = null;
+    protected static ?API $instance = null;
 
     /**
      * Initializes the class and sets the database properties.
@@ -26,19 +28,88 @@ class Rivery {
      * @internal
      */
     private function __construct() {
-        $this->api_url = apply_filters( 'bcm_rivery_api_url', 'https://dev-rivery.pantheonsite.io' );
+        $this->setup_settings();
+    }
+
+    private function setup_settings() {
+        $this->settings = new AdminSettings();
+    }
+
+    /**
+     * Checks if API credentials are set.
+     *
+     * @return bool
+     */
+    public function has_credentials(): bool {
+        return !empty($this->settings->get_credentials());
     }
 
     /**
      * Gets the single instance of the class.
      *
-     * @return Rivery Single instance of the class.
+     * @return API Single instance of the class.
+     * @throws \RuntimeException If credentials are missing.
      */
     public static function init() {
         if ( ! self::$instance ) {
-            self::$instance = new self();
+            $instance = new self();
+
+            if ( ! $instance->has_credentials() ) {
+                throw new \RuntimeException('Rivery API credentials are missing.');
+            }
+            
+            self::$instance = $instance;
         }
 
         return self::$instance;
     }
+
+    public function request($endpoint, $method = 'GET', $data = array()) {
+        if (!$this->settings->has_credentials()) {
+            return new WP_Error('no_credentials', 'API credentials not configured');
+        }
+        
+        $creds = $this->settings->get_credentials();
+        $url = trailingslashit($creds['api_url']) . ltrim($endpoint, '/');
+// error_log('Rivery API request: ' . $url);        
+        $args = array(
+            'method' => $method,
+            'headers' => array(
+                'Authorization' => 'Basic ' . base64_encode($creds['username'] . ':' . $creds['password']),
+                'Content-Type' => 'application/json'
+            ),
+            'timeout' => 30
+        );
+// error_log(print_r($args, true));        
+        if (!empty($data) && in_array($method, array('POST', 'PUT', 'PATCH'))) {
+            $args['body'] = wp_json_encode($data);
+        }
+        
+        return wp_remote_request($url, $args);  
+    }    
 }
+
+
+// // Get posts
+// $response = $api_settings->api_request('posts');
+
+// // Create a post
+// $response = $api_settings->api_request('posts', 'POST', array(
+//     'title' => 'My Post',
+//     'content' => 'Post content',
+//     'status' => 'publish'
+// ));
+
+
+// // Check credaentials
+// if ($api_settings->has_credentials()) {
+//     // Make API calls
+// }
+
+
+// try {
+//     $api = \erikdmitchell\bcmigration\rivery\API::init();
+//     // Safe to use $api here
+// } catch (\RuntimeException $e) {
+//     // Handle missing credentials
+// }

@@ -87,6 +87,7 @@ class BCMigration {
 			new \erikdmitchell\bcmigration\admin\Admin();
 		}
 
+		// tmp
 		Rivery::init();
 	}
 

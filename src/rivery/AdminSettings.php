@@ -301,8 +301,10 @@ class AdminSettings {
         return !empty($creds['api_url']) && !empty($creds['username']) && !empty($creds['password']);
     }
     
+    // FIXME: This is in the API class, not here.
     /**
      * Make authenticated API request
+     * 
      */
     public function api_request($endpoint, $method = 'GET', $data = array()) {
         if (!$this->has_credentials()) {
@@ -325,8 +327,7 @@ class AdminSettings {
             $args['body'] = wp_json_encode($data);
         }
         
-        return wp_remote_request($url, $args);
-        
+        return wp_remote_request($url, $args);  
     }
     
     /**

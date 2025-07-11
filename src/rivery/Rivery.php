@@ -11,7 +11,7 @@ namespace erikdmitchell\bcmigration\rivery;
 
 class Rivery {
 
-    private $admin_settings;
+    private $api;
 
     /**
      * The single instance of the class.
@@ -26,6 +26,9 @@ class Rivery {
      * @internal
      */
     private function __construct() {
+        // Initialize the API.
+        $this->init_api();
+
         if (is_admin()) {
             $this->init_admin_settings();
         }
@@ -44,11 +47,24 @@ class Rivery {
         return self::$instance;
     }
 
+    private function init_api() {
+        try {
+            $this->api = API::init();
+        } catch (\RuntimeException $e) {
+            error_log('Rivery API credentials are missing: ' . $e->getMessage());
+
+            return;
+        }
+
+        // temp
+        $response = $this->api->request('integrations');
+error_log(print_r($response, true));
+    }
+
     private function init_admin_settings() {     
         $admin_settings = new AdminSettings();
 
         // Add AJAX handler for connection test.
-        // TODO: is this needed?
         add_action('wp_ajax_bcm_test_api_connection', array($admin_settings, 'test_connection'));
 
        return $admin_settings;
