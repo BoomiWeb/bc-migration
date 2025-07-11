@@ -14,74 +14,74 @@ namespace erikdmitchell\bcmigration\rivery;
  */
 class Rivery {
 
-    /**
-     * The Rivery API instance.
-     *
-     * @var API
-     */
-    public API $api;
+	/**
+	 * The Rivery API instance.
+	 *
+	 * @var API
+	 */
+	public API $api;
 
-    /**
-     * The single instance of the class.
-     *
-     * @var Rivery|null
-     */
-    protected static ?Rivery $instance = null;
+	/**
+	 * The single instance of the class.
+	 *
+	 * @var Rivery|null
+	 */
+	protected static ?Rivery $instance = null;
 
-    /**
-     * Initializes the class and sets the database properties.
-     *
-     * @internal
-     */
-    private function __construct() {
-        // Initialize the API.
-        $this->init_api();
+	/**
+	 * Initializes the class and sets the database properties.
+	 *
+	 * @internal
+	 */
+	private function __construct() {
+		// Initialize the API.
+		$this->init_api();
 
-        if (is_admin()) {
-            $this->init_admin_settings();
-        }
-    }
+		if ( is_admin() ) {
+			$this->init_admin_settings();
+		}
+	}
 
-    /**
-     * Gets the single instance of the class.
-     *
-     * @return Rivery Single instance of the class.
-     */
-    public static function init() {
-        if ( ! self::$instance ) {
-            self::$instance = new self();
-        }
+	/**
+	 * Gets the single instance of the class.
+	 *
+	 * @return Rivery Single instance of the class.
+	 */
+	public static function init() {
+		if ( ! self::$instance ) {
+			self::$instance = new self();
+		}
 
-        return self::$instance;
-    }
+		return self::$instance;
+	}
 
-    /**
-     * Initializes the Rivery API.
-     *
-     * @throws \RuntimeException If credentials are missing.
-     */
-    private function init_api() {
-        try {
-            $this->api = API::init();
-        } catch (\RuntimeException $e) {
-            error_log('Rivery API credentials are missing: ' . $e->getMessage());
+	/**
+	 * Initializes the Rivery API.
+	 *
+	 * @throws \RuntimeException If credentials are missing.
+	 */
+	private function init_api() {
+		try {
+			$this->api = API::init();
+		} catch ( \RuntimeException $e ) {
+			error_log( 'Rivery API credentials are missing: ' . $e->getMessage() );
 
-            return;
-        }
-    }
+			return;
+		}
+	}
 
-    /**
-     * Initializes the admin settings.
-     *
-     * @return AdminSettings
-     */
-    private function init_admin_settings() {     
-        $admin_settings = new AdminSettings();
+	/**
+	 * Initializes the admin settings.
+	 *
+	 * @return AdminSettings
+	 */
+	private function init_admin_settings() {
+		$admin_settings = new AdminSettings();
 
-        // Add AJAX handler for connection test.
-        // FIXME: this does not belong here.
-        add_action('wp_ajax_bcm_test_api_connection', array($admin_settings, 'test_connection'));
+		// Add AJAX handler for connection test.
+		// FIXME: this does not belong here.
+		add_action( 'wp_ajax_bcm_test_api_connection', array( $admin_settings, 'test_connection' ) );
 
-       return $admin_settings;
-    }
+		return $admin_settings;
+	}
 }

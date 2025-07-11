@@ -19,59 +19,58 @@ use function erikdmitchell\bcmigration\get_post_taxonomy_slug_array;
  */
 class IntegrationCategoryTax {
 
-    /**
-     * The single instance of the class.
-     *
-     * @var IntegrationCategoryTax|null
-     */
-    protected static ?IntegrationCategoryTax $instance = null;
+	/**
+	 * The single instance of the class.
+	 *
+	 * @var IntegrationCategoryTax|null
+	 */
+	protected static ?IntegrationCategoryTax $instance = null;
 
-    /**
-     * Gets the single instance of the class.
-     *
-     * @return IntegrationCategoryTax Single instance of the class.
-     */
-    public static function init() {
-        if ( ! self::$instance ) {
-            self::$instance = new self();
-        }
+	/**
+	 * Gets the single instance of the class.
+	 *
+	 * @return IntegrationCategoryTax Single instance of the class.
+	 */
+	public static function init() {
+		if ( ! self::$instance ) {
+			self::$instance = new self();
+		}
 
-        return self::$instance;
-    }
-    
-    public function get() {
-        $response = Rivery::init()->api->request('integration_category');
+		return self::$instance;
+	}
 
-        if ( is_wp_error( $response ) ) {
-            return new WP_Error( 'rivery_integration_category_error', 'Failed to fetch Rivery integration categories: ' . $response->get_error_message() );
-        }
+	public function get() {
+		$response = Rivery::init()->api->request( 'integration_category' );
 
-        if ( empty( $response['body'] ) ) {
-            return new WP_Error( 'rivery_integration_category_error', 'No integration category data found in the response.' );
-        }
+		if ( is_wp_error( $response ) ) {
+			return new WP_Error( 'rivery_integration_category_error', 'Failed to fetch Rivery integration categories: ' . $response->get_error_message() );
+		}
 
-        $categories = json_decode( $response['body'], true );
+		if ( empty( $response['body'] ) ) {
+			return new WP_Error( 'rivery_integration_category_error', 'No integration category data found in the response.' );
+		}
 
-        if ( ! is_array( $categories ) ) {
-            return new WP_Error( 'rivery_integration_category_error', 'Invalid integration category data format.' );
-        }
+		$categories = json_decode( $response['body'], true );
 
-        if ( empty( $categories ) ) {
-            return new WP_Error( 'rivery_integration_category_error', 'No integration categories found.' );
-        }
+		if ( ! is_array( $categories ) ) {
+			return new WP_Error( 'rivery_integration_category_error', 'Invalid integration category data format.' );
+		}
 
-        $categories = array_map( [ $this, 'format_category_for_import' ], $categories );
+		if ( empty( $categories ) ) {
+			return new WP_Error( 'rivery_integration_category_error', 'No integration categories found.' );
+		}
 
-        return $categories;
-    }
+		$categories = array_map( array( $this, 'format_category_for_import' ), $categories );
 
-    private function format_category_for_import( $category ) {
-        return array(
-            'term_id'   => $category['id'],
-            'name'      => $category['name'] ?? '',
-            'slug'      => $category['slug'] ?? '',
-            'description' => $category['description'] ?? '',
-        );
-    }
+		return $categories;
+	}
 
+	private function format_category_for_import( $category ) {
+		return array(
+			'term_id'     => $category['id'],
+			'name'        => $category['name'] ?? '',
+			'slug'        => $category['slug'] ?? '',
+			'description' => $category['description'] ?? '',
+		);
+	}
 }
