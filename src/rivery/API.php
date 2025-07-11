@@ -94,8 +94,12 @@ class API {
             'timeout' => 30
         );
 
-        if (!empty($data) && in_array($method, array('POST', 'PUT', 'PATCH'))) {
-            $args['body'] = wp_json_encode($data);
+        if (!empty($data)) { 
+            if (in_array($method, array('POST', 'PUT', 'PATCH'))) {
+                $args['body'] = wp_json_encode($data);
+            } elseif ($method === 'GET') {
+                $url = add_query_arg($data, $url);
+            }
         }
         
         return wp_remote_request($url, $args);  
