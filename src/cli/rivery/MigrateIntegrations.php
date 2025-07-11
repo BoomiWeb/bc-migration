@@ -48,9 +48,17 @@ class MigrateIntegrations {
 
         $formatted_integrations = Integrations::init()->format_integrations( $integrations );
 
+        $progress = \WP_CLI\Utils\make_progress_bar( 'Migrating Rivery integrations', count( $formatted_integrations ) );
+
         foreach ( $formatted_integrations as $integration ) {
             $this->migrate_integration($integration);
+            $progress->tick();
         }
+
+        $progress->finish();
+        
+        WP_CLI::log( 'Migrated ' . count( $formatted_integrations ) . ' Rivery integrations.' );
+        WP_CLI::success( 'Rivery integrations migration completed successfully.' );
     }
 
     public function migrate_integration(array $integration) {
