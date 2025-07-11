@@ -11,7 +11,12 @@ namespace erikdmitchell\bcmigration\rivery;
 
 class Rivery {
 
-    private $api;
+    /**
+     * The Rivery API instance.
+     *
+     * @var API
+     */
+    public API $api;
 
     /**
      * The single instance of the class.
