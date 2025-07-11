@@ -9,6 +9,7 @@
 namespace erikdmitchell\bcmigration;
 
 use erikdmitchell\bcmigration\cli\CLI;
+use erikdmitchell\bcmigration\rivery\Rivery;
 
 // Setup our uploads path and url.
 $wp_uploads_dir     = wp_upload_dir();
@@ -85,6 +86,8 @@ class BCMigration {
 
 			new \erikdmitchell\bcmigration\admin\Admin();
 		}
+
+		Rivery::init();
 	}
 
 	/**

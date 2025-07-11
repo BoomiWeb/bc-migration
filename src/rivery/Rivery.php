@@ -11,6 +11,8 @@ namespace erikdmitchell\bcmigration\rivery;
 
 class Rivery {
 
+    private $admin_settings;
+
     /**
      * The single instance of the class.
      *
@@ -23,7 +25,11 @@ class Rivery {
      *
      * @internal
      */
-    private function __construct() {}
+    private function __construct() {
+        if (is_admin()) {
+            $this->init_admin_settings();
+        }
+    }
 
     /**
      * Gets the single instance of the class.
@@ -36,5 +42,15 @@ class Rivery {
         }
 
         return self::$instance;
+    }
+
+    private function init_admin_settings() {     
+        $admin_settings = new AdminSettings();
+
+        // Add AJAX handler for connection test.
+        // TODO: is this needed?
+        add_action('wp_ajax_bcm_test_api_connection', array($admin_settings, 'test_connection'));
+
+       return $admin_settings;
     }
 }
